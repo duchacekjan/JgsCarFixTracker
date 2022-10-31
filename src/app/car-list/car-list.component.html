@@ -1,0 +1,19 @@
+<div class="list row">
+    <div class="col-md-6">
+        <h2>CARS</h2>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let car of cars">
+                <a routerLink="/cars/detail/{{car.key}}">
+                    <span class="badge">{{car.licencePlate}}</span> {{car.brand}}
+                </a>
+            </li>
+        </ul>
+
+        <!-- <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTutorials()">
+        Remove All
+      </button> -->
+        <button class="m-3 btn btn-sm btn-danger" (click)="addNew()">
+            Add new
+        </button>
+    </div>
+</div>
