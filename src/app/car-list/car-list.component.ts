@@ -14,12 +14,14 @@ import { UsersService } from '../services/users.service';
 export class CarListComponent implements OnInit {
 
   cars?: Car[] = [];
+  selectedIndex = -1;
   constructor(private carsService: CarsService, private router: Router,
     public authService: AuthService,
     public usersService: UsersService) { }
 
   ngOnInit(): void {
     this.retrieveCars();
+    this.setActiveNavigation(0);
   }
 
   retrieveCars(): void {
@@ -37,5 +39,9 @@ export class CarListComponent implements OnInit {
 
   addNew(): void {
     this.router.navigate(['/cars/detail/new']);
+  }
+
+  setActiveNavigation(index: number) {
+    this.selectedIndex = index;
   }
 }
