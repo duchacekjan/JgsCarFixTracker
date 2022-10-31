@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CarComponent } from './car/car.component';
 import { CarListComponent } from './car-list/car-list.component';
+import { AuthService} from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { CarListComponent } from './car-list/car-list.component';
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
