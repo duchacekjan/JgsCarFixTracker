@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyD23wCjWNRqRf2ZwEpF3upBbu0T9CpXe9',
+    apiKey: 'AIzaSyD23wCjWNRqRf2ZwEpF3upBbu0T9CpXe9s',
     authDomain: 'jgs-car-fix-tracker.firebaseapp.com',
     databaseURL: 'https://jgs-car-fix-tracker-default-rtdb.europe-west1.firebasedatabase.app',
     projectId: 'jgs-car-fix-tracker',

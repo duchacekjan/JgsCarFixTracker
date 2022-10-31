@@ -9,7 +9,7 @@ import { UsersService } from './users.service';
   providedIn: 'root'
 })
 export class AuthService {
-  private defaultRoute = 'cars';
+  private defaultRoute = '/cars';
   constructor(
     private afAuth: AngularFireAuth,
     private router: Router,
@@ -26,6 +26,7 @@ export class AuthService {
       .then(() => {
         this.afAuth.authState.subscribe((user) => {
           if (user) {
+            this.usersService.setUser(user);
             this.redirect();
           }
         });
@@ -85,7 +86,11 @@ export class AuthService {
   }
 
   redirect(route?: string) {
-    const target = route !== null ? route : this.defaultRoute;
-    this.router.navigate([target]);
+    console.log(this.usersService.getIsLoggedIn());
+    if (!route) {
+      this.router.navigate([this.defaultRoute]);
+    } else {
+      this.router.navigate([route]);
+    }
   }
 }
