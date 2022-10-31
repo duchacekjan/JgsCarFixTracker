@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Car } from '../models/car';
+import { AuthService } from '../services/auth.service';
 import { CarsService } from '../services/cars.service';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-car-list',
@@ -12,7 +14,9 @@ import { CarsService } from '../services/cars.service';
 export class CarListComponent implements OnInit {
 
   cars?: Car[] = [];
-  constructor(private carsService: CarsService, private router: Router) { }
+  constructor(private carsService: CarsService, private router: Router,
+    public authService: AuthService,
+    public usersService: UsersService) { }
 
   ngOnInit(): void {
     this.retrieveCars();
@@ -31,7 +35,7 @@ export class CarListComponent implements OnInit {
     this.retrieveCars();
   }
 
-  addNew():void{
+  addNew(): void {
     this.router.navigate(['/cars/detail/new']);
   }
 }
