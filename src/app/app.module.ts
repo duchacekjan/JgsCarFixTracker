@@ -8,7 +8,6 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MessagesComponent } from './messages/messages.component';
 import { CarComponent } from './car/car.component';
 import { CarListComponent } from './car-list/car-list.component';
 
@@ -16,8 +15,7 @@ import { CarListComponent } from './car-list/car-list.component';
   declarations: [
     AppComponent,
     CarComponent,
-    CarListComponent,
-    MessagesComponent
+    CarListComponent
   ],
   imports: [
     BrowserModule,
