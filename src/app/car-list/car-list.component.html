@@ -1,19 +1,65 @@
-<div class="list row">
-    <div class="col-md-6">
-        <h2>CARS</h2>
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let car of cars">
-                <a routerLink="/cars/detail/{{car.key}}">
-                    <span class="badge">{{car.licencePlate}}</span> {{car.brand}}
-                </a>
-            </li>
-        </ul>
-
-        <!-- <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTutorials()">
-        Remove All
-      </button> -->
-        <button class="m-3 btn btn-sm btn-danger" (click)="addNew()">
-            Add new
-        </button>
+<!-- Sidebar navigation -->
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="0 == selectedIndex" (click)="setActiveNavigation(0)">
+                            <i class="fas fa-car"></i>Cars
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="1 == selectedIndex" (click)="setActiveNavigation(1)">
+                            <i class="fas fa-user"></i>User Profile
+                        </a>
+                    </li>
+                    <!-- Calling SignOut() Api from AuthService -->
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="authService.signOut()">
+                            <i class="fas fa-sign-out-alt"></i>Log out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Main content -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="inner-adjust">
+                <div class="list row" *ngIf="selectedIndex===0">
+                    <div class="col-md-6">
+                        <h2>CARS</h2>
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let car of cars">
+                                <a routerLink="/cars/detail/{{car.key}}">
+                                    <span class="badge">{{car.licencePlate}}</span> {{car.brand}}
+                                </a>
+                            </li>
+                        </ul>
+                        <button class="m-3 btn btn-sm" (click)="addNew()">
+                            Add new
+                        </button>
+                    </div>
+                </div>
+                <!-- Show user data when logged in -->
+                <div *ngIf="selectedIndex===1">
+                    <div class="pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">User Profile</h1>
+                    </div>
+                    <div class="row" *ngIf="usersService.getUserData() as user">
+                        <div class="col-md-12">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h1>Hello: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h1>
+                                    <p>User ID: <strong>{{user.uid}}</strong></p>
+                                    <p>Email: <strong>{{user.email}}</strong></p>
+                                    <p>Email Verified: <strong>{{user.emailVerified}}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 </div>
