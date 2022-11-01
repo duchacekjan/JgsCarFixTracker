@@ -99,16 +99,6 @@
             ],
             "scripts": []
           }
-        },
-        "deploy": {
-          "builder": "@angular/fire:deploy",
-          "options": {
-            "prerender": false,
-            "ssr": false,
-            "browserTarget": "JgsCarFixTracker:build:production",
-            "firebaseProject": "jgs-car-fix-tracker",
-            "firebaseHostingSite": "jgs-car-fix-tracker"
-          }
         }
       }
     }
