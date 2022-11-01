@@ -11,6 +11,10 @@ import { AppComponent } from './app.component';
 import { CarComponent } from './car/car.component';
 import { CarListComponent } from './car-list/car-list.component';
 import { AuthService} from './services/auth.service';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideDatabase,getDatabase } from '@angular/fire/database';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,10 @@ import { AuthService} from './services/auth.service';
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideDatabase(() => getDatabase())
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
