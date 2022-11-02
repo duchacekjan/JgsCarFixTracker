@@ -14,12 +14,14 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
 import { AuthService } from './services/auth.service';
+import { FixesComponent } from './fixes/fixes.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CarComponent,
-    CarListComponent
+    CarListComponent,
+    FixesComponent
   ],
   imports: [
     BrowserModule,

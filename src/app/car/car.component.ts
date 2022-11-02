@@ -1,9 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Car } from '../models/car';
 import { CarsService } from '../services/cars.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-car',
@@ -33,7 +32,9 @@ export class CarComponent implements OnInit {
       this.car = {}
     } else {
       this.carsService.getCar(id)
-        .subscribe(data => { this.car = data });
+        .subscribe(data => {
+          this.car = data;
+        });
     }
   }
 
@@ -49,7 +50,7 @@ export class CarComponent implements OnInit {
         brand: this.car?.brand,
         model: this.car?.model
       }
-      this.carsService.update(this.car.key, this.car)
+      this.carsService.update(this.car)
         .then(() => this.getCar())
         .catch(err => console.log(err));
     } else {

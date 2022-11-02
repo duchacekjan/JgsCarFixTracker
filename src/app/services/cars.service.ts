@@ -35,7 +35,8 @@ export class CarsService {
     return this.carsRef.push(car);
   }
 
-  update(key: string, value: any): Promise<void> {
+  update(value: Car): Promise<void> {
+    const key = value.key!;
     return this.carsRef.update(key, value);
   }
 
