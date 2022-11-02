@@ -1,6 +1,9 @@
 export interface Car {
-    key?: string | null;
     licencePlate?: string;
     brand?: string;
     model?: string;
+}
+
+export interface CarDto extends Car {
+    key?: string | null;
 }

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
-import { map, Observable } from 'rxjs';
 import { Fix, FixDto } from '../models/fix';
 
 @Injectable({
@@ -11,7 +10,7 @@ export class FixesService {
   private dbPath = '/fixes';
   constructor(private db: AngularFireDatabase) { }
 
-  getFixes(carKey: string): AngularFireList<Fix> {
+  getFixes(carKey: string): AngularFireList<FixDto> {
     return this.db.list(this.dbPath, ref => ref.orderByChild('carKey').equalTo(carKey))
   }
 
@@ -26,13 +25,6 @@ export class FixesService {
     const key = fix.key!;
     const data = this.stripKey(fix);
     return this.getFixes(carKey).update(key, data);
-  }
-
-  private getFix(key: string): Observable<FixDto> {
-    return this.db.object(`${this.dbPath}/${key}`)
-      .snapshotChanges().pipe(
-        map(changes =>
-          ({ key: changes.payload.key, ...changes.payload.val() as FixDto })));
   }
 
   private getCarKey(fix: Fix): string {

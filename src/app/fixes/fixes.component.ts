@@ -14,7 +14,7 @@ export class FixesComponent implements OnInit {
   carKey?: string | null;
   fixes: FixDto[] = [];
   editedFix?: FixDto | null;
-  createdKey?: string | null;
+  private createdKey?: string | null;
   constructor(private fixesService: FixesService) { }
 
   ngOnInit(): void {
@@ -33,9 +33,9 @@ export class FixesComponent implements OnInit {
         ).subscribe(data => {
           this.fixes = data
           if (this.createdKey) {
-            const index = this.fixes.findIndex(f => f.key === this.createdKey);
-            if (index > -1) {
-              this.editedFix = this.fixes[index];
+            const item = this.fixes.find(f => f.key === this.createdKey);
+            if (item) {
+              this.editedFix = item;
             }
             this.createdKey = null;
           }

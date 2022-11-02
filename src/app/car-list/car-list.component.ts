@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { Car } from '../models/car';
+import { Car, CarDto } from '../models/car';
 import { User } from '../models/user';
 import { AuthService } from '../services/auth.service';
 import { CarsService } from '../services/cars.service';
@@ -14,7 +14,7 @@ import { UsersService } from '../services/users.service';
 })
 export class CarListComponent implements OnInit {
 
-  cars?: Car[] = [];
+  cars?: CarDto[] = [];
   selectedIndex = -1;
   user?: User;
   constructor(private carsService: CarsService, private router: Router,
