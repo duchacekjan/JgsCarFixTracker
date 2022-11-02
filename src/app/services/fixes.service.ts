@@ -15,11 +15,10 @@ export class FixesService {
     return this.db.list(this.dbPath, ref => ref.orderByChild('carKey').equalTo(carKey))
   }
 
-  create(fix: Fix): Observable<FixDto> {
+  create(fix: Fix):string {
     const carKey = this.getCarKey(fix);
     fix.lastUpdate = new Date();
-    const key = this.getFixes(carKey).push(fix).key;
-    return this.getFix(key!);
+    return this.getFixes(carKey).push(fix).key!;
   }
 
   update(fix: FixDto): Promise<void> {
