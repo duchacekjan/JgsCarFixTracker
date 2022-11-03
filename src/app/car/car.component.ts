@@ -11,8 +11,11 @@ import { CarsService } from '../services/cars.service';
 })
 export class CarComponent implements OnInit {
 
-  @Input()
-  car?: CarDto | null;
+  car: CarDto = {
+    brand: '',
+    model: '',
+    fixes: []
+  };
   isNew: boolean = false;
   private carKey: string | null = null;
   constructor(
@@ -20,7 +23,9 @@ export class CarComponent implements OnInit {
     private carsService: CarsService,
     private location: Location,
     private router: Router
-  ) { }
+  ) { 
+    console.log(this.carsService);
+  }
 
   ngOnInit(): void {
     this.getCar();
@@ -30,11 +35,15 @@ export class CarComponent implements OnInit {
     const id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
     this.isNew = id === 'new'
     if (this.isNew) {
-      this.car = {}
+      this.car 
     } else {
       this.carsService.getCar(id)
         .subscribe(data => {
           this.car = data;
+          console.log(`Car: ${this.car?.key}`)
+          if (!this.car.fixes) {
+            this.car.fixes = [];
+          }
           this.carKey = data.key ? data.key : null;
         });
     }
@@ -44,20 +53,19 @@ export class CarComponent implements OnInit {
     this.location.back();
   }
 
-  save(): void {
-    if (this.car?.key) {
-      this.carsService.update(this.car)
-        .then(() => {
-          this.getCar();
+  save(car: CarDto): void {
+    console.log('Save called');
+    this.carsService.upsert(car)
+    .then(key=>{
+      if(this.carKey===key){
+        this.getCar();
           window.alert('Saved');
-        })
-        .catch(err => console.log(err));
-    } else {
-      if (this.car) {
-        this.carKey = this.carsService.create(this.car);
+      }else{
+        this.carKey = key;
         this.router.navigate([`/cars/detail/${this.carKey}`], { replaceUrl: true });
         this.getCar();
       }
-    }
+    })
+    .catch(err=>console.log(err));
   }
 }

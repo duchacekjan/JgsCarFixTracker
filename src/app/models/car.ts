@@ -1,9 +1,9 @@
-export interface Car {
-    licencePlate?: string;
-    brand?: string;
-    model?: string;
-}
+import { FixDto } from "./fix";
 
-export interface CarDto extends Car {
+export class CarDto {
     key?: string | null;
+    licencePlate?: string;
+    brand?: string = '';
+    model?: string = '';
+    fixes?: FixDto[] = [];
 }

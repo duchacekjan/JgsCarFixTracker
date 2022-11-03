@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { Car, CarDto } from '../models/car';
+import { CarDto } from '../models/car';
 import { User } from '../models/user';
 import { AuthService } from '../services/auth.service';
 import { CarsService } from '../services/cars.service';
@@ -34,7 +34,7 @@ export class CarListComponent implements OnInit {
     this.carsService.getCars().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
-          ({ key: c.payload.key, ...c.payload.val() })))
+          ({ key: c.payload.key, ...c.payload.val() as CarDto })))
     ).subscribe(data => {
       this.cars = data
     });

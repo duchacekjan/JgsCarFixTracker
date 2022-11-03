@@ -1,28 +1,28 @@
 <div>
     <h3>Fixes</h3>
-    <ul>
-        <li class="list-group-item" *ngFor="let fix of fixes">
-            <div *ngIf="fix.key === this.editedFix?.key">
-                <div *ngIf="editedFix">
+    <ul *ngIf="car && car.fixes && car.fixes.length>0">
+        <li class="list-group-item" *ngFor="let fix of car.fixes; index as i">
+            <ng-container *ngIf="i===editedIndex">
+                <div>
                     <div>
                         <label for="name">Mileage: </label>
-                        <input id="name" [(ngModel)]="editedFix!.mileage" placeholder="km" min="0" type="number">
+                        <input id="name" [(ngModel)]="fix!.mileage" placeholder="km" min="0" type="number">
                     </div>
                     <div>
                         <label for="name">Description: </label>
-                        <input id="name" [(ngModel)]="editedFix.description" placeholder="description">
+                        <input id="name" [(ngModel)]="fix.description" placeholder="description">
                     </div>
                     <button type="button" (click)="saveFix()">Save fix</button>
                 </div>
-            </div>
-            <div *ngIf="fix.key !== this.editedFix?.key">
+            </ng-container>
+            <ng-container *ngIf="i!==editedIndex">
                 <div>
                     <label for="name">Mileage: </label>
                     <span>{{fix.mileage}} km</span><span> {{fix.lastUpdate}}</span>
                 </div>
                 <label for="name">Description: <span>{{fix.description}}</span></label>
-                <button type="button" (click)="editFix(fix)">Edit</button>
-            </div>
+                <button type="button" (click)="editFix(i)">Edit</button>
+            </ng-container>
         </li>
     </ul>
     <button type="button" (click)="createFix()">AddFix</button>

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { Fix, FixDto } from '../models/fix';
-import { FixesService } from '../services/fixes.service';
+import { CarDto } from '../models/car';
+import { FixDto } from '../models/fix';
+import { CarsService } from '../services/cars.service';
 
 @Component({
   selector: 'app-fixes',
@@ -11,59 +11,48 @@ import { FixesService } from '../services/fixes.service';
 export class FixesComponent implements OnInit {
 
   @Input()
-  carKey?: string | null;
-  fixes: FixDto[] = [];
-  editedFix?: FixDto | null;
-  private createdKey?: string | null;
-  constructor(private fixesService: FixesService) { }
+  car?: CarDto;
+  editedIndex: number = -1;
+  constructor(private carsService: CarsService) { }
 
   ngOnInit(): void {
-    this.getFixes()
-  }
-
-  getFixes(): void {
-    if (this.carKey) {
-      this.fixesService.getFixes(this.carKey)
-        .snapshotChanges().pipe(
-          map(changes => {
-            console.log(changes);
-            return changes.map(c =>
-              ({ key: c.payload.key, ...c.payload.val() }))
-          })
-        ).subscribe(data => {
-          this.fixes = data
-          if (this.createdKey) {
-            const item = this.fixes.find(f => f.key === this.createdKey);
-            if (item) {
-              this.editedFix = item;
-            }
-            this.createdKey = null;
-          }
-        });
-    }
   }
 
   createFix(): void {
-    if (this.carKey) {
-      const fix: Fix = {
-        carKey: this.carKey,
-        mileage: this?.fixes?.length > 0 ? Math.max(...this.fixes.map(({ mileage }) => mileage ? mileage : 0)) + 1 : 0,
-        description: ''
-      };
-      this.createdKey = this.fixesService.create(fix);
+    if (!this.car) {
+      return;
     }
+    if (!this.car.fixes) {
+      console.log('CREATED');
+      this.car.fixes = [];
+    }
+
+    const fix: FixDto = {
+      mileage: this.car.fixes.length > 0 ? Math.max(...this.car.fixes.map(({ mileage }) => mileage ? mileage : 0)) + 1 : 0,
+      description: '',
+      lastUpdate: new Date()
+    };
+
+    this.editedIndex = this.car.fixes.push(fix)-1;
   }
 
-  editFix(fix: FixDto): void {
-    this.editedFix = fix;
+  editFix(index: number): void {
+    this.editedIndex = index;
   }
 
   saveFix(): void {
-    if (this.editedFix) {
-      this.fixesService.update(this.editedFix)
-        .then(() => {
-          this.editedFix = null;
-        });
+    if (this.editedIndex > -1 && this.car?.fixes) {
+      const fix = this.car.fixes[this.editedIndex];
+      if (fix) {
+        fix.lastUpdate = new Date();
+        this.carsService.upsert(this.car)
+          .then(() => {
+            this.editedIndex = -1;
+          })
+          .catch(err => console.log(err));
+      } else {
+        this.editedIndex = -1;
+      }
     }
   }
 }
