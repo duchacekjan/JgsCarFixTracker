@@ -15,12 +15,12 @@ export class CarsService {
   carsRef: AngularFireList<CarDto>;
 
   constructor(private db: AngularFireDatabase, private userService: UsersService) {
-    const path = this.getDbPath();
+    const path = this.userService.buildDbPath(this.dbPath);
     this.carsRef = db.list(path)
   }
 
   getCar(key: string): Observable<CarDto> {
-    const path = this.getDbPath(key);
+    const path = this.userService.buildDbPath(this.dbPath, key);
     return this.db.object(path)
       .snapshotChanges().pipe(
         map(changes =>
@@ -38,12 +38,6 @@ export class CarsService {
   update(value: CarDto): Promise<void> {
     const key = value.key!;
     return this.carsRef.update(key, this.stripKey(value));
-  }
-
-  private getDbPath(key?: string): string {
-    const uid = this.userService.getUserUid();
-    const keyValue = key ? `/${key}` : '';
-    return `${this.dbPath}/${uid}${keyValue}`;
   }
 
   private stripKey(car: CarDto): Car {

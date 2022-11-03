@@ -86,7 +86,6 @@ export class AuthService {
   }
 
   redirect(route?: string) {
-    console.log(this.usersService.getIsLoggedIn());
     if (!route) {
       this.router.navigate([this.defaultRoute]);
     } else {

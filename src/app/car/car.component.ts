@@ -1,8 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
-import { Car, CarDto } from '../models/car';
+import { CarDto } from '../models/car';
 import { CarsService } from '../services/cars.service';
 
 @Component({
@@ -15,7 +14,7 @@ export class CarComponent implements OnInit {
   @Input()
   car?: CarDto | null;
   isNew: boolean = false;
-  private carKey?: string | null;
+  private carKey: string | null = null;
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
@@ -28,7 +27,7 @@ export class CarComponent implements OnInit {
   }
 
   getCar(): void {
-    const id = !this.carKey ? String(this.route.snapshot.paramMap.get('id')) : this.carKey;
+    const id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
     this.isNew = id === 'new'
     if (this.isNew) {
       this.car = {}
@@ -36,7 +35,7 @@ export class CarComponent implements OnInit {
       this.carsService.getCar(id)
         .subscribe(data => {
           this.car = data;
-          this.carKey = data.key;
+          this.carKey = data.key ? data.key : null;
         });
     }
   }
@@ -56,8 +55,8 @@ export class CarComponent implements OnInit {
     } else {
       if (this.car) {
         this.carKey = this.carsService.create(this.car);
+        this.router.navigate([`/cars/detail/${this.carKey}`], { replaceUrl: true });
         this.getCar();
-        window.alert('Saved');
       }
     }
   }

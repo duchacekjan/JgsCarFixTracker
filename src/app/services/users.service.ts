@@ -46,14 +46,16 @@ export class UsersService {
     return this.subject;
   }
 
-  getUserUid(): any {
-    const user = JSON.parse(localStorage.getItem(this.userKey)!);
-    return user?.uid;
-  }
-
   getIsLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem(this.userKey)!);
     return user !== null && user.emailVerified !== false ? true : false;
   }
 
+  buildDbPath(dbPath: string, key?: string): any {
+    const user = JSON.parse(localStorage.getItem(this.userKey)!);
+    if (user?.uid) {
+      const keyValue = key ? `/${key}` : '';
+      return `items/${user.uid}/${dbPath}${keyValue}`;
+    }
+  }
 }
