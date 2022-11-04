@@ -10,7 +10,7 @@ export class SignInComponent implements OnInit {
 
   constructor(
     public authService: AuthService
-  ) { }
+  ) {  }
 
   ngOnInit(): void {
   }

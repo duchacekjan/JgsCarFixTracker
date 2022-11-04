@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { Car } from '../models/car';
+import { CarDto } from '../models/car';
+import { User } from '../models/user';
 import { AuthService } from '../services/auth.service';
 import { CarsService } from '../services/cars.service';
 import { UsersService } from '../services/users.service';
@@ -13,22 +14,27 @@ import { UsersService } from '../services/users.service';
 })
 export class CarListComponent implements OnInit {
 
-  cars?: Car[] = [];
+  cars?: CarDto[] = [];
   selectedIndex = -1;
+  user?: User;
   constructor(private carsService: CarsService, private router: Router,
     public authService: AuthService,
     public usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.retrieveCars();
     this.setActiveNavigation(0);
+  }
+
+  retrieveUser(): void {
+    this.usersService.getUserData()
+      .subscribe(data => this.user = data)
   }
 
   retrieveCars(): void {
     this.carsService.getCars().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
-          ({ key: c.payload.key, ...c.payload.val() })))
+          ({ key: c.payload.key, ...c.payload.val() as CarDto })))
     ).subscribe(data => {
       this.cars = data
     });
@@ -43,5 +49,11 @@ export class CarListComponent implements OnInit {
 
   setActiveNavigation(index: number) {
     this.selectedIndex = index;
+    switch (index) {
+      case 0: this.retrieveCars();
+        break;
+      case 1: this.retrieveUser();
+        break;
+    }
   }
 }

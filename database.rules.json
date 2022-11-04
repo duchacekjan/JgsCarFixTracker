@@ -1,6 +1,17 @@
 {
   "rules": {
-    ".read": "now < 1669762800000",  // 2022-11-30
-    ".write": "now < 1669762800000",  // 2022-11-30
+    "users":{
+      ".indexOn":["uid"],
+    	"$uid": {
+        ".write": "$uid === auth.uid ||!data.exists() || !newData.exists()",
+        ".read": "$uid === auth.uid"
+	    }
+    },
+    "items":{
+      "$uid":{
+        ".write": "$uid === auth.uid||!data.exists() || !newData.exists()",
+        ".read": "$uid === auth.uid"
+      }
+    }
   }
 }

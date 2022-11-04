@@ -1,9 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Car } from '../models/car';
+import { CarDto } from '../models/car';
 import { CarsService } from '../services/cars.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-car',
@@ -12,28 +11,41 @@ import { map } from 'rxjs/operators';
 })
 export class CarComponent implements OnInit {
 
-  @Input()
-  car?: Car | null;
+  car: CarDto = {
+    brand: '',
+    model: '',
+    fixes: []
+  };
   isNew: boolean = false;
+  private carKey: string | null = null;
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
     private location: Location,
     private router: Router
-  ) { }
+  ) { 
+    console.log(this.carsService);
+  }
 
   ngOnInit(): void {
     this.getCar();
   }
 
   getCar(): void {
-    const id = String(this.route.snapshot.paramMap.get('id'));
+    const id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
     this.isNew = id === 'new'
     if (this.isNew) {
-      this.car = {}
+      this.car 
     } else {
       this.carsService.getCar(id)
-        .subscribe(data => { this.car = data });
+        .subscribe(data => {
+          this.car = data;
+          console.log(`Car: ${this.car?.key}`)
+          if (!this.car.fixes) {
+            this.car.fixes = [];
+          }
+          this.carKey = data.key ? data.key : null;
+        });
     }
   }
 
@@ -41,22 +53,19 @@ export class CarComponent implements OnInit {
     this.location.back();
   }
 
-  save(): void {
-    if (this.car?.key) {
-      console.log(this.car?.key);
-      const data = {
-        licencePlate: this.car?.licencePlate,
-        brand: this.car?.brand,
-        model: this.car?.model
+  save(car: CarDto): void {
+    console.log('Save called');
+    this.carsService.upsert(car)
+    .then(key=>{
+      if(this.carKey===key){
+        this.getCar();
+          window.alert('Saved');
+      }else{
+        this.carKey = key;
+        this.router.navigate([`/cars/detail/${this.carKey}`], { replaceUrl: true });
+        this.getCar();
       }
-      this.carsService.update(this.car.key, this.car)
-        .then(() => this.getCar())
-        .catch(err => console.log(err));
-    } else {
-      if (this.car != undefined) {
-        this.carsService.create(this.car)
-          .then(() => this.getCar())
-      }
-    }
+    })
+    .catch(err=>console.log(err));
   }
 }

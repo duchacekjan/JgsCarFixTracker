@@ -1,14 +1,5 @@
 {
   "projects": {
     "default": "jgs-car-fix-tracker"
-  },
-  "targets": {
-    "jgs-car-fix-tracker": {
-      "hosting": {
-        "JgsCarFixTracker": [
-          "jgs-car-fix-tracker"
-        ]
-      }
-    }
   }
 }

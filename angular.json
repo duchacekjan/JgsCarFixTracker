@@ -52,7 +52,8 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "optimization": { "scripts": true, "styles": { "minify": true, "inlineCritical": false } }
             },
             "development": {
               "buildOptimizer": false,
@@ -98,16 +99,6 @@
               "src/styles.css"
             ],
             "scripts": []
-          }
-        },
-        "deploy": {
-          "builder": "@angular/fire:deploy",
-          "options": {
-            "prerender": false,
-            "ssr": false,
-            "browserTarget": "JgsCarFixTracker:build:production",
-            "firebaseProject": "jgs-car-fix-tracker",
-            "firebaseHostingSite": "jgs-car-fix-tracker"
           }
         }
       }
