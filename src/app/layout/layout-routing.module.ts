@@ -6,6 +6,9 @@ import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
     {
+        path: '', redirectTo: 'cars', pathMatch:'full'
+    },
+    {
         path: '',
         component: MainComponent,
         children: [

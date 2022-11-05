@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
+import { AuthService } from './services/authService';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { LayoutModule } from './layout/layout.module';
     RouterModule.forRoot([]),
     LayoutModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
