@@ -1,0 +1,12 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrapper {
+    border-radius: 1em;
+    border: 1em gray;
+    width: 50%;
+    padding: 2em;
+}

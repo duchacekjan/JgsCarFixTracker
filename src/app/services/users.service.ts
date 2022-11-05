@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { User } from '../models/user';
 
 @Injectable({
@@ -10,6 +10,7 @@ export class UsersService {
   private userDbPath = '/users';
   private userKey = 'user';
   private subject = new Subject<User>();
+  isLoggedIn = new Subject<boolean>();
 
   constructor(private db: AngularFireDatabase) { }
   setUserData(user: any) {
@@ -26,6 +27,7 @@ export class UsersService {
 
   signOut() {
     localStorage.removeItem(this.userKey);
+    this.isLoggedIn.next(false);
   }
 
   setUser(userData: any) {
@@ -34,6 +36,7 @@ export class UsersService {
     } else {
       localStorage.setItem(this.userKey, 'null');
     }
+    this.isLoggedIn.next(this.getIsLoggedIn());
   }
 
   getUserData(): Observable<User> {
