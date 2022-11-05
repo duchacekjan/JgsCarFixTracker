@@ -1,6 +1,15 @@
 <div class="content">
-    CAR CONTENT
+        <h2>CARS</h2>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let car of cars">
+                <a routerLink="/cars/detail/{{car.key}}">
+                    <span class="badge">{{car.licencePlate}}</span> {{car.brand}}
+                </a>
+            </li>
+        </ul>
 </div>
-<div class="footer">
-    Footer 2
+<div class="footer">    
+    <a class="nav-link" (click)="addNew()">
+        <i class="fas fa-plus"></i> Add new
+    </a>
 </div>
