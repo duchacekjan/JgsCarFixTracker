@@ -1,9 +1,9 @@
-.row {
+:host {
   display: flex;
-  flex-direction: row;
-  flex: 1 0 100%;
+  flex-direction: column;
 }
 
 .content {
   background: #71FA4C;
+  flex-grow: 1;
 }
