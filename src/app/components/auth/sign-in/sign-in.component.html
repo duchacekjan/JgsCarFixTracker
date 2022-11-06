@@ -1,15 +1,8 @@
 <div class="wrapper">
     <h3>Sign In</h3>
-    <div class="formGroup">
-        <input type="email" class="formControl" placeholder="Email" #userName required>
-    </div>
-    <div class="formGroup">
-        <input type="password" class="formControl" placeholder="Password" #userPassword required>
-    </div>
-    <div class="formGroup">
-        <input type="button" class="btn btnPrimary" value="Log in"
-            (click)="signIn(userName.value, userPassword.value)">
-    </div>
+    <input type="email" class="formControl" placeholder="Email" #userName required>
+    <input type="password" class="formControl" placeholder="Password" #userPassword required>
+    <input type="button" class="btn btnPrimary" value="Log in" (click)="signIn(userName.value, userPassword.value)">
     <div>
         <span routerLink="auth/forgot-password">Forgot Password?</span>
     </div>
