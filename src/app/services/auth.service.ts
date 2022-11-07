@@ -27,9 +27,12 @@ export class AuthService {
     });
   }
 
-  signIn(email: string, password: string) {
+  signIn(email: string, password: string, remember: boolean) {
     return this.afAuth
-      .signInWithEmailAndPassword(email, password)
+      .setPersistence(remember?'local':'session')
+      .then(() => {
+        this.afAuth.signInWithEmailAndPassword(email, password);
+      })
       .catch(this.errorHandler)
   }
 

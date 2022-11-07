@@ -8,12 +8,13 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SignInComponent implements OnInit {
 
+  autoLogin: boolean = false;
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
-  signIn(username: string, password: string){
-    this.authService.signIn(username, password)
+  signIn(username: string, password: string) {
+    this.authService.signIn(username, password, this.autoLogin)
   }
 }

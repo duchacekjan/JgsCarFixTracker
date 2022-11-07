@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
+import { browserLocalPersistence, getAuth, provideAuth, setPersistence, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
