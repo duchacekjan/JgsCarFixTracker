@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from './users.service';
 
 @Injectable({
@@ -11,7 +11,8 @@ export class AuthService {
   constructor(
     private afAuth: AngularFireAuth,
     private router: Router,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private route: ActivatedRoute
   ) {
     this.afAuth.authState.subscribe((user) => {
       usersService.setUser(user);
@@ -25,7 +26,13 @@ export class AuthService {
         this.afAuth.authState.subscribe((user) => {
           if (user) {
             this.usersService.setUser(user);
-            this.redirect();
+            const redirectUrl = this.route.snapshot.paramMap.get('redirectURL');
+            if (redirectUrl) {
+              this.redirect(redirectUrl);
+            } else {
+              this.redirect();
+            }
+
           }
         });
       })
@@ -59,23 +66,11 @@ export class AuthService {
       .catch(this.errorHandler);
   }
 
-  authLogin(provider: any) {
-    return this.afAuth
-      .signInWithPopup(provider)
-      .then((result) => {
-        this.usersService.setUserData(result.user);
-        this.redirect();
-      })
-      .catch(this.errorHandler);
-  }
-
-
-
   signOut() {
     return this.afAuth.signOut()
       .then(() => {
         this.usersService.signOut();
-        this.redirect('auth/sign-in')
+        this.redirect('auth/sign-in');
       })
   }
 
