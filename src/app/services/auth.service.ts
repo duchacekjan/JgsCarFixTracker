@@ -15,27 +15,21 @@ export class AuthService {
     private route: ActivatedRoute
   ) {
     this.afAuth.authState.subscribe((user) => {
-      usersService.setUser(user);
-    })
+      if (user) {
+        this.usersService.setUser(user);
+        const redirectUrl = this.route.snapshot.queryParamMap.get('redirectURL');
+        if (redirectUrl) {
+          this.redirect(redirectUrl);
+        } else {
+          this.redirect();
+        }
+      }
+    });
   }
 
   signIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.afAuth.authState.subscribe((user) => {
-          if (user) {
-            this.usersService.setUser(user);
-            const redirectUrl = this.route.snapshot.paramMap.get('redirectURL');
-            if (redirectUrl) {
-              this.redirect(redirectUrl);
-            } else {
-              this.redirect();
-            }
-
-          }
-        });
-      })
       .catch(this.errorHandler)
   }
 
