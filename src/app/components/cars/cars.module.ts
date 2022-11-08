@@ -5,6 +5,7 @@ import { CarListComponent } from './car-list/car-list.component';
 import { CarDetailComponent } from './car-detail/car-detail.component';
 import {FormsModule} from "@angular/forms";
 import { CarListItemComponent } from './car-list-item/car-list-item.component';
+import { CarFixListComponent } from './car-fix-list/car-fix-list.component';
 
 @NgModule({
     imports: [
@@ -12,6 +13,6 @@ import { CarListItemComponent } from './car-list-item/car-list-item.component';
         CarsRoutingModule,
         FormsModule
     ],
-  declarations: [CarListComponent, CarDetailComponent, CarListItemComponent]
+  declarations: [CarListComponent, CarDetailComponent, CarListItemComponent, CarFixListComponent]
 })
 export class CarsModule { }
