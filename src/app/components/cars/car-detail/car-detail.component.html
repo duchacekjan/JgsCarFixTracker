@@ -1,15 +1,25 @@
 <h2>CAR</h2>
-<label for="name">Licence plate: </label>
-<input id="name" class="col-sm-12 col-md-6" [(ngModel)]="car.licencePlate" placeholder="licence plate"
-       (ngModelChange)="car.licencePlate = $event.toUpperCase()" *ngIf="isNew">
-<div *ngIf="!isNew">
-  <h3>{{car.licencePlate}}</h3>
+<div class="container align-items-start">
+  <div class="col-12 d-flex flex-column">
+    <label for="name">Licence plate: </label>
+    <input id="name" [(ngModel)]="car.licencePlate" placeholder="licence plate"
+           (ngModelChange)="car.licencePlate = $event.toUpperCase()" *ngIf="isNew">
+    <div *ngIf="!isNew">
+      <h3>{{car.licencePlate}}</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-6 d-flex flex-column">
+      <label for="brand">Brand: </label>
+      <input id="brand" [(ngModel)]="car.brand" placeholder="brand">
+    </div>
+    <div class="col-sm-12 col-md-6 d-flex flex-column">
+      <label for="model">Model: </label>
+      <input id="model" [(ngModel)]="car.model" placeholder="model">
+    </div>
+  </div>
+  <app-car-fix-list [fixes]="car.fixes"></app-car-fix-list>
 </div>
-<label for="brand">Brand: </label>
-<input id="brand" [(ngModel)]="car.brand" placeholder="brand" class="col-sm-12 col-md-6">
-<label for="model">Model: </label>
-<input id="model" [(ngModel)]="car.model" placeholder="model" class="col-sm-12 col-md-6">
-<app-car-fix-list [fixes]="car.fixes"></app-car-fix-list>
 <div class="footer">
   <button type="button" class="iconButton" (click)="goBack()" style="margin-left: 0">
     <i class="fas fa-angle-left"></i>

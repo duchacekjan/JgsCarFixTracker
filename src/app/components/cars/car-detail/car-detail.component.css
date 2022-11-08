@@ -1,5 +1,7 @@
-:host{
-  display: flex;
-  flex-direction: column;
+:host {
   width: 100%;
+}
+
+.container{
+  align-self: start;
 }

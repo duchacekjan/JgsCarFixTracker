@@ -1,5 +1,5 @@
-<label>Fixes</label>
-<div class="d-flex flex-column" *ngFor="let fix of fixes; index as i">
+<label class="col-12">Fixes</label>
+<div class="col-12 container" *ngFor="let fix of fixes; index as i">
   <label for="mileageEdit">Mileage: </label>
   <input *ngIf="i===editedIndex" id="mileageEdit" [(ngModel)]="fix!.mileage" placeholder="km" min="0" type="number" class="col-sm-12 col-md-8">
   <div *ngIf="i!==editedIndex">
