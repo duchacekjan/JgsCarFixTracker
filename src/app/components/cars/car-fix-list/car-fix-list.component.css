@@ -3,3 +3,7 @@
   display: flex;
   flex-direction: column;
 }
+
+.row{
+  margin-bottom: 0.5em;
+}

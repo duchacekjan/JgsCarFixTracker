@@ -1,19 +1,22 @@
 <label class="col-12">Fixes</label>
-<div class="col-12 container" *ngFor="let fix of fixes; index as i">
-  <label for="mileageEdit">Mileage: </label>
-  <input *ngIf="i===editedIndex" id="mileageEdit" [(ngModel)]="fix!.mileage" placeholder="km" min="0" type="number" class="col-sm-12 col-md-8">
-  <div *ngIf="i!==editedIndex">
-    <span>{{fix.mileage}} km</span>
-    <span> {{fix.lastUpdate}}</span>
-  </div>
-  <label for="descriptionEdit">Description: </label>
-  <div class="d-flex flex-row">
-    <input *ngIf="i===editedIndex" id="descriptionEdit" [(ngModel)]="fix.description" placeholder="description">
-    <span *ngIf="i!==editedIndex">{{fix.description}}</span>
-    <div>
+<div class="col-12" *ngFor="let fix of fixes; index as i">
+  <div class="row justify-content-end">
+    <div class="col-sm-12 col-md-4 d-flex flex-column">
+      <label for="mileageEdit">Mileage: </label>
+      <input *ngIf="i===editedIndex" id="mileageEdit" [(ngModel)]="fix!.mileage" placeholder="km" min="0" type="number" class="col-sm-12 col-md-8">
+      <span *ngIf="i!==editedIndex">{{fix.mileage}} km</span>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <label for="descriptionEdit">Description: </label>
+      <div class="d-flex flex-row">
+        <input *ngIf="i===editedIndex" id="descriptionEdit" [(ngModel)]="fix.description" placeholder="description">
+        <span *ngIf="i!==editedIndex">{{fix.description}}</span>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-2 " style="background: gray">
       <button *ngIf="i!==editedIndex" type="button" (click)="onEditFix(i)">Edit</button>
       <button *ngIf="i===editedIndex" type="button" (click)="onSaveFix()">Save fix</button>
     </div>
   </div>
 </div>
-<button type="button" (click)="onAddNew()">AddFix</button>
+<button class="" type="button" (click)="onAddNew()">AddFix</button>
