@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
-import { Car } from 'src/app/models/car';
-import { CarsService } from 'src/app/services/cars.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {map} from 'rxjs/operators';
+import {Car} from 'src/app/models/car';
+import {CarsService} from 'src/app/services/cars.service';
 
 @Component({
   selector: 'app-car-list',
@@ -13,7 +13,9 @@ import { CarsService } from 'src/app/services/cars.service';
 export class CarListComponent implements OnInit {
 
   cars?: Car[] = [];
-  constructor(private carsService: CarsService, private router: Router) { }
+
+  constructor(private carsService: CarsService, private router: Router) {
+  }
 
   ngOnInit(): void {
     this.retrieveCars();
@@ -23,17 +25,23 @@ export class CarListComponent implements OnInit {
     this.carsService.getCars().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
-          ({ key: c.payload.key, ...c.payload.val() as Car })))
+          ({key: c.payload.key, ...c.payload.val() as Car})))
     ).subscribe(data => {
       this.cars = data
     });
   }
 
-  refreshList(): void {
-    this.retrieveCars();
+  addNew(): void {
+    this.redirectToCarDetail();
   }
 
-  addNew(): void {
-    this.router.navigate(['/cars/detail/new']);
+  navigate(carKey?: string) {
+    if (carKey) {
+      this.redirectToCarDetail(carKey);
+    }
+  }
+
+  private redirectToCarDetail(carKey: string = 'new') {
+    this.router.navigate([`/cars/detail/${carKey}`]);
   }
 }

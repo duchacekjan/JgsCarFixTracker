@@ -1,11 +1,5 @@
 <div class="content">
-    <ul class="list-group">
-        <li class="list-group-item" *ngFor="let car of cars">
-            <a routerLink="/cars/detail/{{car.key}}">
-                <span class="badge">{{car.licencePlate}}</span> {{car.brand}}
-            </a>
-        </li>
-    </ul>
+  <app-car-list-item *ngFor="let car of cars" [car]="car" (click)="navigate($event)"></app-car-list-item>
 </div>
 <div class="footer">
   <button type="button" class="iconButton" (click)="addNew()" style="margin-left: 0">

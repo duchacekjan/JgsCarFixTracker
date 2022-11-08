@@ -4,6 +4,7 @@ import { CarsRoutingModule } from './cars-routing.module';
 import { CarListComponent } from './car-list/car-list.component';
 import { CarDetailComponent } from './car-detail/car-detail.component';
 import {FormsModule} from "@angular/forms";
+import { CarListItemComponent } from './car-list-item/car-list-item.component';
 
 @NgModule({
     imports: [
@@ -11,6 +12,6 @@ import {FormsModule} from "@angular/forms";
         CarsRoutingModule,
         FormsModule
     ],
-  declarations: [CarListComponent, CarDetailComponent]
+  declarations: [CarListComponent, CarDetailComponent, CarListItemComponent]
 })
 export class CarsModule { }

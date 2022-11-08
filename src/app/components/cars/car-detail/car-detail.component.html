@@ -1,23 +1,22 @@
-<div *ngIf="car.licencePlate" style="padding-top: 70px;">
+<div *ngIf="car.licencePlate">
   <h2>CAR</h2>
-  <div *ngIf="isNew">
+  <div class="formGroup">
     <label for="name">Licence plate: </label>
-    <input id="name" [(ngModel)]="car.licencePlate" placeholder="licence plate"
-           (ngModelChange)="car.licencePlate = $event.toUpperCase()">
+    <input id="name" class="formControl" [(ngModel)]="car.licencePlate" placeholder="licence plate"
+           (ngModelChange)="car.licencePlate = $event.toUpperCase()" *ngIf="isNew">
+    <div *ngIf="!isNew">
+      <h3>{{car.licencePlate}}</h3>
+    </div>
   </div>
-
-  <div *ngIf="!isNew">
-    <h3>SPZ: {{car.licencePlate | uppercase}}</h3>
-  </div>
-  <div>
+  <div class="formGroup">
     <label for="brand">Brand: </label>
-    <input id="brand" [(ngModel)]="car.brand" placeholder="brand">
+    <input id="brand" class="formControl" [(ngModel)]="car.brand" placeholder="brand">
   </div>
-  <div>
+  <div class="formGroup">
     <label for="model">Model: </label>
-    <input id="model" [(ngModel)]="car.model" placeholder="model">
+    <input id="model" class="formControl" [(ngModel)]="car.model" placeholder="model">
   </div>
-<!--  <app-fixes *ngIf="!isNew" [car]="car"></app-fixes>-->
+  <!--  <app-fixes *ngIf="!isNew" [car]="car"></app-fixes>-->
   <div class="footer">
     <button type="button" class="iconButton" (click)="goBack()" style="margin-left: 0">
       <i class="fas fa-angle-left"></i>

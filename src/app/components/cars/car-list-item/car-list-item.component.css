@@ -1,0 +1,20 @@
+
+.borderedItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: lightgray 0.1em solid;
+  border-radius: 0.5em;
+  min-height: 5em;
+  padding-right: 1em;
+}
+
+.itemIcon{
+  margin: 0.5em 1em 0.5em 0.5em;
+  font-size: 2em;
+}
+
+.licencePlate{
+  font-weight: bold;
+}
