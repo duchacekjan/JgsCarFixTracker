@@ -1,15 +1,16 @@
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
 
 body {
-    display: flex;
-    flex-direction: column;
-  }
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+}
 
-  body, html {
-    padding: 0;
-    margin: 0;
-    height: 100%;
-  }
+body, html {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
 
 .footer {
   position: fixed;
@@ -21,7 +22,7 @@ body {
   flex-direction: row;
 }
 
-.iconButton{
+.iconButton {
   min-width: 4em;
   padding: 0.5em 1em;
   margin-left: 0.5em;
