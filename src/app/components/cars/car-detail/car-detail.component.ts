@@ -1,8 +1,9 @@
-import { Location } from '@angular/common';
+import {Location} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {Car} from "../../../models/car";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CarsService} from "../../../services/cars.service";
+import {Fix} from "../../../models/fix";
 
 @Component({
   selector: 'app-car-detail',
@@ -17,14 +18,17 @@ export class CarDetailComponent implements OnInit {
     fixes: []
   };
   isNew: boolean = false;
+  editedIndex: number = -1;
   private carKey: string | null = null;
+  private requestedEditIndex: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
     private location: Location,
     private router: Router
-  ) {  }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getCar();
@@ -44,10 +48,11 @@ export class CarDetailComponent implements OnInit {
         .subscribe(data => {
           this.car = data;
           console.log(`Car: ${this.car?.key}`)
-          if (!this.car.fixes) {
-            this.car.fixes = [];
-          }
           this.carKey = data.key ? data.key : null;
+          if (this.requestedEditIndex) {
+            this.editedIndex = this.requestedEditIndex;
+            this.requestedEditIndex = null;
+          }
         });
     }
   }
@@ -57,7 +62,6 @@ export class CarDetailComponent implements OnInit {
   }
 
   save(car: Car): void {
-    console.log('Save called');
     this.carsService.upsert(car)
       .then(key => {
         if (this.carKey === key) {
@@ -72,5 +76,35 @@ export class CarDetailComponent implements OnInit {
         }
       })
       .catch(err => console.log(err));
+  }
+
+  saveFix(fix: Fix) {
+    if (this.car?.fixes) {
+      const index = this.car.fixes.indexOf(fix);
+      let newIndex = -1;
+      if (index > -1) {
+        fix.lastUpdate = new Date();
+        newIndex = -1;
+      } else {
+        newIndex = this.car.fixes.push(fix) - 1;
+      }
+      if (this.car.key) {
+        this.carsService.update(this.car)
+          .then(() => {
+            this.requestedEditIndex = newIndex;
+          })
+          .catch(err => console.log(err));
+      }
+    }
+  }
+
+  editFix(index: number) {
+    if (this.car?.fixes && this.car.fixes.length > 0) {
+      if (index >= 0 && index <= this.car.fixes.length - 1) {
+        this.editedIndex = index;
+      }
+    } else {
+      this.editedIndex = -1;
+    }
   }
 }

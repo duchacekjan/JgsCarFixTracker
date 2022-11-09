@@ -16,7 +16,7 @@ th {
 td {
   border-bottom: 1px solid #ddd;
   width: max-content;
-  align-content: stretch;
+  vertical-align: center;
 }
 
 i {
@@ -28,12 +28,17 @@ i:hover {
   background: lightgray;
 }
 
-.first-column {
+.fix-date-column {
   width: 10em;
 }
 
-.last-column {
+.fix-mileage-column {
+  width: 10em;
+}
+
+.fix-action-column {
   width: 1em;
+  text-align: right;
 }
 
 .car-fix-header {

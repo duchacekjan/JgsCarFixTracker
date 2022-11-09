@@ -1,13 +1,13 @@
 <div class="container">
   <div class="row">
-    <h2>CAR</h2>
-  </div>
-  <div class="row d-flex flex-column">
-    <label for="name">Licence plate: </label>
-    <input id="name" [(ngModel)]="car.licencePlate" placeholder="licence plate"
-           (ngModelChange)="car.licencePlate = $event.toUpperCase()" *ngIf="isNew">
-    <div *ngIf="!isNew">
+    <h2 class="col-6">CAR detail</h2>
+    <div class="col-6" *ngIf="!isNew">
       <h3>{{car.licencePlate}}</h3>
+    </div>
+    <div *ngIf="isNew" class="col-sm-12 col-md-6 d-flex flex-column">
+      <label for="name">Licence plate: </label>
+      <input id="name" [(ngModel)]="car.licencePlate" placeholder="licence plate"
+             (ngModelChange)="car.licencePlate = $event.toUpperCase()">
     </div>
   </div>
   <div class="row">
@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class="row">
-    <app-car-fix-list [fixes]="car.fixes"></app-car-fix-list>
+    <app-car-fix-list [fixes]="car.fixes" [editedIndex]="editedIndex" (saveFix)="saveFix($event)" (editFix)="editFix($event)"></app-car-fix-list>
   </div>
 </div>
 <div class="footer">

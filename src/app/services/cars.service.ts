@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
-import { map, Observable } from 'rxjs';
-import { Car } from '../models/car';
-import { UsersService } from './users.service';
+import {Injectable} from '@angular/core';
+import {AngularFireDatabase, AngularFireList, DatabaseSnapshot} from '@angular/fire/compat/database';
+import {map, Observable} from 'rxjs';
+import {Car} from '../models/car';
+import {UsersService} from './users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +19,16 @@ export class CarsService {
 
   getCar(key: string): Observable<Car> {
     const path = this.userService.buildDbPath(this.dbPath, key);
-    return this.db.object(path)
+    return this.db.object<Car>(path)
       .snapshotChanges().pipe(
         map(changes =>
-          ({ key: changes.payload.key, ...changes.payload.val() as Car })));
+          ({key: changes.payload.key, ...this.reMap(changes.payload)})));
+  }
+
+  private reMap(dbCar: DatabaseSnapshot<Car>): Car {
+    let result = dbCar.val() as Car;
+    result.fixes = result.fixes ?? [];
+    return result;
   }
 
   getCars(): AngularFireList<Car> {

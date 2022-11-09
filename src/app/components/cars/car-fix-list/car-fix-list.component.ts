@@ -9,10 +9,13 @@ import {Fix} from "../../../models/fix";
 export class CarFixListComponent implements OnInit {
 
   @Input()
-  fixes?: Fix[]
+  fixes: Fix[] = []
   @Output()
   saveFix = new EventEmitter<Fix>();
+  @Output()
+  editFix = new EventEmitter<number>();
 
+  @Input()
   editedIndex = -1;
 
   constructor() {
@@ -28,20 +31,19 @@ export class CarFixListComponent implements OnInit {
   }
 
   onEditFix(index: number) {
-    this.editedIndex = index;
+    this.editFix.emit(index);
   }
 
   onSaveFix() {
-    if (this.editedIndex > -1 && this.fixes) {
+    if (this.editedIndex > -1) {
       const fix = this.fixes[this.editedIndex];
       this.saveFix.emit(fix);
-      this.editedIndex = -1;
     }
   }
 
   private getNewMileage(): number {
     let result = 0;
-    if (this.fixes && this.fixes.length > 0) {
+    if (this.fixes.length > 0) {
       result = Math.max(...this.fixes.map(({mileage}) => mileage ? mileage : 0)) + 1;
     }
     return result;

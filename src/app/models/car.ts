@@ -5,5 +5,5 @@ export class Car {
     licencePlate?: string;
     brand?: string = '';
     model?: string = '';
-    fixes?: Fix[] = [];
+    fixes: Fix[] = [];
 }

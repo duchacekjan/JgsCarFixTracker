@@ -3,22 +3,26 @@
   <i class="fas fa-plus add-fix" (click)="onAddNew()"></i>
 </div>
 
-<table class="table">
+<table class="table col-12">
   <tr>
+    <th>Date</th>
     <th>Mileage</th>
     <th>Description</th>
     <th>Action</th>
   </tr>
   <tr *ngFor="let fix of fixes; index as i">
-    <td class="first-column">
+    <td class="fix-date-column">
+      <span>{{fix.lastUpdate | date:'dd/MM/yyyy'}}</span>
+    </td>
+    <td class="fix-mileage-column">
       <input *ngIf="i===editedIndex" [(ngModel)]="fix!.mileage" placeholder="km" min="0" type="number">
       <span *ngIf="i!==editedIndex">{{fix.mileage}} km</span>
     </td>
     <td>
-      <input *ngIf="i===editedIndex" [(ngModel)]="fix.description" placeholder="description" type="text">
+      <input *ngIf="i===editedIndex" [(ngModel)]="fix.description" placeholder="description" type="text" width="100%">
       <span *ngIf="i!==editedIndex">{{fix.description}}</span>
     </td>
-    <td class="last-column">
+    <td class="fix-action-column">
       <i *ngIf="i!==editedIndex" class="fas fa-edit" (click)="onEditFix(i)"></i>
       <i *ngIf="i===editedIndex" class="fas fa-save" (click)="onSaveFix()"></i>
     </td>
