@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="wrapper col-12 col-md-10 col-lg-8">
+  <div class="wrapper col-12">
     <div class="container">
       <h3 class="col-12">Sign In</h3>
       <input class="col-12" type="email" placeholder="Email" #userName required>
@@ -8,10 +8,7 @@
         <input type="checkbox" class="formControl" [(ngModel)]="autoLogin"/> Remember
       </div>
       <input class="col-12" type="button" value="Log in" (click)="signIn(userName.value, userPassword.value)">
-      <div>
-        <span routerLink="auth/forgot-password">Forgot Password?</span>
-      </div>
+      <a routerLink="auth/forgot-password">Forgot Password?</a>
     </div>
   </div>
-
 </div>

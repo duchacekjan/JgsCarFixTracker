@@ -1,5 +1,12 @@
+:host{
+  width: 100%;
+}
 .wrapper {
     border-radius: 1em;
     border: 1px gray solid;
     padding: 1em;
+}
+.sign-in-forgot-link{
+  font-size: 1em;
+  color: gray;
 }
