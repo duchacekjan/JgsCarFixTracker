@@ -12,7 +12,7 @@
   </tr>
   <tr *ngFor="let fix of fixes; index as i">
     <td class="fix-date-column">
-      <span>{{fix.lastUpdate | date:'dd.MM.yyyy'}}</span>
+      <span>{{fix.lastUpdate | date:'mediumDate'}}</span>
     </td>
     <td class="fix-mileage-column">
       <input *ngIf="i===editedIndex" [(ngModel)]="fix!.mileage" placeholder="km" min="0" type="number">

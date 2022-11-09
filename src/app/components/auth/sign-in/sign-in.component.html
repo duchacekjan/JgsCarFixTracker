@@ -1,5 +1,4 @@
-<div class="container">
-  <div class="wrapper col-12">
+<div class="wrapper">
     <div class="container">
       <h3 class="col-12">Sign In</h3>
       <input class="col-12" type="email" placeholder="Email" #userName required>
@@ -10,5 +9,5 @@
       <input class="col-12" type="button" value="Log in" (click)="signIn(userName.value, userPassword.value)">
       <a routerLink="auth/forgot-password">Forgot Password?</a>
     </div>
-  </div>
+
 </div>

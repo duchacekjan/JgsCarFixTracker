@@ -1,12 +1,25 @@
-:host{
+:host {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
 .wrapper {
-    border-radius: 1em;
-    border: 1px gray solid;
-    padding: 1em;
+  border-radius: 1em;
+  border: 1px gray solid;
+  padding: 1em;
+  margin-bottom: 20%;
 }
-.sign-in-forgot-link{
+
+.sign-in-forgot-link {
   font-size: 1em;
   color: gray;
+}
+
+@media (max-width: 720px) {
+  :host{
+    padding: 10% 0;
+  }
 }
