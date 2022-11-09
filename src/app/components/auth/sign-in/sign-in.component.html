@@ -1,12 +1,17 @@
-<div class="wrapper">
-    <h3>Sign In</h3>
-    <input type="email" class="formControl" placeholder="Email" #userName required>
-    <input type="password" class="formControl" placeholder="Password" #userPassword required>
-    <div>
-        <input type="checkbox" class="formControl" [(ngModel)]="autoLogin" /> Remember
-    </div>
-    <input type="button" value="Log in" (click)="signIn(userName.value, userPassword.value)">
-    <div>
+<div class="container">
+  <div class="wrapper col-12 col-md-10 col-lg-8">
+    <div class="container">
+      <h3 class="col-12">Sign In</h3>
+      <input class="col-12" type="email" placeholder="Email" #userName required>
+      <input class="col-12" type="password" placeholder="Password" #userPassword required>
+      <div class="col-12">
+        <input type="checkbox" class="formControl" [(ngModel)]="autoLogin"/> Remember
+      </div>
+      <input class="col-12" type="button" value="Log in" (click)="signIn(userName.value, userPassword.value)">
+      <div>
         <span routerLink="auth/forgot-password">Forgot Password?</span>
+      </div>
     </div>
+  </div>
+
 </div>

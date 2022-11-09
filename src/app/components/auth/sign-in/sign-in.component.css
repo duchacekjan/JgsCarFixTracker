@@ -1,17 +1,5 @@
-:host {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-grow: 1;
-    padding: 3em;
-}
-
 .wrapper {
-    border-radius: 10px;
-    border: 2px gray solid;
+    border-radius: 1em;
+    border: 1px gray solid;
     padding: 1em;
-    box-shadow: 2px 2px 1px lightgrey;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
 }
