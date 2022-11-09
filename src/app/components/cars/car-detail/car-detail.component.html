@@ -4,18 +4,18 @@
     <div class="col-6" *ngIf="!isNew">
       <h3>{{car.licencePlate}}</h3>
     </div>
-    <div *ngIf="isNew" class="col-sm-12 col-md-6 d-flex flex-column">
+    <div *ngIf="isNew" class="col-12 col-md-6 d-flex flex-column">
       <label for="name">Licence plate: </label>
       <input id="name" [(ngModel)]="car.licencePlate" placeholder="licence plate"
              (ngModelChange)="car.licencePlate = $event.toUpperCase()">
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12 col-md-6 d-flex flex-column">
+    <div class="col-12 col-md-6 d-flex flex-column">
       <label for="brand">Brand: </label>
       <input id="brand" [(ngModel)]="car.brand" placeholder="brand">
     </div>
-    <div class="col-sm-12 col-md-6 d-flex flex-column">
+    <div class="col-12 col-md-6 d-flex flex-column">
       <label for="model">Model: </label>
       <input id="model" [(ngModel)]="car.model" placeholder="model">
     </div>
