@@ -1,22 +1,26 @@
-<label class="col-12">Fixes</label>
-<div class="col-12" *ngFor="let fix of fixes; index as i">
-  <div class="row justify-content-end">
-    <div class="col-sm-12 col-md-4 d-flex flex-column">
-      <label for="mileageEdit">Mileage: </label>
-      <input *ngIf="i===editedIndex" id="mileageEdit" [(ngModel)]="fix!.mileage" placeholder="km" min="0" type="number" class="col-sm-12 col-md-8">
-      <span *ngIf="i!==editedIndex">{{fix.mileage}} km</span>
-    </div>
-    <div class="col-sm-12 col-md-6">
-      <label for="descriptionEdit">Description: </label>
-      <div class="d-flex flex-row">
-        <input *ngIf="i===editedIndex" id="descriptionEdit" [(ngModel)]="fix.description" placeholder="description">
-        <span *ngIf="i!==editedIndex">{{fix.description}}</span>
-      </div>
-    </div>
-    <div class="col-sm-12 col-md-2 " style="background: gray">
-      <button *ngIf="i!==editedIndex" type="button" (click)="onEditFix(i)">Edit</button>
-      <button *ngIf="i===editedIndex" type="button" (click)="onSaveFix()">Save fix</button>
-    </div>
-  </div>
+<div class="d-flex flex-row justify-content-between car-fix-header">
+  <div>Fixes:</div>
+  <i class="fas fa-plus add-fix" (click)="onAddNew()"></i>
 </div>
-<button class="" type="button" (click)="onAddNew()">AddFix</button>
+
+<table class="table">
+  <tr>
+    <th>Mileage</th>
+    <th>Description</th>
+    <th>Action</th>
+  </tr>
+  <tr *ngFor="let fix of fixes; index as i">
+    <td class="first-column">
+      <input *ngIf="i===editedIndex" [(ngModel)]="fix!.mileage" placeholder="km" min="0" type="number">
+      <span *ngIf="i!==editedIndex">{{fix.mileage}} km</span>
+    </td>
+    <td>
+      <input *ngIf="i===editedIndex" [(ngModel)]="fix.description" placeholder="description" type="text">
+      <span *ngIf="i!==editedIndex">{{fix.description}}</span>
+    </td>
+    <td class="last-column">
+      <i *ngIf="i!==editedIndex" class="fas fa-edit" (click)="onEditFix(i)"></i>
+      <i *ngIf="i===editedIndex" class="fas fa-save" (click)="onSaveFix()"></i>
+    </td>
+  </tr>
+</table>

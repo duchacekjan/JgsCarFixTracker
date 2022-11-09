@@ -1,6 +1,8 @@
-<h2>CAR</h2>
-<div class="container align-items-start">
-  <div class="col-12 d-flex flex-column">
+<div class="container">
+  <div class="row">
+    <h2>CAR</h2>
+  </div>
+  <div class="row d-flex flex-column">
     <label for="name">Licence plate: </label>
     <input id="name" [(ngModel)]="car.licencePlate" placeholder="licence plate"
            (ngModelChange)="car.licencePlate = $event.toUpperCase()" *ngIf="isNew">
@@ -18,7 +20,9 @@
       <input id="model" [(ngModel)]="car.model" placeholder="model">
     </div>
   </div>
-  <app-car-fix-list [fixes]="car.fixes"></app-car-fix-list>
+  <div class="row">
+    <app-car-fix-list [fixes]="car.fixes"></app-car-fix-list>
+  </div>
 </div>
 <div class="footer">
   <button type="button" class="iconButton" (click)="goBack()" style="margin-left: 0">
