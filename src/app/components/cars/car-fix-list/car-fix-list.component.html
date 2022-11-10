@@ -3,7 +3,7 @@
   <i class="fas fa-plus add-fix" (click)="onAddNew()"></i>
 </div>
 
-<table class="table col-12">
+<table >
   <tr>
     <th class="col-4 col-md-2">Date</th>
     <th class="col-4 col-md-2">Mileage</th>
@@ -15,15 +15,16 @@
       <span>{{fix.lastUpdate | date:'mediumDate'}}</span>
     </td>
     <td class="fix-mileage-column">
-      <input *ngIf="i===editedIndex" [(ngModel)]="fix!.mileage" placeholder="km" min="0" type="number">
+      <input *ngIf="i===editedIndex" [(ngModel)]="mileage" placeholder="km" min="0" type="number" class="full-width-input">
       <span *ngIf="i!==editedIndex">{{fix.mileage | number: '1.0'}} km</span>
     </td>
     <td>
-      <input *ngIf="i===editedIndex" [(ngModel)]="fix.description" placeholder="description" type="text" width="100%">
-      <span *ngIf="i!==editedIndex">{{fix.description}}</span>
+      <textarea *ngIf="i===editedIndex" [(ngModel)]="description" placeholder="description" type="text" class="full-width-input text-area-margin" rows="1"></textarea>
+      <div *ngIf="i!==editedIndex" class="text-ellipsis">{{fix.description}}</div>
     </td>
     <td class="fix-action-column">
       <i *ngIf="i!==editedIndex" class="fas fa-edit" (click)="onEditFix(i)"></i>
+      <i *ngIf="i===editedIndex" class="fas fa-ban cancel" (click)="onCancelFix()"></i>
       <i *ngIf="i===editedIndex" class="fas fa-save" (click)="onSaveFix()"></i>
     </td>
   </tr>

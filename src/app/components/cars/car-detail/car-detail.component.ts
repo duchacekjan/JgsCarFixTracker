@@ -82,8 +82,8 @@ export class CarDetailComponent implements OnInit {
     if (this.car?.fixes) {
       const index = this.car.fixes.indexOf(fix);
       let newIndex = -1;
+      fix.lastUpdate = new Date();
       if (index > -1) {
-        fix.lastUpdate = new Date();
         newIndex = -1;
       } else {
         newIndex = this.car.fixes.push(fix) - 1;
@@ -99,10 +99,8 @@ export class CarDetailComponent implements OnInit {
   }
 
   editFix(index: number) {
-    if (this.car?.fixes && this.car.fixes.length > 0) {
-      if (index >= 0 && index <= this.car.fixes.length - 1) {
-        this.editedIndex = index;
-      }
+    if (this.car?.fixes && this.car.fixes.length > 0 && index >= 0 && index <= this.car.fixes.length - 1) {
+      this.editedIndex = index;
     } else {
       this.editedIndex = -1;
     }
