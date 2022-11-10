@@ -1,0 +1,47 @@
+td {
+  border-bottom: 1px solid #ddd;
+  vertical-align: center;
+}
+
+.td-vertical-top td {
+  vertical-align: top;
+}
+
+.full-width-input {
+  width: 100%;
+  margin: 0;
+  border: 1px solid lightgray;
+}
+
+.full-width-input inout {
+  max-height: 2em;
+}
+
+.text-area-margin {
+  margin-top: 6px;
+  padding: 0.2em 0.5em;
+}
+
+.text-ellipsis {
+  max-height: 1.5em;
+  text-overflow: ellipsis;
+  overflow: auto;
+}
+
+.cancel {
+  color: red;
+  margin-right: 0.2em;
+}
+
+i {
+  cursor: pointer;
+  border-radius: 0.3em;
+}
+
+i:hover {
+  background: lightgray;
+}
+
+.fix-action-column {
+  text-align: right;
+}

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Fix} from "../../../models/fix";
 
 @Component({
@@ -18,19 +18,10 @@ export class CarFixListComponent implements OnInit {
   @Input()
   editedIndex = -1;
 
-  mileage: number = 0;
-  description: string = '';
-
   constructor() {
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['editedIndex']) {
-      this.updateEditedProperties();
-    }
   }
 
   onAddNew() {
@@ -39,21 +30,16 @@ export class CarFixListComponent implements OnInit {
     this.saveFix.emit(newFix);
   }
 
-  onEditFix(index: number) {
-    this.editFix.emit(index);
+  onEditFixItem(fix: Fix) {
+    this.editFix.emit(this.fixes.indexOf(fix));
   }
 
-  onSaveFix() {
-    if (this.editedIndex > -1) {
-      const fix = this.fixes[this.editedIndex];
-      fix.description = this.description;
-      fix.mileage = this.mileage;
+  onSaveFixItem(fix: Fix | null) {
+    if (fix == null) {
+      this.editFix.emit(-1);
+    } else {
       this.saveFix.emit(fix);
     }
-  }
-
-  onCancelFix() {
-    this.editFix.emit(-1);
   }
 
   private getNewMileage(): number {
@@ -62,16 +48,5 @@ export class CarFixListComponent implements OnInit {
       result = Math.max(...this.fixes.map(({mileage}) => mileage ? mileage : 0)) + 1;
     }
     return result;
-  }
-
-  private updateEditedProperties() {
-    if (this.editedIndex > -1) {
-      const fix = this.fixes[this.editedIndex];
-      this.mileage = fix.mileage;
-      this.description = fix.description;
-    } else {
-      this.mileage = 0;
-      this.description = '';
-    }
   }
 }

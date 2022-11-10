@@ -1,0 +1,29 @@
+<ng-container *ngIf="!isEdited">
+  <td>
+    <span>{{fix.lastUpdate | date:'mediumDate'}}</span>
+  </td>
+  <td>
+    <span>{{fix.mileage | number: '1.0'}} km</span>
+  </td>
+  <td>
+    <div class="text-ellipsis">{{fix.description}}</div>
+  </td>
+  <td class="fix-action-column">
+    <i class="fas fa-edit" (click)="onEdit()"></i>
+  </td>
+</ng-container>
+<ng-container *ngIf="isEdited">
+  <td class="td-vertical-top">
+    <span>{{fix.lastUpdate | date:'mediumDate'}}</span>
+  </td>
+  <td class="td-vertical-top">
+    <input [(ngModel)]="mileage" placeholder="km" min="0" type="number" class="full-width-input">
+  </td>
+  <td class="td-vertical-top">
+    <textarea [(ngModel)]="description" placeholder="description" type="text" class="full-width-input text-area-margin"></textarea>
+  </td>
+  <td class="fix-action-column td-vertical-top">
+    <i class="fas fa-ban cancel" (click)="onCancel()"></i>
+    <i class="fas fa-save" (click)="onSave()"></i>
+  </td>
+</ng-container>
