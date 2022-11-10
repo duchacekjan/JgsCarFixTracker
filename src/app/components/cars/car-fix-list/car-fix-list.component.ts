@@ -35,6 +35,7 @@ export class CarFixListComponent implements OnInit {
   }
 
   onSaveFixItem(fix: Fix | null) {
+    console.log(`Save called: ${fix}`)
     if (fix == null) {
       this.editFix.emit(-1);
     } else {

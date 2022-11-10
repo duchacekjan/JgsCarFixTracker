@@ -81,6 +81,7 @@ export class CarDetailComponent implements OnInit {
   saveFix(fix: Fix) {
     if (this.car?.fixes) {
       const index = this.car.fixes.indexOf(fix);
+      console.log(index);
       let newIndex = -1;
       fix.lastUpdate = new Date();
       if (index > -1) {

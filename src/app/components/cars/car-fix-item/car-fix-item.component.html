@@ -1,6 +1,6 @@
 <ng-container *ngIf="!isEdited">
   <td>
-    <span>{{fix.lastUpdate | date:'mediumDate'}}</span>
+    <span>{{fix.lastUpdate | date:'dd.MM.yyyy'}}</span>
   </td>
   <td>
     <span>{{fix.mileage | number: '1.0'}} km</span>
@@ -14,7 +14,7 @@
 </ng-container>
 <ng-container *ngIf="isEdited">
   <td class="td-vertical-top">
-    <span>{{fix.lastUpdate | date:'mediumDate'}}</span>
+    <span>{{fix.lastUpdate | date:'dd.MM.yyyy'}}</span>
   </td>
   <td class="td-vertical-top">
     <input [(ngModel)]="mileage" placeholder="km" min="0" type="number" class="full-width-input">

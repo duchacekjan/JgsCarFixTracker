@@ -1,6 +1,6 @@
 td {
   border-bottom: 1px solid #ddd;
-  vertical-align: center;
+  vertical-align: top;
 }
 
 .td-vertical-top td {
@@ -18,8 +18,9 @@ td {
 }
 
 .text-area-margin {
-  margin-top: 6px;
   padding: 0.2em 0.5em;
+  white-space: nowrap;
+
 }
 
 .text-ellipsis {
@@ -44,4 +45,5 @@ i:hover {
 
 .fix-action-column {
   text-align: right;
+  vertical-align: center;
 }
