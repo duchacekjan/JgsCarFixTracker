@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from 'src/app/services/auth.service';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-sign-in',
@@ -9,12 +10,14 @@ import { AuthService } from 'src/app/services/auth.service';
 export class SignInComponent implements OnInit {
 
   autoLogin: boolean = false;
-  constructor(private authService: AuthService) { }
+
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
   }
 
   signIn(username: string, password: string) {
-    this.authService.signIn(username, password, this.autoLogin)
+    this.authService.signIn(username, password, this.autoLogin).catch();
   }
 }

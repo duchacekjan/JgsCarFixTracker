@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UsersService } from './users.service';
+import {Injectable} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UsersService} from './users.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private defaultRoute = '/cars';
+
   constructor(
     private afAuth: AngularFireAuth,
     private router: Router,
@@ -15,25 +16,36 @@ export class AuthService {
     private route: ActivatedRoute
   ) {
     this.afAuth.authState.subscribe((user) => {
-      if (user) {
-        this.usersService.setUser(user);
-        const redirectUrl = this.route.snapshot.queryParamMap.get('redirectURL');
-        if (redirectUrl) {
-          this.redirect(redirectUrl);
-        } else {
-          this.redirect();
-        }
-      }
+      this.usersService.setUser(user?.uid)
+        .then(() => {
+          if (user) {
+            const redirectUrl = this.route.snapshot.queryParamMap.get('redirectURL');
+            if (redirectUrl) {
+              this.redirect(redirectUrl);
+            } else {
+              this.redirect();
+            }
+          }
+        });
+
     });
   }
 
-  signIn(email: string, password: string, remember: boolean) {
-    return this.afAuth
-      .setPersistence(remember?'local':'session')
-      .then(() => {
-        this.afAuth.signInWithEmailAndPassword(email, password);
-      })
-      .catch(this.errorHandler)
+  signIn(email: string, password: string, remember: boolean): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.afAuth
+        .setPersistence(remember ? 'local' : 'session')
+        .then(() => {
+          this.afAuth.signInWithEmailAndPassword(email, password)
+            .then(k => {
+              console.log(k.user?.uid)
+              this.usersService.setUser(k.user?.uid).then(() => resolve())
+            })
+            .catch(err => reject(err));
+        })
+        .catch(err => reject(err))
+    })
+
   }
 
   signUp(email: string, password: string) {
@@ -41,7 +53,7 @@ export class AuthService {
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
         this.sendVerificationMail();
-        this.usersService.setUserData(result.user);
+        this.usersService.createUser(result.user);
       })
       .catch(this.errorHandler)
   }
