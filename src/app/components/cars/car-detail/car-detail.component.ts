@@ -25,7 +25,6 @@ export class CarDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
-    private location: Location,
     private router: Router
   ) {
   }
@@ -55,10 +54,6 @@ export class CarDetailComponent implements OnInit {
           }
         });
     }
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 
   save(car: Car): void {

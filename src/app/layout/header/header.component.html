@@ -1,8 +1,10 @@
-<i class="fas fa-wrench no-flex" routerLink="/cars"></i>
+<div [routerLink]="isInDetail ? '/cars' : null" (click)="isInDetail ? goBack() : null">
+  <i class="fas" [ngClass]="{'fa-angle-left':isInDetail, 'fa-wrench':!isInDetail}"></i>
+</div>
 <div class="title">
   <div class="caption">Car fix tracker</div>
   <span class="version">ver.{{version}}</span>
 </div>
-<a *ngIf="(isLoggedIn)" class="nav-link" (click)="authService.signOut()">
-  <i class="fas fa-sign-out-alt no-flex"></i>
-</a>
+<div *ngIf="(isLoggedIn)" class="clickable" (click)="authService.signOut()">
+  <i class="fas fa-sign-out-alt"></i>
+</div>

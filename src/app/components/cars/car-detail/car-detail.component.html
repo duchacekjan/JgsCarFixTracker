@@ -24,11 +24,6 @@
     <app-car-fix-list [fixes]="car.fixes" [editedIndex]="editedIndex" (saveFix)="saveFix($event)" (editFix)="editFix($event)"></app-car-fix-list>
   </div>
 </div>
-<div class="footer">
-  <button type="button" class="iconButton" (click)="goBack()" style="margin-left: 0">
-    <i class="fas fa-angle-left"></i>
-  </button>
-  <button type="button" class="iconButton" (click)="save(car)">
-    <i class="fas fa-save"></i> Save
-  </button>
+<div class="footer icon-button" (click)="save(car)">
+  <i class="fas fa-save"></i> Save
 </div>

@@ -28,15 +28,17 @@
 
 i {
   font-size: 1.5em;
-  cursor: pointer;
   border-radius: 0.3em;
   padding: 0.5em;
+  width: 2em;
 }
 
-i:hover {
-  background: lightgray;
-}
-
-.nav-link {
+.clickable {
   cursor: pointer;
+  text-align: center;
+  vertical-align: center;
+}
+
+.clickable:hover {
+  background: lightgray;
 }

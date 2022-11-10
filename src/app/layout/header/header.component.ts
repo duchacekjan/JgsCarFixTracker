@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
-import { UsersService } from 'src/app/services/users.service';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from 'src/app/services/auth.service';
+import {UsersService} from 'src/app/services/users.service';
 import {environment} from "../../../environments/environment";
+import {NavigationEnd, Router} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-header',
@@ -10,16 +12,33 @@ import {environment} from "../../../environments/environment";
 })
 export class HeaderComponent implements OnInit {
 
-  version:any;
-  isLoggedIn: Boolean = false;
-  constructor(public authService: AuthService, private usersService: UsersService) {
+  version: any;
+  isLoggedIn = false;
+  isInDetail = true;
+
+  constructor(
+    public authService: AuthService,
+    private usersService: UsersService,
+    private router: Router,
+    private location: Location) {
     this.version = environment.appVersion;
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.isInDetail = !!event.urlAfterRedirects.match('^\/cars\/detail\/');
+      }
+    })
   }
 
   ngOnInit(): void {
     this.usersService.isLoggedIn
       .subscribe(
-        isLoggedIn => { this.isLoggedIn = isLoggedIn }
+        isLoggedIn => {
+          this.isLoggedIn = isLoggedIn
+        }
       )
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

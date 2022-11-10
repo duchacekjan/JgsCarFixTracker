@@ -22,7 +22,7 @@ body, html {
   flex-direction: row;
 }
 
-.iconButton {
+.icon-button {
   min-width: 4em;
   padding: 0.5em 1em;
   margin-left: 0.5em;
