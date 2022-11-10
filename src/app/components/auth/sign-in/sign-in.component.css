@@ -1,0 +1,40 @@
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrapper {
+  border-radius: 1em;
+  border: 1px gray solid;
+  padding: 1em;
+  margin-bottom: 40%;
+  min-width: 300px;
+  margin-top: 10%;
+}
+
+.sign-in-forgot-link {
+  font-size: 1em;
+  color: gray;
+}
+
+@media (max-width: 720px) {
+  :host{
+    align-items: stretch;
+  }
+  .wrapper{
+    min-width: 0;
+    margin-top: 20%;
+  }
+}
+
+@media (max-width: 576px) {
+  :host{
+    align-items: stretch;
+  }
+  .wrapper{
+    min-width: 0;
+    margin-top: 0;
+  }
+}

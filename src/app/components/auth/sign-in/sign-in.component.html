@@ -1,0 +1,10 @@
+<div class="wrapper d-flex flex-column">
+  <h3>Sign In</h3>
+  <input type="email" placeholder="Email" #userName required>
+  <input type="password" placeholder="Password" #userPassword required>
+  <div>
+    <input type="checkbox" class="formControl" [(ngModel)]="autoLogin"/> Remember
+  </div>
+  <input type="button" value="Sign in" (click)="signIn(userName.value, userPassword.value)"/>
+  <a routerLink="../forgot-password">Forgot Password?</a>
+</div>

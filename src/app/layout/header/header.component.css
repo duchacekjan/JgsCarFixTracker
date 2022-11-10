@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: row;
+}
+
+.title {
+  flex-grow: 1;
+  padding-left: 0.5em;
+}
+
+.no-flex {
+  flex-grow: 0;
+  font-size: 2em;
+  max-height: 2em;
+}
+
+.nav-link{
+  cursor: pointer;
+}

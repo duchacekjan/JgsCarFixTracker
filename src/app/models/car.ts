@@ -1,9 +1,9 @@
-import { FixDto } from "./fix";
+import { Fix } from "./fix";
 
-export class CarDto {
+export class Car {
     key?: string | null;
     licencePlate?: string;
     brand?: string = '';
     model?: string = '';
-    fixes?: FixDto[] = [];
+    fixes: Fix[] = [];
 }

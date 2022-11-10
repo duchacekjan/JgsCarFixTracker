@@ -1,0 +1,19 @@
+:host {
+}
+
+.row {
+  margin-bottom: 0.5em;
+}
+
+th {
+  border-bottom: 2px solid #ddd;
+}
+
+.add-fix {
+  border: 1px solid gray;
+  padding: 0.2em;
+}
+
+.car-fix-header {
+  margin: 0.5em 0;
+}

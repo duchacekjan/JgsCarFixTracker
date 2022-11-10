@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="row">
+    <app-car-list-item class="col-12 col-md-6 col-lg-4" *ngFor="let car of cars" [car]="car" (click)="navigate($event)"></app-car-list-item>
+  </div>
+</div>
+<div class="footer">
+  <button type="button" class="iconButton" (click)="addNew()" style="margin-left: 0">
+    <i class="fas fa-plus"></i> Add new
+  </button>
+</div>

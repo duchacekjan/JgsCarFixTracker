@@ -1,0 +1,53 @@
+:host {
+  cursor: pointer;
+}
+
+.bordered-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: lightgray 0.1em solid;
+  border-radius: 0.5em;
+  padding-right: 1em;
+  flex-grow: 0;
+  margin-bottom: 0.5em;
+}
+
+.bordered-item:hover{
+  background: #e3e3e3;
+}
+
+.item-icon {
+  margin: 0 0.5em;
+  font-size: 2em;
+}
+
+.licence-plate {
+  font-weight: bold;
+  flex-grow: 1;
+  margin-right: 0.5em;
+}
+
+.car-model {
+  margin-left: 0.5em;
+}
+
+.mobile {
+  display: none;
+  min-height: 5em;
+}
+
+.desktop {
+  display: flex;
+}
+
+@media (max-width: 800px) {
+
+  .mobile {
+    display: flex;
+  }
+
+  .desktop {
+    display: none;
+  }
+}

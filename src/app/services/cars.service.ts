@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/compat/database';
-import { map, Observable } from 'rxjs';
-import { CarDto } from '../models/car';
-import { User } from '../models/user';
-import { UsersService } from './users.service';
+import {Injectable} from '@angular/core';
+import {AngularFireDatabase, AngularFireList, DatabaseSnapshot} from '@angular/fire/compat/database';
+import {map, Observable} from 'rxjs';
+import {Car} from '../models/car';
+import {UsersService} from './users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +10,32 @@ import { UsersService } from './users.service';
 export class CarsService {
 
   private dbPath = '/cars';
+  private carsRef: AngularFireList<Car>
 
-  constructor(private db: AngularFireDatabase, private userService: UsersService) { }
+  constructor(private db: AngularFireDatabase, private userService: UsersService) {
+    const path = this.userService.buildDbPath(this.dbPath);
+    this.carsRef = this.db.list(path);
+  }
 
-  getCar(key: string): Observable<CarDto> {
+  getCar(key: string): Observable<Car> {
     const path = this.userService.buildDbPath(this.dbPath, key);
-    return this.db.object(path)
+    return this.db.object<Car>(path)
       .snapshotChanges().pipe(
         map(changes =>
-          ({ key: changes.payload.key, ...changes.payload.val() as CarDto })));
+          ({key: changes.payload.key, ...this.reMap(changes.payload)})));
   }
 
-  getCars(): AngularFireList<CarDto> {
-    const path = this.userService.buildDbPath(this.dbPath);
-    return this.db.list(path)
+  private reMap(dbCar: DatabaseSnapshot<Car>): Car {
+    let result = dbCar.val() as Car;
+    result.fixes = result.fixes ?? [];
+    return result;
   }
 
-  upsert(car: CarDto): Promise<string> {
+  getCars(): AngularFireList<Car> {
+    return this.carsRef;
+  }
+
+  upsert(car: Car): Promise<string> {
     return new Promise((resolve, reject) => {
       if (car.key) {
         console.log(car);
@@ -38,24 +46,24 @@ export class CarsService {
         if (car) {
           const key = this.create(car);
           resolve(key);
-        }else{
+        } else {
           reject('No car defined');
         }
       }
     });
   }
 
-  create(car: CarDto): string {
-    return this.getCars().push(car).key!;
+  create(car: Car): string {
+    return this.carsRef.push(car).key!;
   }
 
-  update(value: CarDto): Promise<void> {
+  update(value: Car): Promise<void> {
     const key = value.key!;
     const data = this.stripKey(value);
-    return this.getCars().update(key, data);
+    return this.carsRef.update(key, data);
   }
 
-  private stripKey(car: CarDto): any {
+  private stripKey(car: Car): any {
     return {
       licencePlate: car.licencePlate,
       brand: car.brand,
