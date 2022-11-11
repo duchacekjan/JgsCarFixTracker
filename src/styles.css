@@ -10,29 +10,3 @@ body {
   display: flex;
   flex-direction: column;
 }
-
-.footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background: wheat;
-  display: flex;
-  flex-direction: row;
-}
-
-.icon-button {
-  min-width: 1.8em;
-  padding: 0.5em;
-  margin-left: 0.5em;
-  align-items: center;
-  border-radius: 0.3em;
-}
-
-.icon-button:hover {
-  background: lightgray;
-}
-
-.icon-button-text {
-  margin-left: 0.5em;
-}
