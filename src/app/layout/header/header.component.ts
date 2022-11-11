@@ -3,7 +3,6 @@ import {AuthService} from 'src/app/services/auth.service';
 import {UsersService} from 'src/app/services/users.service';
 import {environment} from "../../../environments/environment";
 import {NavigationEnd, Router} from "@angular/router";
-import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-header',
@@ -19,8 +18,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private usersService: UsersService,
-    private router: Router,
-    private location: Location) {
+    private router: Router) {
     this.version = environment.appVersion;
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -39,6 +37,6 @@ export class HeaderComponent implements OnInit {
   }
 
   goBack() {
-    this.location.back();
+    this.router.navigate(['/cars']).catch();
   }
 }
