@@ -17,18 +17,19 @@ export class CarsService {
     this.carsRef = this.db.list(path);
   }
 
-  getCar(key: string): Observable<Car> {
+  getCar(key: string): Observable<Car | null> {
     const path = this.userService.buildDbPath(this.dbPath, key);
     return this.db.object<Car>(path)
       .snapshotChanges().pipe(
-        map(changes =>
-          ({key: changes.payload.key, ...this.reMap(changes.payload)})));
+        map(changes => {
+          return (this.reMap(changes.payload));
+        }));
   }
 
-  private reMap(dbCar: DatabaseSnapshot<Car>): Car {
+  private reMap(dbCar: DatabaseSnapshot<Car>): Car | null {
     const data = dbCar.val();
     if (!data) {
-      throw new Error('null');
+      return null;
     }
     let result = new Car();
     result.key = dbCar.key;
@@ -56,6 +57,18 @@ export class CarsService {
 
   getCars(): AngularFireList<Car> {
     return this.carsRef;
+  }
+
+  remove(car: Car): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      if (car.key) {
+        this.carsRef.remove(car.key)
+          .then(() => resolve())
+          .catch(err => reject(err));
+      } else {
+      }
+      reject();
+    });
   }
 
   upsert(car: Car): Promise<string> {

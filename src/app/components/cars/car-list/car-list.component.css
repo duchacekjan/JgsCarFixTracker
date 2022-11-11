@@ -7,3 +7,23 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.search-panel{
+  padding-bottom: 0.5em;
+}
+
+.icon-button {
+  width: 2em;
+  height: 2em;
+  padding: 0.3em;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3em;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: lightgray;
+}

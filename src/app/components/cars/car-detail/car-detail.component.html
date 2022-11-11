@@ -9,11 +9,14 @@
       <input id="name" [(ngModel)]="car.licencePlate" placeholder="licence plate" minlength="7"
              (ngModelChange)="car.licencePlate = $event.toUpperCase()">
     </div>
-    <div class="col-1 icon-button-container d-flex" [ngClass]="{'offset-5':isNew}">
+    <div class="col-1 icon-button-container d-flex flex-row" [ngClass]="{'offset-5':isNew}">
+      <div class="icon-button delete" (click)="remove()">
+        <i class="fas fa-minus"></i>
+      </div>
       <div *ngIf="isEditing" class="icon-button" (click)="save()">
         <i class="fas fa-save"></i>
       </div>
-      <div *ngIf="!isEditing" class="icon-button edit" (click)="edit()">
+      <div *ngIf="!isEditing" class="icon-button edit" (click)="save()">
         <i class="fas fa-pen"></i>
       </div>
     </div>

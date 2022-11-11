@@ -18,6 +18,10 @@
   color: cornflowerblue;
 }
 
+.delete{
+  color: red;
+}
+
 .icon-button {
   width: 2em;
   height: 2em;

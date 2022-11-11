@@ -39,22 +39,30 @@ export class CarDetailComponent implements OnInit {
     } else {
       this.carsService.getCar(id)
         .subscribe(data => {
-          this.car = data;
-          this.carKey = data.key ? data.key : null;
-          if (this.requestedEditFixId != null) {
-            this.editedFixId = this.requestedEditFixId;
-            this.requestedEditFixId = null;
+          if (data) {
+            this.car = data;
+            this.carKey = data.key ? data.key : null;
+            if (this.requestedEditFixId != null) {
+              this.editedFixId = this.requestedEditFixId;
+              this.requestedEditFixId = null;
+            }
+          } else {
+            this.router.navigate(['/cars']).catch();
           }
         });
     }
   }
 
-  edit(){
+  remove() {
+    this.carsService.remove(this.car).catch();
+  }
+
+  edit() {
     this.isEditing = true;
   }
 
   save(): void {
-    if (this.car.licencePlate.length > 7) {
+    if (this.car.licencePlate.length >= 7) {
       this.carsService.upsert(this.car)
         .then(key => {
           if (this.carKey === key) {
