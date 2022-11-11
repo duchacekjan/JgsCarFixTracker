@@ -1,4 +1,4 @@
-<div [routerLink]="isInDetail ? '/cars' : null" (click)="isInDetail ? goBack() : null">
+<div [routerLink]="isInDetail ? '/cars' : null" (click)="isInDetail ? goBack() : null" [ngClass]="{'clickable':isInDetail}">
   <i class="fas" [ngClass]="{'fa-angle-left':isInDetail, 'fa-wrench':!isInDetail}"></i>
 </div>
 <div class="title">

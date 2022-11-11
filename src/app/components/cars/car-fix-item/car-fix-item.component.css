@@ -34,6 +34,7 @@ td {
   border-radius: 0.3em;
   padding: 0.2em;
   cursor: pointer;
+  min-width: 1.5em;
 }
 
 .clickable:hover {
