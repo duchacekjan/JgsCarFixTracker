@@ -13,8 +13,9 @@ import {FixAction, FixActionEvent} from "../../../models/events/FixActionEvent";
 export class CarDetailComponent implements OnInit {
 
   car: Car = new Car();
-  isNew: boolean = false;
-  editedFixId: number = -1;
+  isNew = false;
+  isEditing = false;
+  editedFixId = -1;
   private carKey: string | null = null;
   private requestedEditFixId: number | null = null;
 
@@ -32,6 +33,7 @@ export class CarDetailComponent implements OnInit {
   getCar(): void {
     const id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
     this.isNew = id === 'new'
+    this.isEditing = this.isNew;
     if (this.isNew) {
       this.car = new Car();
     } else {
@@ -47,21 +49,26 @@ export class CarDetailComponent implements OnInit {
     }
   }
 
-  save(car: Car): void {
-    this.carsService.upsert(car)
-      .then(key => {
-        if (this.carKey === key) {
-          this.getCar();
-          window.alert('Saved');
-        } else {
-          this.carKey = key;
-          this.router.navigate([`/cars/detail/${this.carKey}`], {replaceUrl: true})
-            .then(() => {
-              this.getCar();
-            });
-        }
-      })
-      .catch(err => console.log(err));
+  edit(){
+    this.isEditing = true;
+  }
+
+  save(): void {
+    if (this.car.licencePlate.length > 7) {
+      this.carsService.upsert(this.car)
+        .then(key => {
+          if (this.carKey === key) {
+            this.getCar();
+          } else {
+            this.carKey = key;
+            this.router.navigate([`/cars/detail/${this.carKey}`], {replaceUrl: true})
+              .then(() => {
+                this.getCar();
+              });
+          }
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   onFixAction(actionEvent: FixActionEvent) {

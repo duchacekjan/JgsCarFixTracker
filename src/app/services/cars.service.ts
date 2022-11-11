@@ -26,8 +26,22 @@ export class CarsService {
   }
 
   private reMap(dbCar: DatabaseSnapshot<Car>): Car {
-    let result = dbCar.val() as Car;
-    const fixes = result.fixes ?? [];
+    const data = dbCar.val();
+    if (!data) {
+      throw new Error('null');
+    }
+    let result = new Car();
+    result.key = dbCar.key;
+    if (data.brand) {
+      result.brand = data.brand;
+    }
+    if (data.model) {
+      result.model = data.model;
+    }
+    if (data.licencePlate) {
+      result.licencePlate = data.licencePlate;
+    }
+    const fixes = data.fixes ?? [];
     result.fixes = fixes.sort((a, b) => {
       if (a.mileage < b.mileage) {
         return -1;
@@ -46,6 +60,7 @@ export class CarsService {
 
   upsert(car: Car): Promise<string> {
     return new Promise((resolve, reject) => {
+      console.log(`CarKey = ${car.key}`)
       if (car.key) {
         console.log(car);
         this.update(car)

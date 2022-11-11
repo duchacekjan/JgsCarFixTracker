@@ -1,12 +1,14 @@
 {
   "rules": {
-    "users":{
-      ".indexOn":["uid"],
+    "users": {
+      ".indexOn": [
+        "uid"
+      ],
       ".write": "auth !== null",
       ".read": "auth !== null"
     },
-    "items":{
-      "$uid":{
+    "items": {
+      "$uid": {
         ".write": "$uid === auth.uid||!data.exists() || !newData.exists()",
         ".read": "$uid === auth.uid"
       }

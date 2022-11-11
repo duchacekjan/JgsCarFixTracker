@@ -24,7 +24,7 @@
   color: gray;
 }
 
-.clickable {
+.icon-big{
   width: 2em;
   height: 2em;
   font-size: 1.5em;
@@ -32,6 +32,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 0.3em;
+}
+
+.clickable {
   cursor: pointer;
 }
 
