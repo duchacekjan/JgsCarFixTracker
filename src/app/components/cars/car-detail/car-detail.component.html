@@ -1,15 +1,27 @@
 <div class="container">
-  <div class="row">
-    <h2 class="col-6">CAR detail</h2>
-    <div class="col-6" *ngIf="!isNew">
-      <h3>{{car.licencePlate}}</h3>
+  <div class="row d-flex align-items-center">
+    <div class="col-2 car-licence-plate label" *ngIf="!isNew">SPZ</div>
+    <div class="col-9 car-licence-plate" *ngIf="!isNew">
+      {{car.licencePlate}}
     </div>
-    <div *ngIf="isNew" class="col-12 col-md-6 d-flex flex-column">
+    <div *ngIf="isNew" class="col-6 d-flex flex-column">
       <label for="name">Licence plate: </label>
-      <input id="name" [(ngModel)]="car.licencePlate" placeholder="licence plate"
+      <input id="name" [(ngModel)]="car.licencePlate" placeholder="licence plate" minlength="7"
              (ngModelChange)="car.licencePlate = $event.toUpperCase()">
     </div>
+    <div class="col-1 icon-button-container d-flex flex-row" [ngClass]="{'offset-5':isNew}">
+      <div class="icon-button delete" (click)="remove()">
+        <i class="fas fa-minus"></i>
+      </div>
+      <div *ngIf="isEditing" class="icon-button" (click)="save()">
+        <i class="fas fa-save"></i>
+      </div>
+      <div *ngIf="!isEditing" class="icon-button edit" (click)="save()">
+        <i class="fas fa-pen"></i>
+      </div>
+    </div>
   </div>
+
   <div class="row">
     <div class="col-12 col-md-6 d-flex flex-column">
       <label for="brand">Brand: </label>
@@ -21,14 +33,7 @@
     </div>
   </div>
   <div class="row">
-    <app-car-fix-list [fixes]="car.fixes" [editedIndex]="editedIndex" (saveFix)="saveFix($event)" (editFix)="editFix($event)"></app-car-fix-list>
+    <app-car-fix-list [fixes]="car.fixes" [editedFixId]="editedFixId"
+                      (fixAction)="onFixAction($event)"></app-car-fix-list>
   </div>
-</div>
-<div class="footer">
-  <button type="button" class="iconButton" (click)="goBack()" style="margin-left: 0">
-    <i class="fas fa-angle-left"></i>
-  </button>
-  <button type="button" class="iconButton" (click)="save(car)">
-    <i class="fas fa-save"></i> Save
-  </button>
 </div>

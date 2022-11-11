@@ -10,24 +10,48 @@ import {UsersService} from './users.service';
 export class CarsService {
 
   private dbPath = '/cars';
-  private carsRef: AngularFireList<Car>
+  private readonly carsRef: AngularFireList<Car>
 
   constructor(private db: AngularFireDatabase, private userService: UsersService) {
     const path = this.userService.buildDbPath(this.dbPath);
     this.carsRef = this.db.list(path);
   }
 
-  getCar(key: string): Observable<Car> {
+  getCar(key: string): Observable<Car | null> {
     const path = this.userService.buildDbPath(this.dbPath, key);
     return this.db.object<Car>(path)
       .snapshotChanges().pipe(
-        map(changes =>
-          ({key: changes.payload.key, ...this.reMap(changes.payload)})));
+        map(changes => {
+          return (this.reMap(changes.payload));
+        }));
   }
 
-  private reMap(dbCar: DatabaseSnapshot<Car>): Car {
-    let result = dbCar.val() as Car;
-    result.fixes = result.fixes ?? [];
+  private reMap(dbCar: DatabaseSnapshot<Car>): Car | null {
+    const data = dbCar.val();
+    if (!data) {
+      return null;
+    }
+    let result = new Car();
+    result.key = dbCar.key;
+    if (data.brand) {
+      result.brand = data.brand;
+    }
+    if (data.model) {
+      result.model = data.model;
+    }
+    if (data.licencePlate) {
+      result.licencePlate = data.licencePlate;
+    }
+    const fixes = data.fixes ?? [];
+    result.fixes = fixes.sort((a, b) => {
+      if (a.mileage < b.mileage) {
+        return -1;
+      }
+      if (a.mileage > b.mileage) {
+        return 1;
+      }
+      return 0;
+    });
     return result;
   }
 
@@ -35,8 +59,21 @@ export class CarsService {
     return this.carsRef;
   }
 
+  remove(car: Car): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      if (car.key) {
+        this.carsRef.remove(car.key)
+          .then(() => resolve())
+          .catch(err => reject(err));
+      } else {
+      }
+      reject();
+    });
+  }
+
   upsert(car: Car): Promise<string> {
     return new Promise((resolve, reject) => {
+      console.log(`CarKey = ${car.key}`)
       if (car.key) {
         console.log(car);
         this.update(car)

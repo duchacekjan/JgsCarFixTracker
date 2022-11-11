@@ -1,29 +1,12 @@
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
 
-body {
-  display: flex;
-  flex-direction: column;
-  font-family: 'Roboto', sans-serif;
-}
-
-body, html {
-  padding: 0;
-  margin: 0;
+html, body {
   height: 100%;
 }
 
-.footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background: wheat;
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   display: flex;
-  flex-direction: row;
-}
-
-.iconButton {
-  min-width: 4em;
-  padding: 0.5em 1em;
-  margin-left: 0.5em;
+  flex-direction: column;
 }

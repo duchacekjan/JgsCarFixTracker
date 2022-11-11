@@ -1,17 +1,26 @@
 <div class="d-flex flex-row justify-content-between car-fix-header">
   <div>Fixes:</div>
-  <i class="fas fa-plus add-fix" (click)="onAddNew()"></i>
+  <app-icon-button (click)="onAddNew()">
+    <i class="fas fa-plus"></i>
+  </app-icon-button>
 </div>
 
-<table>
-  <tr>
-    <th class="col-4 col-md-2">Date</th>
-    <th class="col-4 col-md-2">Mileage</th>
-    <th class="col-3 col-md-7">Description</th>
-    <th class="col-1 col-md-1">Action</th>
+<table class="table">
+  <thead>
+  <tr class="d-md-table-row d-none">
+    <th class="col-md-2">Date</th>
+    <th class="col-md-2">Mileage</th>
+    <th class="col-md-7 th-description">Description</th>
+    <th class="col-md-1 th-actions">Actions</th>
   </tr>
-  <tr *ngFor="let fix of fixes; index as i" app-car-fix-item
-      [fix]="fix" [fixIndex]="i" [editedIndex]="editedIndex"
-      (editFix)="onEditFixItem($event)"
-      (saveFix)="onSaveFixItem($event)"></tr>
+  <tr class="d-sm-table-row d-md-none">
+    <th class="col-4">Mileage</th>
+    <th class="col-6 th-description">Description</th>
+    <th class="col-2 th-actions">Actions</th>
+  </tr>
+  </thead>
+
+  <tr *ngFor="let fix of fixes" app-car-fix-item
+      [fix]="fix" [editedFixId]="editedFixId"
+      (action)="onFixItemAction($event)"></tr>
 </table>

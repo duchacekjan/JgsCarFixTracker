@@ -1,19 +1,43 @@
 :host {
   display: flex;
   flex-direction: row;
+  flex-grow: 0;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .title {
-  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+}
+
+.title .caption {
+  font-size: 1.5em;
   padding-left: 0.5em;
+  margin-right: 1em;
 }
 
-.no-flex {
-  flex-grow: 0;
-  font-size: 2em;
-  max-height: 2em;
+.title .version {
+  font-size: 1em;
+  color: gray;
 }
 
-.nav-link{
+.icon-big{
+  width: 2em;
+  height: 2em;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3em;
+}
+
+.clickable {
   cursor: pointer;
+}
+
+.clickable:hover {
+  background: lightgray;
 }

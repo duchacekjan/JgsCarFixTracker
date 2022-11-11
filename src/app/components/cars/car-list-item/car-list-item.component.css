@@ -11,6 +11,7 @@
   padding-right: 1em;
   flex-grow: 0;
   margin-bottom: 0.5em;
+  min-height: 4em;
 }
 
 .bordered-item:hover{
@@ -30,24 +31,4 @@
 
 .car-model {
   margin-left: 0.5em;
-}
-
-.mobile {
-  display: none;
-  min-height: 5em;
-}
-
-.desktop {
-  display: flex;
-}
-
-@media (max-width: 800px) {
-
-  .mobile {
-    display: flex;
-  }
-
-  .desktop {
-    display: none;
-  }
 }

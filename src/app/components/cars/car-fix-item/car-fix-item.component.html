@@ -1,19 +1,26 @@
 <ng-container *ngIf="!isEdited">
-  <td>
+  <td class="d-none d-md-table-cell">
     <span>{{fix.lastUpdate | date:'dd.MM.yyyy'}}</span>
   </td>
   <td>
     <span>{{fix.mileage | number: '1.0'}} km</span>
   </td>
   <td>
-    <div class="text-ellipsis">{{fix.description}}</div>
+    <span class="long-text">{{fix.description}}</span>
   </td>
-  <td class="fix-action-column">
-    <i class="fas fa-edit" (click)="onEdit()"></i>
+  <td>
+    <div class="fix-action-column">
+      <app-icon-button (click)="onRemove()">
+        <i class="fas fa-minus cancel"></i>
+      </app-icon-button>
+      <app-icon-button (click)="onEdit()">
+        <i class="fas fa-pen edit"></i>
+      </app-icon-button>
+    </div>
   </td>
 </ng-container>
 <ng-container *ngIf="isEdited">
-  <td class="td-vertical-top">
+  <td class="td-vertical-top d-none d-md-table-cell">
     <span>{{fix.lastUpdate | date:'dd.MM.yyyy'}}</span>
   </td>
   <td class="td-vertical-top">
@@ -22,8 +29,14 @@
   <td class="td-vertical-top">
     <textarea [(ngModel)]="description" placeholder="description" type="text" class="full-width-input text-area-margin"></textarea>
   </td>
-  <td class="fix-action-column td-vertical-top">
-    <i class="fas fa-ban cancel" (click)="onCancel()"></i>
-    <i class="fas fa-save" (click)="onSave()"></i>
+  <td>
+    <div class="fix-action-column">
+      <app-icon-button (click)="onCancel()">
+        <i class="fas fa-ban cancel"></i>
+      </app-icon-button>
+      <app-icon-button (click)="onSave()">
+        <i class="fas fa-save"></i>
+      </app-icon-button>
+    </div>
   </td>
 </ng-container>

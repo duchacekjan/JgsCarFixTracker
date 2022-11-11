@@ -14,6 +14,7 @@ import {LayoutModule} from './layout/layout.module';
 import {AuthService} from './services/auth.service';
 import {registerLocaleData} from "@angular/common";
 import localeCz from '@angular/common/locales/cs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 registerLocaleData(localeCz);
 
@@ -29,7 +30,8 @@ registerLocaleData(localeCz);
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     RouterModule.forRoot([]),
-    LayoutModule
+    LayoutModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthService, {provide: LOCALE_ID, useValue: 'cs-CZ'}],
   bootstrap: [AppComponent]
