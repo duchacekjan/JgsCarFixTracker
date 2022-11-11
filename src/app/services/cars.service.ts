@@ -10,7 +10,7 @@ import {UsersService} from './users.service';
 export class CarsService {
 
   private dbPath = '/cars';
-  private carsRef: AngularFireList<Car>
+  private readonly carsRef: AngularFireList<Car>
 
   constructor(private db: AngularFireDatabase, private userService: UsersService) {
     const path = this.userService.buildDbPath(this.dbPath);
@@ -27,7 +27,16 @@ export class CarsService {
 
   private reMap(dbCar: DatabaseSnapshot<Car>): Car {
     let result = dbCar.val() as Car;
-    result.fixes = result.fixes ?? [];
+    const fixes = result.fixes ?? [];
+    result.fixes = fixes.sort((a, b) => {
+      if (a.mileage < b.mileage) {
+        return -1;
+      }
+      if (a.mileage > b.mileage) {
+        return 1;
+      }
+      return 0;
+    });
     return result;
   }
 

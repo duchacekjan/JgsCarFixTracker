@@ -6,7 +6,7 @@
     <span>{{fix.mileage | number: '1.0'}} km</span>
   </td>
   <td>
-    <div class="text-ellipsis">{{fix.description}}</div>
+    <span class="long-text">{{fix.description}}</span>
   </td>
   <td>
     <div class="fix-action-column">
@@ -14,7 +14,7 @@
         <i class="fas fa-minus cancel"></i>
       </app-icon-button>
       <app-icon-button (click)="onEdit()">
-        <i class="fas fa-edit"></i>
+        <i class="fas fa-pen edit"></i>
       </app-icon-button>
     </div>
   </td>

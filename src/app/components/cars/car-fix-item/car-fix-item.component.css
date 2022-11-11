@@ -19,15 +19,17 @@ td {
 
 }
 
-.text-ellipsis {
-  max-height: 1.5em;
-  text-overflow: ellipsis;
-  overflow: auto;
+.long-text {
+  white-space: break-spaces;
 }
 
 .cancel {
   color: red;
   margin-right: 0.2em;
+}
+
+.edit {
+  color: cornflowerblue;
 }
 
 .fix-action-column {

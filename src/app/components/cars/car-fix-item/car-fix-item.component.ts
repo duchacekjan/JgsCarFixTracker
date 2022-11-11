@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Fix} from "../../../models/fix";
+import {FixAction, FixActionEvent} from "../../../models/events/FixActionEvent";
 
 @Component({
   selector: '[app-car-fix-item]',
@@ -9,19 +10,12 @@ import {Fix} from "../../../models/fix";
 export class CarFixItemComponent implements OnInit {
 
   @Input()
-  fix: Fix = {
-    mileage: 0,
-    lastUpdate: new Date(),
-    description: ''
-  }
+  fix: Fix = new Fix();
   @Input()
-  editedIndex: number = -1;
-  @Input()
-  fixIndex: number = -1;
+  editedFixId: number = -1;
   @Output()
-  editFix = new EventEmitter<Fix>()
-  @Output()
-  saveFix = new EventEmitter<Fix | null>()
+  action = new EventEmitter<FixActionEvent>();
+
   mileage: number = 0;
   description: string = '';
   isEdited: boolean = false;
@@ -33,29 +27,29 @@ export class CarFixItemComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['editedIndex'] || changes['fixIndex']) {
+    if (changes['editedFixId']) {
       this.updateEditedProperties();
     }
   }
 
   onEdit() {
-    this.editFix.emit(this.fix);
+    this.invokeAction(FixAction.Edit);
   }
 
-  onRemove(){
-    this.editFix.emit(this.fix);
+  onRemove() {
+    this.invokeAction(FixAction.Remove);
   }
 
   onSave() {
     this.fix.description = this.description;
     this.fix.mileage = this.mileage;
-    this.saveFix.emit(this.fix);
+    this.invokeAction(FixAction.Save);
     this.clearEditValues();
   }
 
   onCancel() {
+    this.invokeAction(FixAction.Cancel);
     this.clearEditValues();
-    this.saveFix.emit(null);
   }
 
   private clearEditValues() {
@@ -64,7 +58,7 @@ export class CarFixItemComponent implements OnInit {
   }
 
   private updateEditedProperties() {
-    if (this.editedIndex > -1 && this.fixIndex == this.editedIndex) {
+    if (this.editedFixId === this.fix.id) {
       this.mileage = this.fix.mileage;
       this.description = this.fix.description;
       this.isEdited = true;
@@ -72,5 +66,12 @@ export class CarFixItemComponent implements OnInit {
       this.isEdited = false;
       this.clearEditValues();
     }
+  }
+
+  private invokeAction(action: FixAction) {
+    this.action.emit({
+      fix: this.fix,
+      action: action
+    });
   }
 }
