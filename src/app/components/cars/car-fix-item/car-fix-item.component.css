@@ -30,17 +30,6 @@ td {
   margin-right: 0.2em;
 }
 
-.clickable {
-  border-radius: 0.3em;
-  padding: 0.2em;
-  cursor: pointer;
-  min-width: 1.5em;
-}
-
-.clickable:hover {
-  background: lightgray;
-}
-
 .fix-action-column {
   display: flex;
   align-content: center;

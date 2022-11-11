@@ -10,12 +10,12 @@
   </td>
   <td>
     <div class="fix-action-column">
+      <app-icon-button (click)="onRemove()">
+        <i class="fas fa-minus cancel"></i>
+      </app-icon-button>
       <app-icon-button (click)="onEdit()">
         <i class="fas fa-edit"></i>
       </app-icon-button>
-      <!--      <div class="clickable" (click)="onEdit()">-->
-      <!--        <i class="fas fa-edit"></i>-->
-      <!--      </div>-->
     </div>
   </td>
 </ng-container>

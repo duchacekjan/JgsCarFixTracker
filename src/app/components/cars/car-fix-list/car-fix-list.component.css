@@ -9,18 +9,6 @@ th {
   border-bottom: 2px solid #ddd;
 }
 
-.add-fix {
-  border-radius: 0.3em;
-  padding: 0.3em;
-  vertical-align: center;
-  align-items: center;
-  display: flex;
-}
-
-.add-fix:hover {
-  background: lightgray;
-}
-
 .car-fix-header {
   margin: 0.5em 0;
 }

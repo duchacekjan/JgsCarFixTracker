@@ -42,6 +42,10 @@ export class CarFixItemComponent implements OnInit {
     this.editFix.emit(this.fix);
   }
 
+  onRemove(){
+    this.editFix.emit(this.fix);
+  }
+
   onSave() {
     this.fix.description = this.description;
     this.fix.mileage = this.mileage;

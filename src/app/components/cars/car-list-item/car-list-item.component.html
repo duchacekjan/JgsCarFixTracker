@@ -1,14 +1,8 @@
 <section *ngIf="car" (click)="onComponentClick()">
-  <div class="bordered-item mobile">
-    <i class="fas fa-car item-icon"></i>
-    <span class="licence-plate">{{car.licencePlate}}</span>
-    <span> {{car.brand}}</span>
-  </div>
-
   <div class="bordered-item desktop">
     <i class="fas fa-car item-icon"></i>
     <span class="licence-plate">{{car.licencePlate}}</span>
     <span> {{car.brand}}</span>
-    <span class="car-model"> {{car.model}}</span>
+    <span class="car-model d-md-inline d-none"> {{car.model}}</span>
   </div>
 </section>

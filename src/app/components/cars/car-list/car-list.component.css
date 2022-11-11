@@ -2,19 +2,8 @@
   width: 100%;
 }
 
-.nav-link {
-  padding-left: 1em;
-  cursor: pointer;
-}
-
 .carItem{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-
-/*@media(max-width: 800px) {*/
-/*  :host{*/
-/*    width: 100%;*/
-/*  }*/
-/*}*/
