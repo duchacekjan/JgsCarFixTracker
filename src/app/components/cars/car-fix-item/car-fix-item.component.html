@@ -10,9 +10,12 @@
   </td>
   <td>
     <div class="fix-action-column">
-      <div class="clickable" (click)="onEdit()">
+      <app-icon-button (click)="onEdit()">
         <i class="fas fa-edit"></i>
-      </div>
+      </app-icon-button>
+      <!--      <div class="clickable" (click)="onEdit()">-->
+      <!--        <i class="fas fa-edit"></i>-->
+      <!--      </div>-->
     </div>
   </td>
 </ng-container>
@@ -28,12 +31,12 @@
   </td>
   <td>
     <div class="fix-action-column">
-      <div class="clickable" (click)="onCancel()">
+      <app-icon-button (click)="onCancel()">
         <i class="fas fa-ban cancel"></i>
-      </div>
-      <div class="clickable" (click)="onSave()">
+      </app-icon-button>
+      <app-icon-button (click)="onSave()">
         <i class="fas fa-save"></i>
-      </div>
+      </app-icon-button>
     </div>
   </td>
 </ng-container>
