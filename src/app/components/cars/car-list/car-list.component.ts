@@ -14,6 +14,7 @@ import {Observable} from "rxjs";
 export class CarListComponent implements OnInit {
 
   cars: Observable<Car[]>;
+  searchText: string = '';
 
   constructor(private carsService: CarsService, private router: Router) {
     this.cars = this.carsService.getCars();

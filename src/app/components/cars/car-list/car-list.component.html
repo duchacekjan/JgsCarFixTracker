@@ -1,11 +1,17 @@
 <div class="container">
   <div class="row search-panel">
-    <div class="icon-button col-1 offset-11" (click)="addNew()">
+    <div class="form-group col-11">
+      <label for="search-text">Search licence plate</label>
+      <input type="text" class="form-control" id="search-text" aria-describedby="search-text"
+             [(ngModel)]="searchText" placeholder="Enter part of licence plate"
+             autofocus>
+    </div>
+    <div class="icon-button col-1" (click)="addNew()">
       <i class="fas fa-plus"></i>
     </div>
   </div>
   <div class="row">
-    <app-car-list-item class="col-12 col-md-6 col-lg-4" *ngFor="let car of cars | async" [car]="car" (click)="navigate($event)"></app-car-list-item>
+    <app-car-list-item class="col-12 col-md-6 col-lg-4" *ngFor="let car of cars | carFilter:searchText | async" [car]="car" (click)="navigate($event)"></app-car-list-item>
   </div>
 </div>
 
