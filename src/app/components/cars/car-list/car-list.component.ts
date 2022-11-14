@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {Car} from 'src/app/models/car';
 import {CarsService} from 'src/app/services/cars.service';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-car-list',
@@ -12,23 +13,16 @@ import {CarsService} from 'src/app/services/cars.service';
 
 export class CarListComponent implements OnInit {
 
-  cars?: Car[] = [];
+  cars: Observable<Car[]>;
 
   constructor(private carsService: CarsService, private router: Router) {
+    this.cars = this.carsService.getCars();
   }
 
   ngOnInit(): void {
-    this.retrieveCars();
   }
 
   retrieveCars(): void {
-    this.carsService.getCars().snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c =>
-          ({key: c.payload.key, ...c.payload.val() as Car})))
-    ).subscribe(data => {
-      this.cars = data
-    });
   }
 
   addNew(): void {

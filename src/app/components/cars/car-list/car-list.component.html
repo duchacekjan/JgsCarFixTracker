@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="row">
-    <app-car-list-item class="col-12 col-md-6 col-lg-4" *ngFor="let car of cars" [car]="car" (click)="navigate($event)"></app-car-list-item>
+    <app-car-list-item class="col-12 col-md-6 col-lg-4" *ngFor="let car of cars | async" [car]="car" (click)="navigate($event)"></app-car-list-item>
   </div>
 </div>
 
