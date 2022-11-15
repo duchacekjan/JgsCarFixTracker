@@ -4,6 +4,7 @@
       <label for="search-text">Search licence plate</label>
       <input type="text" class="form-control" id="search-text" aria-describedby="search-text"
              [(ngModel)]="searchText" placeholder="Enter part of licence plate"
+             (ngModelChange)="onSearchInputChanged($event)"
              autofocus>
     </div>
     <div class="icon-button col-1" (click)="addNew()">
@@ -11,7 +12,7 @@
     </div>
   </div>
   <div class="row">
-    <app-car-list-item class="col-12 col-md-6 col-lg-4" *ngFor="let car of cars | carFilter:searchText | async" [car]="car" (click)="navigate($event)"></app-car-list-item>
+    <app-car-list-item class="col-12 col-md-6 col-lg-4" *ngFor="let car of cars" [car]="car" (click)="navigate($event)"></app-car-list-item>
   </div>
 </div>
 

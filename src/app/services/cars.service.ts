@@ -66,6 +66,16 @@ export class CarsService {
       );
   }
 
+  search(searchText?: string): Observable<Car[]> {
+    if (searchText) {
+      searchText = searchText.toLocaleLowerCase();
+    } else {
+      searchText = '';
+    }
+    return this.getCars().pipe(
+      map((items: Car[]) => items.filter((item: Car) => item.licencePlate.toLocaleLowerCase().includes(searchText!))));
+  }
+
   remove(car: Car): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       if (car.key) {

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {map} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
 import {Car} from 'src/app/models/car';
 import {CarsService} from 'src/app/services/cars.service';
-import {Observable} from "rxjs";
+import {Subject, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-car-list',
@@ -13,17 +13,23 @@ import {Observable} from "rxjs";
 
 export class CarListComponent implements OnInit {
 
-  cars: Observable<Car[]>;
+  cars: Car[] = [];
   searchText: string = '';
+  private searchedText = new Subject<string>();
+  private searchSubscription = new Subscription();
 
   constructor(private carsService: CarsService, private router: Router) {
-    this.cars = this.carsService.getCars();
   }
 
   ngOnInit(): void {
+    this.searchSubscription = this.searchedText.pipe(
+      debounceTime(300),
+      switchMap((searchQuery: string) => this.carsService.search(searchQuery)))
+      .subscribe((results) => (this.cars = results));
   }
 
-  retrieveCars(): void {
+  ngOnDestroy(): void {
+    this.searchSubscription.unsubscribe();
   }
 
   addNew(): void {
@@ -38,5 +44,9 @@ export class CarListComponent implements OnInit {
 
   private redirectToCarDetail(carKey: string = 'new') {
     this.router.navigate([`/cars/detail/${carKey}`]);
+  }
+
+  onSearchInputChanged(input: string) {
+    this.searchedText.next(input);
   }
 }

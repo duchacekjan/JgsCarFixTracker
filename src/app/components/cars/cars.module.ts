@@ -8,7 +8,6 @@ import {CarListItemComponent} from './car-list-item/car-list-item.component';
 import {CarFixListComponent} from './car-fix-list/car-fix-list.component';
 import {CarFixItemComponent} from './car-fix-item/car-fix-item.component';
 import {IconButtonComponent} from './icon-button/icon-button.component';
-import {CarFilterPipe} from "./car.filter.pipe";
 
 @NgModule({
   imports: [
@@ -16,7 +15,7 @@ import {CarFilterPipe} from "./car.filter.pipe";
     CarsRoutingModule,
     FormsModule
   ],
-  declarations: [CarListComponent, CarDetailComponent, CarListItemComponent, CarFixListComponent, CarFixItemComponent, IconButtonComponent, CarFilterPipe]
+  declarations: [CarListComponent, CarDetailComponent, CarListItemComponent, CarFixListComponent, CarFixItemComponent, IconButtonComponent]
 })
 export class CarsModule {
 }
