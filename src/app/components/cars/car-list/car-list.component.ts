@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {debounceTime, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Car} from 'src/app/models/car';
 import {CarsService} from 'src/app/services/cars.service';
 import {Subject, Subscription} from "rxjs";
@@ -24,8 +24,11 @@ export class CarListComponent implements OnInit {
   ngOnInit(): void {
     this.searchSubscription = this.searchedText.pipe(
       debounceTime(300),
+      distinctUntilChanged(),
       switchMap((searchQuery: string) => this.carsService.search(searchQuery)))
       .subscribe((results) => (this.cars = results));
+
+    this.searchedText.next('');
   }
 
   ngOnDestroy(): void {

@@ -1,12 +1,12 @@
 <div class="container">
   <div class="row search-panel">
-    <div class="form-group col-11">
-      <label for="search-text">Search licence plate</label>
-      <input type="text" class="form-control" id="search-text" aria-describedby="search-text"
+    <mat-form-field class="col-11">
+      <input matInput type="text" id="search-text" aria-describedby="search-text"
              [(ngModel)]="searchText" placeholder="Enter part of licence plate"
              (ngModelChange)="onSearchInputChanged($event)"
              autofocus>
-    </div>
+      <span matSuffix><i class="fas fa-search"></i></span>
+    </mat-form-field>
     <div class="icon-button col-1" (click)="addNew()">
       <i class="fas fa-plus"></i>
     </div>
