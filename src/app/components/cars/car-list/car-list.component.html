@@ -5,10 +5,12 @@
              [(ngModel)]="searchText" placeholder="Enter part of licence plate"
              (ngModelChange)="onSearchInputChanged($event)"
              autofocus>
-      <span matSuffix><i class="fas fa-search"></i></span>
+      <span matPrefix style="padding-right: 0.3em"><i class="fas fa-search"></i></span>
     </mat-form-field>
-    <div class="icon-button col-1" (click)="addNew()">
-      <i class="fas fa-plus"></i>
+    <div class="col-1 actions">
+      <div class="icon-button" (click)="addNew()">
+        <i class="fas fa-plus"></i>
+      </div>
     </div>
   </div>
   <div class="row">
