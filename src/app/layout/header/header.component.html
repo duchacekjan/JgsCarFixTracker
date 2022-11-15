@@ -1,5 +1,5 @@
-<div class="icon-big" [routerLink]="isInDetail ? '/cars' : null" (click)="isInDetail ? goBack() : null" [ngClass]="{'clickable':isInDetail}">
-  <i class="fas" [ngClass]="{'fa-angle-left':isInDetail, 'fa-wrench':!isInDetail}"></i>
+<div *ngIf="isInDetail" class="icon-big clickable" [routerLink]="'/cars'" (click)="goBack()">
+  <i class="fas fa-angle-left"></i>
 </div>
 <div class="title">
   <div class="caption">Car fix tracker</div>
