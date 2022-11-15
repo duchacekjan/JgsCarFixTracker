@@ -24,7 +24,7 @@ export class SignInComponent implements OnInit {
   }
 
   onSignIn() {
-    if (!this.signInForm.invalid) {
+    if (this.signInForm.valid) {
       const value = this.signInForm.value;
       this.authService.signIn(value.email ?? '', value.password ?? '', this.autoLogin).catch();
       this.signInForm.reset();
