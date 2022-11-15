@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList, DatabaseSnapshot} from '@angular/fire/compat/database';
-import {map, Observable} from 'rxjs';
+import {filter, map, Observable} from 'rxjs';
 import {Car} from '../models/car';
 import {UsersService} from './users.service';
 
@@ -55,8 +55,25 @@ export class CarsService {
     return result;
   }
 
-  getCars(): AngularFireList<Car> {
-    return this.carsRef;
+  getCars(): Observable<Car[]> {
+    return this.carsRef.snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c =>
+          (this.reMap(c.payload) ?? new Car())))
+    )
+      .pipe(
+        map((items: Car[]) => items.filter((item: Car) => item.licencePlate !== ''))
+      );
+  }
+
+  search(searchText?: string): Observable<Car[]> {
+    if (searchText) {
+      searchText = searchText.toLocaleLowerCase();
+    } else {
+      searchText = '';
+    }
+    return this.getCars().pipe(
+      map((items: Car[]) => items.filter((item: Car) => item.licencePlate.toLocaleLowerCase().includes(searchText!))));
   }
 
   remove(car: Car): Promise<void> {
