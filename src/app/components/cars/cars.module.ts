@@ -10,6 +10,7 @@ import {CarFixItemComponent} from './car-fix-item/car-fix-item.component';
 import {IconButtonComponent} from './icon-button/icon-button.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {MatInputModule} from "@angular/material/input";
     CarsRoutingModule,
     FormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatTableModule
   ],
   declarations: [CarListComponent, CarDetailComponent, CarListItemComponent, CarFixListComponent, CarFixItemComponent, IconButtonComponent]
 })
