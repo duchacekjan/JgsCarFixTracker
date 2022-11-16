@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, of, Subject} from "rxjs";
+import {Subject} from "rxjs";
 import {TopBarAction} from "../models/TopBarAction";
 
 @Injectable({
@@ -7,23 +7,27 @@ import {TopBarAction} from "../models/TopBarAction";
 })
 export class TopBarActionsService {
 
-  isBackActionVisible = new Subject<boolean>()
+  backAction = new Subject<TopBarAction | null>()
   actions = new Subject<TopBarAction[]>;
   private internalActions: TopBarAction[] = [];
+  private internalBackAction = new TopBarAction('arrow_back');
 
   clear() {
     this.internalActions = [];
-    this.isBackActionVisible.next(false);
+    this.backAction.next(null);
     this.updateActions();
   }
 
-  add(action: any) {
+  add(action: TopBarAction) {
     this.internalActions.push(action);
     this.updateActions();
   }
 
-  showBackAction() {
-    this.isBackActionVisible.next(true);
+  showBackAction(backRoute: string | null = null) {
+    this.internalBackAction.route = backRoute
+      ? backRoute
+      : '/cars';
+    this.backAction.next(this.internalBackAction);
   }
 
   private updateActions() {

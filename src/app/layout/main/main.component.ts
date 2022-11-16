@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TopBarActionsService} from "../../services/top-bar-actions.service";
 import {AuthService} from "../../services/auth.service";
 import {Subscription} from "rxjs";
-import {Location} from "@angular/common";
+import {TopBarAction} from "../../models/TopBarAction";
 
 @Component({
   selector: 'app-main-layout',
@@ -11,22 +11,23 @@ import {Location} from "@angular/common";
 })
 export class MainComponent implements OnInit, OnDestroy {
 
-  actions: any[] = [];
-  isBackButtonVisible: boolean = false;
+  actions: TopBarAction[] = [];
+  backAction: TopBarAction | null = null;
   private actionsSubscription = new Subscription();
+  private backActionSubscription = new Subscription();
 
   constructor(public authService: AuthService, private actionsService: TopBarActionsService) {
   }
 
   ngOnInit(): void {
     this.actionsSubscription = this.actionsService.actions
-      .subscribe(actions => {
-        this.actions = actions;
-      });
-    this.actionsService.isBackActionVisible.subscribe(s => this.isBackButtonVisible = s);
+      .subscribe(actions => this.actions = actions);
+    this.backActionSubscription = this.actionsService.backAction
+      .subscribe(s => this.backAction = s);
   }
 
   ngOnDestroy(): void {
     this.actionsSubscription.unsubscribe();
+    this.backActionSubscription.unsubscribe();
   }
 }

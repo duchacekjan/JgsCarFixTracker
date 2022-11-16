@@ -1,13 +1,13 @@
 <!--<app-header></app-header>-->
 <mat-toolbar>
-  <button *ngIf="isBackButtonVisible" mat-icon-button routerLink="/cars">
-    <mat-icon>arrow_back</mat-icon>
+  <button *ngIf="backAction" mat-icon-button [routerLink]="backAction.route">
+    <mat-icon>{{backAction.icon}}</mat-icon>
   </button>
   <span>Car fix tracker</span>
   <span class="spacer"></span>
   <span *ngFor="let action of actions">
-    <button mat-icon-button>
-    <mat-icon>{{action}}</mat-icon>
+    <button mat-icon-button [routerLink]="action.route">
+    <mat-icon>{{action.icon}}</mat-icon>
   </button>
   </span>
   <button mat-icon-button (click)="authService.signOut()">

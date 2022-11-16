@@ -4,6 +4,5 @@ export class TopBarAction {
   }
 
   icon: string = '';
-  act: () => void = () => {
-  };
+  route: string = '';
 }
