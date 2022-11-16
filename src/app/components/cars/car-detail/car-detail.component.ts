@@ -5,6 +5,7 @@ import {CarsService} from "../../../services/cars.service";
 import {Fix} from "../../../models/fix";
 import {FixAction, FixActionEvent} from "../../../models/events/FixActionEvent";
 import {TopBarActionsService} from "../../../services/top-bar-actions.service";
+import {TopBarAction} from "../../../models/TopBarAction";
 
 @Component({
   selector: 'app-car-detail',
@@ -19,6 +20,8 @@ export class CarDetailComponent implements OnInit {
   editedFixId = -1;
   private carKey: string | null = null;
   private requestedEditFixId: number | null = null;
+  private editAction = new TopBarAction('edit_document');
+  private removeAction = new TopBarAction('delete');
 
   constructor(
     private route: ActivatedRoute,
@@ -26,8 +29,6 @@ export class CarDetailComponent implements OnInit {
     private router: Router,
     private actionsService: TopBarActionsService
   ) {
-    actionsService.clear();
-    actionsService.showBackAction();
   }
 
   ngOnInit(): void {
@@ -35,11 +36,14 @@ export class CarDetailComponent implements OnInit {
   }
 
   getCar(): void {
+    this.route.queryParamMap.subscribe(s => console.log(`P: ${s.get('action')}`));
     const id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
     this.isNew = id === 'new'
     this.isEditing = this.isNew;
     if (this.isNew) {
       this.car = new Car();
+
+      this.updateActions(id);
     } else {
       this.carsService.getCar(id)
         .subscribe(data => {
@@ -50,6 +54,8 @@ export class CarDetailComponent implements OnInit {
               this.editedFixId = this.requestedEditFixId;
               this.requestedEditFixId = null;
             }
+
+            this.updateActions(id);
           } else {
             this.router.navigate(['/cars']).catch();
           }
@@ -168,5 +174,19 @@ export class CarDetailComponent implements OnInit {
       result = Math.max(...this.car.fixes.map(({mileage}) => mileage ? mileage : 0)) + 1;
     }
     return result;
+  }
+
+  private updateActions(id: string) {
+    this.editAction.route = `/cars/detail/${id}`;
+    this.editAction.queryParams = {'action': 'edit'};
+    this.editAction.color = 'primary';
+
+    this.removeAction.route = `/cars/detail/${id}`;
+    this.removeAction.queryParams = {'action': 'delete'};
+    this.removeAction.color = 'warn';
+
+    this.actionsService.clear();
+    this.actionsService.showBackAction();
+    this.actionsService.add(this.removeAction, this.editAction);
   }
 }

@@ -18,8 +18,9 @@ export class TopBarActionsService {
     this.updateActions();
   }
 
-  add(action: TopBarAction) {
+  add(action: TopBarAction, ...actions: TopBarAction[]) {
     this.internalActions.push(action);
+    actions.forEach(item => this.internalActions.push(item));
     this.updateActions();
   }
 

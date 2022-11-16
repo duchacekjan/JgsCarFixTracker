@@ -5,8 +5,9 @@
   <span>Car fix tracker</span>
   <span class="spacer"></span>
   <ng-container *ngFor="let action of actions">
-    <button mat-icon-button [routerLink]="action.route">
-      <mat-icon>{{action.icon}}</mat-icon>
+    <button mat-icon-button [routerLink]="action.route" queryParamsHandling="merge" [queryParams]="action.queryParams">
+      <mat-icon *ngIf="!action.color">{{action.icon}}</mat-icon>
+      <mat-icon *ngIf="action.color" [color]="action.color">{{action.icon}}</mat-icon>
     </button>
   </ng-container>
   <button mat-icon-button (click)="authService.signOut()">
