@@ -1,11 +1,11 @@
 <div class="container">
   <div class="row search-panel">
-    <mat-form-field class="col-12">
+    <mat-form-field>
+      <mat-icon matPrefix>search</mat-icon>
       <input matInput type="text" id="search-text" aria-describedby="search-text"
              [(ngModel)]="searchText" placeholder="Enter part of licence plate"
              (ngModelChange)="onSearchInputChanged($event)"
              autofocus>
-      <span matPrefix style="padding-right: 0.3em"><i class="fas fa-search"></i></span>
     </mat-form-field>
   </div>
   <div class="row">

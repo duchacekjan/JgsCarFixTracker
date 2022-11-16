@@ -22,7 +22,7 @@ export class CarListComponent implements OnInit {
 
   constructor(private carsService: CarsService, private router: Router, private actionsService: TopBarActionsService) {
     this.actionsService.clear();
-    const addAction = new TopBarAction('add');
+    const addAction = new TopBarAction('add_box');
     addAction.route = '/cars/detail/new';
     this.actionsService.add(addAction);
   }
