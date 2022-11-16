@@ -4,6 +4,7 @@ import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Car} from 'src/app/models/car';
 import {CarsService} from 'src/app/services/cars.service';
 import {Subject, Subscription} from "rxjs";
+import {TopBarActionsService} from "../../../services/top-bar-actions.service";
 
 @Component({
   selector: 'app-car-list',
@@ -18,7 +19,9 @@ export class CarListComponent implements OnInit {
   private searchedText = new Subject<string>();
   private searchSubscription = new Subscription();
 
-  constructor(private carsService: CarsService, private router: Router) {
+  constructor(private carsService: CarsService, private router: Router, private actionsService: TopBarActionsService) {
+    this.actionsService.clear();
+    this.actionsService.add('add');
   }
 
   ngOnInit(): void {

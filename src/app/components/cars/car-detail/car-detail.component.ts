@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CarsService} from "../../../services/cars.service";
 import {Fix} from "../../../models/fix";
 import {FixAction, FixActionEvent} from "../../../models/events/FixActionEvent";
+import {TopBarActionsService} from "../../../services/top-bar-actions.service";
 
 @Component({
   selector: 'app-car-detail',
@@ -22,8 +23,11 @@ export class CarDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
-    private router: Router
+    private router: Router,
+    private actionsService: TopBarActionsService
   ) {
+    actionsService.clear();
+    actionsService.showBackAction();
   }
 
   ngOnInit(): void {

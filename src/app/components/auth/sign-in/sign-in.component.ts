@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from 'src/app/services/auth.service';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
+import {TopBarActionsService} from "../../../services/top-bar-actions.service";
 
 @Component({
   selector: 'app-sign-in',
@@ -17,7 +18,8 @@ export class SignInComponent implements OnInit {
       password: ''
     });
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder) {
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private actionsService: TopBarActionsService) {
+    actionsService.clear();
   }
 
   ngOnInit(): void {
