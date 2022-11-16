@@ -5,11 +5,11 @@
   </button>
   <span>Car fix tracker</span>
   <span class="spacer"></span>
-  <span *ngFor="let action of actions">
+  <ng-container *ngFor="let action of actions">
     <button mat-icon-button [routerLink]="action.route">
-    <mat-icon>{{action.icon}}</mat-icon>
-  </button>
-  </span>
+      <mat-icon>{{action.icon}}</mat-icon>
+    </button>
+  </ng-container>
   <button mat-icon-button (click)="authService.signOut()">
     <mat-icon>logout</mat-icon>
   </button>
