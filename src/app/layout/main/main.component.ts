@@ -12,7 +12,7 @@ import {TopBarAction} from "../../models/TopBarAction";
 export class MainComponent implements OnInit, OnDestroy {
 
   actions: TopBarAction[] = [];
-  backAction: TopBarAction | null = null;
+  backAction = false;
   private actionsSubscription = new Subscription();
   private backActionSubscription = new Subscription();
 

@@ -40,25 +40,20 @@ export class CarDetailComponent implements OnInit {
     const id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
     this.isNew = id === 'new'
     this.isEditing = this.isNew;
-    if (this.isNew) {
-      this.car = new Car();
-      //this.updateActions(id);
-    } else {
-      this.carsService.getCar(id)
-        .subscribe(data => {
-          if (data) {
-            this.car = data;
-            this.carKey = data.key ? data.key : null;
-            if (this.requestedEditFixId != null) {
-              this.editedFixId = this.requestedEditFixId;
-              this.requestedEditFixId = null;
-            }
-            this.updateActions(id);
-          } else {
-            this.router.navigate(['/cars']).catch();
+    this.carsService.getCar(id)
+      .subscribe(data => {
+        if (data && data.key !== undefined) {
+          this.car = data;
+          this.carKey = data.key ? data.key : null;
+          if (this.requestedEditFixId != null) {
+            this.editedFixId = this.requestedEditFixId;
+            this.requestedEditFixId = null;
           }
-        });
-    }
+          this.updateActions(this.carKey);
+        } else {
+          this.router.navigate(['/cars']).catch();
+        }
+      });
   }
 
   remove() {
@@ -174,18 +169,21 @@ export class CarDetailComponent implements OnInit {
     return result;
   }
 
-  private updateActions(id: string) {
+  private updateActions(id: string | null) {
+
+    this.actionsService.clear();
+    this.actionsService.showBackAction();
     this.editAction.route = `/cars/detail/${id}`;
     this.editAction.queryParams = {'action': 'edit'};
     this.editAction.color = 'primary';
+    this.actionsService.add(this.editAction);
 
-    this.removeAction.route = `/cars/detail/${id}`;
-    this.removeAction.queryParams = {'action': 'delete'};
-    this.removeAction.color = 'warn';
-
-    this.actionsService.clear();
-    this.actionsService.setBackActionRoute();
-    this.actionsService.add(this.removeAction, this.editAction);
+    if (!id) {
+      this.removeAction.route = `/cars/detail/${id}`;
+      this.removeAction.queryParams = {'action': 'delete'};
+      this.removeAction.color = 'warn';
+      this.actionsService.add(this.removeAction);
+    }
     this.actionsService.updateActions();
   }
 }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList, DatabaseSnapshot} from '@angular/fire/compat/database';
-import {filter, map, Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {Car} from '../models/car';
 import {UsersService} from './users.service';
 
@@ -17,19 +17,21 @@ export class CarsService {
     this.carsRef = this.db.list(path);
   }
 
-  getCar(key: string): Observable<Car | null> {
+  getCar(key: string): Observable<Car> {
     const path = this.userService.buildDbPath(this.dbPath, key);
     return this.db.object<Car>(path)
       .snapshotChanges().pipe(
         map(changes => {
-          return (this.reMap(changes.payload));
+          return (this.reMap(changes.payload, key));
         }));
   }
 
-  private reMap(dbCar: DatabaseSnapshot<Car>): Car | null {
+  private reMap(dbCar: DatabaseSnapshot<Car>, key: string): Car {
     const data = dbCar.val();
     if (!data) {
-      return null;
+      let temp = new Car();
+      temp.key = key === 'new' ? null : undefined;
+      return temp;
     }
     let result = new Car();
     result.key = dbCar.key;
@@ -59,7 +61,7 @@ export class CarsService {
     return this.carsRef.snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
-          (this.reMap(c.payload) ?? new Car())))
+          (this.reMap(c.payload, 'new'))))
     )
       .pipe(
         map((items: Car[]) => items.filter((item: Car) => item.licencePlate !== ''))

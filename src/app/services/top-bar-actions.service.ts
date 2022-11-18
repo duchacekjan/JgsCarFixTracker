@@ -7,14 +7,14 @@ import {TopBarAction} from "../models/TopBarAction";
 })
 export class TopBarActionsService {
 
-  backAction = new Subject<TopBarAction | null>()
+  backAction = new Subject<boolean>()
   actions = new Subject<TopBarAction[]>;
   private internalActions: TopBarAction[] = [];
-  private backRoute: string | null = null;
+  private isBackActionVisible = false;
 
   clear() {
     this.internalActions = [];
-    this.backRoute = null;
+    this.isBackActionVisible = false;
   }
 
   add(action: TopBarAction, ...actions: TopBarAction[]) {
@@ -22,19 +22,12 @@ export class TopBarActionsService {
     actions.forEach(item => this.internalActions.push(item));
   }
 
-  setBackActionRoute(backRoute: string | null = null) {
-    this.backRoute = backRoute
-      ? backRoute
-      : '/cars';
+  showBackAction() {
+    this.isBackActionVisible = true;
   }
 
   updateActions() {
     this.actions.next(this.internalActions);
-    let action: TopBarAction | null = null;
-    if (this.backRoute != null) {
-      action = new TopBarAction('arrow_back');
-      action.route = this.backRoute
-      this.backAction.next(action);
-    }
+    this.backAction.next(this.isBackActionVisible);
   }
 }
