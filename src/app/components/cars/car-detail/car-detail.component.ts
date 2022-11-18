@@ -173,16 +173,16 @@ export class CarDetailComponent implements OnInit {
 
     this.actionsService.clear();
     this.actionsService.showBackAction();
-    this.editAction.route = `/cars/detail/${id}`;
-    this.editAction.queryParams = {'action': 'edit'};
-    this.editAction.color = 'primary';
-    this.actionsService.add(this.editAction);
 
-    if (!id) {
+    if (id != null) {
+      this.editAction.route = `/cars/detail/${id}`;
+      this.editAction.queryParams = {'action': 'edit'};
+      this.editAction.color = 'primary';
+
       this.removeAction.route = `/cars/detail/${id}`;
       this.removeAction.queryParams = {'action': 'delete'};
       this.removeAction.color = 'warn';
-      this.actionsService.add(this.removeAction);
+      this.actionsService.add(this.removeAction, this.editAction);
     }
     this.actionsService.updateActions();
   }
