@@ -42,8 +42,7 @@ export class CarDetailComponent implements OnInit {
     this.isEditing = this.isNew;
     if (this.isNew) {
       this.car = new Car();
-
-      this.updateActions(id);
+      //this.updateActions(id);
     } else {
       this.carsService.getCar(id)
         .subscribe(data => {
@@ -54,7 +53,6 @@ export class CarDetailComponent implements OnInit {
               this.editedFixId = this.requestedEditFixId;
               this.requestedEditFixId = null;
             }
-
             this.updateActions(id);
           } else {
             this.router.navigate(['/cars']).catch();
@@ -186,7 +184,8 @@ export class CarDetailComponent implements OnInit {
     this.removeAction.color = 'warn';
 
     this.actionsService.clear();
-    this.actionsService.showBackAction();
+    this.actionsService.setBackActionRoute();
     this.actionsService.add(this.removeAction, this.editAction);
+    this.actionsService.updateActions();
   }
 }

@@ -10,28 +10,31 @@ export class TopBarActionsService {
   backAction = new Subject<TopBarAction | null>()
   actions = new Subject<TopBarAction[]>;
   private internalActions: TopBarAction[] = [];
-  private internalBackAction = new TopBarAction('arrow_back');
+  private backRoute: string | null = null;
 
   clear() {
     this.internalActions = [];
-    this.backAction.next(null);
-    this.updateActions();
+    this.backRoute = null;
   }
 
   add(action: TopBarAction, ...actions: TopBarAction[]) {
     this.internalActions.push(action);
     actions.forEach(item => this.internalActions.push(item));
-    this.updateActions();
   }
 
-  showBackAction(backRoute: string | null = null) {
-    this.internalBackAction.route = backRoute
+  setBackActionRoute(backRoute: string | null = null) {
+    this.backRoute = backRoute
       ? backRoute
       : '/cars';
-    this.backAction.next(this.internalBackAction);
   }
 
-  private updateActions() {
+  updateActions() {
     this.actions.next(this.internalActions);
+    let action: TopBarAction | null = null;
+    if (this.backRoute != null) {
+      action = new TopBarAction('arrow_back');
+      action.route = this.backRoute
+      this.backAction.next(action);
+    }
   }
 }

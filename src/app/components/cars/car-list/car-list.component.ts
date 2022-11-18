@@ -25,6 +25,7 @@ export class CarListComponent implements OnInit {
     const addAction = new TopBarAction('add_box');
     addAction.route = '/cars/detail/new';
     this.actionsService.add(addAction);
+    this.actionsService.updateActions();
   }
 
   ngOnInit(): void {

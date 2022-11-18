@@ -20,6 +20,7 @@ export class SignInComponent implements OnInit {
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private actionsService: TopBarActionsService) {
     actionsService.clear();
+    actionsService.updateActions();
   }
 
   ngOnInit(): void {
