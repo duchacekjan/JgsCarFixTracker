@@ -36,7 +36,7 @@ export class CarDetailComponent implements OnInit {
   }
 
   getCar(): void {
-    this.route.queryParamMap.subscribe(s => console.log(`P: ${s.get('action')}`));
+    const action = this.route.snapshot.queryParamMap.get('action');
     const id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
     this.isNew = id === 'new'
     this.isEditing = this.isNew;
