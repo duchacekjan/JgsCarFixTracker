@@ -1,31 +1,17 @@
 <div class="container">
-  <div class="row d-flex align-items-center">
-    <div class="col-10 col-md-6 d-flex flex-column">
-      <label>Licence plate: </label>
-      <span class="car-licence-plate label">{{car.licencePlate}}</span>
-    </div>
-<!--    <div class="col-2 col-md-6 icon-button-container d-flex flex-row-reverse">-->
-<!--      <div *ngIf="isEditing" class="icon-button" (click)="save()">-->
-<!--        <i class="fas fa-save"></i>-->
-<!--      </div>-->
-<!--      <div *ngIf="!isEditing" class="icon-button edit" (click)="save()">-->
-<!--        <i class="fas fa-pen"></i>-->
-<!--      </div>-->
-<!--      <div class="icon-button delete" (click)="remove()">-->
-<!--        <i class="fas fa-minus"></i>-->
-<!--      </div>-->
-<!--    </div>-->
+  <div class="row">
+    <mat-form-field class="col-12 col-md-6 d-flex flex-column">
+      <input matInput type="text" readonly="true" [(ngModel)]="car.licencePlate" name="licence-place" placeholder="Licence plate"/>
+    </mat-form-field>
   </div>
 
   <div class="row">
-    <div class="col-12 col-md-6 d-flex flex-column">
-      <label for="brand">Brand: </label>
-      <input id="brand" [(ngModel)]="car.brand" placeholder="brand">
-    </div>
-    <div class="col-12 col-md-6 d-flex flex-column">
-      <label for="model">Model: </label>
-      <input id="model" [(ngModel)]="car.model" placeholder="model">
-    </div>
+    <mat-form-field class="col-12 col-md-6">
+      <input matInput type="text" readonly="true"  name="brand" [(ngModel)]="car.brand" placeholder="Brand">
+    </mat-form-field>
+    <mat-form-field class="col-12 col-md-6">
+      <input matInput type="text" readonly="true"  name="model" [(ngModel)]="car.model" placeholder="Model">
+    </mat-form-field>
   </div>
   <div class="row">
     <app-car-fix-list [fixes]="car.fixes" [editedFixId]="editedFixId"

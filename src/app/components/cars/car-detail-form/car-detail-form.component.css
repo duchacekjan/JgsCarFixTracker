@@ -1,0 +1,16 @@
+:host {
+  width: 100%;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 1em;
+  padding-right: 1em;
+}
+
+.spacer {
+  flex: 1 1 auto
+}

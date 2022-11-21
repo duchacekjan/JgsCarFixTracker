@@ -6,4 +6,8 @@ export class Car {
     brand: string = '';
     model: string = '';
     fixes: Fix[] = [];
+
+  public constructor(init?: Partial<Car>) {
+    Object.assign(this, init);
+  }
 }

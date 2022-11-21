@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Car} from "../../../models/car";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CarsService} from "../../../services/cars.service";
@@ -6,20 +6,21 @@ import {Fix} from "../../../models/fix";
 import {FixAction, FixActionEvent} from "../../../models/events/FixActionEvent";
 import {TopBarActionsService} from "../../../services/top-bar-actions.service";
 import {TopBarAction} from "../../../models/TopBarAction";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-car-detail',
   templateUrl: './car-detail.component.html',
   styleUrls: ['./car-detail.component.css']
 })
-export class CarDetailComponent implements OnInit {
+export class CarDetailComponent implements OnInit, OnDestroy {
 
   car: Car = new Car();
   editedFixId = -1;
   private carKey: string | null = null;
   private requestedEditFixId: number | null = null;
-  private editAction = new TopBarAction('edit_document');
-  private removeAction = new TopBarAction('delete');
+  private queryParamSubscription: Subscription;
+  private carSubscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -27,15 +28,21 @@ export class CarDetailComponent implements OnInit {
     private router: Router,
     private actionsService: TopBarActionsService
   ) {
+    this.queryParamSubscription = route.queryParamMap.subscribe(s => this.invokeAction(s.get('action')));
   }
 
   ngOnInit(): void {
     this.getCar();
   }
 
+  ngOnDestroy(): void {
+    this.carSubscription.unsubscribe();
+    this.queryParamSubscription.unsubscribe();
+  }
+
   getCar(): void {
-    const id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
-    this.carsService.getCar(id)
+    let id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
+    this.carSubscription = this.carsService.getCar(id)
       .subscribe(data => {
         if (data && data.key !== undefined) {
           this.car = data;
@@ -49,10 +56,6 @@ export class CarDetailComponent implements OnInit {
           this.router.navigate(['/cars']).catch();
         }
       });
-  }
-
-  remove() {
-    this.carsService.remove(this.car).catch();
   }
 
   save(): void {
@@ -166,15 +169,26 @@ export class CarDetailComponent implements OnInit {
     this.actionsService.showBackAction();
 
     if (id != null) {
-      this.editAction.route = `/cars/detail/edit`;
-      this.editAction.queryParams = {'id': id};
-      this.editAction.color = 'primary';
+      const editAction = new TopBarAction('edit_document');
+      editAction.route = `/cars/detail/edit`;
+      editAction.queryParams = {'id': id};
+      editAction.color = 'primary';
 
-      this.removeAction.route = `/cars/detail/delete`;
-      this.removeAction.queryParams = {'id': id};
-      this.removeAction.color = 'warn';
-      this.actionsService.add(this.removeAction, this.editAction);
+      const removeAction = new TopBarAction('delete');
+      removeAction.route = `/cars/detail/${id}`;
+      removeAction.queryParams = {'action': 'delete'};
+      removeAction.color = 'warn';
+      this.actionsService.add(removeAction, editAction);
     }
     this.actionsService.updateActions();
+  }
+
+  private invokeAction(action: string | null) {
+    if (action === 'delete') {
+      this.carSubscription.unsubscribe()
+      this.carsService.remove(this.car)
+        .then(() => this.router.navigate(['/cars'], {replaceUrl: true}))
+        .catch(() => this.getCar());
+    }
   }
 }

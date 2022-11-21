@@ -28,7 +28,7 @@ export class CarsService {
 
   private reMap(dbCar: DatabaseSnapshot<Car>, key: string): Car {
     const data = dbCar.val();
-    if (!data) {
+    if (data === null || data === undefined) {
       let temp = new Car();
       temp.key = key === 'new' ? null : undefined;
       return temp;
@@ -84,7 +84,6 @@ export class CarsService {
         this.carsRef.remove(car.key)
           .then(() => resolve())
           .catch(err => reject(err));
-      } else {
       }
       reject();
     });

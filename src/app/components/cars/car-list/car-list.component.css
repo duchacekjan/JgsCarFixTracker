@@ -36,3 +36,9 @@
 .car-card{
   margin-right: 0.5em;
 }
+
+.not-found{
+  width: 100%;
+  align-self: center;
+  text-align: center;
+}

@@ -16,6 +16,11 @@
       </mat-card-title-group>
       <mat-card-content>{{car.model}}</mat-card-content>
     </mat-card>
+    <ng-container *ngIf="!cars || cars.length===0">
+      <div class="not-found">
+        NO CARS FOUND<!--      TODO icon and text-->
+      </div>
+    </ng-container>
   </div>
   <!--  <div class="row">-->
   <!--    <app-car-list-item class="col-12 col-md-6 col-lg-4" *ngFor="let car of cars" [car]="car" (click)="navigate($event)"></app-car-list-item>-->
