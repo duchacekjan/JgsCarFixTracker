@@ -15,8 +15,6 @@ import {TopBarAction} from "../../../models/TopBarAction";
 export class CarDetailComponent implements OnInit {
 
   car: Car = new Car();
-  isNew = false;
-  isEditing = false;
   editedFixId = -1;
   private carKey: string | null = null;
   private requestedEditFixId: number | null = null;
@@ -36,10 +34,7 @@ export class CarDetailComponent implements OnInit {
   }
 
   getCar(): void {
-    const action = this.route.snapshot.queryParamMap.get('action');
     const id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
-    this.isNew = id === 'new'
-    this.isEditing = this.isNew;
     this.carsService.getCar(id)
       .subscribe(data => {
         if (data && data.key !== undefined) {
@@ -58,10 +53,6 @@ export class CarDetailComponent implements OnInit {
 
   remove() {
     this.carsService.remove(this.car).catch();
-  }
-
-  edit() {
-    this.isEditing = true;
   }
 
   save(): void {
@@ -175,12 +166,12 @@ export class CarDetailComponent implements OnInit {
     this.actionsService.showBackAction();
 
     if (id != null) {
-      this.editAction.route = `/cars/detail/${id}`;
-      this.editAction.queryParams = {'action': 'edit'};
+      this.editAction.route = `/cars/detail/edit`;
+      this.editAction.queryParams = {'id': id};
       this.editAction.color = 'primary';
 
-      this.removeAction.route = `/cars/detail/${id}`;
-      this.removeAction.queryParams = {'action': 'delete'};
+      this.removeAction.route = `/cars/detail/delete`;
+      this.removeAction.queryParams = {'id': id};
       this.removeAction.color = 'warn';
       this.actionsService.add(this.removeAction, this.editAction);
     }

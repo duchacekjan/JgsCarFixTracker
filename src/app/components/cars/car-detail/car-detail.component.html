@@ -1,23 +1,20 @@
 <div class="container">
   <div class="row d-flex align-items-center">
     <div class="col-10 col-md-6 d-flex flex-column">
-      <label for="name">Licence plate: </label>
-      <input id="name" [(ngModel)]="car.licencePlate" placeholder="licence plate" minlength="7"
-             (ngModelChange)="car.licencePlate = $event.toUpperCase()"
-             *ngIf="isNew">
-      <span *ngIf="!isNew" class="car-licence-plate label">{{car.licencePlate}}</span>
+      <label>Licence plate: </label>
+      <span class="car-licence-plate label">{{car.licencePlate}}</span>
     </div>
-    <div class="col-2 col-md-6 icon-button-container d-flex flex-row-reverse">
-      <div *ngIf="isEditing" class="icon-button" (click)="save()">
-        <i class="fas fa-save"></i>
-      </div>
-      <div *ngIf="!isEditing" class="icon-button edit" (click)="save()">
-        <i class="fas fa-pen"></i>
-      </div>
-      <div class="icon-button delete" (click)="remove()">
-        <i class="fas fa-minus"></i>
-      </div>
-    </div>
+<!--    <div class="col-2 col-md-6 icon-button-container d-flex flex-row-reverse">-->
+<!--      <div *ngIf="isEditing" class="icon-button" (click)="save()">-->
+<!--        <i class="fas fa-save"></i>-->
+<!--      </div>-->
+<!--      <div *ngIf="!isEditing" class="icon-button edit" (click)="save()">-->
+<!--        <i class="fas fa-pen"></i>-->
+<!--      </div>-->
+<!--      <div class="icon-button delete" (click)="remove()">-->
+<!--        <i class="fas fa-minus"></i>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 
   <div class="row">
