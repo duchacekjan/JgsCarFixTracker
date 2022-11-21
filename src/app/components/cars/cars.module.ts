@@ -12,6 +12,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
+import { CarDetailFormComponent } from './car-detail-form/car-detail-form.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   imports: [
@@ -21,9 +23,10 @@ import {MatIconModule} from "@angular/material/icon";
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule
   ],
-  declarations: [CarListComponent, CarDetailComponent, CarListItemComponent, CarFixListComponent, CarFixItemComponent, IconButtonComponent]
+  declarations: [CarListComponent, CarDetailComponent, CarListItemComponent, CarFixListComponent, CarFixItemComponent, IconButtonComponent, CarDetailFormComponent]
 })
 export class CarsModule {
 }

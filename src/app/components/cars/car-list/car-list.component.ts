@@ -42,7 +42,7 @@ export class CarListComponent implements OnInit {
     this.searchSubscription.unsubscribe();
   }
 
-  navigate(carKey?: string) {
+  navigate(carKey?: string | null) {
     if (carKey) {
       this.redirectToCarDetail(carKey);
     }
