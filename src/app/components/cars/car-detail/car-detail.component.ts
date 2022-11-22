@@ -28,7 +28,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   table_update_form!: FormGroup;
   existing_row_values!: any;
 
-  @ViewChild(FormGroupDirective, { static: true }) formGroup!: FormGroupDirective;
+  @ViewChild(FormGroupDirective, {static: true}) formGroup!: FormGroupDirective;
 
   constructor(
     private route: ActivatedRoute,
@@ -76,7 +76,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  private resetForm(){
+  private resetForm() {
     //close the drawer and reset the update form
     this.is_table_being_updated = false;
     this.table_update_form.reset();
@@ -196,11 +196,13 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       editAction.route = `/cars/detail/edit`;
       editAction.queryParams = {'id': id};
       editAction.color = 'primary';
+      editAction.tooltip = 'Edit';
 
       const removeAction = new TopBarAction('delete');
       removeAction.route = `/cars/detail/${id}`;
       removeAction.queryParams = {'action': 'delete'};
       removeAction.color = 'warn';
+      removeAction.tooltip = 'Remove';
       this.actionsService.add(removeAction, editAction);
     }
     this.actionsService.updateActions();

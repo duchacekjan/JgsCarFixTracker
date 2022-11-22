@@ -8,6 +8,7 @@
   flex-grow: 1;
   display: flex;
   padding-top: 1em;
+  background: whitesmoke;
 }
 
 .spacer {

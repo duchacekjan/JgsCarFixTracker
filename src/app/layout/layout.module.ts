@@ -5,15 +5,17 @@ import {MainComponent} from "./main/main.component";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    LayoutRoutingModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule
-  ],
+    imports: [
+        CommonModule,
+        LayoutRoutingModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule
+    ],
     exports: [],
     declarations: [
       MainComponent

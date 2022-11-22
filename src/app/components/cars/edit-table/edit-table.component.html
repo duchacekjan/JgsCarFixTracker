@@ -16,26 +16,41 @@
     <ng-container
       *ngIf="!!table_config?.actions?.edit"
       matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef></th>
+      <th mat-header-cell *matHeaderCellDef>
+        <div
+          *ngIf="!!table_config?.actions?.add"
+          class="edit-table__add">
+          <button
+            mat-icon-button
+            matTooltip="Add New Row"
+            matTooltipPosition="left"
+            aria-label="Add New Row"
+            (click)="addRow()">
+            <mat-icon>
+              playlist_add
+            </mat-icon>
+          </button>
+        </div>
+      </th>
       <td mat-cell *matCellDef="let table_row" class="row-action-column">
         <div style="display: inline-flex">
           <button *ngIf="!!table_config?.actions?.remove"
-                  matRipple
-                  class="edit-table__action-button-remove"
+                  mat-icon-button
+                  color="warn"
                   matTooltip="Remove Row"
                   matTooltipPosition="left"
                   aria-label="Remove Row"
                   (click)="removeRow(table_row)">
-            <span aria-hidden="true" class="material-icons-outlined">delete</span>
+            <mat-icon aria-hidden="true">delete</mat-icon>
           </button>
           <button
-            matRipple
-            class="edit-table__action-button"
+            mat-icon-button
+            color="primary"
             matTooltip="Edit Row"
             matTooltipPosition="left"
             aria-label="Edit Row"
             (click)="editRow(table_row)">
-            <span aria-hidden="true" class="material-icons-outlined">edit</span>
+            <mat-icon aria-hidden="true" class="material-icons-outlined">edit</mat-icon>
           </button>
         </div>
       </td>
@@ -44,20 +59,5 @@
     <tr mat-header-row *matHeaderRowDef="displayed_columns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayed_columns;"></tr>
   </table>
-  <div
-    *ngIf="!!table_config?.actions?.add"
-    class="edit-table__add">
-    <button
-      class="edit-table__action-button"
-      matRipple
-      matTooltip="Add New Row"
-      matTooltipPosition="left"
-      aria-label="Add New Row"
-      (click)="addRow()">
-                <span class="material-icons">
-                playlist_add
-                </span>
-    </button>
-  </div>
   <mat-paginator [pageSize]="5" [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons></mat-paginator>
 </div>
