@@ -75,39 +75,17 @@ $JgsCarFixTracker-colors: (
     }
 
     .numeric-col {
-      &.mat-cell, &.mat-header-cell {
-        text-align: right;
-        padding-right: 1.5em;
-      }
-
+      width: 10%;
       &.mat-cell {
+        text-align: right;
+        padding-right: 1em;
         font-family: 'RobotoMono', sans-serif;
       }
-    }
-  }
 
-  .edit-table__action-button {
-    background: transparent;
-    border: 0;
-    border-radius: 50%;
-    color: map-get($JgsCarFixTracker-colors, primary);
-    height: 40px;
-    padding: 0;
-    width: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:focus {
-      background: map-get($JgsCarFixTracker-colors, disabled-bg);
-    }
-
-    &:hover {
-      background: transparent;
-    }
-
-    &:focus, &:hover {
-      color: map-get($JgsCarFixTracker-colors, primary);
+      &.mat-header-cell {
+        text-align: center;
+        padding-right: 1em;
+      }
     }
   }
 }
