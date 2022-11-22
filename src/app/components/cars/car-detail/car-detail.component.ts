@@ -3,10 +3,12 @@ import {Car} from "../../../models/car";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CarsService} from "../../../services/cars.service";
 import {Fix} from "../../../models/fix";
-import {FixAction, FixActionEvent} from "../../../models/events/FixActionEvent";
 import {TopBarActionsService} from "../../../services/top-bar-actions.service";
 import {TopBarAction} from "../../../models/TopBarAction";
 import {Subscription} from "rxjs";
+import {TableConfig} from "../edit-table/TableConfig";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {TableService} from "../../../services/table.service";
 
 @Component({
   selector: 'app-car-detail',
@@ -16,19 +18,31 @@ import {Subscription} from "rxjs";
 export class CarDetailComponent implements OnInit, OnDestroy {
 
   car: Car = new Car();
-  editedFixId = -1;
+  table_config: TableConfig;
   private carKey: string | null = null;
-  private requestedEditFixId: number | null = null;
   private queryParamSubscription: Subscription;
   private carSubscription = new Subscription();
+
+  is_table_being_updated: boolean = false;
+  is_new_row_being_added: boolean = false;
+  table_update_form!: FormGroup;
+  existing_row_values!: any;
 
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
     private router: Router,
-    private actionsService: TopBarActionsService
+    private actionsService: TopBarActionsService,
+    private tableService: TableService
   ) {
+    this.table_config = this.createTableConfig();
     this.queryParamSubscription = route.queryParamMap.subscribe(s => this.invokeAction(s.get('action')));
+    this.table_update_form = new FormGroup({
+      id: new FormControl(-1),
+      lastUpdate: new FormControl(new Date()),
+      mileage: new FormControl('0', [Validators.required, Validators.min(0)]),
+      description: new FormControl('', [Validators.required])
+    });
   }
 
   ngOnInit(): void {
@@ -44,76 +58,89 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     let id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
     this.carSubscription = this.carsService.getCar(id)
       .subscribe(data => {
+        console.log(`Car data: ${data}`)
         if (data && data.key !== undefined) {
           this.car = data;
           this.carKey = data.key ? data.key : null;
-          if (this.requestedEditFixId != null) {
-            this.editedFixId = this.requestedEditFixId;
-            this.requestedEditFixId = null;
-          }
           this.updateActions(this.carKey);
+          //close the drawer and reset the update form
+          this.is_table_being_updated = false;
+          this.table_update_form.reset();
+          //update the table with latest values
+          this.table_config.table_data_changer.next({
+            data: this.car.fixes
+          });
         } else {
           this.router.navigate(['/cars']).catch();
         }
       });
   }
 
-  save(): void {
-    if (this.car.licencePlate.length >= 7) {
-      this.carsService.upsert(this.car)
-        .then(key => {
-          if (this.carKey === key) {
-            this.getCar();
-          } else {
-            this.carKey = key;
-            this.router.navigate([`/cars/detail/${this.carKey}`], {replaceUrl: true})
-              .then(() => {
-                this.getCar();
-              });
-          }
-        })
-        .catch(err => console.log(err));
-    }
+  addNewRow() {
+    // enabling the primary key fields
+    this.tableService.toggleFormControls(this.table_update_form, ['lastUpdate'], false);
+    // to reset the entire form
+    this.table_update_form.reset();
+    const newFix = new Fix();
+    newFix.mileage = this.getNewMileage();
+    this.table_update_form.patchValue(newFix);
+    this.is_table_being_updated = true;
+    this.is_new_row_being_added = true;
   }
 
-  onFixAction(actionEvent: FixActionEvent) {
-    switch (actionEvent.action) {
-      case FixAction.Create:
-        this.createFix();
-        break;
-      case FixAction.Edit:
-        this.editFix(actionEvent.fix);
-        break;
-      case FixAction.Remove:
-        this.removeFix(actionEvent.fix);
-        break;
-      case FixAction.Save:
-        this.saveFix(actionEvent.fix);
-        break;
-      case FixAction.Cancel:
-        this.cancelFix(actionEvent.fix);
-        break;
-
-    }
+  editRow(row: any) {
+    this.existing_row_values = {...row};
+    // to reset the entire form
+    this.table_update_form.reset();
+    // patch existing values in the form
+    this.table_update_form.patchValue(row);
+    // disabling the primary key fields
+    this.tableService.toggleFormControls(this.table_update_form, ['lastUpdate'], false);
+    this.is_table_being_updated = true;
+    this.is_new_row_being_added = false;
   }
 
-  private cancelFix(fix: Fix | null) {
-    if (fix?.id == -1) {
-      const index = this.car.fixes.indexOf(fix)
-      if (index > -1) {
-        this.car.fixes.splice(index, 1);
-      }
-    }
-    this.editedFixId = -1;
+  removeRow(row: any) {
+    this.removeFix(row as Fix);
+  }
+
+  updateTableData() {
+    let updated_row_data = (this.is_new_row_being_added) ? {...this.table_update_form.value} : {...this.existing_row_values, ...this.table_update_form.value};
+    let updatedFix = updated_row_data as Fix;
+    this.saveFix(updatedFix);
+    // this.update_table_data_sub = this.feature_module_utilities.updateTableData(updated_row_data, this.is_new_row_being_added).subscribe(
+    //   (table_data)=>{
+    //     //close the drawer and reset the update form
+    //     this.is_table_being_updated = false;
+    //     this.table_update_form.reset();
+    //     //update the table with latest values
+    //     this.table_config.table_data_changer.next({
+    //       data: table_data,
+    //       highlight: updated_row_data
+    //     });
+    //   },
+    //   (error)=>{
+    //     this.global_utilities.showSnackbar();
+    //   }
+    // );
   }
 
   private saveFix(fix: Fix | null) {
+
+    console.log(`Save fix: ${fix?.id}`);
     if (fix) {
+      fix.lastUpdate = new Date();
       if (fix.id == -1) {
         fix.id = this.getNewId();
+        this.car.fixes.push(fix);
+      } else {
+        let existingFix = this.car.fixes.find(f => f.id == fix.id);
+        if (existingFix) {
+          let index = this.car.fixes.indexOf(existingFix);
+          this.car.fixes[index] = fix
+        }
       }
-      fix.lastUpdate = new Date();
-      this.updateCar(-1);
+      this.updateCar();
     }
   }
 
@@ -126,23 +153,9 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     this.updateCar();
   }
 
-  private editFix(fix: Fix | null) {
-    this.editedFixId = fix?.id ?? -1;
-  }
-
-  private createFix() {
-    const newFix = new Fix();
-    newFix.mileage = this.getNewMileage();
-    this.car.fixes.push(newFix);
-    this.editedFixId = newFix.id;
-  }
-
-  private updateCar(fixId: number = -1) {
+  private updateCar() {
     if (this.car.key) {
       this.carsService.update(this.car)
-        .then(() => {
-          this.requestedEditFixId = fixId;
-        })
         .catch(err => console.log(err));
     }
   }
@@ -190,5 +203,33 @@ export class CarDetailComponent implements OnInit, OnDestroy {
         .then(() => this.router.navigate(['/cars'], {replaceUrl: true}))
         .catch(() => this.getCar());
     }
+  }
+
+  private createTableConfig(): TableConfig {
+    let result = new TableConfig([
+      {
+        key: 'id',
+        heading: 'Id',
+        numeric: true
+      },
+      {
+        key: 'lastUpdated',
+        heading: 'Updated'
+      },
+      {
+        key: 'mileage',
+        heading: 'Mileage (km)',
+        numeric: true
+      },
+      {
+        key: 'description',
+        heading: 'Description'
+      }
+    ]);
+    result.primary_key_set = ['id'];
+    result.actions.add = true;
+    result.actions.edit = true;
+    result.actions.remove = true;
+    return result;
   }
 }

@@ -7,14 +7,68 @@
 
   <div class="row">
     <mat-form-field class="col-12 col-md-6">
-      <input matInput type="text" readonly="true"  name="brand" [(ngModel)]="car.brand" placeholder="Brand">
+      <input matInput type="text" readonly="true" name="brand" [(ngModel)]="car.brand" placeholder="Brand">
     </mat-form-field>
     <mat-form-field class="col-12 col-md-6">
-      <input matInput type="text" readonly="true"  name="model" [(ngModel)]="car.model" placeholder="Model">
+      <input matInput type="text" readonly="true" name="model" [(ngModel)]="car.model" placeholder="Model">
     </mat-form-field>
   </div>
   <div class="row">
-    <app-car-fix-list [fixes]="car.fixes" [editedFixId]="editedFixId"
-                      (fixAction)="onFixAction($event)"></app-car-fix-list>
+    <mat-drawer-container class="edit-table-drawer-container">
+      <mat-drawer mode="over" position="end" #table_update_drawer
+                  [opened]="is_table_being_updated"
+                  disableClose="true">
+        <section class="table-update">
+          <form class="table-update__form"
+                [formGroup]="table_update_form"
+                (ngSubmit)="updateTableData()">
+            <header class="table-update__header">
+              <h2 class="h3">{{is_new_row_being_added ? 'Add New' : 'Edit'}} Row</h2>
+            </header>
+            <div class="table-update__fields">
+              <div class="row">
+                <mat-form-field>
+                  <input matInput type="date" formControlName="lastUpdate">
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput type="number" formControlName="mileage" min="0">
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field>
+                  <input matInput type="text" formControlName="description">
+                </mat-form-field>
+              </div>
+            </div>
+            <footer class="table-update__footer">
+              <div class="row flex-column-reverse flex-sm-row">
+                <div class="col-12 col-sm-6">
+                  <button matRipple
+                          class="secondary-button mt-3 mt-sm-0"
+                          type="button"
+                          (click)="is_table_being_updated = false">Dismiss
+                  </button>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <button matRipple
+                          class="primary-button"
+                          type="submit"
+                          [disabled]="!table_update_form.valid">Save
+                  </button>
+                </div>
+              </div>
+            </footer>
+          </form>
+        </section>
+      </mat-drawer>
+      <mat-drawer-content>
+        <app-edit-table
+          [table_config]="table_config"
+          (onRowAdd)="addNewRow()"
+          (onRowEdit)="editRow($event)"
+          (onRowRemove)="removeRow($event)">
+        </app-edit-table>
+      </mat-drawer-content>
+    </mat-drawer-container>
   </div>
 </div>
