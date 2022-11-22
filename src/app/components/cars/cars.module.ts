@@ -19,6 +19,8 @@ import {MatRippleModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import { SnackBarComponent } from './snack-bar/snack-bar.component';
 
 @NgModule({
   imports: [
@@ -35,9 +37,10 @@ import {MatSidenavModule} from "@angular/material/sidenav";
     MatRippleModule,
     MatTooltipModule,
     MatPaginatorModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatSnackBarModule
   ],
-  declarations: [CarListComponent, CarDetailComponent, CarFixListComponent, CarFixItemComponent, IconButtonComponent, CarDetailFormComponent, EditTableComponent]
+  declarations: [CarListComponent, CarDetailComponent, CarFixListComponent, CarFixItemComponent, IconButtonComponent, CarDetailFormComponent, EditTableComponent, SnackBarComponent]
 })
 export class CarsModule {
 }

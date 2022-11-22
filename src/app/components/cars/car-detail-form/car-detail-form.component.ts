@@ -7,6 +7,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Car} from "../../../models/car";
 import {Fix} from "../../../models/fix";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackBarComponent} from "../snack-bar/snack-bar.component";
 
 @Component({
   selector: 'app-car-detail-form',
@@ -27,7 +29,7 @@ export class CarDetailFormComponent implements OnInit, OnDestroy {
 
   private queryParamsSubscription: Subscription
 
-  constructor(private route: ActivatedRoute, private carsService: CarsService, private router: Router, private actionsService: TopBarActionsService, private formBuilder: FormBuilder) {
+  constructor(private route: ActivatedRoute, private carsService: CarsService, private router: Router, private actionsService: TopBarActionsService, private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
     this.queryParamsSubscription = this.route.queryParamMap.subscribe(s => this.getCar(s.get('id')));
     this.updateActions();
   }
@@ -45,10 +47,19 @@ export class CarDetailFormComponent implements OnInit, OnDestroy {
       if (car && car.licencePlate) {
         this.carsService.upsert(car)
           .then(id => {
-            console.log("Form Submitted!");
-            this.router.navigate([`/cars/detail/edit`], {queryParams: {'id': id}}).catch();
+            this.router.navigate([`/cars/detail/${id}`]).catch();
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            this.snackBar.open(';', 'test');
+            this.snackBar.openFromComponent(SnackBarComponent, {
+              data: {
+                message: err,
+                action: 'OK'
+              },
+              duration: 3000,
+              panelClass: ['mat-toolbar', 'mat-warn']
+            })
+          });
       }
     }
   }
