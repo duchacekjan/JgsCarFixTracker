@@ -90,7 +90,7 @@ export class CarsService {
   }
 
   upsert(car: Car): Promise<string> {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       console.log(`CarKey = ${car.key}`)
       if (car.key) {
         console.log(car);
@@ -99,8 +99,13 @@ export class CarsService {
           .catch(reject);
       } else {
         if (car) {
-          const key = this.create(car);
-          resolve(key);
+          let item =await this.carsRef.query.orderByChild('licencePlate').equalTo(car.licencePlate).limitToFirst(1).get();
+          if (item.val() as Car) {
+            reject('Already in DB')
+          } else {
+            const key = this.create(car);
+            resolve(key);
+          }
         } else {
           reject('No car defined');
         }

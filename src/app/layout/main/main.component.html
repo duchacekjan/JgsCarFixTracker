@@ -1,16 +1,22 @@
 <mat-toolbar>
-  <button *ngIf="backAction" mat-icon-button routerLink="/cars">
+  <button *ngIf="backAction" mat-icon-button routerLink="/cars"
+          matTooltip="Back"
+          matTooltipPosition="below">
     <mat-icon>arrow_back</mat-icon>
   </button>
   <span>Car fix tracker</span>
   <span class="spacer"></span>
   <ng-container *ngFor="let action of actions">
-    <button mat-icon-button [routerLink]="action.route" queryParamsHandling="merge" [queryParams]="action.queryParams">
+    <button mat-icon-button [routerLink]="action.route" queryParamsHandling="merge" [queryParams]="action.queryParams"
+            [matTooltip]="action.tooltip"
+            matTooltipPosition="below">
       <mat-icon *ngIf="!action.color">{{action.icon}}</mat-icon>
       <mat-icon *ngIf="action.color" [color]="action.color">{{action.icon}}</mat-icon>
     </button>
   </ng-container>
-  <button mat-icon-button (click)="authService.signOut()">
+  <button mat-icon-button (click)="authService.signOut()"
+          matTooltip="Logout"
+          matTooltipPosition="below">
     <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>

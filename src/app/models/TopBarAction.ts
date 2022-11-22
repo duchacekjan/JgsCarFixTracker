@@ -10,4 +10,5 @@ export class TopBarAction {
   route: string = '';
   queryParams: Params | null = null;
   color: ThemePalette | null = null;
+  tooltip: string = '';
 }

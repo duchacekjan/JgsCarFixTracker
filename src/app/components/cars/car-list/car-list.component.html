@@ -15,6 +15,7 @@
         <mat-card-subtitle>{{car.brand}}</mat-card-subtitle>
       </mat-card-title-group>
       <mat-card-content>{{car.model}}</mat-card-content>
+      <mat-card-footer>{{car.getLastMileage() | number}} km</mat-card-footer>
     </mat-card>
     <ng-container *ngIf="!cars || cars.length===0">
       <div class="not-found">
@@ -22,8 +23,5 @@
       </div>
     </ng-container>
   </div>
-  <!--  <div class="row">-->
-  <!--    <app-car-list-item class="col-12 col-md-6 col-lg-4" *ngFor="let car of cars" [car]="car" (click)="navigate($event)"></app-car-list-item>-->
-  <!--  </div>-->
 </div>
 
