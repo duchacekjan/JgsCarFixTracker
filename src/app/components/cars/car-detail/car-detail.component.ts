@@ -41,7 +41,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     this.queryParamSubscription = route.queryParamMap.subscribe(s => this.invokeAction(s.get('action')));
     this.table_update_form = new FormGroup({
       id: new FormControl(-1),
-      lastUpdate: new FormControl(new Date()),
+      lastUpdate: new FormControl(''),
       mileage: new FormControl('0', [Validators.required, Validators.min(0)]),
       description: new FormControl('', [Validators.required])
     });
@@ -76,16 +76,6 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  private resetForm() {
-    //close the drawer and reset the update form
-    this.is_table_being_updated = false;
-    this.table_update_form.reset();
-    this.table_update_form.setErrors(null);
-    this.table_update_form.updateValueAndValidity();
-    this.formGroup.resetForm();
-  }
-
-
   addNewRow() {
     // enabling the primary key fields
     this.tableService.toggleFormControls(this.table_update_form, ['lastUpdate'], false);
@@ -101,9 +91,11 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   editRow(row: any) {
     this.existing_row_values = {...row};
     // to reset the entire form
-    this.table_update_form.reset();
+    this.resetForm();
     // patch existing values in the form
-    this.table_update_form.patchValue(row);
+    let fix = row as Fix;
+    this.table_update_form.patchValue(fix);
+    this.table_update_form.get('lastUpdate')!.patchValue(this.formatDate(fix.lastUpdate));
     // disabling the primary key fields
     this.tableService.toggleFormControls(this.table_update_form, ['lastUpdate'], false);
     this.is_table_being_updated = true;
@@ -118,21 +110,25 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     let updated_row_data = (this.is_new_row_being_added) ? {...this.table_update_form.value} : {...this.existing_row_values, ...this.table_update_form.value};
     let updatedFix = updated_row_data as Fix;
     this.saveFix(updatedFix);
-    // this.update_table_data_sub = this.feature_module_utilities.updateTableData(updated_row_data, this.is_new_row_being_added).subscribe(
-    //   (table_data)=>{
-    //     //close the drawer and reset the update form
-    //     this.is_table_being_updated = false;
-    //     this.table_update_form.reset();
-    //     //update the table with latest values
-    //     this.table_config.table_data_changer.next({
-    //       data: table_data,
-    //       highlight: updated_row_data
-    //     });
-    //   },
-    //   (error)=>{
-    //     this.global_utilities.showSnackbar();
-    //   }
-    // );
+  }
+
+  private resetForm() {
+    //close the drawer and reset the update form
+    this.is_table_being_updated = false;
+    this.table_update_form.reset();
+    this.table_update_form.setErrors(null);
+    this.table_update_form.updateValueAndValidity();
+    this.formGroup.resetForm();
+  }
+
+  private formatDate(date: any) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
   }
 
   private saveFix(fix: Fix | null) {

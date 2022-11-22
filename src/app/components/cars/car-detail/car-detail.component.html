@@ -8,7 +8,7 @@
             (ngSubmit)="updateTableData()"
             #formDirective="ngForm">
         <header class="table-update__header">
-          <h2 class="h3">{{is_new_row_being_added ? 'Add New' : 'Edit'}} Row</h2>
+          <h3 class="h3">{{is_new_row_being_added ? 'Add New' : 'Edit'}} Row</h3>
         </header>
         <div class="table-update__fields">
           <div class="row">
@@ -28,15 +28,16 @@
         <footer class="table-update__footer">
           <div class="row flex-column-reverse flex-sm-row">
             <div class="col-12 col-sm-6">
-              <button matRipple
-                      class="secondary-button mt-3 mt-sm-0"
-                      type="button"
+              <button mat-raised-button
+                      style="margin: 0.3em"
+                      color="warn"
                       (click)="is_table_being_updated = false">Dismiss
               </button>
             </div>
             <div class="col-12 col-sm-6">
-              <button matRipple
-                      class="primary-button"
+              <button mat-raised-button
+                      style="margin: 0.3em"
+                      color="primary"
                       type="submit"
                       [disabled]="!table_update_form.valid">Save
               </button>
