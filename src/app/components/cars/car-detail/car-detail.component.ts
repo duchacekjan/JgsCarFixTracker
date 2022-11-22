@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Car} from "../../../models/car";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CarsService} from "../../../services/cars.service";
@@ -7,7 +7,7 @@ import {TopBarActionsService} from "../../../services/top-bar-actions.service";
 import {TopBarAction} from "../../../models/TopBarAction";
 import {Subscription} from "rxjs";
 import {TableConfig} from "../edit-table/TableConfig";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {TableService} from "../../../services/table.service";
 
 @Component({
@@ -27,6 +27,8 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   is_new_row_being_added: boolean = false;
   table_update_form!: FormGroup;
   existing_row_values!: any;
+
+  @ViewChild(FormGroupDirective, { static: true }) formGroup!: FormGroupDirective;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,9 +65,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
           this.car = data;
           this.carKey = data.key ? data.key : null;
           this.updateActions(this.carKey);
-          //close the drawer and reset the update form
-          this.is_table_being_updated = false;
-          this.table_update_form.reset();
+          this.resetForm();
           //update the table with latest values
           this.table_config.table_data_changer.next({
             data: this.car.fixes
@@ -75,6 +75,16 @@ export class CarDetailComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  private resetForm(){
+    //close the drawer and reset the update form
+    this.is_table_being_updated = false;
+    this.table_update_form.reset();
+    this.table_update_form.setErrors(null);
+    this.table_update_form.updateValueAndValidity();
+    this.formGroup.resetForm();
+  }
+
 
   addNewRow() {
     // enabling the primary key fields
