@@ -57,6 +57,11 @@ $JgsCarFixTracker-colors: (
         color: white;
         font-family: 'Roboto', sans-serif;
         font-size: 1em;
+        &.row-action-column {
+          padding: 0 8px 0 1.5em;
+          width: 10%;
+          text-align: right;
+        }
       }
     }
 
@@ -65,7 +70,7 @@ $JgsCarFixTracker-colors: (
 
       &.row-action-column {
         padding: 0 8px 0 1.5em;
-        width: 72px;
+        width: 10%;
       }
     }
 
@@ -79,16 +84,6 @@ $JgsCarFixTracker-colors: (
         font-family: 'RobotoMono', sans-serif;
       }
     }
-
-    .hidden-col {
-      display: none;
-    }
-  }
-
-  .edit-table__add {
-    display: flex;
-    justify-content: flex-end;
-
   }
 
   .edit-table__action-button {
@@ -113,56 +108,6 @@ $JgsCarFixTracker-colors: (
 
     &:focus, &:hover {
       color: map-get($JgsCarFixTracker-colors, primary);
-    }
-  }
-
-  .edit-table__action-button-add {
-    background: transparent;
-    border-radius: 50%;
-    border: 0;
-    color: white;
-    height: 40px;
-    padding: 0;
-    width: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:focus {
-      background: map-get($JgsCarFixTracker-colors, disabled-bg);
-    }
-
-    &:hover {
-      background: map-get($JgsCarFixTracker-colors, divider);
-    }
-
-    &:focus, &:hover {
-      color: map-get($JgsCarFixTracker-colors, primary);
-    }
-  }
-
-  .edit-table__action-button-emove {
-    background: transparent;
-    border: 0;
-    border-radius: 50%;
-    color: map-get($JgsCarFixTracker-colors, notification);
-    height: 40px;
-    padding: 0;
-    width: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:focus {
-      background: map-get($JgsCarFixTracker-colors, disabled-bg);
-    }
-
-    &:hover {
-      background: transparent;
-    }
-
-    &:focus, &:hover {
-      color: map-get($JgsCarFixTracker-colors, notification);
     }
   }
 }
