@@ -208,13 +208,9 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   private createTableConfig(): TableConfig {
     let result = new TableConfig([
       {
-        key: 'id',
-        heading: 'Id',
-        numeric: true
-      },
-      {
-        key: 'lastUpdated',
-        heading: 'Updated'
+        key: 'lastUpdate',
+        heading: 'Updated',
+        isDate: true
       },
       {
         key: 'mileage',
@@ -224,6 +220,12 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       {
         key: 'description',
         heading: 'Description'
+      },
+      {
+        key: 'id',
+        heading: 'Id',
+        numeric: true,
+        hidden: true
       }
     ]);
     result.primary_key_set = ['id'];
