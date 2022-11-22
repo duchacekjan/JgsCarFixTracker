@@ -1,13 +1,16 @@
-import { Fix } from "./fix";
+import {Fix} from "./fix";
 
 export class Car {
-    key?: string | null;
-    licencePlate: string='';
-    brand: string = '';
-    model: string = '';
-    fixes: Fix[] = [];
+  key?: string | null;
+  licencePlate: string = '';
+  brand: string = '';
+  model: string = '';
+  fixes: Fix[] = [];
 
-  public constructor(init?: Partial<Car>) {
-    Object.assign(this, init);
+  getLastMileage(): number {
+    if (this.fixes.length === 0) {
+      return 0;
+    }
+    return Math.max(...this.fixes.map(({mileage}) => mileage ? mileage : 0));
   }
 }
