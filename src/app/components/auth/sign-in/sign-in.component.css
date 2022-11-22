@@ -15,8 +15,7 @@
 }
 
 .sign-in-forgot-link {
-  font-size: 1em;
-  color: gray;
+  align-self: center;
 }
 
 @media (max-width: 720px) {

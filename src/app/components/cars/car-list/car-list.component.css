@@ -2,20 +2,17 @@
   width: 100%;
 }
 
-.carItem{
+.carItem {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.search-panel{
-  padding-bottom: 0.5em;
-  display: flex;
-  flex-direction: row;
-  justify-items: center;
+.search-panel {
+  padding: 0.5em 0;
 }
 
-.actions{
+.actions {
   display: flex;
   flex-direction: row-reverse;
 }
@@ -34,4 +31,14 @@
 
 .icon-button:hover {
   background: lightgray;
+}
+
+.car-card{
+  margin-right: 0.5em;
+}
+
+.not-found{
+  width: 100%;
+  align-self: center;
+  text-align: center;
 }

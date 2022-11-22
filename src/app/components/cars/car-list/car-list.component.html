@@ -1,20 +1,27 @@
 <div class="container">
   <div class="row search-panel">
-    <mat-form-field class="col-11">
+    <mat-form-field>
+      <mat-icon matPrefix>search</mat-icon>
       <input matInput type="text" id="search-text" aria-describedby="search-text"
              [(ngModel)]="searchText" placeholder="Enter part of licence plate"
              (ngModelChange)="onSearchInputChanged($event)"
              autofocus>
-      <span matPrefix style="padding-right: 0.3em"><i class="fas fa-search"></i></span>
     </mat-form-field>
-    <div class="col-1 actions">
-      <div class="icon-button" (click)="addNew()">
-        <i class="fas fa-plus"></i>
-      </div>
-    </div>
   </div>
-  <div class="row">
-    <app-car-list-item class="col-12 col-md-6 col-lg-4" *ngFor="let car of cars" [car]="car" (click)="navigate($event)"></app-car-list-item>
+  <div class="d-flex flex-row flex-wrap">
+    <mat-card *ngFor="let car of cars" (click)="navigate(car.key)" class="car-card">
+      <mat-card-title-group>
+        <mat-card-title>{{car.licencePlate}}</mat-card-title>
+        <mat-card-subtitle>{{car.brand}}</mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-content>{{car.model}}</mat-card-content>
+      <mat-card-footer>{{car.getLastMileage() | number}} km</mat-card-footer>
+    </mat-card>
+    <ng-container *ngIf="!cars || cars.length===0">
+      <div class="not-found">
+        NO CARS FOUND<!--      TODO icon and text-->
+      </div>
+    </ng-container>
   </div>
 </div>
 

@@ -1,0 +1,24 @@
+<form [formGroup]="carForm" class="container" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <mat-form-field class="col-12 col-md-6 d-flex flex-column">
+      <input matInput type="text" formControlName="licencePlate" placeholder="Licence plate" required/>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field class="col-12 col-md-6">
+      <input matInput type="text" formControlName="brand" placeholder="Brand">
+    </mat-form-field>
+    <mat-form-field class="col-12 col-md-6">
+      <input matInput type="text" formControlName="model" placeholder="Model">
+    </mat-form-field>
+  </div>
+<!--  <div class="row">-->
+<!--    <app-car-fix-list [fixes]="car.fixes" [editedFixId]="editedFixId"-->
+<!--                      (fixAction)="onFixAction($event)"></app-car-fix-list>-->
+<!--  </div>-->
+  <div class="footer row">
+    <button mat-raised-button type="submit" color="primary">
+      <mat-icon>save</mat-icon> Save
+    </button>
+  </div>
+</form>

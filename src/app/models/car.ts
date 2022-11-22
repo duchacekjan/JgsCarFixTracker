@@ -1,9 +1,16 @@
-import { Fix } from "./fix";
+import {Fix} from "./fix";
 
 export class Car {
-    key?: string | null;
-    licencePlate: string='';
-    brand: string = '';
-    model: string = '';
-    fixes: Fix[] = [];
+  key?: string | null;
+  licencePlate: string = '';
+  brand: string = '';
+  model: string = '';
+  fixes: Fix[] = [];
+
+  getLastMileage(): number {
+    if (this.fixes.length === 0) {
+      return 0;
+    }
+    return Math.max(...this.fixes.map(({mileage}) => mileage ? mileage : 0));
+  }
 }

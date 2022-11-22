@@ -1,10 +1,16 @@
-<div class="wrapper d-flex flex-column">
-  <h3>Sign In</h3>
-  <input type="email" placeholder="Email" #userName required>
-  <input type="password" placeholder="Password" #userPassword required>
-  <div>
-    <input type="checkbox" class="formControl" [(ngModel)]="autoLogin"/> Remember
-  </div>
-  <input type="button" value="Sign in" (click)="signIn(userName.value, userPassword.value)"/>
-  <a routerLink="../forgot-password">Forgot Password?</a>
+<div class="wrapper">
+  <form class="d-flex flex-column" [formGroup]="signInForm" (ngSubmit)="onSignIn()">
+    <h3>Sign In</h3>
+    <mat-form-field>
+      <input matInput type="email" placeholder="Email" formControlName="email" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" placeholder="Password" formControlName="password" required>
+    </mat-form-field>
+    <mat-checkbox [checked]="autoLogin" name="autologin">
+      Remember
+    </mat-checkbox>
+    <button mat-raised-button color="primary" type="submit">Sign in</button>
+    <a class="sign-in-forgot-link" routerLink="../forgot-password">Forgot Password?</a>
+  </form>
 </div>
