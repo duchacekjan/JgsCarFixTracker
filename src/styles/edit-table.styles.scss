@@ -100,16 +100,12 @@ $JgsCarFixTracker-colors: (
       padding: 1em;
 
       .table-update__header {
-        h2 {
           border-bottom: 1px solid map-get($JgsCarFixTracker-colors, divider);
           color: map-get($JgsCarFixTracker-colors, primary-dark);
           font-family: 'Roboto', sans-serif;
           margin-bottom: 1em;
           padding-bottom: 0.5em;
         }
-
-        margin-bottom: 1em;
-      }
 
       .table-update__footer {
         margin: 1em 0;
