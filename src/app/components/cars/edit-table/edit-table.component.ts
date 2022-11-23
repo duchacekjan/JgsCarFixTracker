@@ -3,6 +3,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {Subscription} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {TableConfig} from "./TableConfig";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-edit-table',
@@ -22,6 +23,7 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
   updated_row_index = -1;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   // Subscriptions
   private data_change_sub!: Subscription;
@@ -57,6 +59,7 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
       (new_data: any) => {
         this.table_data_source = new MatTableDataSource<any>(new_data.data);
         this.table_data_source.paginator = this.paginator;
+        this.table_data_source.sort = this.sort;
         this.goToUpdatedPage(new_data.updatedFixIndex);
       }
     );
@@ -102,6 +105,7 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (!!this.table_data_source) {
       this.table_data_source.paginator = this.paginator;
+      this.table_data_source.sort = this.sort;
     }
   }
 

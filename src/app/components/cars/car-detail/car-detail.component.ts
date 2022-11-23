@@ -105,6 +105,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   private showForm(fix: Fix, isNewRow: boolean) {
     this.resetForm();
     this.fixItemUpdateForm.patchValue(fix);
+    let mileage = this.fixItemUpdateForm.get('mileage')
     if (!isNewRow) {
       this.fixItemUpdateForm.get('lastUpdate')!.patchValue(this.formatDate(fix.lastUpdate));
     }
