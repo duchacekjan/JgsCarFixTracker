@@ -26,7 +26,13 @@ export class CarDetailFormComponent implements OnInit, OnDestroy {
 
   private queryParamsSubscription: Subscription
 
-  constructor(private route: ActivatedRoute, private carsService: CarsService, private router: Router, private actionsService: TopBarActionsService, private formBuilder: FormBuilder, private messageService: MessageService) {
+  constructor(
+    private route: ActivatedRoute,
+    private carsService: CarsService,
+    private router: Router,
+    private actionsService: TopBarActionsService,
+    private formBuilder: FormBuilder,
+    private messageService: MessageService) {
     this.queryParamsSubscription = this.route.queryParamMap.subscribe(s => this.getCar(s.get('id')));
     this.updateActions();
   }
@@ -47,7 +53,7 @@ export class CarDetailFormComponent implements OnInit, OnDestroy {
             this.messageService.showMessage(MessageType.Success, 'Saved', true, 1500);
             this.router.navigate([`/cars/detail/${id}`]).catch();
           })
-          .catch(this.messageService.showError);
+          .catch(err=>this.messageService.showError(err));
       }
     }
   }

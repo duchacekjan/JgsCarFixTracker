@@ -89,6 +89,7 @@ $JgsCarFixTracker-colors: (
 }
 
 .edit-table-drawer-container {
+  padding-top: 1em;
   mat-drawer {
     width: 400px;
     @include media-breakpoint-down(sm) {

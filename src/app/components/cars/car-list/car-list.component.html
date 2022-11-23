@@ -8,7 +8,7 @@
              autofocus>
     </mat-form-field>
   </div>
-  <div class="d-flex flex-row flex-wrap col-10 offset-1">
+  <div class="d-flex flex-row flex-wrap">
     <mat-card *ngFor="let car of cars" (click)="navigate(car.key)" class="car-card">
       <mat-card-title-group>
         <mat-card-title>{{car.licencePlate}}</mat-card-title>
