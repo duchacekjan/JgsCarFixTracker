@@ -10,6 +10,7 @@ import {TableConfig} from "../edit-table/TableConfig";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {TableService} from "../../../services/table.service";
 import {MessageService, MessageType} from "../../../services/message.service";
+import {DialogData} from "../dialog/dialog.component";
 
 @Component({
   selector: 'app-car-detail',
@@ -93,7 +94,13 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   }
 
   removeRow(row: any) {
-    this.removeFix(row as Fix);
+    const data = this.createDeleteDialogData('Delete fix', 'Do you want to delete this fix?');
+    const dlgRef = this.messageService.showDialog(data);
+    dlgRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.removeFix(row as Fix);
+      }
+    })
   }
 
   updateTableData() {
@@ -105,7 +112,6 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   private showForm(fix: Fix, isNewRow: boolean) {
     this.resetForm();
     this.fixItemUpdateForm.patchValue(fix);
-    let mileage = this.fixItemUpdateForm.get('mileage')
     if (!isNewRow) {
       this.fixItemUpdateForm.get('lastUpdate')!.patchValue(this.formatDate(fix.lastUpdate));
     }
@@ -211,10 +217,18 @@ export class CarDetailComponent implements OnInit, OnDestroy {
 
   private invokeAction(action: string | null) {
     if (action === 'delete') {
-      this.carSubscription.unsubscribe()
-      this.carsService.remove(this.car)
-        .then(() => this.router.navigate(['/cars'], {replaceUrl: true}))
-        .catch(() => this.getCar());
+      const data = this.createDeleteDialogData('Delete car', 'Do you want to delete this car?');
+      const dialogRef = this.messageService.showDialog(data);
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.carSubscription.unsubscribe()
+          this.carsService.remove(this.car)
+            .then(() => this.router.navigate(['/cars'], {replaceUrl: true}))
+            .catch(() => this.getCar());
+        } else {
+          this.router.navigate([this.route.snapshot.url], {replaceUrl: true}).catch();
+        }
+      })
     }
   }
 
@@ -229,5 +243,14 @@ export class CarDetailComponent implements OnInit, OnDestroy {
         header: 'Description'
       }
     ]);
+  }
+
+  private createDeleteDialogData(title: string, content: string): DialogData {
+    const data = new DialogData();
+    data.title = title;
+    data.content = content;
+    data.setOk(false);
+    data.setDelete(true);
+    return data;
   }
 }

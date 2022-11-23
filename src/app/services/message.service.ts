@@ -1,16 +1,28 @@
 import {inject, Injectable} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackBarComponent} from "../components/cars/snack-bar/snack-bar.component";
+import {DialogComponent, DialogData} from "../components/cars/dialog/dialog.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
   private snackBar = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
 
-  showError(err: string){
+  showDialog(data: DialogData): MatDialogRef<DialogComponent> {
+    return this.dialog.open(DialogComponent, {
+      data: data,
+      minHeight: '480px',
+      minWidth: '320px'
+    });
+  }
+
+  showError(err: string) {
     this.showMessage(MessageType.Error, err, true, 3000);
   }
+
   showMessage(type: MessageType, message: string, canDismiss: boolean, duration: number) {
     let panelClass = this.getPanelClass(type);
     let config = {
