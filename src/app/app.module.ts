@@ -1,8 +1,7 @@
 import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
 import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
-import {browserLocalPersistence, getAuth, provideAuth, setPersistence, signInWithEmailAndPassword} from '@angular/fire/auth';
+import {getAuth, provideAuth} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/compat/database';
@@ -15,9 +14,7 @@ import {AuthService} from './services/auth.service';
 import {registerLocaleData} from "@angular/common";
 import localeCz from '@angular/common/locales/cs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatPaginatorIntl} from "@angular/material/paginator";
-import {PaginatorIntlComponent} from "./components/cars/paginator-intl/paginator-intl.component";
-import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MaterialModule} from "./material.module";
 
 registerLocaleData(localeCz);
 
@@ -34,13 +31,11 @@ registerLocaleData(localeCz);
     provideDatabase(() => getDatabase()),
     RouterModule.forRoot([]),
     LayoutModule,
-    MatSnackBarModule,
+    MaterialModule,
     BrowserAnimationsModule
   ],
-  exports: [
-    MatSnackBarModule
-  ],
-  providers: [AuthService, {provide: LOCALE_ID, useValue: 'cs-CZ'}, {provide: MatPaginatorIntl, useClass: PaginatorIntlComponent}],
+  exports: [],
+  providers: [AuthService, {provide: LOCALE_ID, useValue: 'cs-CZ'}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

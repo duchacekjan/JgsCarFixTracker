@@ -19,26 +19,29 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {SnackBarComponent} from './snack-bar/snack-bar.component';
 import {MatSortModule} from "@angular/material/sort";
+import {DialogComponent} from './dialog/dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CarsRoutingModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTableModule,
-        MatIconModule,
-        MatCardModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatRippleModule,
-        MatTooltipModule,
-        MatPaginatorModule,
-        MatSidenavModule,
-        MatSortModule
-    ],
-  declarations: [CarListComponent, CarDetailComponent, IconButtonComponent, CarDetailFormComponent, EditTableComponent, SnackBarComponent]
+  imports: [
+    CommonModule,
+    CarsRoutingModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatIconModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatRippleModule,
+    MatTooltipModule,
+    MatPaginatorModule,
+    MatSidenavModule,
+    MatSortModule,
+    MatDialogModule
+  ],
+  declarations: [CarListComponent, CarDetailComponent, IconButtonComponent, CarDetailFormComponent, EditTableComponent, SnackBarComponent, DialogComponent]
 })
 export class CarsModule {
 }

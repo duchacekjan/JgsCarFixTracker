@@ -10,6 +10,7 @@ import {TableConfig} from "../edit-table/TableConfig";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {TableService} from "../../../services/table.service";
 import {MessageService, MessageType} from "../../../services/message.service";
+import {DialogData} from "../dialog/dialog.component";
 
 @Component({
   selector: 'app-car-detail',
@@ -93,7 +94,17 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   }
 
   removeRow(row: any) {
-    this.removeFix(row as Fix);
+    const data = new DialogData();
+    data.title = 'Delete fix?';
+    data.content = 'Do you want to delete this fix?';
+    data.setOk(false);
+    data.setDelete(true);
+    const dlgRef = this.messageService.showDialog(data);
+    dlgRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.removeFix(row as Fix);
+      }
+    })
   }
 
   updateTableData() {
