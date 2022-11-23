@@ -1,36 +1,4 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat.core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$JgsCarFixTracker-primary: mat.define-palette(mat.$indigo-palette);
-$JgsCarFixTracker-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$JgsCarFixTracker-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$JgsCarFixTracker-theme: mat.define-light-theme((
-  color: (
-    primary: $JgsCarFixTracker-primary,
-    accent: $JgsCarFixTracker-accent,
-    warn: $JgsCarFixTracker-warn,
-  )
-));
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($JgsCarFixTracker-theme);
+@import '~bootstrap/scss/bootstrap-utilities';
 
 $JgsCarFixTracker-colors: (
   primary: #7cb342,
@@ -44,11 +12,16 @@ $JgsCarFixTracker-colors: (
   divider: rgb(0, 0, 0, 0.12)
 );
 
+.success-notification {
+  background-color: map-get($JgsCarFixTracker-colors, primary);
+}
+
 .edit-table {
   border: solid 1px map-get($JgsCarFixTracker-colors, primary);
 
   .edit-table__grid {
     width: 100%;
+    table-layout: fixed;
 
     .mat-header-row {
       background-color: map-get($JgsCarFixTracker-colors, primary);
@@ -57,9 +30,10 @@ $JgsCarFixTracker-colors: (
         color: white;
         font-family: 'Roboto', sans-serif;
         font-size: 1em;
+
         &.row-action-column {
-          padding: 0 8px 0 1.5em;
-          width: 10%;
+          padding: 0 0.1em;
+          width: 6em;
           text-align: right;
         }
       }
@@ -69,13 +43,22 @@ $JgsCarFixTracker-colors: (
       color: map-get($JgsCarFixTracker-colors, default-text);
 
       &.row-action-column {
-        padding: 0 8px 0 1.5em;
-        width: 10%;
+        padding: 0 0.1em;
+        width: 6em;
       }
     }
 
+    .description-col {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      width: auto
+    }
+
     .numeric-col {
-      width: 10%;
+      width: 7em;
+      padding-left: 0;
+
       &.mat-cell {
         text-align: right;
         padding-right: 1em;
@@ -107,8 +90,13 @@ $JgsCarFixTracker-colors: (
 
 .edit-table-drawer-container {
   mat-drawer {
+    width: 400px;
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+    }
+
     .table-update {
-      padding: 1em 2em;
+      padding: 1em;
 
       .table-update__header {
         h2 {
@@ -119,16 +107,15 @@ $JgsCarFixTracker-colors: (
           padding-bottom: 0.5em;
         }
 
-        margin-bottom: 2em;
+        margin-bottom: 1em;
       }
 
       .table-update__footer {
         margin: 1em 0;
-        //@include media-breakpoint-down(sm) {
-        //  margin: 1em 0;
-        //}
+
         button {
           width: 100%;
+          margin: 0.3em 0;
         }
       }
     }

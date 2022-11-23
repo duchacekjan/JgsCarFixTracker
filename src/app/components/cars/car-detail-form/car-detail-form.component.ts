@@ -2,13 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CarsService} from "../../../services/cars.service";
 import {TopBarActionsService} from "../../../services/top-bar-actions.service";
-import {TopBarAction} from "../../../models/TopBarAction";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Car} from "../../../models/car";
-import {Fix} from "../../../models/fix";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {SnackBarComponent} from "../snack-bar/snack-bar.component";
+import {MessageService, MessageType} from "../../../services/message.service";
 
 @Component({
   selector: 'app-car-detail-form',
@@ -29,7 +26,7 @@ export class CarDetailFormComponent implements OnInit, OnDestroy {
 
   private queryParamsSubscription: Subscription
 
-  constructor(private route: ActivatedRoute, private carsService: CarsService, private router: Router, private actionsService: TopBarActionsService, private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(private route: ActivatedRoute, private carsService: CarsService, private router: Router, private actionsService: TopBarActionsService, private formBuilder: FormBuilder, private messageService: MessageService) {
     this.queryParamsSubscription = this.route.queryParamMap.subscribe(s => this.getCar(s.get('id')));
     this.updateActions();
   }
@@ -47,25 +44,15 @@ export class CarDetailFormComponent implements OnInit, OnDestroy {
       if (car && car.licencePlate) {
         this.carsService.upsert(car)
           .then(id => {
+            this.messageService.showMessage(MessageType.Success, 'Saved', true, 1500);
             this.router.navigate([`/cars/detail/${id}`]).catch();
           })
-          .catch(err => {
-            this.snackBar.open(';', 'test');
-            this.snackBar.openFromComponent(SnackBarComponent, {
-              data: {
-                message: err,
-                action: 'OK'
-              },
-              duration: 3000,
-              panelClass: ['mat-toolbar', 'mat-warn']
-            })
-          });
+          .catch(this.messageService.showError);
       }
     }
   }
 
   private getCar(id: string | null): void {
-    console.log(id);
     this.isNew = id === null;
     this.carsService.getCar(id ?? 'new')
       .subscribe(data => {
