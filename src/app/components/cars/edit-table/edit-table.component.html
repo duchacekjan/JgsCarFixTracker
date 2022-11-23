@@ -1,56 +1,27 @@
 <div class="edit-table">
   <table mat-table [dataSource]="table_data_source" class="edit-table__grid">
-    <ng-container
-      *ngFor="let column of table_config.columns; index as i"
-      [matColumnDef]="column.key">
-      <th mat-header-cell *matHeaderCellDef [ngClass]="{'numeric-col': !!column.numeric, 'hidden-col': !!column.hidden}">{{column.heading}}</th>
-      <ng-container *ngIf="!column.isDate">
-        <td mat-cell *matCellDef="let table_row" [ngClass]="{'numeric-col': !!column.numeric, 'hidden-col': !!column.hidden}"> {{table_row[column.key]}} </td>
-      </ng-container>
-      <ng-container *ngIf="column.isDate">
-        <td mat-cell *matCellDef="let table_row" [ngClass]="{'numeric-col': !!column.numeric, 'hidden-col': !!column.hidden}"> {{table_row[column.key] | date}} </td>
-      </ng-container>
+    <ng-container matColumnDef="mileage" sticky>
+      <th mat-header-cell *matHeaderCellDef class="numeric-col"> KM</th>
+      <td mat-cell *matCellDef="let element" class="numeric-col"> {{element.mileage | number}} </td>
     </ng-container>
-
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description</th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
     <!-- Actions  Column -->
-    <ng-container
-      *ngIf="!!table_config?.actions?.edit"
-      matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef>
-        <div
-          *ngIf="!!table_config?.actions?.add"
-          class="edit-table__add">
-          <button
-            mat-icon-button
-            matTooltip="Add New Row"
-            matTooltipPosition="left"
-            aria-label="Add New Row"
-            (click)="addRow()">
-            <mat-icon>
-              playlist_add
-            </mat-icon>
-          </button>
-        </div>
+    <ng-container matColumnDef="edit" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef class="row-action-column">
+        <button mat-icon-button matTooltip="Add New Row" matTooltipPosition="left" aria-label="Add New Row" (click)="addRow()">
+          <mat-icon>playlist_add</mat-icon>
+        </button>
       </th>
       <td mat-cell *matCellDef="let table_row" class="row-action-column">
         <div style="display: inline-flex">
-          <button *ngIf="!!table_config?.actions?.remove"
-                  mat-icon-button
-                  color="warn"
-                  matTooltip="Remove Row"
-                  matTooltipPosition="left"
-                  aria-label="Remove Row"
-                  (click)="removeRow(table_row)">
+          <button mat-icon-button color="warn" matTooltip="Remove Row" matTooltipPosition="left" aria-label="Remove Row" (click)="removeRow(table_row)">
             <mat-icon aria-hidden="true">delete</mat-icon>
           </button>
-          <button
-            mat-icon-button
-            color="primary"
-            matTooltip="Edit Row"
-            matTooltipPosition="left"
-            aria-label="Edit Row"
-            (click)="editRow(table_row)">
-            <mat-icon aria-hidden="true" class="material-icons-outlined">edit</mat-icon>
+          <button mat-icon-button color="primary" matTooltip="Edit Row" matTooltipPosition="left" aria-label="Edit Row" (click)="editRow(table_row)">
+            <mat-icon aria-hidden="true">edit</mat-icon>
           </button>
         </div>
       </td>
@@ -59,5 +30,5 @@
     <tr mat-header-row *matHeaderRowDef="displayed_columns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayed_columns;"></tr>
   </table>
-  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons></mat-paginator>
 </div>
