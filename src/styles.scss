@@ -1,7 +1,13 @@
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
 
+//importing the good parts from Bootstrap
+@import "styles/custom-theme.scss";
+@import "styles/edit-table.styles.scss";
+
 html, body {
   height: 100%;
+  min-height: 480px;
+  min-width: 320px;
 }
 
 body {

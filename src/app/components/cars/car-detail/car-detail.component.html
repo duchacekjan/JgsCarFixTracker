@@ -10,37 +10,25 @@
         <header class="table-update__header">
           <h3 class="h3">{{isNewRowBeingAdded ? 'Add New' : 'Edit'}} Row</h3>
         </header>
-        <div class="table-update__fields">
-          <div class="row">
-            <mat-form-field>
-              <input matInput type="date" formControlName="lastUpdate" aria-describedby="last-update" placeholder="Last update">
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput type="number" formControlName="mileage" min="0" aria-describedby="mileage" placeholder="Mileage">
-            </mat-form-field>
-          </div>
-          <div class="row">
-            <mat-form-field>
-              <textarea matInput formControlName="description" required aria-describedby="description" placeholder="Description" name="" rows="10"></textarea>
-            </mat-form-field>
-          </div>
+        <div class="d-flex flex-column">
+          <mat-form-field *ngIf="!isNewRowBeingAdded">
+            <input matInput type="date" formControlName="lastUpdate" aria-describedby="last-update" placeholder="Last update">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="number" formControlName="mileage" aria-describedby="mileage" placeholder="Mileage">
+          </mat-form-field>
+          <mat-form-field>
+            <textarea matInput formControlName="description" required aria-describedby="description" placeholder="Description" name="" rows="10"></textarea>
+          </mat-form-field>
         </div>
+
         <footer class="table-update__footer">
-          <div class="row flex-column-reverse flex-sm-row">
+          <div class="row">
             <div class="col-12 col-sm-6">
-              <button mat-raised-button
-                      style="margin: 0.3em"
-                      color="warn"
-                      (click)="isDrawerOpened = false">Dismiss
-              </button>
+              <button mat-raised-button color="accent" (click)="isDrawerOpened = false">Dismiss</button>
             </div>
             <div class="col-12 col-sm-6">
-              <button mat-raised-button
-                      style="margin: 0.3em"
-                      color="primary"
-                      type="submit"
-                      [disabled]="!fixItemUpdateForm.valid">Save
-              </button>
+              <button mat-raised-button class="col-12 col-sm-6" color="primary" type="submit" [disabled]="!fixItemUpdateForm.valid">Save</button>
             </div>
           </div>
         </footer>
