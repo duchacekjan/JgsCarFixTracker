@@ -173,7 +173,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       this.updatedFixIndex = fixIndex;
       this.carsService.update(this.car)
         .then(() => this.messageService.showMessage(MessageType.Success, isDelete ? 'Deleted' : 'Saved', true, 1000))
-        .catch(this.messageService.showError);
+        .catch(err=>this.messageService.showError(err));
     }
   }
 

@@ -1,14 +1,14 @@
-<form [formGroup]="carForm" class="container-fluid" (ngSubmit)="onSubmit()">
+<form [formGroup]="carForm" class="container-fluid form-wrapper" (ngSubmit)="onSubmit()">
   <div class="row">
-    <mat-form-field class="col-12 col-md-6 d-flex flex-column">
+    <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-column">
       <input matInput type="text" formControlName="licencePlate" placeholder="Licence plate" required/>
     </mat-form-field>
   </div>
   <div class="row">
-    <mat-form-field class="col-12 col-md-6">
+    <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
       <input matInput type="text" formControlName="brand" placeholder="Brand">
     </mat-form-field>
-    <mat-form-field class="col-12 col-md-6">
+    <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
       <input matInput type="text" formControlName="model" placeholder="Model">
     </mat-form-field>
   </div>

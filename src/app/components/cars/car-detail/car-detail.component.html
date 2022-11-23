@@ -4,26 +4,21 @@
               [opened]="isDrawerOpened"
               disableClose="true">
     <section class="table-update">
-      <form class="table-update__form"
+      <form class="d-flex flex-column"
             [formGroup]="fixItemUpdateForm"
             (ngSubmit)="updateTableData()"
             #formDirective="ngForm">
-        <header class="table-update__header">
-          <h3 class="h3">{{isNewRowBeingAdded ? 'Add New' : 'Edit'}} Row</h3>
-        </header>
-        <div class="d-flex flex-column">
-          <mat-form-field *ngIf="!isNewRowBeingAdded">
-            <input matInput type="date" formControlName="lastUpdate" aria-describedby="last-update" placeholder="Last update">
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput type="number" formControlName="mileage" aria-describedby="mileage" placeholder="Mileage">
-          </mat-form-field>
-          <mat-form-field>
-            <textarea matInput formControlName="description" required aria-describedby="description" placeholder="Description" name="" rows="10"></textarea>
-          </mat-form-field>
-        </div>
-
-        <footer class="table-update__footer">
+        <h3 class="table-update__header">{{isNewRowBeingAdded ? 'Add New' : 'Edit'}} Row</h3>
+        <mat-form-field *ngIf="!isNewRowBeingAdded">
+          <input matInput type="date" formControlName="lastUpdate" aria-describedby="last-update" placeholder="Last update">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="number" formControlName="mileage" aria-describedby="mileage" placeholder="Mileage">
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput formControlName="description" required aria-describedby="description" placeholder="Description" name="" rows="10"></textarea>
+        </mat-form-field>
+        <div class="table-update__footer">
           <div class="row">
             <div class="col-12 col-sm-6">
               <button mat-raised-button (click)="isDrawerOpened = false">Cancel</button>
@@ -32,21 +27,21 @@
               <button mat-raised-button class="col-12 col-sm-6" color="primary" type="submit" [disabled]="!fixItemUpdateForm.valid">Save</button>
             </div>
           </div>
-        </footer>
+        </div>
       </form>
     </section>
   </mat-drawer>
   <mat-drawer-content class="container-fluid">
     <div class="row">
-      <mat-form-field class="col-12 col-md-6 col-lg-4">
+      <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
         <input matInput type="text" readonly="true" [(ngModel)]="car.licencePlate" name="licence-place" placeholder="Licence plate"/>
       </mat-form-field>
     </div>
     <div class="row">
-      <mat-form-field class="col-12 col-md-6 col-lg-4">
+      <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
         <input matInput type="text" readonly="true" name="brand" [(ngModel)]="car.brand" placeholder="Brand">
       </mat-form-field>
-      <mat-form-field class="col-12 col-md-6 col-lg-4">
+      <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
         <input matInput type="text" readonly="true" name="model" [(ngModel)]="car.model" placeholder="Model">
       </mat-form-field>
     </div>
