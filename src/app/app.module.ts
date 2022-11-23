@@ -14,9 +14,10 @@ import {LayoutModule} from './layout/layout.module';
 import {AuthService} from './services/auth.service';
 import {registerLocaleData} from "@angular/common";
 import localeCz from '@angular/common/locales/cs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatPaginatorIntl} from "@angular/material/paginator";
 import {PaginatorIntlComponent} from "./components/cars/paginator-intl/paginator-intl.component";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 registerLocaleData(localeCz);
 
@@ -33,7 +34,11 @@ registerLocaleData(localeCz);
     provideDatabase(() => getDatabase()),
     RouterModule.forRoot([]),
     LayoutModule,
+    MatSnackBarModule,
     BrowserAnimationsModule
+  ],
+  exports: [
+    MatSnackBarModule
   ],
   providers: [AuthService, {provide: LOCALE_ID, useValue: 'cs-CZ'}, {provide: MatPaginatorIntl, useClass: PaginatorIntlComponent}],
   bootstrap: [AppComponent]

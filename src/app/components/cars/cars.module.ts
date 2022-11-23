@@ -17,7 +17,6 @@ import {MatRippleModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {SnackBarComponent} from './snack-bar/snack-bar.component';
 import {MatSortModule} from "@angular/material/sort";
 
@@ -37,7 +36,6 @@ import {MatSortModule} from "@angular/material/sort";
         MatTooltipModule,
         MatPaginatorModule,
         MatSidenavModule,
-        MatSnackBarModule,
         MatSortModule
     ],
   declarations: [CarListComponent, CarDetailComponent, IconButtonComponent, CarDetailFormComponent, EditTableComponent, SnackBarComponent]

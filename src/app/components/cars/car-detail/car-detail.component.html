@@ -1,3 +1,4 @@
+<!--suppress JSUnusedGlobalSymbols -->
 <mat-drawer-container class="edit-table-drawer-container h-100">
   <mat-drawer mode="over" position="end"
               [opened]="isDrawerOpened"
@@ -6,7 +7,7 @@
       <form class="table-update__form"
             [formGroup]="fixItemUpdateForm"
             (ngSubmit)="updateTableData()"
-            ngForm>
+            #formDirective="ngForm">
         <header class="table-update__header">
           <h3 class="h3">{{isNewRowBeingAdded ? 'Add New' : 'Edit'}} Row</h3>
         </header>

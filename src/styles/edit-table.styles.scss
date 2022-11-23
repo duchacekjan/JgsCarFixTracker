@@ -1,16 +1,20 @@
 @import '~bootstrap/scss/bootstrap-utilities';
 
 $JgsCarFixTracker-colors: (
-primary: #7cb342,
-primary-light: #aee571,
-primary-dark: #4b830d,
-notification: #B00020,
-subtle-bg: #EEEEEE,
-default-text: #000000,
-disabled-text: rgb(0, 0, 0, 0.26),
-disabled-bg: rgb(0, 0, 0, 0.12),
-divider: rgb(0, 0, 0, 0.12)
+  primary: #7cb342,
+  primary-light: #aee571,
+  primary-dark: #4b830d,
+  notification: #B00020,
+  subtle-bg: #EEEEEE,
+  default-text: #000000,
+  disabled-text: rgb(0, 0, 0, 0.26),
+  disabled-bg: rgb(0, 0, 0, 0.12),
+  divider: rgb(0, 0, 0, 0.12)
 );
+
+.success-notification {
+  background-color: map-get($JgsCarFixTracker-colors, primary);
+}
 
 .edit-table {
   border: solid 1px map-get($JgsCarFixTracker-colors, primary);
@@ -26,13 +30,14 @@ divider: rgb(0, 0, 0, 0.12)
         color: white;
         font-family: 'Roboto', sans-serif;
         font-size: 1em;
+
         &.row-action-column {
           padding: 0 0.1em;
           width: 6em;
           text-align: right;
+        }
       }
     }
-  }
 
     .mat-cell {
       color: map-get($JgsCarFixTracker-colors, default-text);
@@ -40,31 +45,32 @@ divider: rgb(0, 0, 0, 0.12)
       &.row-action-column {
         padding: 0 0.1em;
         width: 6em;
+      }
     }
-  }
 
-    .description-col{
+    .description-col {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
       width: auto
-  }
+    }
 
     .numeric-col {
       width: 7em;
       padding-left: 0;
+
       &.mat-cell {
         text-align: right;
         padding-right: 1em;
         font-family: 'RobotoMono', sans-serif;
-    }
+      }
 
       &.mat-header-cell {
         text-align: center;
         padding-right: 1em;
+      }
     }
   }
-}
 }
 
 .mat-paginator-container {
@@ -73,13 +79,13 @@ divider: rgb(0, 0, 0, 0.12)
   .mat-paginator-page-size-label, .mat-select-trigger, .mat-paginator-range-label {
     color: map-get($JgsCarFixTracker-colors, default-text);
     font-size: 14px;
-}
+  }
 
   .mat-paginator-range-actions {
     button {
       color: map-get($JgsCarFixTracker-colors, primary);
+    }
   }
-}
 }
 
 .edit-table-drawer-container {
@@ -88,6 +94,7 @@ divider: rgb(0, 0, 0, 0.12)
     @include media-breakpoint-down(sm) {
       width: 100%;
     }
+
     .table-update {
       padding: 1em;
 
@@ -98,18 +105,19 @@ divider: rgb(0, 0, 0, 0.12)
           font-family: 'Roboto', sans-serif;
           margin-bottom: 1em;
           padding-bottom: 0.5em;
-      }
+        }
 
         margin-bottom: 1em;
-    }
+      }
 
       .table-update__footer {
         margin: 1em 0;
+
         button {
           width: 100%;
           margin: 0.3em 0;
+        }
       }
     }
   }
-}
 }
