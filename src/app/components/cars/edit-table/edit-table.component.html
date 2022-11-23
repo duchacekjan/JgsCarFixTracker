@@ -11,16 +11,16 @@
     <!-- Actions  Column -->
     <ng-container matColumnDef="edit" stickyEnd>
       <th mat-header-cell *matHeaderCellDef class="row-action-column">
-        <button mat-icon-button matTooltip="Add New Row" matTooltipPosition="left" aria-label="Add New Row" (click)="addRow()">
+        <button mat-icon-button matTooltip="Add New Row" aria-label="Add New Row" (click)="addRow()">
           <mat-icon>playlist_add</mat-icon>
         </button>
       </th>
       <td mat-cell *matCellDef="let table_row" class="row-action-column">
         <div style="display: inline-flex">
-          <button mat-icon-button color="warn" matTooltip="Remove Row" matTooltipPosition="left" aria-label="Remove Row" (click)="removeRow(table_row)">
+          <button mat-icon-button color="warn" matTooltip="Remove Row" aria-label="Remove Row" (click)="removeRow(table_row)">
             <mat-icon aria-hidden="true">delete</mat-icon>
           </button>
-          <button mat-icon-button color="primary" matTooltip="Edit Row" matTooltipPosition="left" aria-label="Edit Row" (click)="editRow(table_row)">
+          <button mat-icon-button color="primary" matTooltip="Edit Row" aria-label="Edit Row" (click)="editRow(table_row)">
             <mat-icon aria-hidden="true">edit</mat-icon>
           </button>
         </div>
