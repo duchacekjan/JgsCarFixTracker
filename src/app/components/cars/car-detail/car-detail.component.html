@@ -1,6 +1,6 @@
 <mat-drawer-container class="edit-table-drawer-container h-100">
   <mat-drawer mode="over" position="end" #table_update_drawer
-              [opened]="isTableBeingUpdated"
+              [opened]="isDrawerOpened"
               disableClose="true">
     <section class="table-update">
       <form class="table-update__form"
@@ -31,7 +31,7 @@
               <button mat-raised-button
                       style="margin: 0.3em"
                       color="warn"
-                      (click)="isTableBeingUpdated = false">Dismiss
+                      (click)="isDrawerOpened = false">Dismiss
               </button>
             </div>
             <div class="col-12 col-sm-6">

@@ -20,7 +20,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   car: Car = new Car();
   tableConfig: TableConfig;
 
-  isTableBeingUpdated: boolean = false;
+  isDrawerOpened: boolean = false;
   isNewRowBeingAdded: boolean = false;
   fixItemUpdateForm!: FormGroup;
   existing_row_values!: any;
@@ -30,7 +30,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   private carSubscription = new Subscription();
   private updatedFixIndex: number = -1;
 
-  @ViewChild(FormGroupDirective, {static: true}) formGroup!: FormGroupDirective;
+  @ViewChild(FormGroupDirective, {static: true}) fixFormGroup!: FormGroupDirective;
 
   constructor(
     private route: ActivatedRoute,
@@ -82,29 +82,14 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   }
 
   addNewRow() {
-    // enabling the primary key fields
-    this.tableService.toggleFormControls(this.fixItemUpdateForm, ['lastUpdate'], false);
-    // to reset the entire form
-    this.fixItemUpdateForm.reset();
     const newFix = new Fix();
     newFix.mileage = this.getNewMileage();
-    this.fixItemUpdateForm.patchValue(newFix);
-    this.isTableBeingUpdated = true;
-    this.isNewRowBeingAdded = true;
+    this.showForm(newFix, true);
   }
 
   editRow(row: any) {
     this.existing_row_values = {...row};
-    // to reset the entire form
-    this.resetForm();
-    // patch existing values in the form
-    let fix = row as Fix;
-    this.fixItemUpdateForm.patchValue(fix);
-    this.fixItemUpdateForm.get('lastUpdate')!.patchValue(this.formatDate(fix.lastUpdate));
-    // disabling the primary key fields
-    this.tableService.toggleFormControls(this.fixItemUpdateForm, ['lastUpdate'], false);
-    this.isTableBeingUpdated = true;
-    this.isNewRowBeingAdded = false;
+    this.showForm(row as Fix, false);
   }
 
   removeRow(row: any) {
@@ -117,13 +102,24 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     this.saveFix(updatedFix);
   }
 
+  private showForm(fix: Fix, isNewRow: boolean) {
+    this.resetForm();
+    this.fixItemUpdateForm.patchValue(fix);
+    if (!isNewRow) {
+      this.fixItemUpdateForm.get('lastUpdate')!.patchValue(this.formatDate(fix.lastUpdate));
+    }
+    this.tableService.toggleFormControls(this.fixItemUpdateForm, ['lastUpdate'], false);
+    this.isDrawerOpened = true;
+    this.isNewRowBeingAdded = isNewRow;
+  }
+
   private resetForm() {
     //close the drawer and reset the update form
-    this.isTableBeingUpdated = false;
+    this.isDrawerOpened = false;
     this.fixItemUpdateForm.reset();
     this.fixItemUpdateForm.setErrors(null);
     this.fixItemUpdateForm.updateValueAndValidity();
-    this.formGroup.resetForm();
+    this.fixFormGroup.resetForm();
   }
 
   private formatDate(date: any) {
