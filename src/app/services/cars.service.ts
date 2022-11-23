@@ -47,10 +47,10 @@ export class CarsService {
     const fixes = data.fixes ?? [];
     result.fixes = fixes.sort((a, b) => {
       if (a.mileage < b.mileage) {
-        return -1;
+        return 1;
       }
       if (a.mileage > b.mileage) {
-        return 1;
+        return -1;
       }
       return 0;
     });
