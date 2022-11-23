@@ -48,9 +48,7 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
       let col_config = column_config[i];
       columns_to_display.push(col_config.key);
     }
-    if (!!this.table_config?.actions?.edit) {
-      columns_to_display.push('edit');
-    }
+    columns_to_display.push('edit');
     this.displayed_columns = columns_to_display;
   }
 
@@ -59,36 +57,18 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
       (new_data: any) => {
         this.table_data_source = new MatTableDataSource<any>(new_data.data);
         this.table_data_source.paginator = this.paginator;
-        if (!!new_data.highlight) {
-          //if it is needed to highlight the updated/new row
-          this.goToUpdatedPage(new_data.highlight, new_data.data);
-        }
+        this.goToUpdatedPage(new_data.updatedFixIndex);
       }
     );
   }
 
-  goToUpdatedPage(updated_row: any, data: any[]) {
-    //get the index of the updated row
-    let updated_index = data.findIndex(
-      (row) => {
-        let is_matching = true;
-        let primary_key_count = this.table_config.primary_key_set.length;
-        for (let i = 0; i < primary_key_count; i++) {
-          let column = this.table_config.primary_key_set[i];
-          if (row[column] != updated_row[column]) {
-            is_matching = false;
-            break;
-          }
-        }
-        return is_matching;
-      }
-    );
+  goToUpdatedPage(updatedFixIndex: any) {
     //get the page the updated row is and navigate to it after 1sec
     setTimeout(() => {
-      if (updated_index >= 0) {
+      if (updatedFixIndex >= 0) {
         let page_size = this.paginator.pageSize;
         let current_page_index = this.paginator.pageIndex;
-        let calculated_page_index = Math.ceil((updated_index + 1) / page_size) - 1;
+        let calculated_page_index = Math.ceil((updatedFixIndex + 1) / page_size) - 1;
         if (calculated_page_index != current_page_index) {
           if (calculated_page_index == 0) {
             //if the first page is to be navigated to
@@ -99,7 +79,7 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
             this.paginator.nextPage();
           }
         }
-        this.updated_row_index = updated_index - (page_size * calculated_page_index);
+        this.updated_row_index = updatedFixIndex - (page_size * calculated_page_index);
         setTimeout(() => {
           this.updated_row_index = -1;
         }, 4000);

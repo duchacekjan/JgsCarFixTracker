@@ -5,14 +5,11 @@ export class TableConfig {
     this.columns = columns;
   }
 
-  columns!: any []
-  primary_key_set: string[] = []
+  columns!: TableColumnConfig []
   table_data_changer = new Subject<any>()
-  actions = new ActionsConfig()
 }
 
-export class ActionsConfig {
-  add: boolean = false
-  edit: boolean = false
-  remove:boolean = false
+export class TableColumnConfig {
+  key!: string;
+  header!: string;
 }

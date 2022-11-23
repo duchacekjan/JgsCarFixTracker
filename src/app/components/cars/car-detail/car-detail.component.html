@@ -1,14 +1,14 @@
 <mat-drawer-container class="edit-table-drawer-container h-100">
   <mat-drawer mode="over" position="end" #table_update_drawer
-              [opened]="is_table_being_updated"
+              [opened]="isTableBeingUpdated"
               disableClose="true">
     <section class="table-update">
       <form class="table-update__form"
-            [formGroup]="table_update_form"
+            [formGroup]="fixItemUpdateForm"
             (ngSubmit)="updateTableData()"
             #formDirective="ngForm">
         <header class="table-update__header">
-          <h3 class="h3">{{is_new_row_being_added ? 'Add New' : 'Edit'}} Row</h3>
+          <h3 class="h3">{{isNewRowBeingAdded ? 'Add New' : 'Edit'}} Row</h3>
         </header>
         <div class="table-update__fields">
           <div class="row">
@@ -31,7 +31,7 @@
               <button mat-raised-button
                       style="margin: 0.3em"
                       color="warn"
-                      (click)="is_table_being_updated = false">Dismiss
+                      (click)="isTableBeingUpdated = false">Dismiss
               </button>
             </div>
             <div class="col-12 col-sm-6">
@@ -39,7 +39,7 @@
                       style="margin: 0.3em"
                       color="primary"
                       type="submit"
-                      [disabled]="!table_update_form.valid">Save
+                      [disabled]="!fixItemUpdateForm.valid">Save
               </button>
             </div>
           </div>
@@ -62,7 +62,7 @@
       </mat-form-field>
     </div>
     <app-edit-table
-      [table_config]="table_config"
+      [table_config]="tableConfig"
       (onRowAdd)="addNewRow()"
       (onRowEdit)="editRow($event)"
       (onRowRemove)="removeRow($event)">
