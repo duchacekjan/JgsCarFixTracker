@@ -18,6 +18,8 @@ export class MainComponent implements OnInit, OnDestroy {
   private actionsSubscription = new Subscription();
   private backActionSubscription = new Subscription();
   private _isDarkMode = false;
+  private readonly THEME_MODE = 'THEME_MODE';
+  private _isDarkModePreferred = false;
 
   constructor(public authService: AuthService, private actionsService: TopBarActionsService, private overlay: OverlayContainer, private renderer: Renderer2) {
   }
@@ -27,9 +29,10 @@ export class MainComponent implements OnInit, OnDestroy {
       .subscribe(actions => this.actions = actions);
     this.backActionSubscription = this.actionsService.backAction
       .subscribe(s => this.backAction = s);
-    const query = window.matchMedia('(prefers-color-scheme: dark)');
-    console.log(query.matches);
-    this.isDarkMode = query.matches;
+    this._isDarkModePreferred = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    const savedMode = localStorage.getItem(this.THEME_MODE);
+    this.isDarkMode = savedMode ? JSON.parse(savedMode) : this._isDarkModePreferred;
   }
 
   ngOnDestroy(): void {
@@ -46,6 +49,10 @@ export class MainComponent implements OnInit, OnDestroy {
     } else {
       this.renderer.removeClass(document.body, darkClassName);
       this.overlay.getContainerElement().classList.remove(darkClassName);
+    }
+
+    if (this._isDarkModePreferred !== this._isDarkMode) {
+      localStorage.setItem(this.THEME_MODE, JSON.stringify(this._isDarkMode));
     }
   }
 
