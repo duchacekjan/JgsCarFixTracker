@@ -2,15 +2,24 @@
   <form class="d-flex flex-column" [formGroup]="signInForm" (ngSubmit)="onSignIn()">
     <h3>Sign In</h3>
     <mat-form-field>
-      <input matInput type="email" placeholder="Email" formControlName="email" required>
+      <input matInput type="email" placeholder="Email" formControlName="email">
+      <mat-error *ngIf="signInForm.get('email')?.hasError('email') && !signInForm.get('email')?.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="signInForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="password" placeholder="Password" formControlName="password" required>
+      <input matInput type="password" placeholder="Password" formControlName="password">
+      <mat-error *ngIf="signInForm.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
     </mat-form-field>
-    <mat-checkbox [checked]="autoLogin" name="autologin">
+    <mat-checkbox [checked]="autoLogin" name="autologin" color="primary">
       Remember
     </mat-checkbox>
-    <button mat-raised-button color="primary" type="submit">Sign in</button>
+    <button mat-raised-button color="primary" type="submit" class="sign-in-button" [disabled]="!signInForm.valid">Sign in</button>
     <a class="sign-in-forgot-link" routerLink="../forgot-password">Forgot Password?</a>
   </form>
 </div>

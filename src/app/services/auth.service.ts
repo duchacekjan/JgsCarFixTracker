@@ -38,7 +38,6 @@ export class AuthService {
         .then(() => {
           this.afAuth.signInWithEmailAndPassword(email, password)
             .then(k => {
-              console.log(k.user?.uid)
               this.usersService.setUser(k.user?.uid).then(() => resolve())
             })
             .catch(err => reject(err));
@@ -68,11 +67,7 @@ export class AuthService {
 
   forgotPassword(passwordResetEmail: string) {
     return this.afAuth
-      .sendPasswordResetEmail(passwordResetEmail)
-      .then(() => {
-        window.alert('Password reset email send, check inbox');
-      })
-      .catch(this.errorHandler);
+      .sendPasswordResetEmail(passwordResetEmail);
   }
 
   signOut() {
