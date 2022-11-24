@@ -43,11 +43,12 @@
     "description": "Popis",
     "lastUpdate": "Poslední změna",
     "descriptionHint": "Provedné úkony",
+    "lastUpdateHint": "Datum poslední změny",
     "addRow": "Přidat nový záznam",
     "editRow": "Upravit záznam",
     "removeRow": "Odstranit záznam",
     "addRowTitle": "Nový záznam",
-    "editRowTitle": "Upravit záznam",
+    "editRowTitle": "Upravit záznam"
   },
   "buttons": {
     "save": "Uložit",
@@ -63,6 +64,6 @@
     "licencePlateRequired": "SPZ je povinná",
     "licencePlateMinLength": "SPZ musí mít minimálně 7 znaků",
     "licencePlateMaxLength": "SPZ musí mít maximálně 8 znaků",
-    "desrciptionRequired": "Popis úkonu je povinný"
+    "descriptionRequired": "Popis úkonu je povinný"
   }
 }
