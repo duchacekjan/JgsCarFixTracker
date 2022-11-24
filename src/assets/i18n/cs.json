@@ -50,6 +50,14 @@
     "addRowTitle": "Nový záznam",
     "editRowTitle": "Upravit záznam"
   },
+  "paginator": {
+    "firstPageLabel": "První stránka",
+    "lastPageLabel": "Poslední stránka",
+    "itemsPerPageLabel": "",
+    "nextPageLabel": "Další stránka",
+    "previousPageLabel": "Předchozí stránka",
+    "pageRangeLabel_p1_p_2": "{{p1}} z {{p2}}"
+  },
   "buttons": {
     "save": "Uložit",
     "delete": "Smazat",
