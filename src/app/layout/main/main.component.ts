@@ -4,6 +4,7 @@ import {AuthService} from "../../services/auth.service";
 import {Subscription} from "rxjs";
 import {TopBarAction} from "../../models/TopBarAction";
 import {OverlayContainer} from "@angular/cdk/overlay";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-main-layout',
@@ -21,7 +22,12 @@ export class MainComponent implements OnInit, OnDestroy {
   private readonly THEME_MODE = 'THEME_MODE';
   private _isDarkModePreferred = false;
 
-  constructor(public authService: AuthService, private actionsService: TopBarActionsService, private overlay: OverlayContainer, private renderer: Renderer2) {
+  constructor(
+    public authService: AuthService,
+    private actionsService: TopBarActionsService,
+    private overlay: OverlayContainer,
+    private renderer: Renderer2,
+    private readonly translate: TranslateService) {
   }
 
   ngOnInit(): void {

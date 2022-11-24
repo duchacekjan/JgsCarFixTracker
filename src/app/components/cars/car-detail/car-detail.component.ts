@@ -204,13 +204,13 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       editAction.route = `/cars/detail/edit`;
       editAction.queryParams = {'id': id};
       editAction.color = 'accent';
-      editAction.tooltip = 'Edit';
+      editAction.tooltip = 'toolbar.editCar';
 
       const removeAction = new TopBarAction('delete');
       removeAction.route = `/cars/detail/${id}`;
       removeAction.queryParams = {'action': 'delete'};
       removeAction.color = 'warn';
-      removeAction.tooltip = 'Remove';
+      removeAction.tooltip = 'toolbar.removeCar';
       this.actionsService.add(removeAction, editAction);
     }
     this.actionsService.updateActions();

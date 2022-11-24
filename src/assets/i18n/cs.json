@@ -1,0 +1,11 @@
+{
+  "toolbar": {
+    "darkMode": "Tmavý režim",
+    "lightMode": "Světlý režim",
+    "back": "Zpět",
+    "logout": "Odhlásit",
+    "newCar": "Nový vůz",
+    "editCar": "Upravit vůz",
+    "removeCar": "Smazat vůz"
+  }
+}

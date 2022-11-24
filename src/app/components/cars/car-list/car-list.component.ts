@@ -24,6 +24,7 @@ export class CarListComponent implements OnInit {
     this.actionsService.clear();
     const addAction = new TopBarAction('add_box');
     addAction.route = '/cars/detail/new';
+    addAction.tooltip = 'toolbar.newCar';
     this.actionsService.add(addAction);
     this.actionsService.updateActions();
   }

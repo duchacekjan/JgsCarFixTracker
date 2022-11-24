@@ -1,20 +1,20 @@
 <mat-toolbar>
-  <button *ngIf="backAction" mat-icon-button routerLink="/cars" matTooltip="Back">
+  <button *ngIf="backAction" mat-icon-button routerLink="/cars" [matTooltip]="'toolbar.back' | translate">
     <mat-icon>arrow_back</mat-icon>
   </button>
   <span>Car fix tracker</span>
   <span class="spacer"></span>
   <ng-container *ngFor="let action of actions">
     <button mat-icon-button [routerLink]="action.route" queryParamsHandling="merge" [queryParams]="action.queryParams"
-            [matTooltip]="action.tooltip">
+            [matTooltip]="action.tooltip | translate">
       <mat-icon *ngIf="!action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
       <mat-icon *ngIf="action.color" [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
     </button>
   </ng-container>
-  <button mat-icon-button (click)="authService.signOut()" matTooltip="Logout">
+  <button mat-icon-button (click)="authService.signOut()" [matTooltip]="'toolbar.logout' | translate">
     <mat-icon>logout</mat-icon>
   </button>
-  <button mat-icon-button (click)="isDarkMode = !isDarkMode" [matTooltip]="isDarkMode?'LightMode':'DarkMode'">
+  <button mat-icon-button (click)="isDarkMode = !isDarkMode" [matTooltip]="(isDarkMode?'toolbar.lightMode':'toolbar.darkMode') | translate">
     <mat-icon *ngIf="isDarkMode">light_mode</mat-icon>
     <mat-icon *ngIf="!isDarkMode">dark_mode</mat-icon>
   </button>

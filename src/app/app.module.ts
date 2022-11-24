@@ -15,8 +15,25 @@ import {registerLocaleData} from "@angular/common";
 import localeCz from '@angular/common/locales/cs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from "./material.module";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 
 registerLocaleData(localeCz);
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
+/**
+ * Handles missing translations
+ */
+export class CustomMissingTranslationHandler implements MissingTranslationHandler {
+  public handle(params: MissingTranslationHandlerParams): string {
+    return `['${params.key}']`;
+  }
+}
 
 @NgModule({
   declarations: [
@@ -32,7 +49,20 @@ registerLocaleData(localeCz);
     RouterModule.forRoot([]),
     LayoutModule,
     MaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'cs',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      missingTranslationHandler: {
+        provide: MissingTranslationHandler,
+        useClass: CustomMissingTranslationHandler
+      }
+    })
   ],
   exports: [],
   providers: [AuthService, {provide: LOCALE_ID, useValue: 'cs-CZ'}],
