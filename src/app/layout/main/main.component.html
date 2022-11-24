@@ -11,7 +11,7 @@
       <mat-icon *ngIf="action.color" [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
     </button>
   </ng-container>
-  <button mat-icon-button (click)="authService.signOut()" [matTooltip]="'toolbar.logout' | translate">
+  <button *ngIf="isLoggedIn" mat-icon-button (click)="authService.signOut()" [matTooltip]="'toolbar.logout' | translate">
     <mat-icon>logout</mat-icon>
   </button>
   <button mat-icon-button (click)="isDarkMode = !isDarkMode" [matTooltip]="(isDarkMode?'toolbar.lightMode':'toolbar.darkMode') | translate">

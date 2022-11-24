@@ -5,6 +5,7 @@ import {Subscription} from "rxjs";
 import {TopBarAction} from "../../models/TopBarAction";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {TranslateService} from "@ngx-translate/core";
+import {UsersService} from "../../services/users.service";
 
 @Component({
   selector: 'app-main-layout',
@@ -15,9 +16,11 @@ export class MainComponent implements OnInit, OnDestroy {
 
   actions: TopBarAction[] = [];
   backAction = false;
+  isLoggedIn = false;
 
   private actionsSubscription = new Subscription();
   private backActionSubscription = new Subscription();
+  private authUserSubscription = new Subscription();
   private _isDarkMode = false;
   private readonly THEME_MODE = 'THEME_MODE';
   private _isDarkModePreferred = false;
@@ -27,10 +30,11 @@ export class MainComponent implements OnInit, OnDestroy {
     private actionsService: TopBarActionsService,
     private overlay: OverlayContainer,
     private renderer: Renderer2,
-    private readonly translate: TranslateService) {
+    private userService: UsersService) {
   }
 
   ngOnInit(): void {
+    this.authUserSubscription = this.userService.isLoggedIn.subscribe(s => this.isLoggedIn = s);
     this.actionsSubscription = this.actionsService.actions
       .subscribe(actions => this.actions = actions);
     this.backActionSubscription = this.actionsService.backAction
@@ -44,6 +48,7 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.actionsSubscription.unsubscribe();
     this.backActionSubscription.unsubscribe();
+    this.authUserSubscription.unsubscribe();
   }
 
   set isDarkMode(value: boolean) {

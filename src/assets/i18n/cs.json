@@ -7,5 +7,20 @@
     "newCar": "Nový vůz",
     "editCar": "Upravit vůz",
     "removeCar": "Smazat vůz"
+  },
+  "auth": {
+    "email": "E-mail",
+    "password": "Heslo",
+    "signInTitle": "Přihlášení",
+    "remember": "Zapamatovat",
+    "signInButton": "Přihlásit",
+    "forgotPassword": "Zapoměli jste heslo?"
+  },
+  "errors": {
+  },
+  "validations": {
+    "emailRequired": "E-mail je povinný",
+    "passwordRequired": "Heslo je povinné",
+    "emailInvalid": "Zadejte platnout e-mailovou adresu"
   }
 }

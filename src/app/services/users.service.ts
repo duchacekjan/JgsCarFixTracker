@@ -29,8 +29,7 @@ export class UsersService {
   }
 
   signOut() {
-    this.currentUser = null;
-    this.isLoggedIn.next(false);
+    this.setUser(null).catch();
   }
 
   setUser(uid: any): Promise<boolean> {
