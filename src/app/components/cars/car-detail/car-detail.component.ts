@@ -11,6 +11,7 @@ import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/f
 import {TableService} from "../../../services/table.service";
 import {MessageService, MessageType} from "../../../services/message.service";
 import {DialogData} from "../dialog/dialog.component";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-car-detail',
@@ -173,7 +174,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       this.updatedFixIndex = fixIndex;
       this.carsService.update(this.car)
         .then(() => this.messageService.showMessage(MessageType.Success, isDelete ? 'Deleted' : 'Saved', true, 1000))
-        .catch(err=>this.messageService.showError(err));
+        .catch(err => this.messageService.showError(err));
     }
   }
 
@@ -202,7 +203,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       const editAction = new TopBarAction('edit_document');
       editAction.route = `/cars/detail/edit`;
       editAction.queryParams = {'id': id};
-      editAction.color = 'primary';
+      editAction.color = 'accent';
       editAction.tooltip = 'Edit';
 
       const removeAction = new TopBarAction('delete');
@@ -220,13 +221,14 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       const data = this.createDeleteDialogData('Delete car', 'Do you want to delete this car?');
       const dialogRef = this.messageService.showDialog(data);
       dialogRef.afterClosed().subscribe(result => {
+        console.log(result)
         if (result) {
           this.carSubscription.unsubscribe()
           this.carsService.remove(this.car)
             .then(() => this.router.navigate(['/cars'], {replaceUrl: true}))
             .catch(() => this.getCar());
         } else {
-          this.router.navigate([this.route.snapshot.url], {replaceUrl: true}).catch();
+          this.router.navigate([this.router.url.split('?')[0]], {replaceUrl: true}).catch();
         }
       })
     }

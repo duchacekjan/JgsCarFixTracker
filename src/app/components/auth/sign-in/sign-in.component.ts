@@ -3,6 +3,7 @@ import {AuthService} from 'src/app/services/auth.service';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TopBarActionsService} from "../../../services/top-bar-actions.service";
+import {MessageService} from "../../../services/message.service";
 
 @Component({
   selector: 'app-sign-in',
@@ -18,7 +19,7 @@ export class SignInComponent implements OnInit {
       password: new FormControl('', [Validators.required])
     });
 
-  constructor(private authService: AuthService, private actionsService: TopBarActionsService) {
+  constructor(private authService: AuthService, private actionsService: TopBarActionsService, private router: Router, private messageService: MessageService) {
     actionsService.clear();
     actionsService.updateActions();
   }
@@ -33,7 +34,9 @@ export class SignInComponent implements OnInit {
         .then(() => {
           this.signInForm.reset();
         })
-        .catch();
+        .catch(() => {
+          this.router.navigate(['/cars']).catch(err => this.messageService.showError(err));
+        });
     }
   }
 }
