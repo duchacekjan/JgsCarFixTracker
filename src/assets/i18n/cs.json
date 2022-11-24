@@ -24,6 +24,10 @@
     },
     "goBackTo": "Zpět na "
   },
+  "carList": {
+    "searchLabel": "SPZ",
+    "searchHint": "Vložte aspoň část SPZ."
+  },
   "errors": {
   },
   "validations": {

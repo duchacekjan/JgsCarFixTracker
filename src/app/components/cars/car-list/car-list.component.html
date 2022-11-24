@@ -3,9 +3,10 @@
     <mat-form-field class="col-12 col-sm-8 col-md-6 col-lg-4 offset-sm-2 offset-md-3 offset-lg-4">
       <mat-icon matPrefix>search</mat-icon>
       <input matInput type="text" id="search-text" aria-describedby="search-text"
-             [(ngModel)]="searchText" placeholder="Enter part of licence plate"
+             [(ngModel)]="searchText" [placeholder]="'carList.searchLabel'|translate"
              (ngModelChange)="onSearchInputChanged($event)"
              autofocus>
+      <mat-hint>{{'carList.searchHint'|translate}}</mat-hint>
     </mat-form-field>
   </div>
   <div class="d-flex flex-row flex-wrap">
