@@ -26,6 +26,11 @@
               "src/favicon.ico",
               "src/assets"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./node_modules"
+              ]
+            },
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
@@ -53,7 +58,13 @@
                 }
               ],
               "outputHashing": "all",
-              "optimization": { "scripts": true, "styles": { "minify": true, "inlineCritical": false } }
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                }
+              }
             },
             "development": {
               "buildOptimizer": false,
