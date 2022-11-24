@@ -1,7 +1,7 @@
 <form [formGroup]="carForm" class="container-fluid form-wrapper" (ngSubmit)="onSubmit()">
   <div class="row">
     <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-column">
-      <input matInput type="text" formControlName="licencePlate" [placeholder]="'carForm.licencePlate'|translate" oninput="this.value = this.value.toUpperCase()"/>
+      <input matInput type="text" formControlName="licencePlate" [placeholder]="'car.licencePlate'|translate" oninput="this.value = this.value.toUpperCase()"/>
       <mat-hint>{{'carForm.licencePlateHint'|translate}}</mat-hint>
       <mat-error *ngIf="carForm.get('licencePlate')?.hasError('minlength') && !carForm.get('licencePlate')?.hasError('required')">
         {{'validations.licencePlateMinLength'|translate}}
@@ -16,11 +16,11 @@
   </div>
   <div class="row">
     <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <input matInput type="text" formControlName="brand" [placeholder]="'carForm.brand'|translate"/>
+      <input matInput type="text" formControlName="brand" [placeholder]="'car.brand'|translate"/>
       <mat-hint>{{'carForm.brandHint'|translate}}</mat-hint>
     </mat-form-field>
     <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <input matInput type="text" formControlName="model" [placeholder]="'carForm.model'|translate"/>
+      <input matInput type="text" formControlName="model" [placeholder]="'car.model'|translate"/>
       <mat-hint>{{'carForm.modelHint'|translate}}</mat-hint>
     </mat-form-field>
   </div>
