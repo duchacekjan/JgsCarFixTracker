@@ -26,13 +26,27 @@
   },
   "carList": {
     "searchLabel": "SPZ",
-    "searchHint": "Vložte aspoň část SPZ."
+    "searchHint": "Zadejte aspoň část SPZ."
+  },
+  "carForm": {
+    "licencePlate": "SPZ",
+    "model": "Model",
+    "brand": "Značka",
+    "licencePlateHint": "Zadejte SPZ vozu",
+    "modelHint": "Zadejte model vozu",
+    "brandHint": "Zadejte značku vozu"
+  },
+  "buttons": {
+    "save": "Uložit"
   },
   "errors": {
   },
   "validations": {
     "emailRequired": "E-mail je povinný",
     "passwordRequired": "Heslo je povinné",
-    "emailInvalid": "Zadejte platnout e-mailovou adresu"
+    "emailInvalid": "Zadejte platnout e-mailovou adresu",
+    "licencePlateRequired": "SPZ je povinná",
+    "licencePlateMinLength": "SPZ musí mít minimálně 7 znaků",
+    "licencePlateMaxLength": "SPZ musí mít maximálně 8 znaků"
   }
 }
