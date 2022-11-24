@@ -11,10 +11,18 @@
   "auth": {
     "email": "E-mail",
     "password": "Heslo",
-    "signInTitle": "Přihlášení",
     "remember": "Zapamatovat",
-    "signInButton": "Přihlásit",
-    "forgotPassword": "Zapoměli jste heslo?"
+    "signIn": {
+      "title": "Přihlášení",
+      "button": "Přihlásit"
+    },
+    "forgotPassword": "Zapoměli jste heslo?",
+    "resetPassword": {
+      "title": "Resetovat heslo",
+      "content": "Prosím zadejte svou e-mailovou adresu, na kterou vám bude zaslán e-mail pro reset hesla.",
+      "button": "Resetovat heslo"
+    },
+    "goBackTo": "Zpět na "
   },
   "errors": {
   },
