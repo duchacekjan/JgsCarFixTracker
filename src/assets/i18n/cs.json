@@ -25,19 +25,34 @@
     "goBackTo": "Zpět na "
   },
   "carList": {
-    "searchLabel": "SPZ",
     "searchHint": "Zadejte aspoň část SPZ."
   },
   "carForm": {
-    "licencePlate": "SPZ",
-    "model": "Model",
-    "brand": "Značka",
     "licencePlateHint": "Zadejte SPZ vozu",
     "modelHint": "Zadejte model vozu",
     "brandHint": "Zadejte značku vozu"
   },
+  "car": {
+    "licencePlate": "SPZ",
+    "licencePlate"model": "Model",
+    "brand": "Značka"
+  },
+  "fix":{
+    "mileage": "Stav tachometru",
+    "mileageShort": "KM",
+    "description": "Popis",
+    "lastUpdate": "Poslední změna",
+    "descriptionHint": "Provedné úkony",
+    "addRow": "Přidat nový záznam",
+    "editRow": "Upravit záznam",
+    "removeRow": "Odstranit záznam",
+    "addRowTitle": "Nový záznam",
+    "editRowTitle": "Upravit záznam",
+  },
   "buttons": {
-    "save": "Uložit"
+    "save": "Uložit",
+    "delete": "Smazat",
+    "cancel": "Zrušit"
   },
   "errors": {
   },
@@ -47,6 +62,7 @@
     "emailInvalid": "Zadejte platnout e-mailovou adresu",
     "licencePlateRequired": "SPZ je povinná",
     "licencePlateMinLength": "SPZ musí mít minimálně 7 znaků",
-    "licencePlateMaxLength": "SPZ musí mít maximálně 8 znaků"
+    "licencePlateMaxLength": "SPZ musí mít maximálně 8 znaků",
+    "desrciptionRequired": "Popis úkonu je povinný"
   }
 }
