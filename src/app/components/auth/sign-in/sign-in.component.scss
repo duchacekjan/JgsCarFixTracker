@@ -19,22 +19,6 @@
   align-self: center;
 }
 
-@media (max-width: 720px) {
-  :host{
-    align-items: stretch;
-  }
-  .wrapper{
-    min-width: 0;
-    margin-top: 20%;
-  }
-}
-
-@media (max-width: 576px) {
-  :host{
-    align-items: stretch;
-  }
-  .wrapper{
-    min-width: 0;
-    margin-top: 0;
-  }
+.sign-in-button{
+  margin: 0.5em 0;
 }

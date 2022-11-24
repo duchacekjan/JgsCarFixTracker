@@ -10,11 +10,23 @@ import {UsersService} from './users.service';
 export class CarsService {
 
   private dbPath = '/cars';
-  private readonly carsRef: AngularFireList<Car>
+  private _carsRef: AngularFireList<Car> | null = null;
 
   constructor(private db: AngularFireDatabase, private userService: UsersService) {
-    const path = this.userService.buildDbPath(this.dbPath);
-    this.carsRef = this.db.list(path);
+    this.userService.isLoggedIn.subscribe(isLoggedIn => {
+      if (!isLoggedIn) {
+        this._carsRef = null;
+      }
+    });
+  }
+
+  private get carsRef(): AngularFireList<Car> {
+    if (this._carsRef === null) {
+      const path = this.userService.buildDbPath(this.dbPath);
+      this._carsRef = this.db.list(path);
+    }
+
+    return this._carsRef!;
   }
 
   getCar(key: string): Observable<Car> {
@@ -44,17 +56,7 @@ export class CarsService {
     if (data.licencePlate) {
       result.licencePlate = data.licencePlate;
     }
-    //const fixes = data.fixes ?? [];
     result.fixes = data.fixes ?? [];
-    // result.fixes = fixes.sort((a, b) => {
-    //   if (a.mileage < b.mileage) {
-    //     return 1;
-    //   }
-    //   if (a.mileage > b.mileage) {
-    //     return -1;
-    //   }
-    //   return 0;
-    // });
     return result;
   }
 
@@ -100,7 +102,7 @@ export class CarsService {
           .catch(reject);
       } else {
         if (car) {
-          let item =await this.carsRef.query.orderByChild('licencePlate').equalTo(car.licencePlate).limitToFirst(1).get();
+          let item = await this.carsRef.query.orderByChild('licencePlate').equalTo(car.licencePlate).limitToFirst(1).get();
           if (item.val() as Car) {
             reject('Already in DB')
           } else {

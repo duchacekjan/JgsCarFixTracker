@@ -1,24 +1,24 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from 'src/app/services/auth.service';
 import {ActivatedRoute, Router} from "@angular/router";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TopBarActionsService} from "../../../services/top-bar-actions.service";
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.css']
+  styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit {
 
   autoLogin: boolean = false;
-  signInForm = this.formBuilder.group(
+  signInForm = new FormGroup(
     {
-      email: '',
-      password: ''
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required])
     });
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private actionsService: TopBarActionsService) {
+  constructor(private authService: AuthService, private actionsService: TopBarActionsService) {
     actionsService.clear();
     actionsService.updateActions();
   }
