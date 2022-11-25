@@ -6,6 +6,7 @@ import {TopBarAction} from "../../models/TopBarAction";
 import {UsersService} from "../../services/users.service";
 import {SettingsService, ThemeMode} from "../../services/settings.service";
 import {OverlayContainer} from "@angular/cdk/overlay";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-main-layout',
@@ -29,7 +30,9 @@ export class MainComponent implements OnInit, OnDestroy {
     private userService: UsersService,
     private settingsService: SettingsService,
     private renderer: Renderer2,
-    private overlay: OverlayContainer) {
+    private overlay: OverlayContainer,
+    private router: Router,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -48,6 +51,22 @@ export class MainComponent implements OnInit, OnDestroy {
     this.backActionSubscription.unsubscribe();
     this.authUserSubscription.unsubscribe();
     this.themeModeSubscription.unsubscribe();
+  }
+
+  showSettings() {
+    this.router.navigate(['/settings'], {queryParams: {'backLink': this.router.url}}).then(() => {
+      this.actionsService.clear();
+      this.actionsService.showBackAction();
+      this.actionsService.updateActions();
+    });
+  }
+
+  backClick() {
+    const backLink = this.route.snapshot.queryParams['backLink'] ?? '/cars';
+    this.router.navigate([backLink], ).then(() => {
+      this.actionsService.clear();
+      this.actionsService.updateActions();
+    });
   }
 
   private updateThemeMode() {
