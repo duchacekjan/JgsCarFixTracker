@@ -9,7 +9,7 @@
             (ngSubmit)="updateTableData()"
             #formDirective="ngForm">
         <h3 class="table-update__header">{{(isNewRowBeingAdded ? 'fix.addRowTitle' : 'fix.editRowTitle')|translate}}</h3>
-        <mat-form-field *ngIf="!isNewRowBeingAdded">
+        <mat-form-field *ngIf="!isNewRowBeingAdded" class="last-update-field">
           <input matInput type="date" formControlName="lastUpdate" aria-describedby="last-update" [placeholder]="'fix.lastUpdate'|translate">
           <mat-hint>{{'fix.lastUpdateHint'|translate}}</mat-hint>
         </mat-form-field>
