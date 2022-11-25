@@ -7,13 +7,12 @@ import {Subject, Subscription} from "rxjs";
 import {TopBarActionsService} from "../../../services/top-bar-actions.service";
 import {TopBarAction} from "../../../models/TopBarAction";
 import {MessageService} from "../../../services/message.service";
-import {DialogData} from "../dialog/dialog.component";
 import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-car-list',
   templateUrl: './car-list.component.html',
-  styleUrls: ['./car-list.component.css']
+  styleUrls: ['./car-list.component.scss']
 })
 
 export class CarListComponent implements OnInit {

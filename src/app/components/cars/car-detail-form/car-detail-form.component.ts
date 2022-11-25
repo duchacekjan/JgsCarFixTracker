@@ -10,7 +10,7 @@ import {MessageService, MessageType} from "../../../services/message.service";
 @Component({
   selector: 'app-car-detail-form',
   templateUrl: './car-detail-form.component.html',
-  styleUrls: ['./car-detail-form.component.css']
+  styleUrls: ['./car-detail-form.component.scss']
 })
 export class CarDetailFormComponent implements OnInit, OnDestroy {
 

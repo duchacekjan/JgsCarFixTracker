@@ -5,7 +5,7 @@ import {UsersService} from "../../../services/users.service";
 @Component({
   selector: 'app-verify-mail',
   templateUrl: './verify-mail.component.html',
-  styleUrls: ['./verify-mail.component.css']
+  styleUrls: ['./verify-mail.component.scss']
 })
 export class VerifyMailComponent implements OnInit {
 

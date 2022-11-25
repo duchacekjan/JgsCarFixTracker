@@ -8,7 +8,7 @@ import {MatSort} from "@angular/material/sort";
 @Component({
   selector: 'app-edit-table',
   templateUrl: './edit-table.component.html',
-  styleUrls: ['./edit-table.component.css']
+  styleUrls: ['./edit-table.component.scss']
 })
 export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
