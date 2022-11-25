@@ -70,7 +70,8 @@
   "errors": {
     "licencePlateTaken": "SPZ je již uložena v databázi.",
     "noCarDefined": "Není vytvořeno auto.",
-    "noCarsFound": "Nebyla nalezena žádná shoda."
+    "noCarsFound": "Nebyla nalezena žádná shoda.",
+    "notFound": "Stránka nenalezena."
   },
   "validations": {
     "emailRequired": "E-mail je povinný",

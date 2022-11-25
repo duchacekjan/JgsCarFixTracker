@@ -1,11 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Car} from 'src/app/models/car';
 import {CarsService} from 'src/app/services/cars.service';
 import {Subject, Subscription} from "rxjs";
 import {TopBarActionsService} from "../../../services/top-bar-actions.service";
 import {TopBarAction} from "../../../models/TopBarAction";
+import {MessageService} from "../../../services/message.service";
+import {DialogData} from "../dialog/dialog.component";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-car-list',
@@ -19,8 +22,14 @@ export class CarListComponent implements OnInit {
   searchText: string = '';
   private searchedText = new Subject<string>();
   private searchSubscription = new Subscription();
+  private queryParamSubscription: Subscription;
 
-  constructor(private carsService: CarsService, private router: Router, private actionsService: TopBarActionsService) {
+  constructor(private carsService: CarsService, private router: Router, private actionsService: TopBarActionsService, private route: ActivatedRoute, private messages: MessageService, private translate: TranslateService) {
+    this.queryParamSubscription = route.queryParamMap.subscribe(s => {
+      if (s.get('notFound') == '') {
+        this.messages.showError(translate.instant('errors.notFound'));
+      }
+    });
     this.actionsService.clear();
     const addAction = new TopBarAction('add_box');
     addAction.route = '/cars/detail/new';
@@ -41,6 +50,7 @@ export class CarListComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.searchSubscription.unsubscribe();
+    this.queryParamSubscription.unsubscribe();
   }
 
   navigate(carKey?: string | null) {

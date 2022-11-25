@@ -18,7 +18,8 @@ const routes: Routes = [
       {path: 'cars', loadChildren: () => CarsModule, canActivate: [AuthGuard]},
       {path: 'auth', loadChildren: () => AuthModule}
     ]
-  }
+  },
+  {path: '**', pathMatch: 'full', redirectTo: '/cars?notFound'}
 ];
 
 @NgModule({
