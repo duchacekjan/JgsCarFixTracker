@@ -29,7 +29,7 @@
     "goBackTo": "Zpět na "
   },
   "carList": {
-    "searchHint": "Zadejte aspoň část SPZ."
+    "searchHint": "Zadejte aspoň část SPZ"
   },
   "carForm": {
     "licencePlateHint": "Zadejte SPZ vozu",
@@ -41,7 +41,7 @@
     "model": "Model",
     "brand": "Značka"
   },
-  "fix":{
+  "fix": {
     "mileage": "Stav tachometru",
     "mileageShort": "KM",
     "description": "Popis",
@@ -69,7 +69,8 @@
   },
   "errors": {
     "licencePlateTaken": "SPZ je již uložena v databázi.",
-    "noCarDefined": "Není vytvořeno auto."
+    "noCarDefined": "Není vytvořeno auto.",
+    "noCarsFound": "Nebyla nalezena žádná shoda."
   },
   "validations": {
     "emailRequired": "E-mail je povinný",
