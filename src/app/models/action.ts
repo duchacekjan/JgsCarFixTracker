@@ -1,7 +1,7 @@
 import {Params} from "@angular/router";
 import {ThemePalette} from "@angular/material/core";
 
-export class TopBarAction {
+export class Action {
   constructor(icon: string) {
     this.icon = icon;
   }

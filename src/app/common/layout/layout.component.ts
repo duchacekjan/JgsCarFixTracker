@@ -1,23 +1,23 @@
 import {Component, OnDestroy, OnInit, Renderer2} from '@angular/core';
-import {TopBarActionsService} from "../../services/top-bar-actions.service";
+import {ActionsService} from "../../services/actions.service";
 import {AuthService} from "../../services/auth.service";
 import {Subscription} from "rxjs";
-import {TopBarAction} from "../../models/TopBarAction";
 import {UsersService} from "../../services/users.service";
-import {SettingsService, ThemeMode} from "../../services/settings.service";
+import {SettingsService} from "../../services/settings.service";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {ActivatedRoute, Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
 import {User} from "../../models/user";
+import {Action} from "../../models/action";
 
 @Component({
-  selector: 'app-main-layout',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  selector: 'app-layout',
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss']
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class LayoutComponent implements OnInit, OnDestroy {
 
-  actions: TopBarAction[] = [];
+  actions: Action[] = [];
   backAction = false;
   isLoggedIn = false;
   version: string;
@@ -30,7 +30,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   constructor(
     public authService: AuthService,
-    private actionsService: TopBarActionsService,
+    private actionsService: ActionsService,
     private userService: UsersService,
     private settingsService: SettingsService,
     private renderer: Renderer2,

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CarsService} from "../../../services/cars.service";
-import {TopBarActionsService} from "../../../services/top-bar-actions.service";
+import {ActionsService} from "../../../services/actions.service";
 import {FormBuilder, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Car} from "../../../models/car";
@@ -30,7 +30,7 @@ export class CarDetailFormComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private carsService: CarsService,
     private router: Router,
-    private actionsService: TopBarActionsService,
+    private actionsService: ActionsService,
     private formBuilder: FormBuilder,
     private messageService: MessageService) {
     this.queryParamsSubscription = this.route.queryParamMap.subscribe(s => this.getCar(s.get('id')));

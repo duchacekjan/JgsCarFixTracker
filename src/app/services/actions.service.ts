@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Subject} from "rxjs";
-import {TopBarAction} from "../models/TopBarAction";
+import {Action} from "../models/action";
 
 @Injectable({
   providedIn: 'root'
 })
-export class TopBarActionsService {
+export class ActionsService {
 
   backAction = new Subject<boolean>()
-  actions = new Subject<TopBarAction[]>;
-  private internalActions: TopBarAction[] = [];
+  actions = new Subject<Action[]>;
+  private internalActions: Action[] = [];
   private isBackActionVisible = false;
   private currentBackActionVisibility = false;
 
@@ -18,7 +18,7 @@ export class TopBarActionsService {
     this.isBackActionVisible = false;
   }
 
-  add(action: TopBarAction, ...actions: TopBarAction[]) {
+  add(action: Action, ...actions: Action[]) {
     this.internalActions.push(action);
     actions.forEach(item => this.internalActions.push(item));
   }

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import {TopBarActionsService} from "../../services/top-bar-actions.service";
+import {ActionsService} from "../../services/actions.service";
 import {Subscription} from "rxjs";
 import {SettingsService, ThemeMode} from "../../services/settings.service";
 
@@ -18,7 +18,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   private changesSubscription = new Subscription();
 
   constructor(
-    private actionsService: TopBarActionsService,
+    private actionsService: ActionsService,
     public settingsService: SettingsService) {
   }
 

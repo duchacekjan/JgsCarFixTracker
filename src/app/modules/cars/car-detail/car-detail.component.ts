@@ -3,13 +3,13 @@ import {Car} from "../../../models/car";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CarsService} from "../../../services/cars.service";
 import {Fix} from "../../../models/fix";
-import {TopBarActionsService} from "../../../services/top-bar-actions.service";
-import {TopBarAction} from "../../../models/TopBarAction";
+import {ActionsService} from "../../../services/actions.service";
 import {Subscription} from "rxjs";
 import {TableConfig} from "../edit-table/TableConfig";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {MessageService, MessageType} from "../../../services/message.service";
 import {DialogData} from "../../../common/dialog/dialog.component";
+import {Action} from "../../../models/action";
 
 @Component({
   selector: 'app-car-detail',
@@ -37,7 +37,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private carsService: CarsService,
     private router: Router,
-    private actionsService: TopBarActionsService,
+    private actionsService: ActionsService,
     private messageService: MessageService
   ) {
     this.tableConfig = this.createTableConfig();
@@ -196,13 +196,13 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     this.actionsService.showBackAction();
 
     if (id != null) {
-      const editAction = new TopBarAction('edit_document');
+      const editAction = new Action('edit_document');
       editAction.route = `/cars/detail/edit`;
       editAction.queryParams = {'id': id};
       editAction.color = 'accent';
       editAction.tooltip = 'toolbar.editCar';
 
-      const removeAction = new TopBarAction('delete');
+      const removeAction = new Action('delete');
       removeAction.route = `/cars/detail/${id}`;
       removeAction.queryParams = {'action': 'delete'};
       removeAction.color = 'warn';

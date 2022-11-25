@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AuthModule} from '../components/auth/auth.module';
-import {CarsModule} from '../components/cars/cars.module';
-import {AuthGuard} from '../services/guard/auth.guard';
-import {MainComponent} from './main/main.component';
-import {SettingsModule} from "../components/settings/settings.module";
+import {AuthModule} from '../modules/auth/auth.module';
+import {CarsModule} from '../modules/cars/cars.module';
+import {SettingsModule} from "../modules/settings/settings.module";
+import {LayoutComponent} from "./layout/layout.component";
+import {AuthGuard} from "../services/auth.guard";
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: MainComponent,
+    component: LayoutComponent,
     children: [
       {path: 'settings', loadChildren: () => SettingsModule},
       {path: 'cars', loadChildren: () => CarsModule, canActivate: [AuthGuard]},
@@ -26,5 +26,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class LayoutRoutingModule {
+export class AppCommonRoutingModule {
 }

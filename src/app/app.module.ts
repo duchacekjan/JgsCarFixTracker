@@ -17,7 +17,7 @@ import {MaterialModule} from "./material.module";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {LayoutModule} from "./common/layout.module";
+import {AppCommonModule} from "./common/app-common.module";
 
 registerLocaleData(localeCz);
 
@@ -47,7 +47,7 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     RouterModule.forRoot([]),
-    LayoutModule,
+    AppCommonModule,
     MaterialModule,
     BrowserAnimationsModule,
     HttpClientModule,

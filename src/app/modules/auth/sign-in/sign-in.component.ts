@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from 'src/app/services/auth.service';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {TopBarActionsService} from "../../../services/top-bar-actions.service";
+import {ActionsService} from "../../../services/actions.service";
 import {MessageService} from "../../../services/message.service";
 
 @Component({
@@ -17,7 +17,7 @@ export class SignInComponent implements OnInit {
       password: new FormControl('', [Validators.required])
     });
 
-  constructor(private authService: AuthService, private actionsService: TopBarActionsService, private router: Router, private messageService: MessageService) {
+  constructor(private authService: AuthService, private actionsService: ActionsService, private router: Router, private messageService: MessageService) {
     actionsService.clear();
     actionsService.updateActions();
   }
