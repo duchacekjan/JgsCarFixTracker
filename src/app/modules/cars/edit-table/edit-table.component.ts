@@ -43,12 +43,12 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  setDisplayedColumns(column_config: any[]) {
+  setDisplayedColumns(column_config: string[]) {
     let col_count = column_config.length;
     let columns_to_display = [];
     for (let i = 0; i < col_count; i++) {
       let col_config = column_config[i];
-      columns_to_display.push(col_config.key);
+      columns_to_display.push(col_config);
     }
     columns_to_display.push('edit');
     this.displayed_columns = columns_to_display;

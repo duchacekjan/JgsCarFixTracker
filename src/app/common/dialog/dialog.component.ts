@@ -1,5 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {TranslateService} from "@ngx-translate/core";
 
 export class DialogData {
   constructor() {
@@ -42,6 +43,26 @@ export class DialogData {
   }
 }
 
+export class TranslateDialogData extends DialogData {
+  constructor() {
+    super();
+    this.actions.ok.label = 'buttons.ok';
+    this.actions.cancel.label = 'buttons.cancel';
+    this.actions.delete.label = 'buttons.delete';
+  }
+
+  getTranslation(translate: TranslateService): DialogData {
+    const result = new DialogData();
+    console.log(this.title);
+    result.title = translate.instant(this.title);
+    result.content = translate.instant(this.content);
+    result.actions.ok.label = translate.instant(this.actions.ok.label);
+    result.actions.cancel.label = translate.instant(this.actions.cancel.label);
+    result.actions.delete.label = translate.instant(this.actions.delete.label);
+    return result;
+  }
+}
+
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
@@ -49,6 +70,7 @@ export class DialogData {
 })
 export class DialogComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  }
 
 }

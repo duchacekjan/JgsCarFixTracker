@@ -64,10 +64,25 @@
     "previousPageLabel": "Předchozí stránka",
     "pageRangeLabel_p1_p_2": "{{p1}} z {{p2}}"
   },
+  "dialogs": {
+    "deleteFix": {
+      "title": "Smazat úkon",
+      "message": "Opravdu chcete smazat tento úkon?"
+    },
+    "deleteCar": {
+      "title": "Smazat vůz",
+      "message": "Opravdu chcete smazat tento vůz?"
+    }
+  },
   "buttons": {
     "save": "Uložit",
     "delete": "Smazat",
-    "cancel": "Zrušit"
+    "cancel": "Zrušit",
+    "ok": "OK"
+  },
+  "messages": {
+    "deleted": "Smazáno",
+    "saved": "Uloženo"
   },
   "errors": {
     "licencePlateTaken": "SPZ je již uložena v databázi.",

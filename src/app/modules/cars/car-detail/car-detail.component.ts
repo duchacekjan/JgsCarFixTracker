@@ -8,7 +8,7 @@ import {Subscription} from "rxjs";
 import {TableConfig} from "../edit-table/TableConfig";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {MessageService, MessageType} from "../../../services/message.service";
-import {DialogData} from "../../../common/dialog/dialog.component";
+import {DialogData, TranslateDialogData} from "../../../common/dialog/dialog.component";
 import {Action} from "../../../models/action";
 
 @Component({
@@ -19,7 +19,7 @@ import {Action} from "../../../models/action";
 export class CarDetailComponent implements OnInit, OnDestroy {
 
   car: Car = new Car();
-  tableConfig: TableConfig;
+  readonly tableConfig: TableConfig = new TableConfig(['mileage', 'description'])
 
   isDrawerOpened: boolean = false;
   isNewRowBeingAdded: boolean = false;
@@ -40,7 +40,6 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     private actionsService: ActionsService,
     private messageService: MessageService
   ) {
-    this.tableConfig = this.createTableConfig();
     this.queryParamSubscription = route.queryParamMap.subscribe(s => this.invokeAction(s.get('action')));
     this.fixItemUpdateForm = new FormGroup({
       id: new FormControl(-1),
@@ -92,7 +91,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   }
 
   removeRow(row: any) {
-    const data = this.createDeleteDialogData('Delete fix', 'Do you want to delete this fix?');
+    const data = this.createDeleteDialogData('dialogs.deleteFix.title', 'dialogs.deleteFix.message');
     const dlgRef = this.messageService.showDialog(data);
     dlgRef.afterClosed().subscribe(result => {
       if (result) {
@@ -169,7 +168,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     if (this.car.key) {
       this.updatedFixIndex = fixIndex;
       this.carsService.update(this.car)
-        .then(() => this.messageService.showMessage(MessageType.Success, isDelete ? 'Deleted' : 'Saved', true, 1000))
+        .then(() => this.messageService.showMessageWithTranslation(MessageType.Success, isDelete ? 'messages.deleted' : 'messages.saved',))
         .catch(err => this.messageService.showError(err));
     }
   }
@@ -214,7 +213,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
 
   private invokeAction(action: string | null) {
     if (action === 'delete') {
-      const data = this.createDeleteDialogData('Delete car', 'Do you want to delete this car?');
+      const data = this.createDeleteDialogData('dialogs.deleteCar.title', 'dialogs.deleteCar.message');
       const dialogRef = this.messageService.showDialog(data);
       dialogRef.afterClosed().subscribe(result => {
         console.log(result)
@@ -230,21 +229,8 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createTableConfig(): TableConfig {
-    return new TableConfig([
-      {
-        key: 'mileage',
-        header: 'Mileage (km)'
-      },
-      {
-        key: 'description',
-        header: 'Description'
-      }
-    ]);
-  }
-
-  private createDeleteDialogData(title: string, content: string): DialogData {
-    const data = new DialogData();
+  private createDeleteDialogData(title: string, content: string): TranslateDialogData {
+    const data = new TranslateDialogData();
     data.title = title;
     data.content = content;
     data.setOk(false);

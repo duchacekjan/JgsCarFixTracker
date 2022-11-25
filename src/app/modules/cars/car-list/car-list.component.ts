@@ -6,7 +6,6 @@ import {CarsService} from 'src/app/services/cars.service';
 import {Subject, Subscription} from "rxjs";
 import {ActionsService} from "../../../services/actions.service";
 import {MessageService} from "../../../services/message.service";
-import {TranslateService} from "@ngx-translate/core";
 import {Action} from "../../../models/action";
 
 @Component({
@@ -23,10 +22,10 @@ export class CarListComponent implements OnInit {
   private searchSubscription = new Subscription();
   private queryParamSubscription: Subscription;
 
-  constructor(private carsService: CarsService, private router: Router, private actionsService: ActionsService, private route: ActivatedRoute, private messages: MessageService, private translate: TranslateService) {
+  constructor(private carsService: CarsService, private router: Router, private actionsService: ActionsService, private route: ActivatedRoute, private messages: MessageService) {
     this.queryParamSubscription = route.queryParamMap.subscribe(s => {
       if (s.get('notFound') == '') {
-        this.messages.showError(translate.instant('errors.notFound'));
+        this.messages.showErrorWithTranslation('errors.notFound');
       }
     });
     this.actionsService.clear();
