@@ -3,6 +3,7 @@ import {AngularFireDatabase, AngularFireList, DatabaseSnapshot} from '@angular/f
 import {map, Observable} from 'rxjs';
 import {Car} from '../models/car';
 import {UsersService} from './users.service';
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class CarsService {
   private dbPath = '/cars';
   private _carsRef: AngularFireList<Car> | null = null;
 
-  constructor(private db: AngularFireDatabase, private userService: UsersService) {
+  constructor(private db: AngularFireDatabase, private userService: UsersService, private translate: TranslateService) {
     this.userService.isLoggedIn.subscribe(isLoggedIn => {
       if (!isLoggedIn) {
         this._carsRef = null;
@@ -104,13 +105,13 @@ export class CarsService {
         if (car) {
           let item = await this.carsRef.query.orderByChild('licencePlate').equalTo(car.licencePlate).limitToFirst(1).get();
           if (item.val() as Car) {
-            reject('Already in DB')
+            reject(this.translate.instant('errors.licencePlateTaken'))
           } else {
             const key = this.create(car);
             resolve(key);
           }
         } else {
-          reject('No car defined');
+          reject(this.translate.instant('errors.noCarDefined'));
         }
       }
     });

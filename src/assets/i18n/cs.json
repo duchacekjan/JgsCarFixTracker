@@ -68,6 +68,8 @@
     "cancel": "Zrušit"
   },
   "errors": {
+    "licencePlateTaken": "SPZ je již uložena v databázi.",
+    "noCarDefined": "Není vytvořeno auto."
   },
   "validations": {
     "emailRequired": "E-mail je povinný",

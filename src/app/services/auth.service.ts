@@ -45,8 +45,8 @@ export class AuthService {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        this.sendVerificationMail();
-        this.usersService.createUser(result.user);
+        this.sendVerificationMail()
+          .then(() => this.usersService.createUser(result.user));
       })
       .catch(this.errorHandler)
   }
@@ -79,9 +79,9 @@ export class AuthService {
 
   redirect(route?: string) {
     if (!route) {
-      this.router.navigate([this.defaultRoute]);
+      this.router.navigate([this.defaultRoute]).catch();
     } else {
-      this.router.navigate([route]);
+      this.router.navigate([route]).catch();
     }
   }
 }

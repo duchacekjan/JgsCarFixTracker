@@ -63,10 +63,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   backClick() {
     const backLink = this.route.snapshot.queryParams['backLink'] ?? '/cars';
-    this.router.navigate([backLink], ).then(() => {
-      this.actionsService.clear();
-      this.actionsService.updateActions();
-    });
+    this.router.navigate([backLink]).catch();
   }
 
   private updateThemeMode() {
