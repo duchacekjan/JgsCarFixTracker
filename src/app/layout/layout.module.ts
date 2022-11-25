@@ -8,18 +8,20 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MaterialModule} from "../material.module";
 import {ReactiveFormsModule} from "@angular/forms";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    LayoutRoutingModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    MaterialModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        CommonModule,
+        LayoutRoutingModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        MaterialModule,
+        ReactiveFormsModule,
+        TranslateModule
+    ],
     exports: [],
     declarations: [
       MainComponent

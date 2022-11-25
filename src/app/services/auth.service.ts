@@ -31,28 +31,22 @@ export class AuthService {
     });
   }
 
-  signIn(email: string, password: string, remember: boolean): Promise<void> {
+  signIn(email: string, password: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      this.afAuth
-        .setPersistence(remember ? 'local' : 'session')
-        .then(() => {
-          this.afAuth.signInWithEmailAndPassword(email, password)
-            .then(k => {
-              this.usersService.setUser(k.user?.uid).then(() => resolve())
-            })
-            .catch(err => reject(err));
+      this.afAuth.signInWithEmailAndPassword(email, password)
+        .then(k => {
+          this.usersService.setUser(k.user?.uid).then(() => resolve())
         })
-        .catch(err => reject(err))
-    })
-
+        .catch(err => reject(err));
+    });
   }
 
   signUp(email: string, password: string) {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        this.sendVerificationMail();
-        this.usersService.createUser(result.user);
+        this.sendVerificationMail()
+          .then(() => this.usersService.createUser(result.user));
       })
       .catch(this.errorHandler)
   }
@@ -74,6 +68,7 @@ export class AuthService {
     return this.afAuth.signOut()
       .then(() => {
         this.usersService.signOut();
+        indexedDB.deleteDatabase('firebaseLocalStorageDb');
         this.redirect('auth/sign-in');
       })
   }
@@ -84,9 +79,9 @@ export class AuthService {
 
   redirect(route?: string) {
     if (!route) {
-      this.router.navigate([this.defaultRoute]);
+      this.router.navigate([this.defaultRoute]).catch();
     } else {
-      this.router.navigate([route]);
+      this.router.navigate([route]).catch();
     }
   }
 }

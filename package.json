@@ -1,6 +1,6 @@
 {
   "name": "jgs-car-fix-tracker",
-  "version": "0.8.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -22,6 +22,8 @@
     "@angular/platform-browser": "^14.2.8",
     "@angular/platform-browser-dynamic": "^14.2.8",
     "@angular/router": "^14.2.8",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "bootstrap": "^5.2.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

@@ -11,8 +11,6 @@ import {MessageService} from "../../../services/message.service";
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit {
-
-  autoLogin: boolean = false;
   signInForm = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -30,11 +28,12 @@ export class SignInComponent implements OnInit {
   onSignIn() {
     if (this.signInForm.valid) {
       const value = this.signInForm.value;
-      this.authService.signIn(value.email ?? '', value.password ?? '', this.autoLogin)
+      this.authService.signIn(value.email ?? '', value.password ?? '')
         .then(() => {
           this.signInForm.reset();
         })
-        .catch(() => {
+        .catch(err => {
+          this.messageService.showError(err);
           this.router.navigate(['/cars']).catch(err => this.messageService.showError(err));
         });
     }

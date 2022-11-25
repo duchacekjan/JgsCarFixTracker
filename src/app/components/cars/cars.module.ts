@@ -9,6 +9,7 @@ import {EditTableComponent} from './edit-table/edit-table.component';
 import {SnackBarComponent} from './snack-bar/snack-bar.component';
 import {DialogComponent} from './dialog/dialog.component';
 import {MaterialModule} from "../../material.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import {MaterialModule} from "../../material.module";
     FormsModule,
     MaterialModule,
     ReactiveFormsModule,
+    TranslateModule,
   ],
   declarations: [CarListComponent, CarDetailComponent, CarDetailFormComponent, EditTableComponent, SnackBarComponent, DialogComponent]
 })

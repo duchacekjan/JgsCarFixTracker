@@ -8,15 +8,13 @@ import {TopBarAction} from "../../../models/TopBarAction";
 import {Subscription} from "rxjs";
 import {TableConfig} from "../edit-table/TableConfig";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {TableService} from "../../../services/table.service";
 import {MessageService, MessageType} from "../../../services/message.service";
 import {DialogData} from "../dialog/dialog.component";
-import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-car-detail',
   templateUrl: './car-detail.component.html',
-  styleUrls: ['./car-detail.component.css']
+  styleUrls: ['./car-detail.component.scss']
 })
 export class CarDetailComponent implements OnInit, OnDestroy {
 
@@ -40,14 +38,13 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     private carsService: CarsService,
     private router: Router,
     private actionsService: TopBarActionsService,
-    private tableService: TableService,
     private messageService: MessageService
   ) {
     this.tableConfig = this.createTableConfig();
     this.queryParamSubscription = route.queryParamMap.subscribe(s => this.invokeAction(s.get('action')));
     this.fixItemUpdateForm = new FormGroup({
       id: new FormControl(-1),
-      lastUpdate: new FormControl(''),
+      lastUpdate: new FormControl({value: '', disabled: true}),
       mileage: new FormControl('0', [Validators.required, Validators.min(0)]),
       description: new FormControl('', [Validators.required])
     });
@@ -116,7 +113,6 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     if (!isNewRow) {
       this.fixItemUpdateForm.get('lastUpdate')!.patchValue(this.formatDate(fix.lastUpdate));
     }
-    this.tableService.toggleFormControls(this.fixItemUpdateForm, ['lastUpdate'], false);
     this.isDrawerOpened = true;
     this.isNewRowBeingAdded = isNewRow;
   }
@@ -204,13 +200,13 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       editAction.route = `/cars/detail/edit`;
       editAction.queryParams = {'id': id};
       editAction.color = 'accent';
-      editAction.tooltip = 'Edit';
+      editAction.tooltip = 'toolbar.editCar';
 
       const removeAction = new TopBarAction('delete');
       removeAction.route = `/cars/detail/${id}`;
       removeAction.queryParams = {'action': 'delete'};
       removeAction.color = 'warn';
-      removeAction.tooltip = 'Remove';
+      removeAction.tooltip = 'toolbar.removeCar';
       this.actionsService.add(removeAction, editAction);
     }
     this.actionsService.updateActions();

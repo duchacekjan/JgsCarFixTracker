@@ -11,6 +11,7 @@ export class TopBarActionsService {
   actions = new Subject<TopBarAction[]>;
   private internalActions: TopBarAction[] = [];
   private isBackActionVisible = false;
+  private currentBackActionVisibility = false;
 
   clear() {
     this.internalActions = [];
@@ -28,6 +29,9 @@ export class TopBarActionsService {
 
   updateActions() {
     this.actions.next(this.internalActions);
-    this.backAction.next(this.isBackActionVisible);
+    if (this.currentBackActionVisibility != this.isBackActionVisible) {
+      this.currentBackActionVisibility = this.isBackActionVisible;
+      this.backAction.next(this.currentBackActionVisibility);
+    }
   }
 }

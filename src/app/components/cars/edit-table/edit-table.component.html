@@ -1,26 +1,26 @@
 <div class="edit-table">
   <table mat-table matSort matSortActive="mileage" matSortDirection="desc" [dataSource]="table_data_source" class="edit-table__grid">
     <ng-container matColumnDef="mileage" sticky>
-      <th mat-header-cell *matHeaderCellDef class="numeric-col"> KM</th>
+      <th mat-header-cell *matHeaderCellDef class="numeric-col">{{'fix.mileageShort'|translate}}</th>
       <td mat-cell *matCellDef="let element" class="numeric-col"> {{element.mileage | number}} </td>
     </ng-container>
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Description</th>
+      <th mat-header-cell *matHeaderCellDef>{{'fix.description'|translate}}</th>
       <td mat-cell *matCellDef="let element" class="description-col" [title]="element.description"> {{element.description}} </td>
     </ng-container>
     <!-- Actions  Column -->
     <ng-container matColumnDef="edit" stickyEnd>
       <th mat-header-cell *matHeaderCellDef class="row-action-column">
-        <button mat-icon-button matTooltip="Add New Row" aria-label="Add New Row" (click)="addRow()">
+        <button mat-icon-button [matTooltip]="'fix.addRow'|translate" aria-label="Add New Row" (click)="addRow()">
           <mat-icon>playlist_add</mat-icon>
         </button>
       </th>
       <td mat-cell *matCellDef="let table_row" class="row-action-column">
         <div style="display: inline-flex">
-          <button mat-icon-button color="warn" matTooltip="Remove Row" aria-label="Remove Row" (click)="removeRow(table_row)">
+          <button mat-icon-button color="warn" [matTooltip]="'fix.removeRow'|translate" aria-label="Remove Row" (click)="removeRow(table_row)">
             <mat-icon aria-hidden="true" class="material-icons-outlined">delete</mat-icon>
           </button>
-          <button mat-icon-button color="accent" matTooltip="Edit Row" aria-label="Edit Row" (click)="editRow(table_row)">
+          <button mat-icon-button color="accent" [matTooltip]="'fix.editRow'|translate" aria-label="Edit Row" (click)="editRow(table_row)">
             <mat-icon aria-hidden="true" class="material-icons-outlined">edit</mat-icon>
           </button>
         </div>
