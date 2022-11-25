@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+@import 'src/styles/jgs-theme';
+
+:host {
+  padding: 1em;
+}
+
+h2 {
+  color: mat.get-color-from-palette($JgsCarFixTracker-primary, 500);
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+}

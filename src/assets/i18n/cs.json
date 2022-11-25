@@ -3,10 +3,15 @@
     "darkMode": "Tmavý režim",
     "lightMode": "Světlý režim",
     "back": "Zpět",
-    "logout": "Odhlásit",
+    "logout": "Odhlásit se",
+    "settings": "Nastavení",
     "newCar": "Nový vůz",
     "editCar": "Upravit vůz",
     "removeCar": "Smazat vůz"
+  },
+  "settings": {
+    "title": "Nastavení",
+    "themeMode": "Vzhled"
   },
   "auth": {
     "email": "E-mail",
