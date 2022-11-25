@@ -6,8 +6,6 @@ import {CarDetailComponent} from './car-detail/car-detail.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CarDetailFormComponent} from './car-detail-form/car-detail-form.component';
 import {EditTableComponent} from './edit-table/edit-table.component';
-import {SnackBarComponent} from './snack-bar/snack-bar.component';
-import {DialogComponent} from './dialog/dialog.component';
 import {MaterialModule} from "../../material.module";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -20,7 +18,7 @@ import {TranslateModule} from "@ngx-translate/core";
     ReactiveFormsModule,
     TranslateModule,
   ],
-  declarations: [CarListComponent, CarDetailComponent, CarDetailFormComponent, EditTableComponent, SnackBarComponent, DialogComponent]
+  declarations: [CarListComponent, CarDetailComponent, CarDetailFormComponent, EditTableComponent]
 })
 export class CarsModule {
 }

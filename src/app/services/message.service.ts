@@ -1,8 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {SnackBarComponent} from "../components/cars/snack-bar/snack-bar.component";
-import {DialogComponent, DialogData} from "../components/cars/dialog/dialog.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {DialogComponent, DialogData} from "../common/dialog/dialog.component";
+import {SnackBarComponent} from "../common/snack-bar/snack-bar.component";
 
 @Injectable({
   providedIn: 'root'

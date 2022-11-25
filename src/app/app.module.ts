@@ -9,7 +9,6 @@ import {getDatabase, provideDatabase} from '@angular/fire/database';
 import {RouterModule} from '@angular/router';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
-import {LayoutModule} from './layout/layout.module';
 import {AuthService} from './services/auth.service';
 import {registerLocaleData} from "@angular/common";
 import localeCz from '@angular/common/locales/cs';
@@ -18,6 +17,7 @@ import {MaterialModule} from "./material.module";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {LayoutModule} from "./common/layout.module";
 
 registerLocaleData(localeCz);
 

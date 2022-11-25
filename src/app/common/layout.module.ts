@@ -9,22 +9,20 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MaterialModule} from "../material.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
+import {SnackBarComponent} from "./snack-bar/snack-bar.component";
+import {DialogComponent} from "./dialog/dialog.component";
 
 @NgModule({
     imports: [
         CommonModule,
         LayoutRoutingModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTooltipModule,
         MaterialModule,
         ReactiveFormsModule,
         TranslateModule
     ],
     exports: [],
     declarations: [
-      MainComponent
+      MainComponent, SnackBarComponent, DialogComponent
     ]
   })
   export class LayoutModule { }

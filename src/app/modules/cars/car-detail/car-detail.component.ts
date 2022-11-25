@@ -9,7 +9,7 @@ import {Subscription} from "rxjs";
 import {TableConfig} from "../edit-table/TableConfig";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {MessageService, MessageType} from "../../../services/message.service";
-import {DialogData} from "../dialog/dialog.component";
+import {DialogData} from "../../../common/dialog/dialog.component";
 
 @Component({
   selector: 'app-car-detail',

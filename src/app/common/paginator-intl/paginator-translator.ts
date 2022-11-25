@@ -3,7 +3,7 @@ import {Subject} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import {inject} from "@angular/core";
 
-export class PaginatorIntlComponent implements MatPaginatorIntl {
+export class PaginatorTranslator implements MatPaginatorIntl {
   private translate = inject(TranslateService)
   changes = new Subject<void>();
 
