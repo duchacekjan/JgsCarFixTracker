@@ -31,20 +31,14 @@ export class AuthService {
     });
   }
 
-  signIn(email: string, password: string, remember: boolean): Promise<void> {
+  signIn(email: string, password: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      this.afAuth
-        .setPersistence(remember ? 'local' : 'session')
-        .then(() => {
-          this.afAuth.signInWithEmailAndPassword(email, password)
-            .then(k => {
-              this.usersService.setUser(k.user?.uid).then(() => resolve())
-            })
-            .catch(err => reject(err));
+      this.afAuth.signInWithEmailAndPassword(email, password)
+        .then(k => {
+          this.usersService.setUser(k.user?.uid).then(() => resolve())
         })
-        .catch(err => reject(err))
-    })
-
+        .catch(err => reject(err));
+    });
   }
 
   signUp(email: string, password: string) {
@@ -74,6 +68,7 @@ export class AuthService {
     return this.afAuth.signOut()
       .then(() => {
         this.usersService.signOut();
+        indexedDB.deleteDatabase('firebaseLocalStorageDb');
         this.redirect('auth/sign-in');
       })
   }

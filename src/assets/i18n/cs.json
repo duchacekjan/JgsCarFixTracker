@@ -16,7 +16,6 @@
   "auth": {
     "email": "E-mail",
     "password": "Heslo",
-    "remember": "Zapamatovat",
     "signIn": {
       "title": "Přihlášení",
       "button": "Přihlásit"

@@ -1,9 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {TopBarActionsService} from "../../services/top-bar-actions.service";
 import {AuthService} from "../../services/auth.service";
 import {Subscription} from "rxjs";
 import {TopBarAction} from "../../models/TopBarAction";
 import {UsersService} from "../../services/users.service";
+import {SettingsService, ThemeMode} from "../../services/settings.service";
+import {OverlayContainer} from "@angular/cdk/overlay";
 
 @Component({
   selector: 'app-main-layout',
@@ -19,11 +21,15 @@ export class MainComponent implements OnInit, OnDestroy {
   private actionsSubscription = new Subscription();
   private backActionSubscription = new Subscription();
   private authUserSubscription = new Subscription();
+  private themeModeSubscription = new Subscription();
 
   constructor(
     public authService: AuthService,
     private actionsService: TopBarActionsService,
-    private userService: UsersService) {
+    private userService: UsersService,
+    private settingsService: SettingsService,
+    private renderer: Renderer2,
+    private overlay: OverlayContainer) {
   }
 
   ngOnInit(): void {
@@ -32,11 +38,26 @@ export class MainComponent implements OnInit, OnDestroy {
       .subscribe(actions => this.actions = actions);
     this.backActionSubscription = this.actionsService.backAction
       .subscribe(s => this.backAction = s);
+    this.themeModeSubscription = this.settingsService.modeChanged
+      .subscribe(() => this.updateThemeMode());
+    this.updateThemeMode();
   }
 
   ngOnDestroy(): void {
     this.actionsSubscription.unsubscribe();
     this.backActionSubscription.unsubscribe();
     this.authUserSubscription.unsubscribe();
+    this.themeModeSubscription.unsubscribe();
+  }
+
+  private updateThemeMode() {
+    const darkClassName = 'darkMode';
+    if (this.settingsService.isDarkMode) {
+      this.renderer.addClass(document.body, darkClassName);
+      this.overlay.getContainerElement().classList.add(darkClassName);
+    } else {
+      this.renderer.removeClass(document.body, darkClassName);
+      this.overlay.getContainerElement().classList.remove(darkClassName);
+    }
   }
 }

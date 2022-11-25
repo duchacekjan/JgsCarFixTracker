@@ -16,9 +16,6 @@
         {{'validations.passwordRequired'|translate}}
       </mat-error>
     </mat-form-field>
-    <mat-checkbox [checked]="autoLogin" name="autologin" color="primary">
-      {{'auth.remember'|translate}}
-    </mat-checkbox>
     <button mat-raised-button color="primary" type="submit" class="sign-in-button" [disabled]="!signInForm.valid">{{'auth.signIn.button'|translate}}</button>
     <a class="sign-in-forgot-link" routerLink="../forgot-password">{{'auth.forgotPassword'|translate}}</a>
   </form>
