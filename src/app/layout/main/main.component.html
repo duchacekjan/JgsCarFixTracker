@@ -23,6 +23,11 @@
       <mat-icon>logout</mat-icon>
       <span>{{'toolbar.logout' | translate}}</span>
     </button>
+    <mat-divider></mat-divider>
+    <div class="version">
+      <span [translate]="'toolbar.version_ver'" [translateParams]="{ver: version}"></span>
+      <span [translate]="'toolbar.user_usr'" [translateParams]="{usr: user?.email??'anonymous'}"></span>
+    </div>
   </mat-menu>
 </mat-toolbar>
 <div class="main-layout-content ">

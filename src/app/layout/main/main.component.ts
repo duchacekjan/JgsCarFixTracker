@@ -7,6 +7,8 @@ import {UsersService} from "../../services/users.service";
 import {SettingsService, ThemeMode} from "../../services/settings.service";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {ActivatedRoute, Router} from "@angular/router";
+import {environment} from "../../../environments/environment";
+import {User} from "../../models/user";
 
 @Component({
   selector: 'app-main-layout',
@@ -18,6 +20,8 @@ export class MainComponent implements OnInit, OnDestroy {
   actions: TopBarAction[] = [];
   backAction = false;
   isLoggedIn = false;
+  version: string;
+  user: User | null = null;
 
   private actionsSubscription = new Subscription();
   private backActionSubscription = new Subscription();
@@ -33,10 +37,14 @@ export class MainComponent implements OnInit, OnDestroy {
     private overlay: OverlayContainer,
     private router: Router,
     private route: ActivatedRoute) {
+    this.version = environment.appVersion;
   }
 
   ngOnInit(): void {
-    this.authUserSubscription = this.userService.isLoggedIn.subscribe(s => this.isLoggedIn = s);
+    this.authUserSubscription = this.userService.isLoggedIn.subscribe(s => {
+      this.isLoggedIn = s
+      this.user = this.userService.currentUser;
+    });
     this.actionsSubscription = this.actionsService.actions
       .subscribe(actions => this.actions = actions);
     this.backActionSubscription = this.actionsService.backAction

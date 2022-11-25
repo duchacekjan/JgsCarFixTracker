@@ -40,11 +40,17 @@ $JgsCarFixTracker-dark-theme: mat.define-dark-theme((
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($JgsCarFixTracker-light-theme);
-@include mat.strong-focus-indicators-theme($JgsCarFixTracker-light-theme);
 
 .darkMode {
   @include mat.all-component-colors($JgsCarFixTracker-dark-theme);
-  @include mat.strong-focus-indicators-theme($JgsCarFixTracker-dark-theme);
+}
+
+.settings-title{
+  h2 {
+    color: mat.get-color-from-palette($JgsCarFixTracker-primary, 500);
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+  }
 }
 
 .mat-dialog-override {

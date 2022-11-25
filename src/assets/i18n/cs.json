@@ -7,7 +7,9 @@
     "settings": "Nastavení",
     "newCar": "Nový vůz",
     "editCar": "Upravit vůz",
-    "removeCar": "Smazat vůz"
+    "removeCar": "Smazat vůz",
+    "version_ver": "Verze: {{ver}}",
+    "user_usr": "Uživatel: {{usr}}"
   },
   "settings": {
     "title": "Nastavení",
