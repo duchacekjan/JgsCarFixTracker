@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
-          node-version: '14.15'
+          node-version: '16.14'
       - run: npm install
       - run: npm run buildProd
       - uses: w9jds/firebase-action@master
