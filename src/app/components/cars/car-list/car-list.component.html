@@ -18,9 +18,9 @@
       <mat-card-content>{{car.model}}</mat-card-content>
       <mat-card-footer>{{car.getLastMileage() | number}} km</mat-card-footer>
     </mat-card>
-    <ng-container *ngIf="!cars || cars.length===0">
+    <ng-container *ngIf="searchText.length>0 && (!cars || cars.length===0)">
       <div class="not-found">
-        NO CARS FOUND<!--      TODO icon and text-->
+        {{'errors.noCarsFound'|translate}}
       </div>
     </ng-container>
   </div>
