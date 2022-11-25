@@ -10,15 +10,15 @@ export class DialogData {
   content!: string;
   actions: any = {
     ok: {
-      label: 'OK',
+      label: 'buttons.ok',
       isVisible: true
     },
     cancel: {
-      label: 'Cancel',
+      label: 'buttons.cancel',
       isVisible: true
     },
     delete: {
-      label: 'Delete',
+      label: 'buttons.delete',
       isVisible: false
     }
   }
@@ -35,22 +35,6 @@ export class DialogData {
     this.actions.cancel = this.toAction(label ?? this.actions.cancel.label, isVisible);
   }
 
-  private toAction(label: string, isVisible: boolean): any {
-    return {
-      label: label,
-      isVisible: isVisible
-    };
-  }
-}
-
-export class TranslateDialogData extends DialogData {
-  constructor() {
-    super();
-    this.actions.ok.label = 'buttons.ok';
-    this.actions.cancel.label = 'buttons.cancel';
-    this.actions.delete.label = 'buttons.delete';
-  }
-
   getTranslation(translate: TranslateService): DialogData {
     const result = new DialogData();
     console.log(this.title);
@@ -60,6 +44,13 @@ export class TranslateDialogData extends DialogData {
     result.actions.cancel.label = translate.instant(this.actions.cancel.label);
     result.actions.delete.label = translate.instant(this.actions.delete.label);
     return result;
+  }
+
+  private toAction(label: string, isVisible: boolean): any {
+    return {
+      label: label,
+      isVisible: isVisible
+    };
   }
 }
 

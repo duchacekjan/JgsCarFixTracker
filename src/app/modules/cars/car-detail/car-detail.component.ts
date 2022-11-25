@@ -8,7 +8,7 @@ import {Subscription} from "rxjs";
 import {TableConfig} from "../edit-table/TableConfig";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {MessageService, MessageType} from "../../../services/message.service";
-import {DialogData, TranslateDialogData} from "../../../common/dialog/dialog.component";
+import {DialogData} from "../../../common/dialog/dialog.component";
 import {Action} from "../../../models/action";
 
 @Component({
@@ -229,8 +229,8 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createDeleteDialogData(title: string, content: string): TranslateDialogData {
-    const data = new TranslateDialogData();
+  private createDeleteDialogData(title: string, content: string): DialogData {
+    const data = new DialogData();
     data.title = title;
     data.content = content;
     data.setOk(false);

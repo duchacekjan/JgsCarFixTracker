@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {DialogComponent, DialogData, TranslateDialogData} from "../common/dialog/dialog.component";
+import {DialogComponent, DialogData} from "../common/dialog/dialog.component";
 import {SnackBarComponent} from "../common/snack-bar/snack-bar.component";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -14,11 +14,8 @@ export class MessageService {
   private translate = inject(TranslateService);
 
   showDialog(data: DialogData): MatDialogRef<DialogComponent> {
-    if (data instanceof TranslateDialogData) {
-      data = data.getTranslation(this.translate);
-    }
     return this.dialog.open(DialogComponent, {
-      data: data,
+      data: data.getTranslation(this.translate),
       minHeight: '480px',
       minWidth: '320px'
     });
