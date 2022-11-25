@@ -1,7 +1,0 @@
-@import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
-
-:host {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 100%;
-  }

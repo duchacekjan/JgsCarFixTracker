@@ -1,8 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {SnackBarComponent} from "../components/cars/snack-bar/snack-bar.component";
-import {DialogComponent, DialogData} from "../components/cars/dialog/dialog.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {DialogComponent, DialogData} from "../common/dialog/dialog.component";
+import {SnackBarComponent} from "../common/snack-bar/snack-bar.component";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +11,11 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 export class MessageService {
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
+  private translate = inject(TranslateService);
 
   showDialog(data: DialogData): MatDialogRef<DialogComponent> {
     return this.dialog.open(DialogComponent, {
-      data: data,
+      data: data.getTranslation(this.translate),
       minHeight: '480px',
       minWidth: '320px'
     });
@@ -23,7 +25,15 @@ export class MessageService {
     this.showMessage(MessageType.Error, err, true, 3000);
   }
 
-  showMessage(type: MessageType, message: string, canDismiss: boolean, duration: number) {
+  showErrorWithTranslation(err: string | Array<string>, interpolateParams?: Object) {
+    this.showMessage(MessageType.Error, this.translate.instant(err, interpolateParams), true, 3000);
+  }
+
+  showMessageWithTranslation(type: MessageType, err: string | Array<string>, interpolateParams?: Object, canDismiss: boolean = true, duration: number = 1500) {
+    this.showMessage(type, this.translate.instant(err, interpolateParams), canDismiss, duration)
+  }
+
+  showMessage(type: MessageType, message: string, canDismiss: boolean = true, duration: number = 1500) {
     let panelClass = this.getPanelClass(type);
     let config = {
       data: {

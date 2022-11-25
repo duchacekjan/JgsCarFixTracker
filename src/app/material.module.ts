@@ -45,7 +45,7 @@ import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {CdkMenuModule} from '@angular/cdk/menu';
 import {DialogModule} from '@angular/cdk/dialog';
-import {PaginatorIntlComponent} from "./components/cars/paginator-intl/paginator-intl.component";
+import {PaginatorTranslator} from "./common/paginator-intl/paginator-translator";
 
 @NgModule({
   exports: [
@@ -98,7 +98,7 @@ import {PaginatorIntlComponent} from "./components/cars/paginator-intl/paginator
     DialogModule,
   ],
   providers: [
-    {provide: MatPaginatorIntl, useClass: PaginatorIntlComponent},
+    {provide: MatPaginatorIntl, useClass: PaginatorTranslator},
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {panelClass: 'mat-dialog-override'}}]
 })
 export class MaterialModule {
