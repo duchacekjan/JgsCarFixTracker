@@ -10,12 +10,9 @@
     </mat-form-field>
   </div>
   <div class="d-flex flex-row flex-wrap">
-    <mat-card *ngFor="let car of cars" (click)="navigate(car.key)" class="car-card">
-      <mat-card-title-group>
-        <mat-card-title>{{car.licencePlate}}</mat-card-title>
-        <mat-card-subtitle>{{car.brand}}</mat-card-subtitle>
-      </mat-card-title-group>
-      <mat-card-content>{{car.model}}</mat-card-content>
+    <mat-card *ngFor="let car of cars" (click)="navigate(car.key)" class="car-card d-flex flex-column">
+      <mat-card-title>{{car.licencePlate}}</mat-card-title>
+      <mat-card-content class="spacer">{{car.brand}} {{car.model}}</mat-card-content>
       <mat-card-footer>{{car.getLastMileage() | number}} km</mat-card-footer>
     </mat-card>
     <ng-container *ngIf="searchText.length>0 && (!cars || cars.length===0)">

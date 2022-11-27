@@ -44,7 +44,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     this.fixItemUpdateForm = new FormGroup({
       id: new FormControl(-1),
       lastUpdate: new FormControl({value: '', disabled: true}),
-      mileage: new FormControl('0', [Validators.required, Validators.min(0)]),
+      mileage: new FormControl(0, [Validators.required, Validators.min(0)]),
       description: new FormControl('', [Validators.required])
     });
   }
@@ -168,7 +168,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     if (this.car.key) {
       this.updatedFixIndex = fixIndex;
       this.carsService.update(this.car)
-        .then(() => this.messageService.showMessageWithTranslation(MessageType.Success, isDelete ? 'messages.deleted' : 'messages.saved',))
+        .then(() => this.messageService.showMessageWithTranslation(MessageType.Success, isDelete ? 'messages.deleted' : 'messages.saved'))
         .catch(err => this.messageService.showError(err));
     }
   }
@@ -197,7 +197,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     if (id != null) {
       const editAction = new Action('edit_document');
       editAction.route = `/cars/detail/edit`;
-      editAction.queryParams = {'id': id};
+      editAction.queryParams = {'id': id, 'backLink':`/cars/detail/${id}`};
       editAction.color = 'accent';
       editAction.tooltip = 'toolbar.editCar';
 

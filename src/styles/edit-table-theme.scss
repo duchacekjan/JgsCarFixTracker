@@ -1,0 +1,71 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@import 'bootstrap/scss/bootstrap-utilities';
+
+@mixin color($theme) {
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($theme);
+  // Get the primary color palette from the color-config.
+  $primary-palette: map.get($color-config, 'primary');
+
+  .edit-table {
+    border: solid 1px mat.get-color-from-palette($primary-palette, 500);
+
+    .edit-table__grid {
+      .mat-header-row {
+        background-color: mat.get-color-from-palette($primary-palette, 500);
+
+        .mat-header-cell {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .edit-table-drawer-container {
+    mat-drawer {
+      .table-update {
+        .table-update__header {
+          color: mat.get-color-from-palette($primary-palette, 500);
+        }
+      }
+    }
+  }
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+}
+
+.edit-table-drawer-container {
+  padding-top: 1em;
+
+  mat-drawer {
+    width: 400px;
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+    }
+
+    .table-update {
+      padding: 1em;
+
+      .table-update__header {
+        margin-bottom: 1em;
+        padding-bottom: 0.5em;
+      }
+
+      .table-update__footer {
+        margin: 1em 0;
+
+        button {
+          width: 100%;
+          margin: 0.3em 0;
+        }
+      }
+    }
+  }
+}

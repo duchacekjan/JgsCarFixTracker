@@ -95,29 +95,27 @@ export class CarsService {
 
   upsert(car: Car): Promise<string> {
     return new Promise(async (resolve, reject) => {
-      console.log(`CarKey = ${car.key}`)
-      if (car.key) {
-        console.log(car);
-        this.update(car)
-          .then(() => resolve(car.key!))
-          .catch(reject);
-      } else {
-        if (car) {
-          let item = await this.carsRef.query.orderByChild('licencePlate').equalTo(car.licencePlate).limitToFirst(1).get();
-          if (item.val() as Car) {
-            reject(this.translate.instant('errors.licencePlateTaken'))
+      if (car) {
+        const item = (await this.carsRef.query.orderByChild('licencePlate').equalTo(car.licencePlate).limitToFirst(1).get())?.val() as Car;
+        if (!item || item.key != car.key) {
+          if (car.key) {
+            this.update(car)
+              .then(() => resolve(car.key!))
+              .catch(reject);
           } else {
             const key = this.create(car);
             resolve(key);
           }
         } else {
-          reject(this.translate.instant('errors.noCarDefined'));
+          reject(this.translate.instant('errors.licencePlateTaken'));
         }
+      } else {
+        reject(this.translate.instant('errors.noCarDefined'));
       }
     });
   }
 
-  create(car: Car): string {
+  private create(car: Car): string {
     return this.carsRef.push(car).key!;
   }
 
