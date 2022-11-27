@@ -1,0 +1,46 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($theme);
+  // Get the primary color palette from the color-config.
+  $primary-palette: map.get($color-config, 'primary');
+
+  .success-notification {
+    background-color: mat.get-color-from-palette($primary-palette, 500);
+  }
+
+  .settings-title{
+    h2 {
+      color: mat.get-color-from-palette($primary-palette, 500);
+      margin-bottom: 1em;
+      padding-bottom: 0.5em;
+    }
+  }
+  .mat-dialog-override {
+    height: 0;
+
+    mat-dialog-container {
+      > :first-child {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      mat-dialog-content,
+      div[mat-dialog-content] {
+        flex-grow: 1;
+        max-height: unset;
+      }
+    }
+  }
+
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+}

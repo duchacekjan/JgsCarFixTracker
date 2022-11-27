@@ -1,6 +1,38 @@
+@import 'bootstrap/scss/bootstrap-utilities';
+
 :host {
   width: 100%;
 }
-.last-update-field{
+
+.last-update-field {
   margin-bottom: 1em;
+}
+
+.edit-table-drawer-container {
+  padding-top: 1em;
+
+  mat-drawer {
+    width: 400px;
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+    }
+
+    .table-update {
+      padding: 1em;
+
+      .table-update__header {
+        margin-bottom: 1em;
+        padding-bottom: 0.5em;
+      }
+
+      .table-update__footer {
+        margin: 1em 0;
+
+        button {
+          width: 100%;
+          margin: 0.3em 0;
+        }
+      }
+    }
+  }
 }

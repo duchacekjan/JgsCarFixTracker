@@ -197,7 +197,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     if (id != null) {
       const editAction = new Action('edit_document');
       editAction.route = `/cars/detail/edit`;
-      editAction.queryParams = {'id': id};
+      editAction.queryParams = {'id': id, 'backLink':`/cars/detail/${id}`};
       editAction.color = 'accent';
       editAction.tooltip = 'toolbar.editCar';
 
