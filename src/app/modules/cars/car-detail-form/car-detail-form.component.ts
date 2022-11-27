@@ -50,7 +50,7 @@ export class CarDetailFormComponent implements OnInit, OnDestroy {
       if (car && car.licencePlate) {
         this.carsService.upsert(car)
           .then(id => {
-            this.messageService.showMessageWithTranslation(MessageType.Success, 'messages.saved');
+            this.messageService.showMessageWithTranslation(MessageType.Success, 'messages.saved', undefined, true, 0);
             this.router.navigate([`/cars/detail/${id}`]).catch();
           })
           .catch(err=>this.messageService.showError(err));

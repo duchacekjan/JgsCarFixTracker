@@ -2,6 +2,7 @@
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 // Plus imports for other components in your app.
+@import 'bootstrap/scss/bootstrap-utilities';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -14,6 +15,9 @@
 
 $JgsCarFixTracker-primary: mat.define-palette(mat.$light-green-palette);
 $JgsCarFixTracker-accent: mat.define-palette(mat.$indigo-palette);
+
+$JgsCarFixTracker-primary-dark: mat.define-palette(mat.$green-palette);
+$JgsCarFixTracker-accent-dark: mat.define-palette(mat.$indigo-palette);
 
 // The warn palette is optional (defaults to red).
 $JgsCarFixTracker-warn: mat.define-palette(mat.$red-palette);
@@ -30,11 +34,14 @@ $JgsCarFixTracker-light-theme: mat.define-light-theme((
 
 $JgsCarFixTracker-dark-theme: mat.define-dark-theme((
   color: (
-    primary: $JgsCarFixTracker-primary,
-    accent: $JgsCarFixTracker-accent,
+    primary: $JgsCarFixTracker-primary-dark,
+    accent: $JgsCarFixTracker-accent-dark,
     warn: $JgsCarFixTracker-warn,
   )
 ));
+
+$JgsCarFixTracker-primary-palette: $JgsCarFixTracker-primary;
+$JgsCarFixTracker-accent-palette: $JgsCarFixTracker-accent;
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -42,12 +49,40 @@ $JgsCarFixTracker-dark-theme: mat.define-dark-theme((
 @include mat.all-component-themes($JgsCarFixTracker-light-theme);
 
 .darkMode {
-  @include mat.all-component-colors($JgsCarFixTracker-dark-theme);
+  @include mat.all-component-themes($JgsCarFixTracker-dark-theme);
+  $JgsCarFixTracker-primary-palette: $JgsCarFixTracker-primary-dark;
+  $JgsCarFixTracker-accent-palette: $JgsCarFixTracker-accent-dark;
+
+  .success-notification {
+    background-color: mat.get-color-from-palette($JgsCarFixTracker-primary-palette, 500);
+  }
+  .edit-table {
+    border: solid 1px mat.get-color-from-palette($JgsCarFixTracker-primary-palette, 500);
+    .edit-table__grid {
+      .mat-header-row {
+        background-color: mat.get-color-from-palette($JgsCarFixTracker-primary-palette, 500);
+      }
+    }
+  }
+
+  .edit-table-drawer-container {
+    mat-drawer {
+      .table-update {
+        .table-update__header {
+          color: mat.get-color-from-palette($JgsCarFixTracker-primary-palette, 500);
+        }
+      }
+    }
+  }
 }
 
-.settings-title{
+.success-notification {
+  background-color: mat.get-color-from-palette($JgsCarFixTracker-primary-palette, 500);
+}
+
+.settings-title {
   h2 {
-    color: mat.get-color-from-palette($JgsCarFixTracker-primary, 500);
+    color: mat.get-color-from-palette($JgsCarFixTracker-primary-palette, 500);
     margin-bottom: 1em;
     padding-bottom: 0.5em;
   }
@@ -67,6 +102,91 @@ $JgsCarFixTracker-dark-theme: mat.define-dark-theme((
     div[mat-dialog-content] {
       flex-grow: 1;
       max-height: unset;
+    }
+  }
+}
+
+.edit-table {
+  border: solid 1px mat.get-color-from-palette($JgsCarFixTracker-primary-palette, 500);
+
+  .edit-table__grid {
+    width: 100%;
+    table-layout: fixed;
+
+    .mat-header-row {
+      background-color: mat.get-color-from-palette($JgsCarFixTracker-primary-palette, 500);
+
+      .mat-header-cell {
+        color: white;
+        font-size: 1em;
+        cursor: default;
+
+        &.row-action-column {
+          padding: 0 0.1em;
+          width: 6em;
+          text-align: right;
+        }
+      }
+    }
+
+    .mat-cell {
+      &.row-action-column {
+        padding: 0 0.1em;
+        width: 6em;
+      }
+    }
+
+    .description-col {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      width: auto
+    }
+
+    .numeric-col {
+      width: 7em;
+      padding-left: 0;
+
+      &.mat-cell {
+        text-align: right;
+        padding-right: 1em;
+      }
+
+      &.mat-header-cell {
+        text-align: center;
+        padding-right: 1em;
+      }
+    }
+  }
+}
+
+.edit-table-drawer-container {
+  padding-top: 1em;
+
+  mat-drawer {
+    width: 400px;
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+    }
+
+    .table-update {
+      padding: 1em;
+
+      .table-update__header {
+        border-bottom: 1px solid lightgray;
+        color: mat.get-color-from-palette($JgsCarFixTracker-primary-palette, 500);
+        margin-bottom: 1em;
+        padding-bottom: 0.5em;
+      }
+
+      .table-update__footer {
+        margin: 1em 0;
+
+        button {
+          width: 100%;
+          margin: 0.3em 0;
+        }
+      }
     }
   }
 }

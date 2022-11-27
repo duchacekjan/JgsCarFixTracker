@@ -29,8 +29,8 @@ export class MessageService {
     this.showMessage(MessageType.Error, this.translate.instant(err, interpolateParams), true, 3000);
   }
 
-  showMessageWithTranslation(type: MessageType, err: string | Array<string>, interpolateParams?: Object, canDismiss: boolean = true, duration: number = 1500) {
-    this.showMessage(type, this.translate.instant(err, interpolateParams), canDismiss, duration)
+  showMessageWithTranslation(type: MessageType, message: string | Array<string>, interpolateParams?: Object, canDismiss: boolean = true, duration: number = 1500) {
+    this.showMessage(type, this.translate.instant(message, interpolateParams), canDismiss, duration)
   }
 
   showMessage(type: MessageType, message: string, canDismiss: boolean = true, duration: number = 1500) {

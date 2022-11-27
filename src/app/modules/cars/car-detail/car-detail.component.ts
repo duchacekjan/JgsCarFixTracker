@@ -168,7 +168,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     if (this.car.key) {
       this.updatedFixIndex = fixIndex;
       this.carsService.update(this.car)
-        .then(() => this.messageService.showMessageWithTranslation(MessageType.Success, isDelete ? 'messages.deleted' : 'messages.saved',))
+        .then(() => this.messageService.showMessageWithTranslation(MessageType.Success, isDelete ? 'messages.deleted' : 'messages.saved'))
         .catch(err => this.messageService.showError(err));
     }
   }
