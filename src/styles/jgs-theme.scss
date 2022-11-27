@@ -36,7 +36,6 @@ $JgsCarFixTracker-dark-accent: mat.define-palette(mat.$indigo-palette);
 
 // The warn palette is optional (defaults to red).
 $JgsCarFixTracker-dark-warn: mat.define-palette(mat.$red-palette);
-
 $JgsCarFixTracker-dark-theme: mat.define-dark-theme((
   color: (
     primary: $JgsCarFixTracker-dark-primary,

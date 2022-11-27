@@ -11,12 +11,15 @@
     background-color: mat.get-color-from-palette($primary-palette, 500);
   }
 
-  .settings-title{
+  .settings-title {
     h2 {
       color: mat.get-color-from-palette($primary-palette, 500);
       margin-bottom: 1em;
       padding-bottom: 0.5em;
     }
+  }
+  .mat-card-footer {
+    margin: 0 -0.8em -0.8em -0.8em;
   }
   .mat-dialog-override {
     height: 0;
