@@ -44,7 +44,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     this.fixItemUpdateForm = new FormGroup({
       id: new FormControl(-1),
       lastUpdate: new FormControl({value: '', disabled: true}),
-      mileage: new FormControl('0', [Validators.required, Validators.min(0)]),
+      mileage: new FormControl(0, [Validators.required, Validators.min(0)]),
       description: new FormControl('', [Validators.required])
     });
   }
