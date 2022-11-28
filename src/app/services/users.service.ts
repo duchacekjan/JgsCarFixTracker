@@ -32,33 +32,46 @@ export class UsersService {
     this.setUser(null).catch();
   }
 
-  setUser(uid: any): Promise<boolean> {
-    return new Promise<boolean>((resolve, _) => {
-      if (uid) {
-        this.db.list<User>(this.userDbPath, ref => ref.orderByChild('uid').equalTo(uid).limitToFirst(1))
-          .valueChanges()
-          .subscribe(data => {
-            data.forEach(user => {
-              this.currentUser = user
-              this.isLoggedIn.next(this.getIsLoggedIn());
-              resolve(this.getIsLoggedIn())
-            })
-          });
+  setUser(dbUser: any | null): Promise<boolean> {
+    return new Promise<boolean>(async (resolve, _) => {
+      if (dbUser) {
+        const userRecord = await this.db.list(this.userDbPath).query.orderByChild('uid').equalTo(dbUser.uid).limitToFirst(1).get()
+
+        userRecord?.forEach(a => {
+          const user = a?.val() as User;
+          const key = a?.key;
+          if (user && key) {
+            user.emailVerified = dbUser.emailVerified;
+            user.email = dbUser.email;
+            user.displayName = user.displayName ? dbUser.displayName : dbUser.email;
+            user.emailVerified = dbUser.emailVerified;
+            this.usersRefs.update(key!, user).catch(err => console.log(err));
+            this.currentUser = user
+            this.isLoggedIn.next(this.getIsLoggedIn());
+            resolve(this.getIsLoggedIn())
+          } else {
+            this.currentUser = null;
+            this.isLoggedIn.next(false);
+            resolve(false);
+          }
+          return false;
+        });
+
       } else {
         this.currentUser = null;
         this.isLoggedIn.next(false);
         resolve(false);
       }
     });
-
   }
 
   getIsLoggedIn(): boolean {
-    return this.currentUser !== null && this.currentUser.emailVerified;
+    return this.currentUser !== null;
   }
 
   buildDbPath(dbPath: string, key?: string): any {
     if (this.currentUser?.uid) {
+      console.log(this.currentUser.uid)
       const keyValue = key ? `/${key}` : '';
       return `items/${this.currentUser.uid}/${dbPath}${keyValue}`;
     }

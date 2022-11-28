@@ -16,14 +16,18 @@ export class AuthService {
     private route: ActivatedRoute
   ) {
     this.afAuth.authState.subscribe((user) => {
-      this.usersService.setUser(user?.uid)
+      this.usersService.setUser(user)
         .then(() => {
           if (user) {
-            const redirectUrl = this.route.snapshot.queryParamMap.get('redirectURL');
-            if (redirectUrl) {
-              this.redirect(redirectUrl);
+            if (!user.emailVerified) {
+              this.router.navigate(['auth/actions'], {queryParams: {'mode': 'verifyEmail'}}).catch();
             } else {
-              this.redirect();
+              const redirectUrl = this.route.snapshot.queryParamMap.get('redirectURL');
+              if (redirectUrl) {
+                this.redirect(redirectUrl);
+              } else {
+                this.redirect();
+              }
             }
           }
         });
@@ -35,7 +39,7 @@ export class AuthService {
     return new Promise<void>((resolve, reject) => {
       this.afAuth.signInWithEmailAndPassword(email, password)
         .then(k => {
-          this.usersService.setUser(k.user?.uid).then(() => resolve())
+          this.usersService.setUser(k.user).then(() => resolve())
         })
         .catch(err => reject(err));
     });
@@ -48,15 +52,15 @@ export class AuthService {
         this.sendVerificationMail()
           .then(() => this.usersService.createUser(result.user));
       })
-      .catch(this.errorHandler)
   }
 
   sendVerificationMail() {
     return this.afAuth.currentUser
-      .then((u: any) => u.sendEmailVerification())
-      .then(() => {
-        this.redirect('auth/verify-email');
-      })
+      .then((u: any) => u.sendEmailVerification());
+  }
+
+  confirmVerifyEmail(oobCode: string) {
+    return this.afAuth.applyActionCode(oobCode);
   }
 
   forgotPassword(passwordResetEmail: string) {
@@ -76,10 +80,6 @@ export class AuthService {
         indexedDB.deleteDatabase('firebaseLocalStorageDb');
         this.redirect('auth/sign-in');
       })
-  }
-
-  errorHandler(error: any) {
-    window.alert(error.message);
   }
 
   redirect(route?: string) {

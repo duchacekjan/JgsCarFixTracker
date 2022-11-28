@@ -14,7 +14,7 @@ import {CustomValidators} from "../../../../common/CustomValidators";
 export class ConfirmResetPasswordComponent implements OnInit, OnDestroy {
 
   form = new FormGroup({
-      'password': new FormControl(null, [Validators.required, Validators.minLength(8)]),
+      'password': new FormControl(null, [Validators.required, Validators.minLength(6)]),
       'confirmPassword': new FormControl(null, {
         updateOn: 'change' || 'blur' || 'submit',
         validators: [Validators.required]

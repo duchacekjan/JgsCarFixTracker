@@ -1,0 +1,9 @@
+<div *ngIf="!oobCode" class="container-fluid wrapper">
+  <h3>{{'auth.confirmVerifyEmail.title'|translate}}</h3>
+  <h4>{{'auth.confirmVerifyEmail.notVerified'|translate}}</h4>
+  <p>{{'auth.confirmVerifyEmail.emailSendTo'|translate}} <strong>{{userEmail}}</strong></p>
+  <p>{{'auth.confirmVerifyEmail.checkEmail'|translate}}</p>
+  <button mat-raised-button color="primary" class="reset-button col-6 offset-3" (click)="onSubmit()">{{'auth.confirmVerifyEmail.button'|translate}}</button>
+  <span>{{'auth.goBackTo'|translate}}<a routerLink="./" (click)="authService.signOut()">{{'auth.signIn.title'|translate}}</a></span>
+</div>
+

@@ -1,8 +1,6 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {Subscription} from "rxjs";
-import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-actions',
@@ -12,7 +10,6 @@ import {AuthService} from "../../../services/auth.service";
 export class ActionsComponent implements OnInit, OnDestroy {
 
   private queryParamMapSubscription = new Subscription();
-  private _mode = '';
 
   mode: string = '';
 
