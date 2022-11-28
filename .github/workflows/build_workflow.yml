@@ -4,13 +4,14 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+    types: [opened, synchronize, reopened]
 jobs:
   build:
     name: build production
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@refs/pull/:prNumber/merge
-      - uses: actions/setup-node@refs/pull/:prNumber/merge
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
         with:
           node-version: '16.14'
       - run: npm install
