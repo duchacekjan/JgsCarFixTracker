@@ -1,26 +1,15 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
-
-# Controls when the action will run. 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
-    # Sequence of patterns matched against refs/heads
     branches:    
       - master
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Build workflow
   build:
-    name: Build production
-    
+    name: build production
     runs-on: ubuntu-latest
-    
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@refs/pull/:prNumber/merge
+      - uses: actions/setup-node@refs/pull/:prNumber/merge
         with:
           node-version: '16.14'
       - run: npm install
