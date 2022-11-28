@@ -41,11 +41,7 @@ export class UsersService {
           const user = a?.val() as User;
           const key = a?.key;
           if (user && key) {
-            user.emailVerified = dbUser.emailVerified;
-            user.email = dbUser.email;
-            user.displayName = user.displayName ? dbUser.displayName : dbUser.email;
-            user.emailVerified = dbUser.emailVerified;
-            this.usersRefs.update(key!, user).catch(err => console.log(err));
+            this.updateUserRecord(this.db, key, user);
             this.currentUser = user
             this.isLoggedIn.next(this.getIsLoggedIn());
             resolve(this.getIsLoggedIn())
@@ -75,5 +71,13 @@ export class UsersService {
       const keyValue = key ? `/${key}` : '';
       return `items/${this.currentUser.uid}/${dbPath}${keyValue}`;
     }
+  }
+
+  private updateUserRecord(dbUser: any, key: string, user: User) {
+    user.emailVerified = dbUser.emailVerified;
+    user.email = dbUser.email;
+    user.displayName = user.displayName ? dbUser.displayName : dbUser.email;
+    user.emailVerified = dbUser.emailVerified;
+    this.usersRefs.update(key, user).catch(err => console.log(err));
   }
 }
