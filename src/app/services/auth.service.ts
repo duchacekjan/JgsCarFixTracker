@@ -64,6 +64,11 @@ export class AuthService {
       .sendPasswordResetEmail(passwordResetEmail);
   }
 
+  confirmPasswordReset(password: string, oobCode: string) {
+    return this.afAuth
+      .confirmPasswordReset(oobCode, password);
+  }
+
   signOut() {
     return this.afAuth.signOut()
       .then(() => {

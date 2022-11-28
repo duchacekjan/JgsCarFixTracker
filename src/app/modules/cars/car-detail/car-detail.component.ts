@@ -10,6 +10,7 @@ import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/f
 import {MessageService, MessageType} from "../../../services/message.service";
 import {DialogData} from "../../../common/dialog/dialog.component";
 import {Action} from "../../../models/action";
+import {CommonService} from "../../../services/common.service";
 
 @Component({
   selector: 'app-car-detail',
@@ -38,7 +39,8 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     private carsService: CarsService,
     private router: Router,
     private actionsService: ActionsService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private commonService: CommonService
   ) {
     this.queryParamSubscription = route.queryParamMap.subscribe(s => this.invokeAction(s.get('action')));
     this.fixItemUpdateForm = new FormGroup({
@@ -117,12 +119,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   }
 
   private resetForm() {
-    //close the drawer and reset the update form
-    this.isDrawerOpened = false;
-    this.fixItemUpdateForm.reset();
-    this.fixItemUpdateForm.setErrors(null);
-    this.fixItemUpdateForm.updateValueAndValidity();
-    this.fixFormGroup.resetForm();
+    this.commonService.resetForm(this.fixItemUpdateForm, this.fixFormGroup, () => this.isDrawerOpened = false);
   }
 
   private formatDate(date: any) {
@@ -197,7 +194,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     if (id != null) {
       const editAction = new Action('edit_document');
       editAction.route = `/cars/detail/edit`;
-      editAction.queryParams = {'id': id, 'backLink':`/cars/detail/${id}`};
+      editAction.queryParams = {'id': id, 'backLink': `/cars/detail/${id}`};
       editAction.color = 'accent';
       editAction.tooltip = 'toolbar.editCar';
 

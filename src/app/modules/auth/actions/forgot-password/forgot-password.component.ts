@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {AuthService} from "../../../../services/auth.service";
+import {CommonService} from "../../../../services/common.service";
 
 @Component({
   selector: 'app-forgot-password',
@@ -15,7 +16,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   @ViewChild(FormGroupDirective, {static: true}) formGroup!: FormGroupDirective;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private commonService: CommonService) {
   }
 
   ngOnInit(): void {
@@ -24,14 +25,7 @@ export class ForgotPasswordComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       const email = this.form.controls['email'].value;
-      this.authService.forgotPassword(email).then(() => this.resetForm());
+      this.authService.forgotPassword(email).then(() => this.commonService.resetForm(this.form, this.formGroup));
     }
-  }
-
-  private resetForm() {
-    this.form.reset();
-    this.form.setErrors(null);
-    this.form.updateValueAndValidity();
-    this.formGroup.resetForm();
   }
 }

@@ -8,6 +8,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {ActionsComponent} from './actions/actions.component';
 import {ForgotPasswordComponent} from "./actions/forgot-password/forgot-password.component";
 import {MaterialModule} from "../../material.module";
+import { ConfirmResetPasswordComponent } from './actions/confirm-reset-password/confirm-reset-password.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import {MaterialModule} from "../../material.module";
     MaterialModule,
     TranslateModule
   ],
-  declarations: [SignInComponent, ForgotPasswordComponent, VerifyMailComponent, ActionsComponent]
+  declarations: [SignInComponent, ForgotPasswordComponent, VerifyMailComponent, ActionsComponent, ConfirmResetPasswordComponent]
 })
 export class AuthModule {
 }

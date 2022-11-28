@@ -28,6 +28,12 @@
       "content": "Prosím zadejte svou e-mailovou adresu, na kterou vám bude zaslán e-mail pro reset hesla.",
       "button": "Resetovat heslo"
     },
+    "confirmResetPassword": {
+      "title": "Změna hesla",
+      "password": "Nové heslo",
+      "confirmPassword": "Nové heslo znovu",
+      "button": "Změnit heslo"
+    },
     "goBackTo": "Zpět na "
   },
   "carList": {
@@ -98,6 +104,9 @@
     "licencePlateRequired": "SPZ je povinná",
     "licencePlateMinLength": "SPZ musí mít minimálně 7 znaků",
     "licencePlateMaxLength": "SPZ musí mít maximálně 8 znaků",
-    "descriptionRequired": "Popis úkonu je povinný"
+    "descriptionRequired": "Popis úkonu je povinný",
+    "confirmPasswordRequired": "Potvrzovací heslo je povinné",
+    "mismatchPasswords": "Hesla se neshodují",
+    "passwordMinLength": "Heslo musí mít minimálně 8 znaků"
   }
 }
