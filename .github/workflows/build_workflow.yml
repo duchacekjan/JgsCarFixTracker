@@ -14,9 +14,9 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Deploy  
-  deploy:
-    name: deploy to firebase
+  # Build workflow
+  build:
+    name: Build production
     
     runs-on: ubuntu-latest
     
