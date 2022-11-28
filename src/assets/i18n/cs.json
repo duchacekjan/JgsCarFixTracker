@@ -78,7 +78,8 @@
     "save": "Uložit",
     "delete": "Smazat",
     "cancel": "Zrušit",
-    "ok": "OK"
+    "ok": "OK",
+    "resetPassword": "Obnovit heslo"
   },
   "messages": {
     "deleted": "Smazáno",

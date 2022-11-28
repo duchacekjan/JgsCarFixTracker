@@ -1,1 +1,6 @@
-<p>actions works!</p>
+<div>{{mode}}</div>
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'forgotPassword'">
+    <app-forgot-password></app-forgot-password>
+  </ng-container>
+</ng-container>
