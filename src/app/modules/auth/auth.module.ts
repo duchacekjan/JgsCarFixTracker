@@ -11,6 +11,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {TranslateModule} from "@ngx-translate/core";
+import { ActionsComponent } from './actions/actions.component';
 
 @NgModule({
     imports: [
@@ -25,7 +26,7 @@ import {TranslateModule} from "@ngx-translate/core";
         MatCheckboxModule,
         TranslateModule
     ],
-  declarations: [SignInComponent, ForgotPasswordComponent, VerifyMailComponent]
+  declarations: [SignInComponent, ForgotPasswordComponent, VerifyMailComponent, ActionsComponent]
 })
 export class AuthModule {
 }

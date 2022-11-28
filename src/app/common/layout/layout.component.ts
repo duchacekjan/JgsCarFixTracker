@@ -5,7 +5,7 @@ import {Subscription} from "rxjs";
 import {UsersService} from "../../services/users.service";
 import {SettingsService} from "../../services/settings.service";
 import {OverlayContainer} from "@angular/cdk/overlay";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
 import {User} from "../../models/user";
 import {Action} from "../../models/action";
@@ -27,6 +27,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
   private backActionSubscription = new Subscription();
   private authUserSubscription = new Subscription();
   private themeModeSubscription = new Subscription();
+  private queryParamsSubscription = new Subscription();
+
+  private backLink = '/cars';
 
   constructor(
     public authService: AuthService,
@@ -45,6 +48,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.isLoggedIn = s
       this.user = this.userService.currentUser;
     });
+    this.queryParamsSubscription = this.route.queryParamMap.subscribe(map => this.processQueryParamMap(map))
     this.actionsSubscription = this.actionsService.actions
       .subscribe(actions => this.actions = actions);
     this.backActionSubscription = this.actionsService.backAction
@@ -56,6 +60,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.actionsSubscription.unsubscribe();
+    this.queryParamsSubscription.unsubscribe();
     this.backActionSubscription.unsubscribe();
     this.authUserSubscription.unsubscribe();
     this.themeModeSubscription.unsubscribe();
@@ -70,8 +75,18 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   backClick() {
-    const backLink = this.route.snapshot.queryParams['backLink'] ?? '/cars';
-    this.router.navigate([backLink]).catch();
+    const parts = this.backLink.split('?');
+    const url = parts[0];
+    let queryParams: any = {};
+    if (parts.length > 1) {
+      const queryParameters = decodeURIComponent(parts[1])
+      for (let param of queryParameters.split('&')) {
+        const paramParts = param.split('=');
+        queryParams[paramParts[0]] = paramParts.length > 1 ? paramParts[1] : '';
+      }
+    }
+
+    this.router.navigate([url], {queryParams: queryParams}).catch();
   }
 
   private updateThemeMode() {
@@ -83,5 +98,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.renderer.removeClass(document.body, darkClassName);
       this.overlay.getContainerElement().classList.remove(darkClassName);
     }
+  }
+
+  private processQueryParamMap(map: ParamMap) {
+    this.backLink = map.get('backLink') ?? '/cars';
   }
 }
