@@ -1,4 +1,5 @@
 import {AbstractControl, ValidationErrors, ValidatorFn} from "@angular/forms";
+import {PasswordRules, PasswordStrength} from "../services/common.service";
 
 export class CustomValidators {
   static formMismatchPassword(passwordControlName: string, confirmPasswordControlName: string): ValidatorFn {
@@ -12,5 +13,20 @@ export class CustomValidators {
       confirmPassword?.setErrors(result);
       return result;
     }
+  }
+
+  static strongPassword(control: AbstractControl): ValidationErrors | null {
+    let hasError = false;
+    if (control && control.value) {
+      const passwordRules = new PasswordRules();
+      const strength = passwordRules.getStrength(control.value);
+      console.log(`Strength of '${control.value}' is ${strength}`);
+      hasError = strength < PasswordStrength.Moderate;
+
+      console.log(`HasError: ${hasError}`);
+    }
+    return hasError
+      ? {weakpassword: true}
+      : null;
   }
 }

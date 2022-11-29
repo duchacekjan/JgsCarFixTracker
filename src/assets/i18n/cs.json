@@ -32,7 +32,10 @@
       "title": "Změna hesla",
       "password": "Nové heslo",
       "confirmPassword": "Nové heslo znovu",
-      "button": "Změnit heslo"
+      "button": "Změnit heslo",
+      "weakPassword": "Slabé heslo",
+      "moderatePassword": "Vyhovující heslo",
+      "strongPassword": "Silné heslo"
     },
     "confirmVerifyEmail": {
       "title": "Ověření e-mailu",
@@ -116,6 +119,7 @@
     "descriptionRequired": "Popis úkonu je povinný",
     "confirmPasswordRequired": "Potvrzovací heslo je povinné",
     "mismatchPasswords": "Hesla se neshodují",
-    "passwordMinLength": "Heslo musí mít minimálně 6 znaků"
+    "passwordMinLength": "Heslo musí mít minimálně 6 znaků",
+    "passwordIsWeak": "Heslo je slabé."
   }
 }

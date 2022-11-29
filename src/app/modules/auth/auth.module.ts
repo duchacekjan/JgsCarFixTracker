@@ -8,7 +8,8 @@ import {ActionsComponent} from './actions/actions.component';
 import {ForgotPasswordComponent} from "./actions/forgot-password/forgot-password.component";
 import {MaterialModule} from "../../material.module";
 import {ConfirmResetPasswordComponent} from './actions/confirm-reset-password/confirm-reset-password.component';
-import { VerifyEmailComponent } from './actions/verify-email/verify-email.component';
+import {VerifyEmailComponent} from './actions/verify-email/verify-email.component';
+import {PasswordStrengthHintComponent} from "./password-strength-hint/password-strength-hint.component";
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { VerifyEmailComponent } from './actions/verify-email/verify-email.compon
     MaterialModule,
     TranslateModule
   ],
-  declarations: [SignInComponent, ForgotPasswordComponent, ActionsComponent, ConfirmResetPasswordComponent, VerifyEmailComponent]
+  declarations: [SignInComponent, ForgotPasswordComponent, ActionsComponent, ConfirmResetPasswordComponent, VerifyEmailComponent, PasswordStrengthHintComponent]
 })
 export class AuthModule {
 }
