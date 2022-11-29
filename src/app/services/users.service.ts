@@ -41,7 +41,7 @@ export class UsersService {
           const user = a?.val() as User;
           const key = a?.key;
           if (user && key) {
-            this.updateUserRecord(this.db, key, user);
+            this.updateUserRecord(dbUser, key, user);
             this.currentUser = user
             this.isLoggedIn.next(this.getIsLoggedIn());
             resolve(this.getIsLoggedIn())
@@ -67,7 +67,6 @@ export class UsersService {
 
   buildDbPath(dbPath: string, key?: string): any {
     if (this.currentUser?.uid) {
-      console.log(this.currentUser.uid)
       const keyValue = key ? `/${key}` : '';
       return `items/${this.currentUser.uid}/${dbPath}${keyValue}`;
     }
@@ -76,7 +75,7 @@ export class UsersService {
   private updateUserRecord(dbUser: any, key: string, user: User) {
     user.emailVerified = dbUser.emailVerified;
     user.email = dbUser.email;
-    user.displayName = user.displayName ? dbUser.displayName : dbUser.email;
+    user.displayName = user.displayName ? user.displayName : dbUser.email;
     user.emailVerified = dbUser.emailVerified;
     this.usersRefs.update(key, user).catch(err => console.log(err));
   }
