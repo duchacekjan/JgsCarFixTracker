@@ -75,7 +75,7 @@ export class UsersService {
   private updateUserRecord(dbUser: any, key: string, user: User) {
     user.emailVerified = dbUser.emailVerified;
     user.email = dbUser.email;
-    user.displayName = user.displayName ? user.displayName : dbUser.email;
+    user.displayName = user.displayName ? user.displayName : dbUser.displayName ? dbUser.displayName : dbUser.email;
     user.emailVerified = dbUser.emailVerified;
     this.usersRefs.update(key, user).catch(err => console.log(err));
   }
