@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatLegacySnackBar as MatSnackBar} from "@angular/material/legacy-snack-bar";
+import {MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {DialogComponent, DialogData} from "../common/dialog/dialog.component";
 import {SnackBarComponent} from "../common/snack-bar/snack-bar.component";
 import {TranslateService} from "@ngx-translate/core";
