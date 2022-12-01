@@ -9,7 +9,6 @@ import {getDatabase, provideDatabase} from '@angular/fire/database';
 import {RouterModule} from '@angular/router';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
-import {AuthService} from './services/auth.service';
 import {registerLocaleData} from "@angular/common";
 import localeCz from '@angular/common/locales/cs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -17,9 +16,6 @@ import {MaterialModule} from "./material.module";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {AppCommonModule} from "./common/app-common.module";
-import {SplashScreenStateService} from "./services/splash-screen.service";
-import {BaseResolver} from "./resolvers/BaseResolver";
 
 registerLocaleData(localeCz);
 
@@ -49,7 +45,6 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     RouterModule.forRoot([]),
-    AppCommonModule,
     MaterialModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -68,10 +63,7 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
   ],
   exports: [],
   providers: [
-    AuthService,
-    {provide: LOCALE_ID, useValue: 'cs-CZ'},
-    SplashScreenStateService,
-    BaseResolver
+    {provide: LOCALE_ID, useValue: 'cs-CZ'}
   ],
   bootstrap: [AppComponent]
 })
