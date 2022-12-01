@@ -1,6 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {environment} from "../environments/environment";
+import {OverlayContainer} from "@angular/cdk/overlay";
+import {SettingsService} from "./services/settings.service";
 
 @Component({
   selector: 'app-root',
@@ -27,9 +29,9 @@ export class AppComponent implements OnInit, OnDestroy {
     // public authService: AuthService,
     // private actionsService: ActionsService,
     // private userService: UsersService,
-    // private settingsService: SettingsService,
-    // private renderer: Renderer2,
-    // private overlay: OverlayContainer,
+    private settingsService: SettingsService,
+    private renderer: Renderer2,
+    private overlay: OverlayContainer,
     // private router: Router,
     // private route: ActivatedRoute,
     private readonly translate: TranslateService) {
@@ -50,7 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
     //   .subscribe(s => this.backAction = s);
     // this.themeModeSubscription = this.settingsService.modeChanged
     //   .subscribe(() => this.updateThemeMode());
-    // this.updateThemeMode();
+    this.updateThemeMode();
   }
 
   ngOnDestroy(): void {
@@ -84,16 +86,16 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.router.navigate([url], {queryParams: queryParams}).catch();
   }
 
-// private updateThemeMode() {
-//     const darkClassName = 'darkMode';
-//     if (this.settingsService.isDarkMode) {
-//       this.renderer.addClass(document.body, darkClassName);
-//       this.overlay.getContainerElement().classList.add(darkClassName);
-//     } else {
-//       this.renderer.removeClass(document.body, darkClassName);
-//       this.overlay.getContainerElement().classList.remove(darkClassName);
-//     }
-//   }
+  private updateThemeMode() {
+    const darkClassName = 'darkMode';
+    if (this.settingsService.isDarkMode) {
+      this.renderer.addClass(document.body, darkClassName);
+      this.overlay.getContainerElement().classList.add(darkClassName);
+    } else {
+      this.renderer.removeClass(document.body, darkClassName);
+      this.overlay.getContainerElement().classList.remove(darkClassName);
+    }
+  }
 
 // private processQueryParamMap(map: ParamMap) {
 //     this.backLink = map.get('backLink') ?? '/cars';

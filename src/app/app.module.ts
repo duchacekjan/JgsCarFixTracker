@@ -17,6 +17,8 @@ import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoa
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MaterialModule} from "./materialDesign/material.module";
 import {AppRoutingModule} from "./app-routing.module";
+import {SettingsService} from "./services/settings.service";
+import {AppServicesModule} from "./services/services.module";
 
 registerLocaleData(localeCz);
 
@@ -49,6 +51,7 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    AppServicesModule,
     TranslateModule.forRoot({
       defaultLanguage: 'cs',
       loader: {
