@@ -1,9 +1,9 @@
 import {NgModule} from "@angular/core";
 import {NotFoundComponent} from './not-found/not-found.component';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
-import {MaterialModule} from "../materialDesign/material.module";
+import {MaterialModule} from "../material.module";
 import {CommonModule} from "@angular/common";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -13,7 +13,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
   imports: [
     CommonModule,
     MaterialModule,
-    MatProgressSpinnerModule
+    BrowserAnimationsModule
   ],
   exports: [
     SplashScreenComponent

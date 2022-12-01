@@ -1,8 +1,9 @@
-import {Component, OnDestroy, OnInit, Renderer2} from '@angular/core';
+import {Component, HostBinding, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {environment} from "../environments/environment";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {SettingsService} from "./services/settings.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -19,11 +20,10 @@ export class AppComponent implements OnInit, OnDestroy {
 // private actionsSubscription = new Subscription();
 // private backActionSubscription = new Subscription();
 // private authUserSubscription = new Subscription();
-// private themeModeSubscription = new Subscription();
+ private themeModeSubscription = new Subscription();
 // private queryParamsSubscription = new Subscription();
 
   private backLink = '/cars';
-
   constructor(
     // public authService: AuthService,
     // private actionsService: ActionsService,
@@ -49,8 +49,8 @@ export class AppComponent implements OnInit, OnDestroy {
     //   .subscribe(actions => this.actions = actions);
     // this.backActionSubscription = this.actionsService.backAction
     //   .subscribe(s => this.backAction = s);
-    // this.themeModeSubscription = this.settingsService.modeChanged
-    //   .subscribe(() => this.updateThemeMode());
+    this.themeModeSubscription = this.settingsService.modeChanged
+      .subscribe(() => this.updateThemeMode());
     this.updateThemeMode();
   }
 
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.queryParamsSubscription.unsubscribe();
     // this.backActionSubscription.unsubscribe();
     // this.authUserSubscription.unsubscribe();
-    // this.themeModeSubscription.unsubscribe();
+    this.themeModeSubscription.unsubscribe();
   }
 
   showSettings() {

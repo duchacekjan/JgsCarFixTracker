@@ -17,9 +17,9 @@ export class SignInComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.dataService.get(this.data()).then(data => {
-    //   this.myItems = data;
-    // });
+    this.dataService.get(this.data()).then(data => {
+      this.myItems = data;
+    });
   }
 
   private data(): Promise<Observable<any>> {
