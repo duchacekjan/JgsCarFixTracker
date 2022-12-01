@@ -7,6 +7,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {SnackBarComponent} from "./snack-bar/snack-bar.component";
 import {DialogComponent} from "./dialog/dialog.component";
 import {LayoutComponent} from "./layout/layout.component";
+import { SplashScreenComponent } from './splash-screen/splash-screen.component';
 
 @NgModule({
   imports: [
@@ -16,9 +17,11 @@ import {LayoutComponent} from "./layout/layout.component";
     ReactiveFormsModule,
     TranslateModule
   ],
-  exports: [],
+    exports: [
+        SplashScreenComponent
+    ],
   declarations: [
-    LayoutComponent, SnackBarComponent, DialogComponent
+    LayoutComponent, SnackBarComponent, DialogComponent, SplashScreenComponent
   ]
 })
 export class AppCommonModule {

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {ActionsService} from "../../services/actions.service";
 import {AuthService} from "../../services/auth.service";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {UsersService} from "../../services/users.service";
 import {SettingsService} from "../../services/settings.service";
 import {OverlayContainer} from "@angular/cdk/overlay";
@@ -44,6 +44,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.route.snapshot.data['items'].subscribe((s: Observable<any>) => console.log(s));
     this.authUserSubscription = this.userService.isLoggedIn.subscribe(s => {
       this.isLoggedIn = s
       this.user = this.userService.currentUser;

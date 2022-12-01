@@ -5,6 +5,7 @@ import {CarsModule} from '../modules/cars/cars.module';
 import {SettingsModule} from "../modules/settings/settings.module";
 import {LayoutComponent} from "./layout/layout.component";
 import {AuthGuard} from "../services/auth.guard";
+import {BaseResolver} from "../resolvers/BaseResolver";
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
       {path: 'settings', loadChildren: () => SettingsModule},
       {path: 'cars', loadChildren: () => CarsModule, canActivate: [AuthGuard]},
       {path: 'auth', loadChildren: () => AuthModule}
-    ]
+    ],
+    resolve: {'items': BaseResolver}
   },
   {path: '**', pathMatch: 'full', redirectTo: '/cars?notFound'}
 ];

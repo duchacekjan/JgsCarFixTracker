@@ -18,6 +18,8 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppCommonModule} from "./common/app-common.module";
+import {SplashScreenStateService} from "./services/splash-screen.service";
+import {BaseResolver} from "./resolvers/BaseResolver";
 
 registerLocaleData(localeCz);
 
@@ -65,7 +67,12 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
     })
   ],
   exports: [],
-  providers: [AuthService, {provide: LOCALE_ID, useValue: 'cs-CZ'}],
+  providers: [
+    AuthService,
+    {provide: LOCALE_ID, useValue: 'cs-CZ'},
+    SplashScreenStateService,
+    BaseResolver
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
