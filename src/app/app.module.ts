@@ -34,8 +34,7 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
 }
 
 @NgModule({
-  declarations: [
-    AppComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
