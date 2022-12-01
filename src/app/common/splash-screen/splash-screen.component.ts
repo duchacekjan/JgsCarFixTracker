@@ -7,12 +7,7 @@ import {SplashScreenStateService} from "../../services/splash-screen-state.servi
   styleUrls: ['./splash-screen.component.scss']
 })
 export class SplashScreenComponent {
-  private readonly ANIMATION_DURATION = 1;
-  // The screen starts with the maximum opacity
-  public opacityChange = 1;
-  public splashTransition: any;
-// First access the splash is visible
-  public showSplash = true;
+  public showSplash = false;
 
   constructor(private splashScreenService: SplashScreenStateService) {
   }
@@ -28,17 +23,10 @@ export class SplashScreenComponent {
     if (this.showSplash == isLoading) {
       return;
     }
-    if(isLoading){
-      return;
-    }
-    // Setting the transition
-    this.splashTransition = `opacity ${this.ANIMATION_DURATION}s`;
-    this.opacityChange = 0;
 
     setTimeout(() => {
-      // After the transition is ended the showSplash will be hided
       console.log('set is loading');
-      //this.showSplash = isLoading;
-    }, 1000);
+      this.showSplash = isLoading;
+    }, 0);
   }
 }
