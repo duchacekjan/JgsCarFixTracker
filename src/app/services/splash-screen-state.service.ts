@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Subscription, Subject, Observer} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 
 @Injectable()
 export class SplashScreenStateService {
   private subject = new Subject<boolean>();
 
-  subscribe(onNext: Partial<Observer<boolean>> | undefined): Subscription {
+  subscribe(onNext: (isLoading: boolean) => void): Subscription {
     return this.subject.subscribe(onNext);
   }
 

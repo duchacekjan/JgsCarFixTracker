@@ -1,0 +1,6 @@
+<p>sign-in works!</p>
+<div *ngIf="myItems">
+  <div *ngFor="let item of myItems | async">
+    {{item}}
+  </div>
+</div>

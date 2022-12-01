@@ -3,8 +3,6 @@ import {TranslateService} from "@ngx-translate/core";
 import {environment} from "../environments/environment";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {SettingsService} from "./services/settings.service";
-import {DataService} from "./services/data.service";
-import {of} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -18,7 +16,6 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
   version: string;
   user: any;//User | null = null;
-
 // private actionsSubscription = new Subscription();
 // private backActionSubscription = new Subscription();
 // private authUserSubscription = new Subscription();
@@ -36,8 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private overlay: OverlayContainer,
     // private router: Router,
     // private route: ActivatedRoute,
-    private readonly translate: TranslateService,
-    private dataService: DataService) {
+    private readonly translate: TranslateService) {
     this.version = environment.appVersion;
     translate.setDefaultLang('cs');
     translate.use('cs');
@@ -55,11 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
     //   .subscribe(s => this.backAction = s);
     // this.themeModeSubscription = this.settingsService.modeChanged
     //   .subscribe(() => this.updateThemeMode());
-    // this.dataService.get(()=>{
-    //   of(['item1', 'item2'])
-    // }).then(data=>{
-    //
-    // });
     this.updateThemeMode();
   }
 

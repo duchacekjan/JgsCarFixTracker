@@ -1,36 +1,38 @@
-<mat-toolbar color="primary">
-  <button *ngIf="backAction" mat-icon-button (click)="backClick()" [matTooltip]="'toolbar.back' | translate">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-  <span>Car fix tracker</span>
-  <span class="spacer"></span>
-  <ng-container *ngFor="let action of actions">
-    <button mat-icon-button [routerLink]="action.route" queryParamsHandling="merge" [queryParams]="action.queryParams"
-            [matTooltip]="action.tooltip | translate">
-      <mat-icon *ngIf="!action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
-      <mat-icon *ngIf="action.color" [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
-    </button>
-  </ng-container>
-  <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="App menu">
-    <mat-icon>more_vert</mat-icon>
-  </button>
-  <mat-menu #appMenu>
-    <button mat-menu-item (click)="showSettings()">
-      <mat-icon>settings</mat-icon>
-      <span>{{'toolbar.settings' | translate}}</span>
-    </button>
-<!--    <button *ngIf="isLoggedIn" mat-menu-item (click)="authService.signOut()">-->
-      <button *ngIf="isLoggedIn" mat-menu-item >
-      <mat-icon>logout</mat-icon>
-      <span>{{'toolbar.logout' | translate}}</span>
-    </button>
-    <mat-divider></mat-divider>
-    <div class="version">
-      <span [translate]="'toolbar.version_ver'" [translateParams]="{ver: version}"></span>
-      <span [translate]="'toolbar.user_usr'" [translateParams]="{usr: user?.email??'anonymous'}"></span>
-    </div>
-  </mat-menu>
-</mat-toolbar>
-<div class="main-layout-content ">
-  <router-outlet></router-outlet>
-</div>
+<!--<mat-toolbar color="primary">-->
+<!--  <button *ngIf="backAction" mat-icon-button (click)="backClick()" [matTooltip]="'toolbar.back' | translate">-->
+<!--    <mat-icon>arrow_back</mat-icon>-->
+<!--  </button>-->
+<!--  <span>Car fix tracker</span>-->
+<!--  <span class="spacer"></span>-->
+<!--  <ng-container *ngFor="let action of actions">-->
+<!--    <button mat-icon-button [routerLink]="action.route" queryParamsHandling="merge" [queryParams]="action.queryParams"-->
+<!--            [matTooltip]="action.tooltip | translate">-->
+<!--      <mat-icon *ngIf="!action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>-->
+<!--      <mat-icon *ngIf="action.color" [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>-->
+<!--    </button>-->
+<!--  </ng-container>-->
+<!--  <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="App menu">-->
+<!--    <mat-icon>more_vert</mat-icon>-->
+<!--  </button>-->
+<!--  <mat-menu #appMenu>-->
+<!--    <button mat-menu-item (click)="showSettings()">-->
+<!--      <mat-icon>settings</mat-icon>-->
+<!--      <span>{{'toolbar.settings' | translate}}</span>-->
+<!--    </button>-->
+<!--    &lt;!&ndash;    <button *ngIf="isLoggedIn" mat-menu-item (click)="authService.signOut()">&ndash;&gt;-->
+<!--    <button *ngIf="isLoggedIn" mat-menu-item>-->
+<!--      <mat-icon>logout</mat-icon>-->
+<!--      <span>{{'toolbar.logout' | translate}}</span>-->
+<!--    </button>-->
+<!--    <mat-divider></mat-divider>-->
+<!--    <div class="version">-->
+<!--      <span [translate]="'toolbar.version_ver'" [translateParams]="{ver: version}"></span>-->
+<!--      <span [translate]="'toolbar.user_usr'" [translateParams]="{usr: user?.email??'anonymous'}"></span>-->
+<!--    </div>-->
+<!--  </mat-menu>-->
+<!--</mat-toolbar>-->
+<!--<div class="main-layout-content ">-->
+<!--  <router-outlet></router-outlet>-->
+<!--</div>-->
+<!--<router-outlet></router-outlet>-->
+<app-splash-screen></app-splash-screen>

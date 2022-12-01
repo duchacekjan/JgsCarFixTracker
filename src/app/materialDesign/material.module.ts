@@ -7,6 +7,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatButtonModule} from "@angular/material/button";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatDividerModule} from "@angular/material/divider";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import {MatDividerModule} from "@angular/material/divider";
     MatTooltipModule,
     MatButtonModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatToolbarModule,
@@ -25,7 +27,8 @@ import {MatDividerModule} from "@angular/material/divider";
     MatButtonModule,
     MatMenuModule,
     MatDividerModule,
-    DialogModule
+    DialogModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {panelClass: 'mat-dialog-override'}}]

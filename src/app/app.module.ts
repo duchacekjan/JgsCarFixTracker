@@ -9,7 +9,7 @@ import {getDatabase, provideDatabase} from '@angular/fire/database';
 import {RouterModule} from '@angular/router';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
-import {registerLocaleData} from "@angular/common";
+import {CommonModule, registerLocaleData} from "@angular/common";
 import localeCz from '@angular/common/locales/cs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
@@ -19,6 +19,8 @@ import {MaterialModule} from "./materialDesign/material.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {SettingsService} from "./services/settings.service";
 import {AppServicesModule} from "./services/services.module";
+import {AppAuthModule} from "./modules/auth/auth.module";
+import {AppCommonModule} from "./common/app-common.module";
 
 registerLocaleData(localeCz);
 
@@ -40,6 +42,9 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    CommonModule,
+    BrowserAnimationsModule,
+    MaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -47,11 +52,7 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     RouterModule.forRoot([]),
-    MaterialModule,
-    BrowserAnimationsModule,
     HttpClientModule,
-    AppRoutingModule,
-    AppServicesModule,
     TranslateModule.forRoot({
       defaultLanguage: 'cs',
       loader: {
@@ -63,7 +64,11 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
         provide: MissingTranslationHandler,
         useClass: CustomMissingTranslationHandler
       }
-    })
+    }),
+    AppCommonModule,
+    AppAuthModule,
+    AppRoutingModule,
+    AppServicesModule
   ],
   exports: [],
   providers: [
