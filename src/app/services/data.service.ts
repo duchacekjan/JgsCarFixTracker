@@ -9,7 +9,7 @@ export class DataService {
   constructor(private loading: SplashScreenStateService) {
   }
 
-  get<T>(action: Promise<T>): Promise<T> {
+  execute<T>(action: Promise<T>): Promise<T> {
     return new Promise<T>(async (resolve, reject) => {
       try {
         console.log('Set loading');

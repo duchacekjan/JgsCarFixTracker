@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {DataService} from "../../../services/data.service";
 import {Observable, of} from "rxjs";
+import {AuthService} from "../../../services/auth.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-sign-in',
@@ -9,15 +11,16 @@ import {Observable, of} from "rxjs";
 })
 export class SignInComponent implements OnInit, AfterViewInit {
   myItems: Observable<any> | null = null;
+  user: any;
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
-    this.dataService.get(this.data()).then(data => {
+    this.dataService.execute(this.data()).then(data => {
       this.myItems = data;
     });
   }
@@ -30,5 +33,15 @@ export class SignInComponent implements OnInit, AfterViewInit {
         resolve(of(['item1', 'item2']));
       }, 5000)
     })
+  }
+
+  onSignIn() {
+    this.authService
+      .signIn('jgs.nuget@gmail.com', '123456')
+      .then(async user => {
+        this.user = user.user?.uid;
+        const redirectUrl = this.route.snapshot.queryParamMap.get('redirectUrl') ?? '';
+        await this.router.navigate([redirectUrl], {replaceUrl: true, relativeTo: this.route});
+      });
   }
 }
