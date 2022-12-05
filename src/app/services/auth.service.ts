@@ -36,7 +36,6 @@ export class AuthService implements OnDestroy {
 
   signIn(userName: string, password: string) {
     return this.dataService.execute(this.afAuth.signInWithEmailAndPassword(userName, password))
-
   }
 
   signOut() {

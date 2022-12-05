@@ -1,9 +1,12 @@
-import {Component, HostBinding, OnDestroy, OnInit, Renderer2} from '@angular/core';
+import {Component, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {environment} from "../environments/environment";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {SettingsService} from "./services/settings.service";
 import {Subscription} from "rxjs";
+import {AuthService} from "./services/auth.service";
+import {User} from '@angular/fire/auth/firebase';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -14,29 +17,33 @@ export class AppComponent implements OnInit, OnDestroy {
 
   actions: any[] = [];//Action[] = [];
   backAction = false;
-  isLoggedIn = false;
   version: string;
-  user: any;//User | null = null;
+  user: User | null = null;
 // private actionsSubscription = new Subscription();
 // private backActionSubscription = new Subscription();
-// private authUserSubscription = new Subscription();
- private themeModeSubscription = new Subscription();
+  private authUserSubscription = new Subscription();
+  private themeModeSubscription = new Subscription();
 // private queryParamsSubscription = new Subscription();
 
   private backLink = '/cars';
+
   constructor(
-    // public authService: AuthService,
+    private readonly authService: AuthService,
     // private actionsService: ActionsService,
     // private userService: UsersService,
     private settingsService: SettingsService,
     private renderer: Renderer2,
     private overlay: OverlayContainer,
-    // private router: Router,
+    private readonly router: Router,
     // private route: ActivatedRoute,
     private readonly translate: TranslateService) {
     this.version = environment.appVersion;
     translate.setDefaultLang('cs');
     translate.use('cs');
+    this.authUserSubscription = this.authService.currentUser.subscribe(user => this.user = user);
+    this.themeModeSubscription = this.settingsService.modeChanged
+      .subscribe(() => this.updateThemeMode());
+    this.updateThemeMode()
   }
 
   ngOnInit(): void {
@@ -49,16 +56,14 @@ export class AppComponent implements OnInit, OnDestroy {
     //   .subscribe(actions => this.actions = actions);
     // this.backActionSubscription = this.actionsService.backAction
     //   .subscribe(s => this.backAction = s);
-    this.themeModeSubscription = this.settingsService.modeChanged
-      .subscribe(() => this.updateThemeMode());
-    this.updateThemeMode();
+    // this.updateThemeMode();
   }
 
   ngOnDestroy(): void {
     // this.actionsSubscription.unsubscribe();
     // this.queryParamsSubscription.unsubscribe();
     // this.backActionSubscription.unsubscribe();
-    // this.authUserSubscription.unsubscribe();
+    this.authUserSubscription.unsubscribe();
     this.themeModeSubscription.unsubscribe();
   }
 
@@ -83,6 +88,13 @@ export class AppComponent implements OnInit, OnDestroy {
     // }
     //
     // this.router.navigate([url], {queryParams: queryParams}).catch();
+  }
+
+  signOut() {
+    this.authService.signOut()
+      .then(async () => {
+        await this.router.navigate(['auth/sign-in'], {replaceUrl: true});
+      });
   }
 
   private updateThemeMode() {
