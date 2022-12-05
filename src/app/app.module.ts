@@ -16,7 +16,6 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MaterialModule} from "./material.module";
-import {AppRoutingModule} from "./app-routing.module";
 import {AppServicesModule} from "./services/services.module";
 import {AppAuthModule} from "./modules/auth/auth.module";
 import {AppCommonModule} from "./common/app-common.module";
@@ -43,6 +42,7 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
     BrowserModule,
     CommonModule,
     BrowserAnimationsModule,
+    RouterModule,
     MaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
@@ -65,8 +65,6 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
       }
     }),
     AppCommonModule,
-    AppAuthModule,
-    AppRoutingModule,
     AppServicesModule
   ],
   exports: [],

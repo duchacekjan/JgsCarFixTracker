@@ -4,16 +4,22 @@ import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {MaterialModule} from "../material.module";
 import {CommonModule} from "@angular/common";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {LayoutComponent} from './layout/layout.component';
+import {TranslateModule} from "@ngx-translate/core";
+import {AppCommonRoutingModule} from "./app-common-routing.module";
 
 @NgModule({
   declarations: [
     NotFoundComponent,
-    SplashScreenComponent
+    SplashScreenComponent,
+    LayoutComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    BrowserAnimationsModule
+    AppCommonRoutingModule,
+    BrowserAnimationsModule,
+    TranslateModule
   ],
   exports: [
     SplashScreenComponent

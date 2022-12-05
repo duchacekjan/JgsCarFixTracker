@@ -3,6 +3,7 @@ import {SettingsService} from "./settings.service";
 import {SplashScreenStateService} from "./splash-screen-state.service";
 import {DataService} from "./data.service";
 import {AuthService} from "./auth.service";
+import {NavigationService} from "./navigation.service";
 
 @NgModule({
   declarations: [],
@@ -12,7 +13,8 @@ import {AuthService} from "./auth.service";
     SettingsService,
     SplashScreenStateService,
     DataService,
-    AuthService
+    AuthService,
+    NavigationService
   ]
 })
 

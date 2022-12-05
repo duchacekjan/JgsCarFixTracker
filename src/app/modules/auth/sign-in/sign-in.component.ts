@@ -1,38 +1,29 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {DataService} from "../../../services/data.service";
-import {Observable, of} from "rxjs";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from "rxjs";
 import {AuthService} from "../../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {NavigationService} from "../../../services/navigation.service";
+import {Action} from "../../../models/action";
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-export class SignInComponent implements OnInit, AfterViewInit {
-  myItems: Observable<any> | null = null;
+export class SignInComponent implements OnInit, OnDestroy {
   user: any;
 
-  constructor(private dataService: DataService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
+  private afterNavigatedSubscription: Subscription;
+
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, private navigation: NavigationService) {
+    this.afterNavigatedSubscription = this.navigation.afterNavigated(data => this.afterNavigated(data));
   }
 
   ngOnInit(): void {
   }
 
-  ngAfterViewInit(): void {
-    this.dataService.execute(this.data()).then(data => {
-      this.myItems = data;
-    });
-  }
-
-  private data(): Promise<Observable<any>> {
-    return new Promise<Observable<any>>(resolve => {
-      console.log('before timeout');
-      setTimeout(() => {
-        console.log('in timeout');
-        resolve(of(['item1', 'item2']));
-      }, 5000)
-    })
+  ngOnDestroy() {
+    this.afterNavigatedSubscription.unsubscribe();
   }
 
   onSignIn() {
@@ -40,8 +31,16 @@ export class SignInComponent implements OnInit, AfterViewInit {
       .signIn('jgs.nuget@gmail.com', '123456')
       .then(async user => {
         this.user = user.user?.uid;
-        const redirectUrl = this.route.snapshot.queryParamMap.get('redirectUrl') ?? '';
+        const redirectUrl = this.route.snapshot.queryParamMap.get('redirectUrl') ?? '/cars';
         await this.router.navigate([redirectUrl], {replaceUrl: true, relativeTo: this.route});
       });
+  }
+
+  private afterNavigated(data: any): Action[] | null {
+    console.log(`data: ${data}`);
+    if (data !== '/auth/sign-in') {
+      return null;
+    }
+    return [];
   }
 }
