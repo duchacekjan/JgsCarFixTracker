@@ -3,37 +3,52 @@ import {NavigationEnd, Router} from "@angular/router";
 import {Subject, Subscription} from "rxjs";
 import {Action} from "../models/action";
 
-@Injectable()
+export class ActionsData {
+  backAction: Action | null = null;
+  actions: Action[] = [];
+  isMenuAvailable: boolean = true;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class NavigationService implements OnDestroy {
   private _afterNavigated = new Subject<any>();
-  private _actions = new Subject<Action[]>();
+  private _actionsData = new Subject<ActionsData>();
+  private _currentNavigationData: any;
 
   private routerEventSubscriptions: Subscription;
 
   constructor(private readonly router: Router) {
+    console.log('nav-svc');
     this.routerEventSubscriptions = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
+        console.log(`navigated ${event.url}`);
+        this._currentNavigationData = event.url;
         this._afterNavigated.next(event.url);
       }
     });
   }
 
+  get currentNavigationData(): any {
+    return this._currentNavigationData;
+  }
+
+  updateActionsData(value: ActionsData) {
+    this._actionsData.next(value);
+  }
+
   ngOnDestroy(): void {
     this._afterNavigated.complete();
-    this._actions.complete();
+    this._actionsData.complete();
     this.routerEventSubscriptions.unsubscribe();
   }
 
-  afterNavigated(onNext: (navigationData: any) => Action[] | null): Subscription {
-    return this._afterNavigated.subscribe(url => {
-      const actions = onNext(url);
-      if (actions) {
-        this._actions.next(actions);
-      }
-    });
+  afterNavigated(onNext: (navigationData: any) => void): Subscription {
+    return this._afterNavigated.subscribe(onNext);
   }
 
-  actionsChanged(onNext: (actions: Action[]) => void): Subscription {
-    return this._actions.subscribe(onNext);
+  actionsDataChanged(onNext: (actionsData: ActionsData) => void): Subscription {
+    return this._actionsData.subscribe(onNext);
   }
 }

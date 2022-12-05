@@ -1,29 +1,22 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from "rxjs";
+import {Component} from '@angular/core';
 import {AuthService} from "../../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {NavigationService} from "../../../services/navigation.service";
-import {Action} from "../../../models/action";
+import {ActionsData, NavigationService} from "../../../services/navigation.service";
+import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-export class SignInComponent implements OnInit, OnDestroy {
+export class SignInComponent extends BaseAfterNavigatedHandler {
   user: any;
 
-  private afterNavigatedSubscription: Subscription;
-
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, private navigation: NavigationService) {
-    this.afterNavigatedSubscription = this.navigation.afterNavigated(data => this.afterNavigated(data));
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, navigation: NavigationService) {
+    super(navigation);
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnDestroy() {
-    this.afterNavigatedSubscription.unsubscribe();
   }
 
   onSignIn() {
@@ -36,11 +29,11 @@ export class SignInComponent implements OnInit, OnDestroy {
       });
   }
 
-  private afterNavigated(data: any): Action[] | null {
-    console.log(`data: ${data}`);
-    if (data !== '/auth/sign-in') {
-      return null;
-    }
-    return [];
+  protected isMatch(data: any): boolean {
+    return data === '/auth/sign-in';
+  }
+
+  protected getActionsData(data: any): ActionsData {
+    return new ActionsData();
   }
 }

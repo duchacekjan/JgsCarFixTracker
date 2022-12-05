@@ -3,16 +3,3 @@
   flex-direction: column;
   flex: 1 1 100%;
 }
-
-.main-layout-content {
-  flex-grow: 1;
-  display: flex;
-}
-
-.version {
-  display: flex;
-  flex-direction: column-reverse;
-  padding: 1em 1em 0.3em 1em;
-  font-size: 0.8em;
-  color: lightgray;
-}

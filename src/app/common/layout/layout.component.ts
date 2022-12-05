@@ -6,7 +6,7 @@ import {AuthService} from "../../services/auth.service";
 import {SettingsService} from "../../services/settings.service";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {ActivatedRoute, Router} from "@angular/router";
-import {NavigationService} from "../../services/navigation.service";
+import {ActionsData, NavigationService} from "../../services/navigation.service";
 import {environment} from "../../../environments/environment";
 
 @Component({
@@ -16,8 +16,7 @@ import {environment} from "../../../environments/environment";
 })
 export class LayoutComponent implements OnInit, OnDestroy {
 
-  actions: Action[] = [];
-  backAction = false;
+  actionsData = new ActionsData();
   version: string;
   user: User | null = null;
   private actionsSubscription: Subscription;
@@ -40,9 +39,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private readonly navigation: NavigationService) {
     this.version = environment.appVersion;
     this.authUserSubscription = this.authService.currentUser.subscribe(user => this.user = user);
-    this.actionsSubscription = this.navigation.actionsChanged(actions => {
-      console.log(actions);
-      this.actions = actions;
+    this.actionsSubscription = this.navigation.actionsDataChanged(actionsData => {
+      setTimeout(() => {
+        this.actionsData = actionsData;
+      }, 0);
     });
     this.themeModeSubscription = this.settingsService.modeChanged
       .subscribe(() => this.updateThemeMode());
