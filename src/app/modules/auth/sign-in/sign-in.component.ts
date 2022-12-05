@@ -3,6 +3,7 @@ import {AuthService} from "../../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NavigationService} from "../../../services/navigation.service";
 import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-sign-in',
@@ -10,7 +11,11 @@ import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandl
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent extends BaseAfterNavigatedHandler {
-  user: any;
+  signInForm = new FormGroup(
+    {
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required])
+    });
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, navigation: NavigationService) {
     super(navigation);
@@ -20,13 +25,20 @@ export class SignInComponent extends BaseAfterNavigatedHandler {
   }
 
   onSignIn() {
-    this.authService
-      .signIn('jgs.nuget@gmail.com', '123456')
-      .then(async user => {
-        this.user = user.user?.uid;
-        const redirectUrl = this.route.snapshot.queryParamMap.get('redirectUrl') ?? '/cars';
-        await this.router.navigate([redirectUrl], {replaceUrl: true, relativeTo: this.route});
-      });
+    if (this.signInForm.valid) {
+      const value = this.signInForm.value;
+      this.authService
+        .signIn(value.email ?? '', value.password ?? '')
+        .then(async user => {
+          this.signInForm.reset();
+          const redirectUrl = this.route.snapshot.queryParamMap.get('redirectUrl') ?? '/cars';
+          await this.router.navigate([redirectUrl], {replaceUrl: true, relativeTo: this.route});
+        })
+        // .catch(err => {
+        //   this.messageService.showError(err);
+        //   this.router.navigate(['/cars']).catch(err => this.messageService.showError(err));
+        // });
+    }
   }
 
   protected override isMatch(data: any): boolean {

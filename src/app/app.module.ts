@@ -19,6 +19,7 @@ import {MaterialModule} from "./material.module";
 import {AppServicesModule} from "./services/services.module";
 import {AppAuthModule} from "./modules/auth/auth.module";
 import {AppCommonModule} from "./common/app-common.module";
+import {ReactiveFormsModule} from "@angular/forms";
 
 registerLocaleData(localeCz);
 

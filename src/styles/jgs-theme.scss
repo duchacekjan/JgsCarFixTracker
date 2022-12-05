@@ -16,8 +16,8 @@
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
-@include mat.all-legacy-component-typographies();
-@include mat.legacy-core();
+@include mat.all-component-typographies();
+@include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -29,7 +29,7 @@ $JgsCarFixTracker-light-accent: mat.define-palette(mat.$indigo-palette);
 // The warn palette is optional (defaults to red).
 $JgsCarFixTracker-light-warn: mat.define-palette(mat.$red-palette);
 
-$JgsCarFixTracker-typography: mat.define-legacy-typography-config();
+$JgsCarFixTracker-typography: mat.define-typography-config();
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -59,12 +59,12 @@ $JgsCarFixTracker-dark-theme: mat.define-dark-theme((
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-legacy-component-themes($JgsCarFixTracker-light-theme);
+@include mat.all-component-themes($JgsCarFixTracker-light-theme);
 @include edit-table.theme($JgsCarFixTracker-light-theme);
 @include common.theme($JgsCarFixTracker-light-theme);
 
 .darkMode {
-  @include mat.all-legacy-component-colors($JgsCarFixTracker-dark-theme);
+  @include mat.all-component-colors($JgsCarFixTracker-dark-theme);
   @include edit-table.theme($JgsCarFixTracker-dark-theme);
   @include common.theme($JgsCarFixTracker-dark-theme);
 }
