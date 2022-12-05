@@ -14,6 +14,7 @@ export class NotFoundComponent extends BaseAfterNavigatedHandler {
   }
 
   protected isMatch(data: any): boolean {
+    console.log('not-found-is-match');
     return true;
   }
 

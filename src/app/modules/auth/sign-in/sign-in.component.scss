@@ -1,0 +1,24 @@
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+}
+
+.wrapper {
+  border-radius: 1em;
+  border: 1px gray solid;
+  padding: 1em;
+  margin-bottom: 40%;
+  min-width: 300px;
+  margin-top: 10%;
+}
+
+.sign-in-forgot-link {
+  align-self: center;
+}
+
+.sign-in-button{
+  margin: 0.5em 0;
+}

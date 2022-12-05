@@ -14,6 +14,7 @@ const routes: Routes = [
     children: [
       {path: 'auth', loadChildren: () => AppAuthModule},
       {path: 'cars', component: CarListComponent, canActivate: [AuthGuard]},
+      {path: 'cars/detail/new', component: CarListComponent, canActivate: [AuthGuard]},
       {path: 'not-found', component: NotFoundComponent},
       {path: '**', redirectTo: 'not-found', pathMatch: 'full'}
     ]
