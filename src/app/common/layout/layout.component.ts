@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit, Renderer2} from '@angular/core';
-import {Action} from "../../models/action";
 import {User} from "@angular/fire/auth/firebase";
 import {Subscription} from "rxjs";
 import {AuthService} from "../../services/auth.service";
@@ -16,8 +15,9 @@ import {BaseAfterNavigatedHandler} from "../BaseAfterNavigatedHandler";
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit, OnDestroy {
-
   actionsData = new ActionsData();
+  isSettingsVisible = true;
+  isLogoutVisible = false;
   version: string;
   user: User | null = null;
   private actionsSubscription: Subscription;
@@ -40,14 +40,9 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit
     navigation: NavigationService) {
     super(navigation);
     this.version = environment.appVersion;
-    this.authUserSubscription = this.authService.currentUserChanged(user => this.user = user);
-    this.actionsSubscription = this.navigation.actionsDataChanged(actionsData => {
-      setTimeout(() => {
-        this.actionsData = actionsData;
-      }, 0);
-    });
-    this.themeModeSubscription = this.settingsService.modeChanged
-      .subscribe(() => this.updateThemeMode());
+    this.authUserSubscription = this.authService.currentUserChanged(user => this.setUser(user));
+    this.actionsSubscription = this.navigation.actionsDataChanged(actionsData => this.setActions(actionsData));
+    this.themeModeSubscription = this.settingsService.modeChanged.subscribe(() => this.updateThemeMode());
     this.updateThemeMode()
   }
 
@@ -70,14 +65,6 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit
     // this.backActionSubscription.unsubscribe();
     this.authUserSubscription.unsubscribe();
     this.themeModeSubscription.unsubscribe();
-  }
-
-  showSettings() {
-    // this.router.navigate(['/settings'], {queryParams: {'backLink': this.router.url}}).then(() => {
-    //   this.actionsService.clear();
-    //   this.actionsService.showBackAction();
-    //   this.actionsService.updateActions();
-    // });
   }
 
   backClick() {
@@ -103,12 +90,25 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit
   }
 
   protected override afterNavigated(data: any) {
-    console.log('afterNavigated');
+    setTimeout(() => {
+      this.isSettingsVisible = data?.startsWith('/settings');
+    }, 0);
     this.authService.getCurrentUser()
-      .then(user => {
-        console.log(user);
-        this.user = user;
-      });
+      .then(user => this.setUser(user));
+  }
+
+  private setUser(user: any) {
+
+    this.user = user;
+    setTimeout(() => {
+      this.isLogoutVisible = user?.emailVerified == true;
+    }, 0);
+  }
+
+  private setActions(actionsData: ActionsData) {
+    setTimeout(() => {
+      this.actionsData = actionsData
+    }, 0);
   }
 
   private updateThemeMode() {

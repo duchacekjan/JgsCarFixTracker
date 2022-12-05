@@ -15,11 +15,11 @@
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #appMenu>
-    <button mat-menu-item (click)="showSettings()">
-      <mat-icon>settings</mat-icon>
+    <button mat-menu-item routerLink="/settings">
+      <mat-icon *ngIf="isSettingsVisible">settings</mat-icon>
       <span>{{'toolbar.settings' | translate}}</span>
     </button>
-    <button *ngIf="user?.emailVerified == true" (click)="signOut()" mat-menu-item>
+    <button *ngIf="isLogoutVisible" (click)="signOut()" mat-menu-item>
       <mat-icon>logout</mat-icon>
       <span>{{'toolbar.logout' | translate}}</span>
     </button>
