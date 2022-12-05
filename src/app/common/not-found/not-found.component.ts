@@ -13,12 +13,12 @@ export class NotFoundComponent extends BaseAfterNavigatedHandler {
     super(navigation);
   }
 
-  protected isMatch(data: any): boolean {
+  protected override isMatch(data: any): boolean {
     console.log('not-found-is-match');
     return true;
   }
 
-  protected getActionsData(data: any): ActionsData {
+  protected override getActionsData(data: any): ActionsData {
     const actionsData = new ActionsData();
     actionsData.isMenuAvailable = false;
     return actionsData;

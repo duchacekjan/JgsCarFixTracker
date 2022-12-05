@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthService} from "../../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ActionsData, NavigationService} from "../../../services/navigation.service";
+import {NavigationService} from "../../../services/navigation.service";
 import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 
 @Component({
@@ -29,11 +29,7 @@ export class SignInComponent extends BaseAfterNavigatedHandler {
       });
   }
 
-  protected isMatch(data: any): boolean {
+  protected override isMatch(data: any): boolean {
     return data === '/auth/sign-in';
-  }
-
-  protected getActionsData(data: any): ActionsData {
-    return new ActionsData();
   }
 }

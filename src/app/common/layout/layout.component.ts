@@ -8,13 +8,14 @@ import {OverlayContainer} from "@angular/cdk/overlay";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActionsData, NavigationService} from "../../services/navigation.service";
 import {environment} from "../../../environments/environment";
+import {BaseAfterNavigatedHandler} from "../BaseAfterNavigatedHandler";
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit, OnDestroy {
 
   actionsData = new ActionsData();
   version: string;
@@ -36,9 +37,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private overlay: OverlayContainer,
     private readonly router: Router,
     private route: ActivatedRoute,
-    private readonly navigation: NavigationService) {
+    navigation: NavigationService) {
+    super(navigation);
     this.version = environment.appVersion;
-    this.authUserSubscription = this.authService.currentUser.subscribe(user => this.user = user);
+    this.authUserSubscription = this.authService.currentUserChanged(user => this.user = user);
     this.actionsSubscription = this.navigation.actionsDataChanged(actionsData => {
       setTimeout(() => {
         this.actionsData = actionsData;
@@ -97,6 +99,15 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.authService.signOut()
       .then(async () => {
         await this.router.navigate(['auth/sign-in'], {replaceUrl: true});
+      });
+  }
+
+  protected override afterNavigated(data: any) {
+    console.log('afterNavigated');
+    this.authService.getCurrentUser()
+      .then(user => {
+        console.log(user);
+        this.user = user;
       });
   }
 

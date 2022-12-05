@@ -22,7 +22,7 @@ export class CarListComponent extends BaseAfterNavigatedHandler {
     }));
   }
 
-  protected getActionsData(data: any): ActionsData {
+  protected override getActionsData(data: any): ActionsData {
     const addAction = new Action('add_box');
     addAction.route = '/cars/detail/new';
     addAction.tooltip = 'toolbar.newCar';
@@ -32,7 +32,7 @@ export class CarListComponent extends BaseAfterNavigatedHandler {
     return result;
   }
 
-  protected isMatch(data: any): boolean {
+  protected override isMatch(data: any): boolean {
     return data === '/cars';
   }
 }

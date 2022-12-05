@@ -11,11 +11,15 @@ export abstract class BaseAfterNavigatedHandler implements AfterViewInit {
     this.afterNavigated(this.navigation.currentNavigationData);
   }
 
-  protected abstract getActionsData(data: any): ActionsData;
+  protected getActionsData(data: any): ActionsData {
+    return new ActionsData();
+  }
 
-  protected abstract isMatch(data: any): boolean;
+  protected isMatch(data: any): boolean {
+    return false;
+  };
 
-  private afterNavigated(data: any): void {
+  protected afterNavigated(data: any): void {
     if (this.isMatch(data)) {
       const actions = this.getActionsData(data);
       this.navigation.updateActionsData(actions);

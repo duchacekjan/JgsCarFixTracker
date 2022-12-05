@@ -3,12 +3,13 @@ import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {Subject, Subscription} from "rxjs";
 import {DataService} from "./data.service";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService implements OnDestroy {
 
-  currentUser = new Subject<any>();
+  private currentUser = new Subject<any>();
   private authStateSubscription: Subscription;
-  private _currentUser: any;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -16,8 +17,24 @@ export class AuthService implements OnDestroy {
   ) {
     this.authStateSubscription = this.afAuth.authState.subscribe(async (user) => {
       console.log(user?.uid)
-      this._currentUser = user;
       this.currentUser.next(user);
+    });
+  }
+
+  currentUserChanged(onNext: (user: any) => void): Subscription {
+    return this.currentUser.subscribe(onNext);
+  }
+
+  async getCurrentUser(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const unsubscribe = this.afAuth.authState.subscribe({
+        next: (user) => {
+          unsubscribe.unsubscribe();
+          resolve(user);
+        },
+        error: (e) => reject(e),
+        complete: () => console.info('complete')
+      });
     });
   }
 
