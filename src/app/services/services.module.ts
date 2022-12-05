@@ -4,6 +4,7 @@ import {SplashScreenStateService} from "./splash-screen-state.service";
 import {DataService} from "./data.service";
 import {AuthService} from "./auth.service";
 import {NavigationService} from "./navigation.service";
+import {CarsService} from "./cars.service";
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,8 @@ import {NavigationService} from "./navigation.service";
     SplashScreenStateService,
     DataService,
     AuthService,
-    NavigationService
+    NavigationService,
+    CarsService
   ]
 })
 

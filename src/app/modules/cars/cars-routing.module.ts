@@ -1,9 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SignInComponent} from "./sign-in/sign-in.component";
+import {CarListComponent} from './car-list/car-list.component';
 
 const routes: Routes = [
-  {path: 'sign-in', component: SignInComponent},
+  {path: '', component: CarListComponent},
+  {path: 'detail/new', component: CarListComponent},
   {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
 ];
 
@@ -11,5 +12,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AuthRoutingModule {
+export class CarsRoutingModule {
 }

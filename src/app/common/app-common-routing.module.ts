@@ -5,6 +5,7 @@ import {AuthGuard} from "../services/auth.guard";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {LayoutComponent} from "./layout/layout.component";
 import {AppAuthModule} from "../modules/auth/auth.module";
+import {CarsModule} from "../modules/cars/cars.module";
 
 const routes: Routes = [
   {path: '', redirectTo: 'cars', pathMatch: 'full'},
@@ -13,8 +14,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {path: 'auth', loadChildren: () => AppAuthModule},
-      {path: 'cars', component: CarListComponent, canActivate: [AuthGuard]},
-      {path: 'cars/detail/new', component: CarListComponent, canActivate: [AuthGuard]},
+      {path: 'cars', loadChildren: () => CarsModule, canActivate: [AuthGuard]},
       {path: 'not-found', component: NotFoundComponent},
       {path: '**', redirectTo: 'not-found', pathMatch: 'full'}
     ]
