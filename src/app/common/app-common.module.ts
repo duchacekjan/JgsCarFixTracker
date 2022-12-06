@@ -7,8 +7,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {LayoutComponent} from './layout/layout.component';
 import {TranslateModule} from "@ngx-translate/core";
 import {AppCommonRoutingModule} from "./app-common-routing.module";
-import { SnackBarComponent } from './snack-bar/snack-bar.component';
-import { DialogComponent } from './dialog/dialog.component';
+import {SnackBarComponent} from './snack-bar/snack-bar.component';
+import {DialogComponent} from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
