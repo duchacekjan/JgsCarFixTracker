@@ -37,15 +37,12 @@ export class AuthService implements OnDestroy {
     });
   }
 
-  isSignedIn(): Promise<boolean | null> {
-    return new Promise<boolean | null>((resolve, reject) => {
+  isSignedIn(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
       const unsubscribe = this.afAuth.authState.subscribe({
         next: (user) => {
           unsubscribe.unsubscribe();
-          const result = user !== null
-            ? user?.emailVerified === true
-            : null;
-          resolve(result);
+          resolve(user?.emailVerified == true);
         },
         error: (e) => reject(e),
         complete: () => console.info('complete')
