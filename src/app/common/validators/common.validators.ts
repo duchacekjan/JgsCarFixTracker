@@ -20,13 +20,21 @@ export class CommonValidators {
     if (control && control.value) {
       const passwordRules = new PasswordService();
       const strength = passwordRules.getStrength(control.value);
-      console.log(`Strength of '${control.value}' is ${strength}`);
       hasError = strength < PasswordStrength.Moderate;
-
-      console.log(`HasError: ${hasError}`);
     }
     return hasError
       ? {weakpassword: true}
+      : null;
+  }
+
+  static firebaseEmail(control: AbstractControl): ValidationErrors | null {
+    //Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
+    let hasError = false;
+    if (control && control.value) {
+      hasError = control.value.match('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$') === null;
+    }
+    return hasError
+      ? {email: true}
       : null;
   }
 }

@@ -1,13 +1,13 @@
 import {Component, OnDestroy, Renderer2} from '@angular/core';
 import {User} from "@angular/fire/auth/firebase";
 import {Subscription} from "rxjs";
-import {AuthService} from "../../services/auth.service";
-import {SettingsService} from "../../services/settings.service";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {ActivatedRoute, Router} from "@angular/router";
+import {BaseAfterNavigatedHandler} from "../../common/BaseAfterNavigatedHandler";
 import {ActionsData, NavigationService} from "../../services/navigation.service";
+import {AuthService} from "../../services/auth.service";
+import {SettingsService} from "../../services/settings.service";
 import {environment} from "../../../environments/environment";
-import {BaseAfterNavigatedHandler} from "../BaseAfterNavigatedHandler";
 
 @Component({
   selector: 'app-layout',

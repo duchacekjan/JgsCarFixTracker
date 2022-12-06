@@ -1,12 +1,11 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
-import {CarListComponent} from "../modules/cars/car-list/car-list.component";
-import {AuthGuard} from "../services/auth.guard";
-import {NotFoundComponent} from "./not-found/not-found.component";
-import {LayoutComponent} from "./layout/layout.component";
-import {AppAuthModule} from "../modules/auth/auth.module";
-import {CarsModule} from "../modules/cars/cars.module";
-import {SettingsModule} from "../modules/settings/settings.module";
+import {LayoutComponent} from "./layout.component";
+import {AppAuthModule} from "../auth/auth.module";
+import {CarsModule} from "../cars/cars.module";
+import {AuthGuard} from "../../services/auth.guard";
+import {SettingsModule} from "../settings/settings.module";
+import {NotFoundComponent} from "../../common/not-found/not-found.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'cars', pathMatch: 'full'},
@@ -27,5 +26,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AppCommonRoutingModule {
+export class AppLayoutRoutingModule {
 }

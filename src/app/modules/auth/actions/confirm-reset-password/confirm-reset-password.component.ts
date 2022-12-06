@@ -6,6 +6,7 @@ import {AuthService} from "../../../../services/auth.service";
 import {HelperService} from "../../../../services/helper.service";
 import {CommonValidators} from "../../../../common/validators/common.validators";
 import {PasswordStrengthInfo} from "../../../../common/password-strength-hint/password-strength-hint.component";
+import {MessagesService} from "../../../../services/messages.service";
 
 @Component({
   selector: 'app-confirm-reset-password',
@@ -36,7 +37,8 @@ export class ConfirmResetPasswordComponent {
     private readonly router: Router,
     private readonly authService: AuthService,
     private readonly helperService: HelperService,
-    private readonly passwordService: PasswordService) {
+    private readonly passwordService: PasswordService,
+    private readonly messageService: MessagesService) {
     this.form.get('password')!.valueChanges.subscribe(() => this.onPasswordChanged())
   }
 
@@ -46,7 +48,6 @@ export class ConfirmResetPasswordComponent {
     if (!passwordCtrl || !passwordCtrl.touched) {
       return result;
     }
-    console.log(passwordCtrl.errors);
     if (passwordCtrl.hasError('required')) {
       result = 'required';
     } else if (passwordCtrl.hasError('minlength')) {
@@ -54,19 +55,22 @@ export class ConfirmResetPasswordComponent {
     } else if (passwordCtrl.hasError('weakpassword')) {
       result = 'weakpassword';
     }
-    console.log('result');
     return result;
   }
 
   ngOnInit(): void {
-    this.oobCode = this.route.snapshot.queryParamMap.get('oobCode')??'';
+    this.oobCode = this.route.snapshot.queryParamMap.get('oobCode') ?? '';
   }
 
   onSubmit() {
     if (this.form.valid) {
       const password = this.form.value.password!;
       this.authService.confirmPasswordReset(password, this.oobCode)
-        .then(() => this.helperService.resetForm(this.form, this.formGroup));
+        .then(() => {
+          this.helperService.resetForm(this.form, this.formGroup);
+          this.router.navigate(['/auth/sign-in'], {replaceUrl: true, relativeTo: this.route}).catch();
+        })
+        .catch(err => this.messageService.showError(err));
     }
   }
 
