@@ -4,7 +4,7 @@ import {CarListComponent} from './car-list/car-list.component';
 import {CarDetailFormComponent} from "./car-detail-form/car-detail-form.component";
 import {CarDetailFormBackLinkResolver, CarDetailFormCarResolver, CarDetailFormIsNewResolver} from "./car-detail-form/car-detail-form.resolver";
 import {CarDetailComponent} from "./car-detail/car-detail.component";
-import {CarDetailResolver} from "./car-detail/car-detail.resolver";
+import {CarDetailActionResolver, CarDetailCarResolver} from "./car-detail/car-detail.resolver";
 
 const routes: Routes = [
   {path: '', component: CarListComponent},
@@ -22,7 +22,8 @@ const routes: Routes = [
       'is-new': CarDetailFormIsNewResolver
     }
   },
-  {path: 'detail/:id', component: CarDetailComponent, resolve: {'car': CarDetailResolver}},
+  {path: 'detail/:id', component: CarDetailComponent, resolve: {'car': CarDetailCarResolver}},
+  {path: 'detail/:id/:action', component: CarDetailComponent, resolve: {'car': CarDetailCarResolver, 'action':CarDetailActionResolver}},
   {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
 ];
 

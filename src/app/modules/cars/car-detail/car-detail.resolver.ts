@@ -6,7 +6,7 @@ import {SplashScreenStateService} from "../../../services/splash-screen-state.se
 import {CarsService} from "../../../services/cars.service";
 
 @Injectable()
-export class CarDetailResolver implements Resolve<Observable<Car>> {
+export class CarDetailCarResolver implements Resolve<Observable<Car>> {
 
   constructor(private splashScreenStateService: SplashScreenStateService, private carsService: CarsService) {
   }
@@ -16,3 +16,19 @@ export class CarDetailResolver implements Resolve<Observable<Car>> {
     return this.carsService.getCar(id);
   }
 }
+
+@Injectable()
+export class CarDetailActionResolver implements Resolve<string> {
+
+  constructor(private splashScreenStateService: SplashScreenStateService, private carsService: CarsService) {
+  }
+
+  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<string> {
+
+    return new Promise<string>(resolve => {
+      const action = route.paramMap.get('action') ?? '';
+      resolve(action);
+    });
+  }
+}
+

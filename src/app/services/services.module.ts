@@ -6,6 +6,7 @@ import {AuthService} from "./auth.service";
 import {NavigationService} from "./navigation.service";
 import {CarsService} from "./cars.service";
 import {MessagesService} from "./messages.service";
+import {HelperService} from "./helper.service";
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,8 @@ import {MessagesService} from "./messages.service";
     AuthService,
     NavigationService,
     CarsService,
-    MessagesService
+    MessagesService,
+    HelperService
   ]
 })
 
