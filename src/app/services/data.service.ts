@@ -17,6 +17,7 @@ export class DataService {
         this.loading.isWorking = false;
         resolve(result);
       } catch (e: any) {
+        this.loading.isWorking = false;
         reject(e);
       }
     });

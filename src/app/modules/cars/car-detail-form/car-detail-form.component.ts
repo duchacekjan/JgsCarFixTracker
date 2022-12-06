@@ -61,7 +61,7 @@ export class CarDetailFormComponent extends BaseAfterNavigatedHandler implements
       if (car && car.licencePlate) {
         this.carsService.upsert(car)
           .then(id => {
-            this.messageService.showMessageWithTranslation(MessageType.Success, 'messages.saved', undefined, true, 0);
+            this.messageService.showMessageWithTranslation(MessageType.Success, 'messages.saved', undefined, true);
             this.router.navigate([`/cars/detail/${id}`]).catch();
           })
           .catch(err => this.messageService.showError(err));

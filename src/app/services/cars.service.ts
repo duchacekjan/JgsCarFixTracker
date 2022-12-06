@@ -43,8 +43,9 @@ export class CarsService {
         carsRef.remove(car.key)
           .then(() => resolve())
           .catch(err => reject(err));
+      } else {
+        reject('translate.noCar');
       }
-      reject();
     });
   }
 

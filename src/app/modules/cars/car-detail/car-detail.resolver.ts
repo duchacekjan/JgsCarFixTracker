@@ -19,12 +19,7 @@ export class CarDetailCarResolver implements Resolve<Observable<Car>> {
 
 @Injectable()
 export class CarDetailActionResolver implements Resolve<string> {
-
-  constructor(private splashScreenStateService: SplashScreenStateService, private carsService: CarsService) {
-  }
-
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<string> {
-
     return new Promise<string>(resolve => {
       const action = route.paramMap.get('action') ?? '';
       resolve(action);

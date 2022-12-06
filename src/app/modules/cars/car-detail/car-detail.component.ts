@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 import {Action} from "../../../models/action";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
@@ -18,7 +18,7 @@ import {DialogData} from "../../../common/dialog/dialog.component";
   templateUrl: './car-detail.component.html',
   styleUrls: ['./car-detail.component.scss']
 })
-export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnInit {
+export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnDestroy {
   car: Car = new Car();
   readonly tableConfig: TableConfig = new TableConfig(['mileage', 'description'])
 
@@ -29,7 +29,7 @@ export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnI
 
   private carKey: string | null = null;
   //private queryParamSubscription: Subscription;
-  //private carSubscription = new Subscription();
+  private carSubscription: Subscription;
   private updatedFixIndex: number = -1;
 
   @ViewChild(FormGroupDirective, {static: true}) fixFormGroup!: FormGroupDirective;
@@ -48,10 +48,21 @@ export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnI
       mileage: new FormControl(0, [Validators.required, Validators.min(0)]),
       description: new FormControl('', [Validators.required])
     });
+
+    this.carSubscription = this.route.snapshot.data['car'].subscribe((car: Car) => {
+        if (car?.key) {
+          this.carKey = car.key!;
+          this.car = car;
+          this.invokeAction(this.route.snapshot.data['action']);
+        } else {
+          this.router.navigate(['/not-found'], {replaceUrl: true, relativeTo: this.route}).catch()
+        }
+      }
+    );
   }
 
-  ngOnInit() {
-    this.invokeAction(this.route.snapshot.data['action']);
+  ngOnDestroy() {
+    this.carSubscription.unsubscribe();
   }
 
   addNewRow() {
@@ -193,9 +204,10 @@ export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnI
         console.log(result)
         if (result) {
           this.carsService.remove(this.car)
-            .then(() => this.router.navigate(['../'], {replaceUrl: true, relativeTo:this.route}));
+            .then(() => this.router.navigate(['/cars'], {replaceUrl: true, relativeTo: this.route}))
+            .catch(err => this.messageService.showError(err));
         } else {
-          this.router.navigate(['../'], {replaceUrl: true, relativeTo:this.route}).catch();
+          this.router.navigate(['../'], {replaceUrl: true, relativeTo: this.route}).catch();
         }
       })
     }
