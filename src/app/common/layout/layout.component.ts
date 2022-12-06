@@ -8,6 +8,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ActionsData, NavigationService} from "../../services/navigation.service";
 import {environment} from "../../../environments/environment";
 import {BaseAfterNavigatedHandler} from "../BaseAfterNavigatedHandler";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-layout',
@@ -67,19 +68,8 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit
     this.themeModeSubscription.unsubscribe();
   }
 
-  backClick() {
-    // const parts = this.backLink.split('?');
-    // const url = parts[0];
-    // let queryParams: any = {};
-    // if (parts.length > 1) {
-    //   const queryParameters = decodeURIComponent(parts[1])
-    //   for (let param of queryParameters.split('&')) {
-    //     const paramParts = param.split('=');
-    //     queryParams[paramParts[0]] = paramParts.length > 1 ? paramParts[1] : '';
-    //   }
-    // }
-    //
-    // this.router.navigate([url], {queryParams: queryParams}).catch();
+  async backClick() {
+    await this.router.navigate(['/cars'], {replaceUrl: true, relativeTo: this.route})
   }
 
   signOut() {

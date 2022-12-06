@@ -84,11 +84,12 @@ export class CarsService {
   private getCarAsync(key: string): Promise<Observable<Car>> {
     return new Promise<Observable<Car>>(async (resolve) => {
       const path = await this.buildDbPath(key);
-      resolve(this.db.object<Car>(path)
+      const result = this.db.object<Car>(path)
         .snapshotChanges().pipe(
           map(changes => {
             return (this.reMap(changes.payload, key));
-          })));
+          }));
+      resolve(result);
     });
   }
 

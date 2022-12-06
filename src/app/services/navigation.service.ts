@@ -7,6 +7,13 @@ export class ActionsData {
   backAction: Action | null = null;
   actions: Action[] = [];
   isMenuAvailable: boolean = true;
+
+  static createBackAction(route: string): Action {
+    const result = new Action('arrow_back');
+    result.route = '/cars';
+    result.tooltip = 'toolbar.back'
+    return result;
+  }
 }
 
 @Injectable({
@@ -19,7 +26,8 @@ export class NavigationService implements OnDestroy {
 
   private routerEventSubscriptions: Subscription;
 
-  constructor(private readonly router: Router) {
+  constructor(
+    private readonly router: Router) {
     console.log('nav-svc');
     this.routerEventSubscriptions = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
