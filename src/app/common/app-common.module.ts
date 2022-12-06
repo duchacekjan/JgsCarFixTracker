@@ -10,6 +10,7 @@ import {AppCommonRoutingModule} from "./app-common-routing.module";
 import {SnackBarComponent} from './snack-bar/snack-bar.component';
 import {DialogComponent} from './dialog/dialog.component';
 import {BackLinkResolver} from "./resolvers/back-link.resolver";
+import {PasswordStrengthHintComponent} from "./password-strength-hint/password-strength-hint.component";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {BackLinkResolver} from "./resolvers/back-link.resolver";
     SplashScreenComponent,
     LayoutComponent,
     SnackBarComponent,
-    DialogComponent
+    DialogComponent,
+    PasswordStrengthHintComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import {BackLinkResolver} from "./resolvers/back-link.resolver";
     TranslateModule
   ],
   exports: [
-    SplashScreenComponent
+    SplashScreenComponent,
+    PasswordStrengthHintComponent
   ],
   providers: [
     BackLinkResolver

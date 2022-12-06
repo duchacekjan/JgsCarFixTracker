@@ -5,6 +5,10 @@ import {AuthRoutingModule} from "./auth-routing.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "../../material.module";
+import {ActionsComponent} from "./actions/actions.component";
+import { ForgotPasswordComponent } from './actions/forgot-password/forgot-password.component';
+import { ConfirmResetPasswordComponent } from './actions/confirm-reset-password/confirm-reset-password.component';
+import {AppCommonModule} from "../../common/app-common.module";
 
 @NgModule({
   imports: [
@@ -12,10 +16,14 @@ import {MaterialModule} from "../../material.module";
     MaterialModule,
     AuthRoutingModule,
     TranslateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppCommonModule
   ],
   declarations: [
-    SignInComponent
+    SignInComponent,
+    ActionsComponent,
+    ForgotPasswordComponent,
+    ConfirmResetPasswordComponent
   ]
 })
 

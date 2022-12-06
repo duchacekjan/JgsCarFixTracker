@@ -55,7 +55,15 @@ export class AuthService implements OnDestroy {
   }
 
   signOut() {
-    return this.afAuth.signOut();
+    return this.dataService.execute(this.afAuth.signOut());
+  }
+
+  forgotPassword(passwordResetEmail: string) {
+    return this.dataService.execute(this.afAuth.sendPasswordResetEmail(passwordResetEmail));
+  }
+
+  confirmPasswordReset(password: string, oobCode: string) {
+    return this.dataService.execute(this.afAuth.confirmPasswordReset(oobCode, password));
   }
 
   ngOnDestroy(): void {
