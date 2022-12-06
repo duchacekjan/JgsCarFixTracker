@@ -2,7 +2,7 @@ import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output
 import {MatPaginator} from "@angular/material/paginator";
 import {Subscription} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
-import {TableConfig} from "./TableConfig";
+import {TableConfig} from "./table-config";
 import {MatSort} from "@angular/material/sort";
 
 @Component({

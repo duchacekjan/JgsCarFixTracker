@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 import {Action} from "../../../models/action";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Car} from "../../../models/car";
-import {TableConfig} from "../edit-table/TableConfig";
+import {TableConfig} from "../edit-table/table-config";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Fix} from "../../../models/fix";
