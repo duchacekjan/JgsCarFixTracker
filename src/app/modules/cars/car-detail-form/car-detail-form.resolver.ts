@@ -30,19 +30,3 @@ export class CarDetailFormIsNewResolver implements Resolve<boolean> {
     });
   }
 }
-
-@Injectable()
-export class CarDetailFormBackLinkResolver implements Resolve<string> {
-
-  constructor(private readonly navigationService: NavigationService) {
-  }
-
-  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<string> {
-    console.log('resolver')
-    return new Promise<string>(resolve => {
-      const result = this.navigationService.currentNavigationData;
-      console.log(result)
-      resolve(result);
-    });
-  }
-}

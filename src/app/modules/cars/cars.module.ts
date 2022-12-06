@@ -6,7 +6,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {CarsRoutingModule} from "./cars-routing.module";
 import {CarDetailFormComponent} from './car-detail-form/car-detail-form.component';
-import {CarDetailFormBackLinkResolver, CarDetailFormCarResolver, CarDetailFormIsNewResolver} from "./car-detail-form/car-detail-form.resolver";
+import {CarDetailFormCarResolver, CarDetailFormIsNewResolver} from "./car-detail-form/car-detail-form.resolver";
 import {CarDetailComponent} from './car-detail/car-detail.component';
 import {CarDetailActionResolver, CarDetailCarResolver} from "./car-detail/car-detail.resolver";
 import {EditTableComponent} from "./edit-table/edit-table.component";
@@ -29,7 +29,6 @@ import {EditTableComponent} from "./edit-table/edit-table.component";
   providers: [
     CarDetailFormCarResolver,
     CarDetailFormIsNewResolver,
-    CarDetailFormBackLinkResolver,
     CarDetailCarResolver,
     CarDetailActionResolver
   ]

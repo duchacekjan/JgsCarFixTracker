@@ -9,6 +9,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {AppCommonRoutingModule} from "./app-common-routing.module";
 import {SnackBarComponent} from './snack-bar/snack-bar.component';
 import {DialogComponent} from './dialog/dialog.component';
+import {BackLinkResolver} from "./resolvers/back-link.resolver";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,9 @@ import {DialogComponent} from './dialog/dialog.component';
   exports: [
     SplashScreenComponent
   ],
+  providers: [
+    BackLinkResolver
+  ]
 })
 
 export class AppCommonModule {

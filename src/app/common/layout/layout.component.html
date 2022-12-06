@@ -16,7 +16,7 @@
   </button>
   <mat-menu #appMenu>
     <button mat-menu-item routerLink="/settings">
-      <mat-icon *ngIf="isSettingsVisible">settings</mat-icon>
+      <mat-icon *ngIf="actionsData.isSettingsVisible">settings</mat-icon>
       <span>{{'toolbar.settings' | translate}}</span>
     </button>
     <button *ngIf="isLogoutVisible" (click)="signOut()" mat-menu-item>

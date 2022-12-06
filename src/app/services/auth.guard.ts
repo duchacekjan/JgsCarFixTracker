@@ -15,10 +15,17 @@ export class AuthGuard implements CanActivate {
     console.log('guard');
     const isAuthorized = await this.authService.isSignedIn();
     console.log(isAuthorized);
-    if (!isAuthorized) {
-      await this.router.navigate(['auth/sign-in'], {relativeTo: this.activatedRoute, queryParams: {'redirectUrl': state.url}});
+    if (isAuthorized) {
+      return true;
     }
-    return isAuthorized
+    const redirectUrl = !isAuthorized
+      ? 'auth/actions'
+      : state.url;
+    const queryParams = !isAuthorized
+      ? {'mode': 'verify-email'}
+      : {}
+    await this.router.navigate(['auth/actions/verify-email'], {relativeTo: this.activatedRoute, queryParams: {'redirectUrl': redirectUrl}});
+    return false;
   }
 
 }

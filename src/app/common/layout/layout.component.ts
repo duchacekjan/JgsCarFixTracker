@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, Renderer2} from '@angular/core';
+import {Component, OnDestroy, Renderer2} from '@angular/core';
 import {User} from "@angular/fire/auth/firebase";
 import {Subscription} from "rxjs";
 import {AuthService} from "../../services/auth.service";
@@ -8,31 +8,23 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ActionsData, NavigationService} from "../../services/navigation.service";
 import {environment} from "../../../environments/environment";
 import {BaseAfterNavigatedHandler} from "../BaseAfterNavigatedHandler";
-import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit, OnDestroy {
+export class LayoutComponent extends BaseAfterNavigatedHandler implements OnDestroy {
   actionsData = new ActionsData();
-  isSettingsVisible = true;
   isLogoutVisible = false;
   version: string;
   user: User | null = null;
   private actionsSubscription: Subscription;
-// private backActionSubscription = new Subscription();
   private authUserSubscription: Subscription;
   private themeModeSubscription: Subscription;
-// private queryParamsSubscription = new Subscription();
-
-  private backLink = '/cars';
 
   constructor(
     private readonly authService: AuthService,
-    // private actionsService: ActionsService,
-    // private userService: UsersService,
     private settingsService: SettingsService,
     private renderer: Renderer2,
     private overlay: OverlayContainer,
@@ -43,34 +35,18 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit
     this.version = environment.appVersion;
     this.authUserSubscription = this.authService.currentUserChanged(user => this.setUser(user));
     this.actionsSubscription = this.navigation.actionsDataChanged(actionsData => this.setActions(actionsData));
-    this.themeModeSubscription = this.settingsService.modeChanged.subscribe(() => this.updateThemeMode());
+    this.themeModeSubscription = this.settingsService.themeChangedSubscription(() => this.updateThemeMode());
     this.updateThemeMode()
-  }
-
-  ngOnInit(): void {
-    // this.authUserSubscription = this.userService.isLoggedIn.subscribe(s => {
-    //   this.isLoggedIn = s
-    //   this.user = this.userService.currentUser;
-    // });
-    // this.queryParamsSubscription = this.route.queryParamMap.subscribe(map => this.processQueryParamMap(map))
-    // this.actionsSubscription = this.actionsService.actions
-    //   .subscribe(actions => this.actions = actions);
-    // this.backActionSubscription = this.actionsService.backAction
-    //   .subscribe(s => this.backAction = s);
-    // this.updateThemeMode();
   }
 
   ngOnDestroy(): void {
     this.actionsSubscription.unsubscribe();
-    // this.queryParamsSubscription.unsubscribe();
-    // this.backActionSubscription.unsubscribe();
     this.authUserSubscription.unsubscribe();
     this.themeModeSubscription.unsubscribe();
   }
 
   async backClick() {
     if (this.actionsData.backAction != null) {
-      console.log(this.actionsData.backAction.route);
       await this.router.navigate([this.actionsData.backAction.route], {queryParams: this.actionsData.backAction.queryParams, replaceUrl: true, relativeTo: this.route})
     }
   }
@@ -83,9 +59,6 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit
   }
 
   protected override afterNavigated(data: any) {
-    setTimeout(() => {
-      this.isSettingsVisible = data?.startsWith('/settings');
-    }, 0);
     this.authService.getCurrentUser()
       .then(user => this.setUser(user));
   }
@@ -100,8 +73,6 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit
 
   private setActions(actionsData: ActionsData) {
     setTimeout(() => {
-      console.log('backAction')
-      console.log(actionsData.backAction);
       this.actionsData = actionsData
     }, 0);
   }
@@ -116,8 +87,4 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit
       this.overlay.getContainerElement().classList.remove(darkClassName);
     }
   }
-
-// private processQueryParamMap(map: ParamMap) {
-//     this.backLink = map.get('backLink') ?? '/cars';
-//   }
 }

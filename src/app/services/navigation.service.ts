@@ -7,6 +7,7 @@ export class ActionsData {
   backAction: Action | null = null;
   actions: Action[] = [];
   isMenuAvailable: boolean = true;
+  isSettingsVisible: boolean = true;
 
   static createBackAction(route: string): Action {
     const result = new Action('arrow_back');

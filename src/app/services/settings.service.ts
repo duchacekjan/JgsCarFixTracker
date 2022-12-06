@@ -1,10 +1,10 @@
 import {Injectable, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {OverlayContainer} from "@angular/cdk/overlay";
-import {Subject} from "rxjs";
+import {Subject, Subscription} from "rxjs";
 
 @Injectable()
-export class SettingsService implements OnDestroy{
-  modeChanged = new Subject<ThemeMode>();
+export class SettingsService implements OnDestroy {
+  private modeChanged = new Subject<ThemeMode>();
   private isDarkModePreferred = false;
   private _themeMode = ThemeMode.Auto;
 
@@ -21,6 +21,10 @@ export class SettingsService implements OnDestroy{
 
   ngOnDestroy(): void {
     this.modeChanged.complete();
+  }
+
+  themeChangedSubscription(onNext: (mode: ThemeMode) => void): Subscription {
+    return this.modeChanged.subscribe(onNext);
   }
 
   set themeMode(mode: ThemeMode) {
