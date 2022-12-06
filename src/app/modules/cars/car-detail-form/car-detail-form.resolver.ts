@@ -1,14 +1,17 @@
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {SplashScreenStateService} from "../../../services/splash-screen-state.service";
 import {Car} from "../../../models/car";
 import {CarsService} from "../../../services/cars.service";
+import {NavigationService} from "../../../services/navigation.service";
 
 @Injectable()
 export class CarDetailFormCarResolver implements Resolve<Observable<Car>> {
 
-  constructor(private splashScreenStateService: SplashScreenStateService, private carsService: CarsService) {
+  constructor(
+    private readonly splashScreenStateService: SplashScreenStateService,
+    private readonly carsService: CarsService) {
   }
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Observable<Car>> {
@@ -18,12 +21,28 @@ export class CarDetailFormCarResolver implements Resolve<Observable<Car>> {
 }
 
 @Injectable()
-export class CarDetailFormIsNewResolver implements Resolve<Observable<boolean>> {
+export class CarDetailFormIsNewResolver implements Resolve<boolean> {
 
-  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Observable<boolean>> {
-    return new Promise<Observable<boolean>>(resolve => {
+  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    return new Promise<boolean>(resolve => {
       const result = route.queryParamMap.get('id') === null;
-      resolve(of(result));
+      resolve(result);
+    });
+  }
+}
+
+@Injectable()
+export class CarDetailFormBackLinkResolver implements Resolve<string> {
+
+  constructor(private readonly navigationService: NavigationService) {
+  }
+
+  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<string> {
+    console.log('resolver')
+    return new Promise<string>(resolve => {
+      const result = this.navigationService.currentNavigationData;
+      console.log(result)
+      resolve(result);
     });
   }
 }

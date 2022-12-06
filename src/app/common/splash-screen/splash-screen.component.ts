@@ -14,7 +14,6 @@ export class SplashScreenComponent {
 
   ngOnInit(): void {
     this.splashScreenService.subscribe((isLoading: boolean) => {
-      console.log(isLoading);
       this.toggleSplashAnimation(isLoading);
     });
   }
@@ -25,7 +24,6 @@ export class SplashScreenComponent {
     }
 
     setTimeout(() => {
-      console.log('set is loading');
       this.showSplash = isLoading;
     }, 0);
   }

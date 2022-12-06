@@ -69,7 +69,10 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit
   }
 
   async backClick() {
-    await this.router.navigate(['/cars'], {replaceUrl: true, relativeTo: this.route})
+    if (this.actionsData.backAction != null) {
+      console.log(this.actionsData.backAction.route);
+      await this.router.navigate([this.actionsData.backAction.route], {queryParams: this.actionsData.backAction.queryParams, replaceUrl: true, relativeTo: this.route})
+    }
   }
 
   signOut() {
@@ -97,6 +100,8 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnInit
 
   private setActions(actionsData: ActionsData) {
     setTimeout(() => {
+      console.log('backAction')
+      console.log(actionsData.backAction);
       this.actionsData = actionsData
     }, 0);
   }

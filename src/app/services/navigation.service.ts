@@ -10,7 +10,7 @@ export class ActionsData {
 
   static createBackAction(route: string): Action {
     const result = new Action('arrow_back');
-    result.route = '/cars';
+    result.route = route ?? '';
     result.tooltip = 'toolbar.back'
     return result;
   }

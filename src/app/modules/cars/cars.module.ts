@@ -6,7 +6,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {CarsRoutingModule} from "./cars-routing.module";
 import {CarDetailFormComponent} from './car-detail-form/car-detail-form.component';
-import {CarDetailFormCarResolver, CarDetailFormIsNewResolver} from "./car-detail-form/car-detail-form.resolver";
+import {CarDetailFormBackLinkResolver, CarDetailFormCarResolver, CarDetailFormIsNewResolver} from "./car-detail-form/car-detail-form.resolver";
+import {CarDetailComponent} from './car-detail/car-detail.component';
+import {CarDetailResolver} from "./car-detail/car-detail.resolver";
 
 @NgModule({
   imports: [
@@ -19,11 +21,14 @@ import {CarDetailFormCarResolver, CarDetailFormIsNewResolver} from "./car-detail
   ],
   declarations: [
     CarListComponent,
-    CarDetailFormComponent
+    CarDetailFormComponent,
+    CarDetailComponent
   ],
-  providers:[
+  providers: [
     CarDetailFormCarResolver,
-    CarDetailFormIsNewResolver
+    CarDetailFormIsNewResolver,
+    CarDetailFormBackLinkResolver,
+    CarDetailResolver
   ]
 })
 
