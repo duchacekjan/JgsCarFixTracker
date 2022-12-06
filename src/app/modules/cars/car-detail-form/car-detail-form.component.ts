@@ -4,8 +4,9 @@ import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandl
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {CarsService} from "../../../services/cars.service";
 import {Car} from "../../../models/car";
-import {ActivatedRoute} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Subscription} from "rxjs";
+import {MessagesService, MessageType} from "../../../services/messages.service";
 
 @Component({
   selector: 'app-car-detail-form',
@@ -22,25 +23,37 @@ export class CarDetailFormComponent extends BaseAfterNavigatedHandler implements
     fixes: [],
     key: ''
   });//async validator for licencePlate
-  private snapshotSubscription = new Subscription();
+  private carSubscription = new Subscription();
+  private isNewSubscription = new Subscription();
 
-  constructor(private formBuilder: FormBuilder, navigation: NavigationService, private carsService: CarsService, private route: ActivatedRoute) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private carsService: CarsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private messageService: MessagesService,
+    navigation: NavigationService) {
     super(navigation);
   }
 
   ngOnInit() {
-    this.snapshotSubscription = this.route.snapshot.data['car'].subscribe((data: Car) => {
+    this.carSubscription = this.route.snapshot.data['car'].subscribe((data: Car) => {
       console.log(data);
-        if (data && data.key !== undefined) {
-          this.carForm.setValue(data as any);
-        } else {
-          //this.router.navigate(['/cars']).catch();
-        }
+      if (data && data.key !== undefined) {
+        this.carForm.setValue(data as any);
+      } else {
+        this.router.navigate(['/cars']).catch();
+      }
+    });
+    this.isNewSubscription = this.route.snapshot.data['is-new'].subscribe((data: boolean) => {
+      console.log(data);
+      this.isNew = data;
     });
   }
 
   ngOnDestroy() {
-    this.snapshotSubscription.unsubscribe();
+    this.carSubscription.unsubscribe();
+    this.isNewSubscription.unsubscribe();
   }
 
   onSubmit() {
@@ -49,10 +62,10 @@ export class CarDetailFormComponent extends BaseAfterNavigatedHandler implements
       if (car && car.licencePlate) {
         this.carsService.upsert(car)
           .then(id => {
-            //this.messageService.showMessageWithTranslation(MessageType.Success, 'messages.saved', undefined, true, 0);
-            //this.router.navigate([`/cars/detail/${id}`]).catch();
+            this.messageService.showMessageWithTranslation(MessageType.Success, 'messages.saved', undefined, true, 0);
+            this.router.navigate([`/cars/detail/${id}`]).catch();
           })
-        //.catch(err=>this.messageService.showError(err));
+          .catch(err => this.messageService.showError(err));
       }
     }
   }

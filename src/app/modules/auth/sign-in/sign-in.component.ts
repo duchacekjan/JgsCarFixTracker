@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NavigationService} from "../../../services/navigation.service";
 import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MessagesService} from "../../../services/messages.service";
 
 @Component({
   selector: 'app-sign-in',
@@ -17,7 +18,12 @@ export class SignInComponent extends BaseAfterNavigatedHandler {
       password: new FormControl('', [Validators.required])
     });
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, navigation: NavigationService) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private messageService: MessagesService,
+    navigation: NavigationService) {
     super(navigation);
   }
 
@@ -34,10 +40,10 @@ export class SignInComponent extends BaseAfterNavigatedHandler {
           const redirectUrl = this.route.snapshot.queryParamMap.get('redirectUrl') ?? '/cars';
           await this.router.navigate([redirectUrl], {replaceUrl: true, relativeTo: this.route});
         })
-        // .catch(err => {
-        //   this.messageService.showError(err);
-        //   this.router.navigate(['/cars']).catch(err => this.messageService.showError(err));
-        // });
+        .catch(err => {
+          this.messageService.showError(err);
+          this.router.navigate(['/cars']).catch(err => this.messageService.showError(err));
+        });
     }
   }
 

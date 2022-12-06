@@ -16,7 +16,6 @@ export class AuthService implements OnDestroy {
     private dataService: DataService
   ) {
     this.authStateSubscription = this.afAuth.authState.subscribe(async (user) => {
-      console.log(user?.uid)
       this.currentUser.next(user);
     });
   }

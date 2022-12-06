@@ -6,7 +6,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {CarsRoutingModule} from "./cars-routing.module";
 import {CarDetailFormComponent} from './car-detail-form/car-detail-form.component';
-import {CarDetailFormResolver} from "./car-detail-form/car-detail-form.resolver";
+import {CarDetailFormCarResolver, CarDetailFormIsNewResolver} from "./car-detail-form/car-detail-form.resolver";
 
 @NgModule({
   imports: [
@@ -22,7 +22,8 @@ import {CarDetailFormResolver} from "./car-detail-form/car-detail-form.resolver"
     CarDetailFormComponent
   ],
   providers:[
-    CarDetailFormResolver
+    CarDetailFormCarResolver,
+    CarDetailFormIsNewResolver
   ]
 })
 
