@@ -45,7 +45,6 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatTableModule} from "@angular/material/table";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatLegacyProgressSpinnerModule} from "@angular/material/legacy-progress-spinner";
 
 @NgModule({
   exports: [
@@ -95,7 +94,7 @@ import {MatLegacyProgressSpinnerModule} from "@angular/material/legacy-progress-
     PortalModule,
     ScrollingModule,
     DialogModule,
-    MatLegacyProgressSpinnerModule
+    MatProgressSpinnerModule
   ],
   providers: [
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {panelClass: 'mat-dialog-override'}}]
