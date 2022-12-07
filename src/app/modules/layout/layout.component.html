@@ -11,15 +11,15 @@
       <mat-icon *ngIf="action.color" [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
     </button>
   </ng-container>
-  <button *ngIf="actionsData.isMenuAvailable" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="App menu">
+  <button *ngIf="menuSettings" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="App menu">
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #appMenu>
-    <button mat-menu-item routerLink="/settings">
-      <mat-icon *ngIf="actionsData.isSettingsVisible">settings</mat-icon>
+    <button *ngIf="menuSettings?.isSettingsVisible" mat-menu-item routerLink="/settings">
+      <mat-icon>settings</mat-icon>
       <span>{{'toolbar.settings' | translate}}</span>
     </button>
-    <button *ngIf="isLogoutVisible" (click)="signOut()" mat-menu-item>
+    <button *ngIf="menuSettings?.isAuthorized" (click)="signOut()" mat-menu-item>
       <mat-icon>logout</mat-icon>
       <span>{{'toolbar.logout' | translate}}</span>
     </button>

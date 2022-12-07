@@ -4,7 +4,7 @@ import {Subscription} from "rxjs";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BaseAfterNavigatedHandler} from "../../common/BaseAfterNavigatedHandler";
-import {ActionsData, NavigationService} from "../../services/navigation.service";
+import {ActionsData, IMenuSettings, NavigationService} from "../../services/navigation.service";
 import {AuthService} from "../../services/auth.service";
 import {SettingsService} from "../../services/settings.service";
 import {environment} from "../../../environments/environment";
@@ -16,12 +16,13 @@ import {environment} from "../../../environments/environment";
 })
 export class LayoutComponent extends BaseAfterNavigatedHandler implements OnDestroy {
   actionsData = new ActionsData();
-  isLogoutVisible = false;
+  menuSettings?: IMenuSettings;
   version: string;
   user: User | null = null;
   private actionsSubscription: Subscription;
   private authUserSubscription: Subscription;
   private themeModeSubscription: Subscription;
+  private isAuthorized = false;
 
   constructor(
     private readonly authService: AuthService,
@@ -64,16 +65,19 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnDest
   }
 
   private setUser(user: any) {
-
     this.user = user;
+    this.isAuthorized = user?.emailVerified == true;
     setTimeout(() => {
-      this.isLogoutVisible = user?.emailVerified == true;
+      if (this.menuSettings) {
+        this.menuSettings.isAuthorized = this.isAuthorized;
+      }
     }, 0);
   }
 
   private setActions(actionsData: ActionsData) {
     setTimeout(() => {
       this.actionsData = actionsData
+      this.menuSettings = actionsData.getMenuSettings(this.isAuthorized)
     }, 0);
   }
 

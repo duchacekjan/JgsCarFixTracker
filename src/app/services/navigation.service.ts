@@ -3,11 +3,25 @@ import {NavigationEnd, Router} from "@angular/router";
 import {Subject, Subscription} from "rxjs";
 import {Action} from "../models/action";
 
+export interface IMenuSettings {
+  isAuthorized: boolean,
+  isSettingsVisible: boolean
+}
+
 export class ActionsData {
   backAction: Action | null = null;
   actions: Action[] = [];
   isMenuAvailable: boolean = true;
   isSettingsVisible: boolean = true;
+
+  getMenuSettings(isAuthorized: boolean): IMenuSettings | undefined {
+    return this.isMenuAvailable
+      ? {
+        isAuthorized: isAuthorized,
+        isSettingsVisible: this.isSettingsVisible
+      }
+      : undefined;
+  }
 
   static createBackAction(route: string): Action {
     const result = new Action('arrow_back');
