@@ -9,7 +9,8 @@
     "editCar": "Upravit vůz",
     "removeCar": "Smazat vůz",
     "version_ver": "Verze: {{ver}}",
-    "user_usr": "Uživatel: {{usr}}"
+    "user_usr": "Uživatel: {{usr}}",
+    "userProfile": "Uživatel"
   },
   "settings": {
     "title": "Nastavení",

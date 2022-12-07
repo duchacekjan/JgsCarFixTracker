@@ -19,14 +19,18 @@
       <mat-icon>settings</mat-icon>
       <span>{{'toolbar.settings' | translate}}</span>
     </button>
-    <button *ngIf="menuSettings?.isAuthorized" (click)="signOut()" mat-menu-item>
+    <button [disabled]="menuSettings?.isAuthorized!==true" routerLink="/settings/user-profile" mat-menu-item>
+      <mat-icon>manage_accounts</mat-icon>
+      <span>{{'toolbar.userProfile' | translate}}</span>
+    </button>
+    <button [disabled]="menuSettings?.isAuthorized!==true" (click)="signOut()" mat-menu-item>
       <mat-icon>logout</mat-icon>
       <span>{{'toolbar.logout' | translate}}</span>
     </button>
     <mat-divider></mat-divider>
     <div class="version">
+      <span>{{user?.displayName ?? user?.email ?? 'anonymous'}}</span>
       <span [translate]="'toolbar.version_ver'" [translateParams]="{ver: version}"></span>
-      <span [translate]="'toolbar.user_usr'" [translateParams]="{usr: user?.displayName??user?.email??'anonymous'}"></span>
     </div>
   </mat-menu>
 </mat-toolbar>
