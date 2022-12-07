@@ -50,9 +50,9 @@ export class SignInComponent extends BaseAfterNavigatedHandler {
 
   protected override afterNavigationEnded() {
     this.authService.isSignedIn().then(async isAuthorized => {
-      if (isAuthorized) {
+      if (isAuthorized === true) {
         await this.navigateToRedirectUrl();
-      } else if (!isAuthorized) {
+      } else if (isAuthorized === false) {
         await this.router.navigate(['/auth/actions'], {replaceUrl: true, relativeTo: this.route, queryParams: {'mode': 'verifyEmail'}});
       }
     })
