@@ -35,19 +35,33 @@ export class SignInComponent extends BaseAfterNavigatedHandler {
       const value = this.signInForm.value;
       this.authService
         .signIn(value.email ?? '', value.password ?? '')
-        .then(async user => {
-          this.signInForm.reset();
-          const redirectUrl = this.route.snapshot.queryParamMap.get('redirectUrl') ?? '/cars';
-          await this.router.navigate([redirectUrl], {replaceUrl: true, relativeTo: this.route});
+        .then(async () => {
+          await this.navigateToRedirectUrl();
         })
         .catch(err => {
           this.messageService.showError(err);
-          this.router.navigate(['/cars']).catch(err => this.messageService.showError(err));
         });
     }
   }
 
   protected override isMatch(data: any): boolean {
     return data === '/auth/sign-in';
+  }
+
+  protected override afterNavigationEnded() {
+    this.authService.isSignedIn().then(async isAuthorized => {
+      if (isAuthorized) {
+        await this.navigateToRedirectUrl();
+      } else if (!isAuthorized) {
+        await this.router.navigate(['/auth/actions'], {replaceUrl: true, relativeTo: this.route, queryParams: {'mode': 'verifyEmail'}});
+      }
+    })
+  }
+
+  private async navigateToRedirectUrl() {
+    this.signInForm.reset();
+    const redirectUrl = this.route.snapshot.queryParamMap.get('redirectUrl') ?? '/cars';
+    console.log(redirectUrl);
+    await this.router.navigateByUrl(redirectUrl, {replaceUrl: true});
   }
 }

@@ -22,7 +22,6 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnDest
   private actionsSubscription: Subscription;
   private authUserSubscription: Subscription;
   private themeModeSubscription: Subscription;
-  private isAuthorized = false;
 
   constructor(
     private readonly authService: AuthService,
@@ -54,9 +53,7 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnDest
 
   signOut() {
     this.authService.signOut()
-      .then(async () => {
-        await this.router.navigate(['auth/sign-in'], {replaceUrl: true});
-      });
+      .then(() => this.router.navigate(['auth/sign-in'], {replaceUrl: true}));
   }
 
   protected override afterNavigated(data: any) {
@@ -66,10 +63,9 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnDest
 
   private setUser(user: any) {
     this.user = user;
-    this.isAuthorized = user?.emailVerified == true;
     setTimeout(() => {
       if (this.menuSettings) {
-        this.menuSettings.isAuthorized = this.isAuthorized;
+        this.menuSettings.isAuthorized = this.user != null;
       }
     }, 0);
   }
@@ -77,7 +73,9 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnDest
   private setActions(actionsData: ActionsData) {
     setTimeout(() => {
       this.actionsData = actionsData
-      this.menuSettings = actionsData.getMenuSettings(this.isAuthorized)
+      console.log('set actions');
+      console.log(this.user !== null)
+      this.menuSettings = actionsData.getMenuSettings(this.user !== null)
     }, 0);
   }
 

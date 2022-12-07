@@ -25,10 +25,4 @@ export class ActionsComponent extends BaseAfterNavigatedHandler implements OnIni
   protected override isMatch(data: any): boolean {
     return data?.startsWith('/auth/actions');
   }
-
-  protected override getActionsData(data: any): ActionsData {
-    const result = new ActionsData();
-    result.isMenuAvailable = false;
-    return result;
-  }
 }
