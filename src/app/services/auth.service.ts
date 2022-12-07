@@ -69,8 +69,28 @@ export class AuthService implements OnDestroy {
     return this.dataService.execute(this.afAuth.confirmPasswordReset(oobCode, password));
   }
 
+  applyActionCode(oobCode: string) {
+    return this.dataService.execute(this.afAuth.applyActionCode(oobCode));
+  }
+
+  sendVerificationEmail(email:string) {
+    return this.dataService.execute(this.sendVerificationEmailAsync(email));
+  }
+
   ngOnDestroy(): void {
     this.authStateSubscription.unsubscribe();
     this.currentUser.complete();
+  }
+
+  private sendVerificationEmailAsync(email: string): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      const user = await this.afAuth.currentUser;
+      if (user) {
+        await user.sendEmailVerification();
+        resolve();
+      } else {
+        reject('errors.userNotLoggedIn');
+      }
+    })
   }
 }
