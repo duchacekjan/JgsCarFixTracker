@@ -6,7 +6,7 @@ import {CarsService} from "../../../services/cars.service";
 import {Car} from "../../../models/car";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
-import {MessagesService, MessageType} from "../../../services/messages.service";
+import {MessagesService} from "../../../services/messages.service";
 
 @Component({
   selector: 'app-car-detail-form',
@@ -61,7 +61,7 @@ export class CarDetailFormComponent extends BaseAfterNavigatedHandler implements
       if (car && car.licencePlate) {
         this.carsService.upsert(car)
           .then(id => {
-            this.messageService.showMessageWithTranslation(MessageType.Success, 'messages.saved', undefined, true);
+            this.messageService.showSuccess({message: 'messages.saved'});
             this.router.navigate([`/cars/detail/${id}`]).catch();
           })
           .catch(err => this.messageService.showError(err));

@@ -8,7 +8,7 @@ import {TableConfig} from "../edit-table/table-config";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Fix} from "../../../models/fix";
-import {MessagesService, MessageType} from "../../../services/messages.service";
+import {MessagesService} from "../../../services/messages.service";
 import {HelperService} from "../../../services/helper.service";
 import {CarsService} from "../../../services/cars.service";
 import {DialogData} from "../../../common/dialog/dialog.component";
@@ -175,7 +175,7 @@ export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnD
     if (this.car.key) {
       this.updatedFixIndex = fixIndex;
       this.carsService.update(this.car)
-        .then(() => this.messageService.showMessageWithTranslation(MessageType.Success, isDelete ? 'messages.deleted' : 'messages.saved'))
+        .then(() => this.messageService.showSuccess({message: isDelete ? 'messages.deleted' : 'messages.saved'}))
         .catch(err => this.messageService.showError(err));
     }
   }

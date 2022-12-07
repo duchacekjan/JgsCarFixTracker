@@ -4,7 +4,7 @@ import {AuthService} from "../../../../services/auth.service";
 import {HelperService} from "../../../../services/helper.service";
 import {CommonValidators} from "../../../../common/validators/common.validators";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MessagesService, MessageType} from "../../../../services/messages.service";
+import {MessagesService} from "../../../../services/messages.service";
 
 @Component({
   selector: 'app-forgot-password',
@@ -35,8 +35,8 @@ export class ForgotPasswordComponent {
       const email = this.form.controls['email'].value;
       this.authService.forgotPassword(email).then(() => {
         this.helperService.resetForm(this.form, this.formGroup);
-        this.messageService.showMessageWithTranslation(MessageType.Info, 'messages.resetEmailSend');
-        this.router.navigate(['/auth/sign-in'], {replaceUrl: true, relativeTo: this.route, }).catch();
+        this.messageService.showInfo({message: 'messages.resetEmailSend'});
+        this.router.navigate(['/auth/sign-in'], {replaceUrl: true, relativeTo: this.route,}).catch();
       });
     }
   }
