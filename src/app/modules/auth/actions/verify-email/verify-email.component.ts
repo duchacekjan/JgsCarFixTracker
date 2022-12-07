@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./verify-email.component.scss']
 })
 export class VerifyEmailComponent {
-
+    email:any = 'edaad';
 }

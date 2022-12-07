@@ -41,11 +41,11 @@
     "confirmVerifyEmail": {
       "title": "Ověření e-mailu",
       "notVerified": "Váš účet není ověřen.",
-      "emailSendTo": "Byl vám zaslán ověřovací e-mail na adresu",
+      "emailSendTo_email": "Byl vám zaslán ověřovací e-mail na adresu: <strong>{{email}}</strong>",
       "checkEmail": "Prosím ověřte svou adresu kliknutím na odkaz v zaslaném e-mailu.",
       "button": "Znovu odeslat e-mail"
     },
-    "goBackTo": "Zpět na "
+    "goBackToSignIn": "Zpět na přihlášení"
   },
   "carList": {
     "searchHint": "Zadejte aspoň část SPZ"
