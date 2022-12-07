@@ -82,9 +82,6 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "port": 4202
-          },
           "configurations": {
             "production": {
               "browserTarget": "JgsCarFixTracker:build:production"
