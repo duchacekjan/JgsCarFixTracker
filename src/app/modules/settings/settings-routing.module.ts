@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {SettingsComponent} from './settings.component';
 import {BackLinkResolver} from "../../common/resolvers/back-link.resolver";
+import {GeneralSettingsComponent} from "./general/general-settings.component";
 
 const routes: Routes = [
-  {path: '', component: SettingsComponent, resolve: {'back-link': BackLinkResolver}}
+  {path: '', component: GeneralSettingsComponent, resolve: {'back-link': BackLinkResolver}}
 ];
 
 @NgModule({

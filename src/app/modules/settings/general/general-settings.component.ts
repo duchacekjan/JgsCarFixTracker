@@ -1,17 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {SettingsService, ThemeMode} from "../../services/settings.service";
-import {BaseAfterNavigatedHandler} from "../../common/BaseAfterNavigatedHandler";
-import {ActionsData, NavigationService} from "../../services/navigation.service";
 import {ActivatedRoute} from "@angular/router";
+import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
+import {SettingsService, ThemeMode} from "../../../services/settings.service";
+import {ActionsData, NavigationService} from "../../../services/navigation.service";
 
 @Component({
-  selector: 'app-user-detail',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  selector: 'app-general-settings',
+  templateUrl: './general-settings.component.html',
+  styleUrls: ['./general-settings.component.scss']
 })
-export class SettingsComponent extends BaseAfterNavigatedHandler implements OnInit, OnDestroy {
+export class GeneralSettingsComponent extends BaseAfterNavigatedHandler implements OnInit, OnDestroy {
 
   settingsForm = new FormGroup({
     themeMode: new FormControl(ThemeMode.Auto)

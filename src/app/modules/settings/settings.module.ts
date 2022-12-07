@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SettingsRouterModule} from "./settings-routing.module";
-import {SettingsComponent} from "./settings.component";
 import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "../../material.module";
+import {GeneralSettingsComponent} from "./general/general-settings.component";
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import {MaterialModule} from "../../material.module";
     ReactiveFormsModule,
     MaterialModule
   ],
-  declarations: [SettingsComponent]
+  declarations: [GeneralSettingsComponent]
 })
 export class SettingsModule {
 }
