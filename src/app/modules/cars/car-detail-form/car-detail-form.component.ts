@@ -1,19 +1,19 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {CarsService} from "../../../services/cars.service";
-import {ActionsService} from "../../../services/actions.service";
 import {FormBuilder, Validators} from "@angular/forms";
-import {Subscription} from "rxjs";
+import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
+import {ActionsData, NavigationService} from "../../../services/navigation.service";
+import {CarsService} from "../../../services/cars.service";
 import {Car} from "../../../models/car";
-import {MessageService, MessageType} from "../../../services/message.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Subscription} from "rxjs";
+import {MessagesService} from "../../../services/messages.service";
 
 @Component({
   selector: 'app-car-detail-form',
   templateUrl: './car-detail-form.component.html',
   styleUrls: ['./car-detail-form.component.scss']
 })
-export class CarDetailFormComponent implements OnInit, OnDestroy {
-
+export class CarDetailFormComponent extends BaseAfterNavigatedHandler implements OnInit, OnDestroy {
   isNew = false;
 
   carForm = this.formBuilder.group({
@@ -22,26 +22,37 @@ export class CarDetailFormComponent implements OnInit, OnDestroy {
     model: '',
     fixes: [],
     key: ''
-  });
-
-  private queryParamsSubscription: Subscription
+  });//async validator for licencePlate
+  private carSubscription = new Subscription();
+  private backLink: string = '/cars';
 
   constructor(
-    private route: ActivatedRoute,
-    private carsService: CarsService,
-    private router: Router,
-    private actionsService: ActionsService,
     private formBuilder: FormBuilder,
-    private messageService: MessageService) {
-    this.queryParamsSubscription = this.route.queryParamMap.subscribe(s => this.getCar(s.get('id')));
-    this.updateActions();
+    private carsService: CarsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private messageService: MessagesService,
+    navigation: NavigationService) {
+    super(navigation);
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.carSubscription = this.route.snapshot.data['car'].subscribe((data: Car) => {
+      console.log(data);
+      if (data && data.key !== undefined) {
+        this.carForm.setValue(data as any);
+      } else {
+        this.router.navigate(['/cars']).catch();
+      }
+    });
+    this.isNew = this.route.snapshot.data['is-new'];
+    this.backLink = this.route.snapshot.data['back-link'];
+    console.log('init')
+    console.log(this.backLink);
   }
 
-  ngOnDestroy(): void {
-    this.queryParamsSubscription.unsubscribe();
+  ngOnDestroy() {
+    this.carSubscription.unsubscribe();
   }
 
   onSubmit() {
@@ -50,29 +61,23 @@ export class CarDetailFormComponent implements OnInit, OnDestroy {
       if (car && car.licencePlate) {
         this.carsService.upsert(car)
           .then(id => {
-            this.messageService.showMessageWithTranslation(MessageType.Success, 'messages.saved', undefined, true, 0);
+            this.messageService.showSuccess({message: 'messages.saved'});
             this.router.navigate([`/cars/detail/${id}`]).catch();
           })
-          .catch(err=>this.messageService.showError(err));
+          .catch(err => this.messageService.showError(err));
       }
     }
   }
 
-  private getCar(id: string | null): void {
-    this.isNew = id === null;
-    this.carsService.getCar(id ?? 'new')
-      .subscribe(data => {
-        if (data && data.key !== undefined) {
-          this.carForm.setValue(data as any);
-        } else {
-          this.router.navigate(['/cars']).catch();
-        }
-      });
+  protected override isMatch(data: any): boolean {
+    return data?.startsWith('/cars/detail/new') || data?.startsWith('/cars/detail/edit')
   }
 
-  private updateActions() {
-    this.actionsService.clear();
-    this.actionsService.showBackAction();
-    this.actionsService.updateActions();
+  protected override getActionsData(data: any): ActionsData {
+    console.log('actionsdata');
+    const result = new ActionsData();
+    result.backAction = ActionsData.createBackAction(this.backLink);
+    console.log(result.backAction)
+    return result;
   }
 }

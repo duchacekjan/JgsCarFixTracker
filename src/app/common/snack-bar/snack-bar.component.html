@@ -1,7 +1,7 @@
 <span matSnackBarLabel>
   {{data.message}}
 </span>
-<div matSnackBarActions *ngIf="data.canDismiss" >
+<div matSnackBarActions *ngIf="data.canDismiss">
   <button mat-icon-button (click)="snackBarRef.dismissWithAction()">
     <mat-icon>close</mat-icon>
   </button>

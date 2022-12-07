@@ -28,6 +28,22 @@
       "content": "Prosím zadejte svou e-mailovou adresu, na kterou vám bude zaslán e-mail pro reset hesla.",
       "button": "Resetovat heslo"
     },
+    "confirmResetPassword": {
+      "title": "Změna hesla",
+      "password": "Nové heslo",
+      "confirmPassword": "Nové heslo znovu",
+      "button": "Změnit heslo",
+      "weakPassword": "Slabé heslo",
+      "moderatePassword": "Vyhovující heslo",
+      "strongPassword": "Silné heslo"
+    },
+    "confirmVerifyEmail": {
+      "title": "Ověření e-mailu",
+      "notVerified": "Váš účet není ověřen.",
+      "emailSendTo": "Byl vám zaslán ověřovací e-mail na adresu",
+      "checkEmail": "Prosím ověřte svou adresu kliknutím na odkaz v zaslaném e-mailu.",
+      "button": "Znovu odeslat e-mail"
+    },
     "goBackTo": "Zpět na "
   },
   "carList": {
@@ -78,11 +94,15 @@
     "save": "Uložit",
     "delete": "Smazat",
     "cancel": "Zrušit",
-    "ok": "OK"
+    "ok": "OK",
+    "resetPassword": "Obnovit heslo"
   },
   "messages": {
     "deleted": "Smazáno",
-    "saved": "Uloženo"
+    "saved": "Uloženo",
+    "emailVerified": "E-mail ověřen.",
+    "resendVerificationEmail": "Ověřovací e-mail odeslán",
+    "resetEmailSend": "E-mail pro reset hesla odeslán"
   },
   "errors": {
     "licencePlateTaken": "SPZ je již uložena v databázi.",
@@ -97,6 +117,10 @@
     "licencePlateRequired": "SPZ je povinná",
     "licencePlateMinLength": "SPZ musí mít minimálně 7 znaků",
     "licencePlateMaxLength": "SPZ musí mít maximálně 8 znaků",
-    "descriptionRequired": "Popis úkonu je povinný"
+    "descriptionRequired": "Popis úkonu je povinný",
+    "confirmPasswordRequired": "Potvrzovací heslo je povinné",
+    "mismatchPasswords": "Hesla se neshodují",
+    "passwordMinLength": "Heslo musí mít minimálně 6 znaků",
+    "passwordIsWeak": "Heslo je slabé."
   }
 }

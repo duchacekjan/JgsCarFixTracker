@@ -1,25 +1,31 @@
-import {CommonModule} from "@angular/common";
 import {NgModule} from "@angular/core";
-import {AppCommonRoutingModule} from "./app-common-routing.module";
+import {NotFoundComponent} from './not-found/not-found.component';
+import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {MaterialModule} from "../material.module";
-import {ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
-import {SnackBarComponent} from "./snack-bar/snack-bar.component";
-import {DialogComponent} from "./dialog/dialog.component";
-import {LayoutComponent} from "./layout/layout.component";
+import {SnackBarComponent} from './snack-bar/snack-bar.component';
+import {DialogComponent} from './dialog/dialog.component';
+import {PasswordStrengthHintComponent} from "./password-strength-hint/password-strength-hint.component";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
+  declarations: [
+    NotFoundComponent,
+    SplashScreenComponent,
+    SnackBarComponent,
+    DialogComponent,
+    PasswordStrengthHintComponent
+  ],
   imports: [
     CommonModule,
-    AppCommonRoutingModule,
     MaterialModule,
-    ReactiveFormsModule,
     TranslateModule
   ],
-  exports: [],
-  declarations: [
-    LayoutComponent, SnackBarComponent, DialogComponent
+  exports: [
+    SplashScreenComponent,
+    PasswordStrengthHintComponent
   ]
 })
+
 export class AppCommonModule {
 }

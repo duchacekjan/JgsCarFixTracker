@@ -1,14 +1,25 @@
 import {inject, Injectable} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {TranslateService} from "@ngx-translate/core";
 import {DialogComponent, DialogData} from "../common/dialog/dialog.component";
 import {SnackBarComponent} from "../common/snack-bar/snack-bar.component";
-import {TranslateService} from "@ngx-translate/core";
+
+export enum MessageType {
+  Info,
+  Success,
+  Error
+}
+
+export interface IMessage {
+  message: string,
+  interpolateParams?: Object
+}
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService {
+export class MessagesService {
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
   private translate = inject(TranslateService);
@@ -21,29 +32,35 @@ export class MessageService {
     });
   }
 
-  showError(err: string) {
-    this.showMessage(MessageType.Error, err, true, 3000);
+  showError(message: string | IMessage) {
+    this.showMessage(MessageType.Error, message, true, 4000);
   }
 
-  showErrorWithTranslation(err: string | Array<string>, interpolateParams?: Object) {
-    this.showMessage(MessageType.Error, this.translate.instant(err, interpolateParams), true, 3000);
+  showInfo(message: string | IMessage) {
+    this.showMessage(MessageType.Info, message, false);
   }
 
-  showMessageWithTranslation(type: MessageType, message: string | Array<string>, interpolateParams?: Object, canDismiss: boolean = true, duration: number = 1500) {
-    this.showMessage(type, this.translate.instant(message, interpolateParams), canDismiss, duration)
+  showSuccess(message: string | IMessage) {
+    this.showMessage(MessageType.Success, message, true, 2000);
   }
 
-  showMessage(type: MessageType, message: string, canDismiss: boolean = true, duration: number = 1500) {
+  showMessage(type: MessageType, message: string | IMessage, canDismiss: boolean = true, duration: number = 1500) {
     let panelClass = this.getPanelClass(type);
     let config = {
       data: {
-        message: message,
+        message: this.getMessage(message),
         canDismiss: canDismiss || duration < 1
       },
       duration: duration,
       panelClass: panelClass
     }
     this.snackBar.openFromComponent(SnackBarComponent, config);
+  }
+
+  private getMessage(message: string | IMessage): string {
+    return isIMessage(message)
+      ? this.translate.instant(message.message, message.interpolateParams)
+      : message;
   }
 
   private getPanelClass(type: MessageType): any {
@@ -63,8 +80,6 @@ export class MessageService {
   }
 }
 
-export enum MessageType {
-  Info,
-  Success,
-  Error
+function isIMessage(object: any): object is IMessage {
+  return 'message' in object;
 }

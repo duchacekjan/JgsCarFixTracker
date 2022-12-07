@@ -1,31 +1,31 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {AuthRoutingModule} from './auth-routing.module';
+import {NgModule} from "@angular/core";
 import {SignInComponent} from './sign-in/sign-in.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
-import {VerifyMailComponent} from './verify-mail/verify-mail.component';
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
-import {MatCheckboxModule} from "@angular/material/checkbox";
+import {CommonModule} from "@angular/common";
+import {AuthRoutingModule} from "./auth-routing.module";
 import {TranslateModule} from "@ngx-translate/core";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MaterialModule} from "../../material.module";
+import {ActionsComponent} from "./actions/actions.component";
+import {ForgotPasswordComponent} from './actions/forgot-password/forgot-password.component';
+import {ConfirmResetPasswordComponent} from './actions/confirm-reset-password/confirm-reset-password.component';
+import {AppCommonModule} from "../../common/app-common.module";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AuthRoutingModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        TranslateModule
-    ],
-  declarations: [SignInComponent, ForgotPasswordComponent, VerifyMailComponent]
+  imports: [
+    CommonModule,
+    MaterialModule,
+    AuthRoutingModule,
+    TranslateModule,
+    ReactiveFormsModule,
+    AppCommonModule
+  ],
+  declarations: [
+    SignInComponent,
+    ActionsComponent,
+    ForgotPasswordComponent,
+    ConfirmResetPasswordComponent
+  ]
 })
-export class AuthModule {
+
+export class AppAuthModule {
 }

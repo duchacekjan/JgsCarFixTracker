@@ -9,15 +9,18 @@ import {getDatabase, provideDatabase} from '@angular/fire/database';
 import {RouterModule} from '@angular/router';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
-import {AuthService} from './services/auth.service';
-import {registerLocaleData} from "@angular/common";
+import {CommonModule, registerLocaleData} from "@angular/common";
 import localeCz from '@angular/common/locales/cs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MaterialModule} from "./material.module";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {MaterialModule} from "./material.module";
+import {AppServicesModule} from "./services/services.module";
+import {AppAuthModule} from "./modules/auth/auth.module";
 import {AppCommonModule} from "./common/app-common.module";
+import {ReactiveFormsModule} from "@angular/forms";
+import {AppLayoutModule} from "./modules/layout/app-layout.module";
 
 registerLocaleData(localeCz);
 
@@ -36,10 +39,13 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
 }
 
 @NgModule({
-  declarations: [
-    AppComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
+    CommonModule,
+    BrowserAnimationsModule,
+    RouterModule,
+    MaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -47,9 +53,6 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     RouterModule.forRoot([]),
-    AppCommonModule,
-    MaterialModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     TranslateModule.forRoot({
       defaultLanguage: 'cs',
@@ -62,10 +65,14 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
         provide: MissingTranslationHandler,
         useClass: CustomMissingTranslationHandler
       }
-    })
+    }),
+    AppLayoutModule,
+    AppServicesModule
   ],
   exports: [],
-  providers: [AuthService, {provide: LOCALE_ID, useValue: 'cs-CZ'}],
+  providers: [
+    {provide: LOCALE_ID, useValue: 'cs-CZ'}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

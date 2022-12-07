@@ -1,87 +1,73 @@
-import {Injectable} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/compat/auth';
-import {ActivatedRoute, Router} from '@angular/router';
-import {UsersService} from './users.service';
+import {Injectable, OnDestroy} from '@angular/core';
+import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {Subject, Subscription} from "rxjs";
+import {DataService} from "./data.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  private defaultRoute = '/cars';
+export class AuthService implements OnDestroy {
+
+  private currentUser = new Subject<any>();
+  private authStateSubscription: Subscription;
 
   constructor(
     private afAuth: AngularFireAuth,
-    private router: Router,
-    private usersService: UsersService,
-    private route: ActivatedRoute
+    private dataService: DataService
   ) {
-    this.afAuth.authState.subscribe((user) => {
-      this.usersService.setUser(user?.uid)
-        .then(() => {
-          if (user) {
-            const redirectUrl = this.route.snapshot.queryParamMap.get('redirectURL');
-            if (redirectUrl) {
-              this.redirect(redirectUrl);
-            } else {
-              this.redirect();
-            }
-          }
-        });
-
+    this.authStateSubscription = this.afAuth.authState.subscribe(async (user) => {
+      this.currentUser.next(user);
     });
   }
 
-  signIn(email: string, password: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.afAuth.signInWithEmailAndPassword(email, password)
-        .then(k => {
-          this.usersService.setUser(k.user?.uid).then(() => resolve())
-        })
-        .catch(err => reject(err));
+  currentUserChanged(onNext: (user: any) => void): Subscription {
+    return this.currentUser.subscribe(onNext);
+  }
+
+  async getCurrentUser(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const unsubscribe = this.afAuth.authState.subscribe({
+        next: (user) => {
+          unsubscribe.unsubscribe();
+          resolve(user);
+        },
+        error: (e) => reject(e),
+        complete: () => console.info('complete')
+      });
     });
   }
 
-  signUp(email: string, password: string) {
-    return this.afAuth
-      .createUserWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.sendVerificationMail()
-          .then(() => this.usersService.createUser(result.user));
-      })
-      .catch(this.errorHandler)
+  isSignedIn(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const unsubscribe = this.afAuth.authState.subscribe({
+        next: (user) => {
+          unsubscribe.unsubscribe();
+          resolve(user?.emailVerified == true);
+        },
+        error: (e) => reject(e),
+        complete: () => console.info('complete')
+      });
+    });
   }
 
-  sendVerificationMail() {
-    return this.afAuth.currentUser
-      .then((u: any) => u.sendEmailVerification())
-      .then(() => {
-        this.redirect('auth/verify-email');
-      })
-  }
-
-  forgotPassword(passwordResetEmail: string) {
-    return this.afAuth
-      .sendPasswordResetEmail(passwordResetEmail);
+  signIn(userName: string, password: string) {
+    return this.dataService.execute(this.afAuth.signInWithEmailAndPassword(userName, password))
   }
 
   signOut() {
-    return this.afAuth.signOut()
-      .then(() => {
-        this.usersService.signOut();
-        indexedDB.deleteDatabase('firebaseLocalStorageDb');
-        this.redirect('auth/sign-in');
-      })
+    return this.dataService.execute(this.afAuth.signOut());
   }
 
-  errorHandler(error: any) {
-    window.alert(error.message);
+  forgotPassword(passwordResetEmail: string) {
+    return this.dataService.execute(this.afAuth.sendPasswordResetEmail(passwordResetEmail));
   }
 
-  redirect(route?: string) {
-    if (!route) {
-      this.router.navigate([this.defaultRoute]).catch();
-    } else {
-      this.router.navigate([route]).catch();
-    }
+  confirmPasswordReset(password: string, oobCode: string) {
+    return this.dataService.execute(this.afAuth.confirmPasswordReset(oobCode, password));
+  }
+
+  ngOnDestroy(): void {
+    this.authStateSubscription.unsubscribe();
+    this.currentUser.complete();
   }
 }

@@ -6,6 +6,10 @@
   $color-config: mat.get-color-config($theme);
   // Get the primary color palette from the color-config.
   $primary-palette: map.get($color-config, 'primary');
+  // Get the warn color palette from the color-config.
+  $warn-palette: map.get($color-config, 'warn');
+  // Get the accent color palette from the color-config.
+  $accent-palette: map.get($color-config, 'accent');
 
   .success-notification {
     background-color: mat.get-color-from-palette($primary-palette, 500);
@@ -18,9 +22,11 @@
       padding-bottom: 0.5em;
     }
   }
+
   .mat-card-footer {
     margin: 0 -0.8em -0.8em -0.8em;
   }
+
   .mat-dialog-override {
     height: 0;
 
@@ -38,12 +44,37 @@
       }
     }
   }
+  .password-strength-hint {
+    &.weak{
+      color: mat.get-color-from-palette($warn-palette, 500);
+    }
+    &.moderate{
+      color: mat.get-color-from-palette($accent-palette, 500);
+    }
+    &.strong{
+      color: mat.get-color-from-palette($primary-palette, 500);
+    }
+  }
+}
 
+@mixin typography($theme) {
+  // Get the typography config from the theme.
+  $typography-config: mat.get-typography-config($theme);
+
+  .password-strength-hint {
+    font-family: mat.font-family($typography-config);
+    font-size: mat.font-size($typography-config, caption);
+  }
 }
 
 @mixin theme($theme) {
   $color-config: mat.get-color-config($theme);
   @if $color-config != null {
     @include color($theme);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($theme);
   }
 }

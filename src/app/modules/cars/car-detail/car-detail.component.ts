@@ -1,23 +1,24 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Car} from "../../../models/car";
-import {ActivatedRoute, Router} from "@angular/router";
-import {CarsService} from "../../../services/cars.service";
-import {Fix} from "../../../models/fix";
-import {ActionsService} from "../../../services/actions.service";
-import {Subscription} from "rxjs";
-import {TableConfig} from "../edit-table/TableConfig";
-import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {MessageService, MessageType} from "../../../services/message.service";
-import {DialogData} from "../../../common/dialog/dialog.component";
+import {Component, OnDestroy, ViewChild} from '@angular/core';
+import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 import {Action} from "../../../models/action";
+import {ActionsData, NavigationService} from "../../../services/navigation.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Car} from "../../../models/car";
+import {TableConfig} from "../edit-table/table-config";
+import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
+import {Subscription} from "rxjs";
+import {Fix} from "../../../models/fix";
+import {MessagesService} from "../../../services/messages.service";
+import {HelperService} from "../../../services/helper.service";
+import {CarsService} from "../../../services/cars.service";
+import {DialogData} from "../../../common/dialog/dialog.component";
 
 @Component({
   selector: 'app-car-detail',
   templateUrl: './car-detail.component.html',
   styleUrls: ['./car-detail.component.scss']
 })
-export class CarDetailComponent implements OnInit, OnDestroy {
-
+export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnDestroy {
   car: Car = new Car();
   readonly tableConfig: TableConfig = new TableConfig(['mileage', 'description'])
 
@@ -27,56 +28,41 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   existing_row_values!: any;
 
   private carKey: string | null = null;
-  private queryParamSubscription: Subscription;
-  private carSubscription = new Subscription();
+  //private queryParamSubscription: Subscription;
+  private carSubscription: Subscription;
   private updatedFixIndex: number = -1;
 
   @ViewChild(FormGroupDirective, {static: true}) fixFormGroup!: FormGroupDirective;
 
   constructor(
-    private route: ActivatedRoute,
-    private carsService: CarsService,
-    private router: Router,
-    private actionsService: ActionsService,
-    private messageService: MessageService
-  ) {
-    this.queryParamSubscription = route.queryParamMap.subscribe(s => this.invokeAction(s.get('action')));
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly messageService: MessagesService,
+    private readonly helperService: HelperService,
+    private readonly carsService: CarsService,
+    navigation: NavigationService) {
+    super(navigation);
     this.fixItemUpdateForm = new FormGroup({
       id: new FormControl(-1),
       lastUpdate: new FormControl({value: '', disabled: true}),
       mileage: new FormControl(0, [Validators.required, Validators.min(0)]),
       description: new FormControl('', [Validators.required])
     });
-  }
 
-  ngOnInit(): void {
-    this.getCar();
-  }
-
-  ngOnDestroy(): void {
-    this.carSubscription.unsubscribe();
-    this.queryParamSubscription.unsubscribe();
-  }
-
-  getCar(): void {
-    let id = this.carKey ? this.carKey : String(this.route.snapshot.paramMap.get('id'));
-    this.carSubscription = this.carsService.getCar(id)
-      .subscribe(data => {
-        if (data && data.key !== undefined) {
-          this.car = data;
-          this.carKey = data.key ? data.key : null;
-          this.updateActions(this.carKey);
-          this.resetForm();
-          //update the table with latest values
-          this.tableConfig.table_data_changer.next({
-            data: this.car.fixes,
-            updatedFixIndex: this.updatedFixIndex
-          });
-          this.updatedFixIndex = -1;
+    this.carSubscription = this.route.snapshot.data['car'].subscribe((car: Car) => {
+        if (car?.key) {
+          this.carKey = car.key!;
+          this.car = car;
+          this.invokeAction(this.route.snapshot.data['action']);
         } else {
-          this.router.navigate(['/cars']).catch();
+          this.router.navigate(['/not-found'], {replaceUrl: true, relativeTo: this.route}).catch()
         }
-      });
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.carSubscription.unsubscribe();
   }
 
   addNewRow() {
@@ -106,6 +92,32 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     this.saveFix(updatedFix);
   }
 
+  protected override isMatch(data: any): boolean {
+    return data?.startsWith('/cars/detail/') === true &&
+      !(data?.startsWith('/cars/detail/edit') === true ||
+        data?.startsWith('/cars/detail/new') === true)
+  }
+
+  protected override getActionsData(data: any): ActionsData {
+    const id = this.route.snapshot.paramMap.get('id');
+    console.log(`route id: ${id}`);
+    const editAction = new Action('edit_document');
+    editAction.route = `/cars/detail/edit`;
+    editAction.queryParams = {'id': id};
+    editAction.color = 'accent';
+    editAction.tooltip = 'toolbar.editCar';
+
+    const removeAction = new Action('delete');
+    removeAction.route = `/cars/detail/${id}/delete`;
+    //removeAction.queryParams = {'action': 'delete'};
+    removeAction.color = 'warn';
+    removeAction.tooltip = 'toolbar.removeCar';
+    const result = new ActionsData();
+    result.actions = [removeAction, editAction];
+    result.backAction = ActionsData.createBackAction('/cars');
+    return result;
+  }
+
   private showForm(fix: Fix, isNewRow: boolean) {
     this.resetForm();
     this.fixItemUpdateForm.patchValue(fix);
@@ -117,12 +129,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   }
 
   private resetForm() {
-    //close the drawer and reset the update form
-    this.isDrawerOpened = false;
-    this.fixItemUpdateForm.reset();
-    this.fixItemUpdateForm.setErrors(null);
-    this.fixItemUpdateForm.updateValueAndValidity();
-    this.fixFormGroup.resetForm();
+    this.helperService.resetForm(this.fixItemUpdateForm, this.fixFormGroup, () => this.isDrawerOpened = false);
   }
 
   private formatDate(date: any) {
@@ -168,7 +175,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     if (this.car.key) {
       this.updatedFixIndex = fixIndex;
       this.carsService.update(this.car)
-        .then(() => this.messageService.showMessageWithTranslation(MessageType.Success, isDelete ? 'messages.deleted' : 'messages.saved'))
+        .then(() => this.messageService.showSuccess({message: isDelete ? 'messages.deleted' : 'messages.saved'}))
         .catch(err => this.messageService.showError(err));
     }
   }
@@ -189,28 +196,6 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  private updateActions(id: string | null) {
-
-    this.actionsService.clear();
-    this.actionsService.showBackAction();
-
-    if (id != null) {
-      const editAction = new Action('edit_document');
-      editAction.route = `/cars/detail/edit`;
-      editAction.queryParams = {'id': id, 'backLink':`/cars/detail/${id}`};
-      editAction.color = 'accent';
-      editAction.tooltip = 'toolbar.editCar';
-
-      const removeAction = new Action('delete');
-      removeAction.route = `/cars/detail/${id}`;
-      removeAction.queryParams = {'action': 'delete'};
-      removeAction.color = 'warn';
-      removeAction.tooltip = 'toolbar.removeCar';
-      this.actionsService.add(removeAction, editAction);
-    }
-    this.actionsService.updateActions();
-  }
-
   private invokeAction(action: string | null) {
     if (action === 'delete') {
       const data = this.createDeleteDialogData('dialogs.deleteCar.title', 'dialogs.deleteCar.message');
@@ -218,12 +203,11 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       dialogRef.afterClosed().subscribe(result => {
         console.log(result)
         if (result) {
-          this.carSubscription.unsubscribe()
           this.carsService.remove(this.car)
-            .then(() => this.router.navigate(['/cars'], {replaceUrl: true}))
-            .catch(() => this.getCar());
+            .then(() => this.router.navigate(['/cars'], {replaceUrl: true, relativeTo: this.route}))
+            .catch(err => this.messageService.showError(err));
         } else {
-          this.router.navigate([this.router.url.split('?')[0]], {replaceUrl: true}).catch();
+          this.router.navigate(['../'], {replaceUrl: true, relativeTo: this.route}).catch();
         }
       })
     }

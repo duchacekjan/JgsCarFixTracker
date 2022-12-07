@@ -1,14 +1,31 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {CarDetailComponent} from './car-detail/car-detail.component';
+import {RouterModule, Routes} from '@angular/router';
 import {CarListComponent} from './car-list/car-list.component';
 import {CarDetailFormComponent} from "./car-detail-form/car-detail-form.component";
+import {CarDetailFormCarResolver, CarDetailFormIsNewResolver} from "./car-detail-form/car-detail-form.resolver";
+import {CarDetailComponent} from "./car-detail/car-detail.component";
+import {CarDetailActionResolver, CarDetailCarResolver} from "./car-detail/car-detail.resolver";
+import {BackLinkResolver} from "../../common/resolvers/back-link.resolver";
 
 const routes: Routes = [
   {path: '', component: CarListComponent},
-  {path: 'detail/new', component: CarDetailFormComponent},
-  {path: 'detail/edit', component: CarDetailFormComponent},
-  {path: 'detail/:id', component: CarDetailComponent}
+  {
+    path: 'detail/new', component: CarDetailFormComponent, resolve: {
+      'back-link': BackLinkResolver,
+      'car': CarDetailFormCarResolver,
+      'is-new': CarDetailFormIsNewResolver
+    }
+  },
+  {
+    path: 'detail/edit', component: CarDetailFormComponent, resolve: {
+      'back-link': BackLinkResolver,
+      'car': CarDetailFormCarResolver,
+      'is-new': CarDetailFormIsNewResolver
+    }
+  },
+  {path: 'detail/:id', component: CarDetailComponent, resolve: {'car': CarDetailCarResolver}},
+  {path: 'detail/:id/:action', component: CarDetailComponent, resolve: {'car': CarDetailCarResolver, 'action':CarDetailActionResolver}},
+  {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
 ];
 
 @NgModule({
