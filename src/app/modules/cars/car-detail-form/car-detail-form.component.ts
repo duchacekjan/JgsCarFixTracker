@@ -61,7 +61,7 @@ export class CarDetailFormComponent extends BaseAfterNavigatedHandler implements
         this.carsService.upsert(car)
           .then(id => {
             this.messageService.showSuccess({message: 'messages.saved'});
-            this.router.navigate([`/cars/detail/${id}`]).catch();
+            this.router.navigate([`/cars/${id}`]).catch();
           })
           .catch(err => this.messageService.showError(err));
       }
@@ -69,7 +69,7 @@ export class CarDetailFormComponent extends BaseAfterNavigatedHandler implements
   }
 
   protected override isMatch(data: any): boolean {
-    return data?.startsWith('/cars/detail/new') || data?.startsWith('/cars/detail/edit')
+    return data?.startsWith('/cars/new') || data?.startsWith('/cars/edit')
   }
 
   protected override getActionsData(data: any): ActionsData {

@@ -50,12 +50,12 @@ export class CarListComponent extends BaseAfterNavigatedHandler implements OnDes
   }
 
   private redirectToCarDetail(carKey: string = 'new') {
-    this.router.navigate([`/cars/detail/${carKey}`]).catch();
+    this.router.navigate([`/cars/${carKey}`]).catch();
   }
 
   protected override getActionsData(data: any): ActionsData {
     const addAction = new Action('add_box');
-    addAction.route = '/cars/detail/new';
+    addAction.route = '/cars/new';
     addAction.tooltip = 'toolbar.newCar';
 
     const result = new ActionsData();

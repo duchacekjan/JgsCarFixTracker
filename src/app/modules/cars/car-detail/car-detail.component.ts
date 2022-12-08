@@ -93,22 +93,22 @@ export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnD
   }
 
   protected override isMatch(data: any): boolean {
-    return data?.startsWith('/cars/detail/') === true &&
-      !(data?.startsWith('/cars/detail/edit') === true ||
-        data?.startsWith('/cars/detail/new') === true)
+    return data?.startsWith('/cars/') === true &&
+      !(data?.startsWith('/cars/edit') === true ||
+        data?.startsWith('/cars/new') === true)
   }
 
   protected override getActionsData(data: any): ActionsData {
     const id = this.route.snapshot.paramMap.get('id');
     console.log(`route id: ${id}`);
     const editAction = new Action('edit_document');
-    editAction.route = `/cars/detail/edit`;
+    editAction.route = `/cars/edit`;
     editAction.queryParams = {'id': id};
     editAction.color = 'accent';
     editAction.tooltip = 'toolbar.editCar';
 
     const removeAction = new Action('delete');
-    removeAction.route = `/cars/detail/${id}/delete`;
+    removeAction.route = `/cars/${id}/delete`;
     //removeAction.queryParams = {'action': 'delete'};
     removeAction.color = 'warn';
     removeAction.tooltip = 'toolbar.removeCar';
