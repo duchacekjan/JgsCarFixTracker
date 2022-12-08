@@ -44,7 +44,7 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
   }
 
   protected override isMatch(data: any): boolean {
-    return data === '/settings'
+    return data === '/settings/general'
   }
 
   protected override getActionsData(data: any): ActionsData {
