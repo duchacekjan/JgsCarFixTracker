@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnDestroy} from "@angular/core";
-import {ActionsData, NavigationService} from "../services/navigation.service";
+import {AfterViewInit, Component} from "@angular/core";
+import {ActionsData, NavigationService} from "../../services/navigation.service";
 
 @Component({template: ''})
-export abstract class BaseAfterNavigatedHandler implements AfterViewInit {
+export abstract class AfterNavigatedHandler implements AfterViewInit {
 
   protected constructor(protected navigation: NavigationService) {
   }

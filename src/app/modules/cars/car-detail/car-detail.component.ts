@@ -1,5 +1,4 @@
 import {Component, OnDestroy, ViewChild} from '@angular/core';
-import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 import {Action} from "../../../models/action";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -12,13 +11,14 @@ import {MessagesService} from "../../../services/messages.service";
 import {HelperService} from "../../../services/helper.service";
 import {CarsService} from "../../../services/cars.service";
 import {DialogData} from "../../../common/dialog/dialog.component";
+import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 
 @Component({
   selector: 'app-car-detail',
   templateUrl: './car-detail.component.html',
   styleUrls: ['./car-detail.component.scss']
 })
-export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnDestroy {
+export class CarDetailComponent extends AfterNavigatedHandler implements OnDestroy {
   car: Car = new Car();
   readonly tableConfig: TableConfig = new TableConfig(['mileage', 'description'])
 

@@ -2,16 +2,16 @@ import {Component} from '@angular/core';
 import {AuthService} from "../../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NavigationService} from "../../../services/navigation.service";
-import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MessagesService} from "../../../services/messages.service";
+import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-export class SignInComponent extends BaseAfterNavigatedHandler {
+export class SignInComponent extends AfterNavigatedHandler {
   signInForm = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),

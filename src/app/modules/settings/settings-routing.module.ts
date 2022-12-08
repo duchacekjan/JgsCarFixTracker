@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {BackLinkResolver} from "../../common/resolvers/back-link.resolver";
 import {GeneralSettingsComponent} from "./general/general-settings.component";
+import {UserProfileComponent} from "./user-profile/user-profile.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'general', pathMatch: 'full'},
@@ -9,6 +10,7 @@ const routes: Routes = [
     path: '',
     children: [
       {path: 'general', component: GeneralSettingsComponent},
+      {path: 'user-profile', component: UserProfileComponent},
       {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
     ],
     resolve: {'back-link': BackLinkResolver}

@@ -3,18 +3,18 @@ import {User} from "@angular/fire/auth/firebase";
 import {Subscription} from "rxjs";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {ActivatedRoute, Router} from "@angular/router";
-import {BaseAfterNavigatedHandler} from "../../common/BaseAfterNavigatedHandler";
 import {ActionsData, IMenuSettings, NavigationService} from "../../services/navigation.service";
 import {AuthService} from "../../services/auth.service";
 import {SettingsService} from "../../services/settings.service";
 import {environment} from "../../../environments/environment";
+import {AfterNavigatedHandler} from "../../common/base/after-navigated-handler";
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent extends BaseAfterNavigatedHandler implements OnDestroy {
+export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy {
   actionsData = new ActionsData();
   menuSettings?: IMenuSettings;
   version: string;

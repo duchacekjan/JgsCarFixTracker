@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
-import {ActionsData, NavigationService} from "../../../services/navigation.service";
+import {NavigationService} from "../../../services/navigation.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
+import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
   styleUrls: ['./actions.component.scss']
 })
-export class ActionsComponent extends BaseAfterNavigatedHandler implements OnInit {
+export class ActionsComponent extends AfterNavigatedHandler implements OnInit {
 
   mode: string = '';
 

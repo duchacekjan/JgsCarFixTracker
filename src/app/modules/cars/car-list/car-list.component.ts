@@ -2,19 +2,19 @@ import {AfterViewInit, Component, OnDestroy} from '@angular/core';
 import {AuthService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
 import {DataService} from "../../../services/data.service";
-import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {Action} from "../../../models/action";
 import {debounceTime, distinctUntilChanged, Observable, Subject, Subscription, switchMap} from "rxjs";
 import {Car} from "../../../models/car";
 import {CarsService} from "../../../services/cars.service";
+import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 
 @Component({
   selector: 'app-car-list',
   templateUrl: './car-list.component.html',
   styleUrls: ['./car-list.component.scss']
 })
-export class CarListComponent extends BaseAfterNavigatedHandler implements OnDestroy, AfterViewInit {
+export class CarListComponent extends AfterNavigatedHandler implements OnDestroy, AfterViewInit {
   cars?: Observable<Car[]>;
   searchText: string = '';
   private searchedText = new Subject<string>();

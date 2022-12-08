@@ -1,19 +1,19 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
-import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {CarsService} from "../../../services/cars.service";
 import {Car} from "../../../models/car";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {MessagesService} from "../../../services/messages.service";
+import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 
 @Component({
   selector: 'app-car-detail-form',
   templateUrl: './car-detail-form.component.html',
   styleUrls: ['./car-detail-form.component.scss']
 })
-export class CarDetailFormComponent extends BaseAfterNavigatedHandler implements OnInit, OnDestroy {
+export class CarDetailFormComponent extends AfterNavigatedHandler implements OnInit, OnDestroy {
   isNew = false;
 
   carForm = this.formBuilder.group({

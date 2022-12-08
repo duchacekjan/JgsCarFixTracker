@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
 import {ActionsData, NavigationService} from "../../services/navigation.service";
-import {BaseAfterNavigatedHandler} from "../BaseAfterNavigatedHandler";
+import {AfterNavigatedHandler} from "../base/after-navigated-handler";
 
 @Component({
   selector: 'app-not-found',
   templateUrl: './not-found.component.html',
   styleUrls: ['./not-found.component.scss']
 })
-export class NotFoundComponent extends BaseAfterNavigatedHandler {
+export class NotFoundComponent extends AfterNavigatedHandler {
 
   constructor(navigation: NavigationService) {
     super(navigation);

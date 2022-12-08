@@ -5,6 +5,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "../../material.module";
 import {GeneralSettingsComponent} from "./general/general-settings.component";
+import {UserProfileComponent} from "./user-profile/user-profile.component";
 
 @NgModule({
   imports: [
@@ -14,7 +15,10 @@ import {GeneralSettingsComponent} from "./general/general-settings.component";
     ReactiveFormsModule,
     MaterialModule
   ],
-  declarations: [GeneralSettingsComponent]
+  declarations: [
+    GeneralSettingsComponent,
+    UserProfileComponent
+  ]
 })
 export class SettingsModule {
 }
