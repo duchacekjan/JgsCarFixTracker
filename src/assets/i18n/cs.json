@@ -53,7 +53,8 @@
   "carForm": {
     "licencePlateHint": "Zadejte SPZ vozu",
     "modelHint": "Zadejte model vozu",
-    "brandHint": "Zadejte značku vozu"
+    "brandHint": "Zadejte značku vozu",
+    "licencePlateReadOnlyHint": "Pouze pro čtení"
   },
   "car": {
     "licencePlate": "SPZ",

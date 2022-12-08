@@ -102,8 +102,8 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
     const id = this.route.snapshot.paramMap.get('id');
     console.log(`route id: ${id}`);
     const editAction = new Action('edit_document');
-    editAction.route = `/cars/edit`;
-    editAction.queryParams = {'id': id};
+    editAction.route = `/cars/${id}/edit`;
+    //editAction.queryParams = {'id': id};
     editAction.color = 'accent';
     editAction.tooltip = 'toolbar.editCar';
 

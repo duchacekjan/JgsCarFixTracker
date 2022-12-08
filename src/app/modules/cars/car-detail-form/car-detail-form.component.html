@@ -2,7 +2,8 @@
   <div class="row">
     <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-column">
       <input matInput type="text" formControlName="licencePlate" [placeholder]="'car.licencePlate'|translate" oninput="this.value = this.value.toUpperCase()" [readonly]="!isNew"/>
-      <mat-hint>{{'carForm.licencePlateHint'|translate}}</mat-hint>
+      <mat-hint *ngIf="isNew">{{'carForm.licencePlateHint'|translate}}</mat-hint>
+      <mat-hint *ngIf="!isNew">{{'carForm.licencePlateReadOnlyHint'|translate}}</mat-hint>
       <mat-error *ngIf="carForm.get('licencePlate')?.hasError('minlength') && !carForm.get('licencePlate')?.hasError('required')">
         {{'validations.licencePlateMinLength'|translate}}
       </mat-error>
