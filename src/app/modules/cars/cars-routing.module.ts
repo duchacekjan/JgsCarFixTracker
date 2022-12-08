@@ -10,21 +10,15 @@ import {BackLinkResolver} from "../../common/resolvers/back-link.resolver";
 const routes: Routes = [
   {path: '', component: CarListComponent},
   {
-    path: 'detail/new', component: CarDetailFormComponent, resolve: {
-      'back-link': BackLinkResolver,
-      'car': CarDetailFormCarResolver,
-      'is-new': CarDetailFormIsNewResolver
-    }
+    path: 'detail',
+    children: [
+      {path: 'new', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailFormCarResolver, 'is-new': CarDetailFormIsNewResolver}},
+      {path: 'edit', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailFormCarResolver, 'is-new': CarDetailFormIsNewResolver}},
+      {path: ':id', component: CarDetailComponent, resolve: {'car': CarDetailCarResolver}},
+      {path: ':id/:action', component: CarDetailComponent, resolve: {'car': CarDetailCarResolver, 'action': CarDetailActionResolver}},
+      {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
+    ]
   },
-  {
-    path: 'detail/edit', component: CarDetailFormComponent, resolve: {
-      'back-link': BackLinkResolver,
-      'car': CarDetailFormCarResolver,
-      'is-new': CarDetailFormIsNewResolver
-    }
-  },
-  {path: 'detail/:id', component: CarDetailComponent, resolve: {'car': CarDetailCarResolver}},
-  {path: 'detail/:id/:action', component: CarDetailComponent, resolve: {'car': CarDetailCarResolver, 'action':CarDetailActionResolver}},
   {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
 ];
 

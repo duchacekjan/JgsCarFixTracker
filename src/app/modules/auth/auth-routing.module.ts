@@ -5,9 +5,14 @@ import {ActionsComponent} from "./actions/actions.component";
 import {AuthActionsGuard} from "../../services/auth-actions.guard";
 
 const routes: Routes = [
-  {path: 'sign-in', component: SignInComponent},
-  {path: 'actions', component: ActionsComponent, canActivate: [AuthActionsGuard]},
-  {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
+  {
+    path: '',
+    children: [
+      {path: 'sign-in', component: SignInComponent},
+      {path: 'actions', component: ActionsComponent, canActivate: [AuthActionsGuard]},
+      {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
+    ]
+  }
 ];
 
 @NgModule({

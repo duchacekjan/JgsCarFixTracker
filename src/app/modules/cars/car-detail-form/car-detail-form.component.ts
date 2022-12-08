@@ -38,7 +38,6 @@ export class CarDetailFormComponent extends BaseAfterNavigatedHandler implements
 
   ngOnInit() {
     this.carSubscription = this.route.snapshot.data['car'].subscribe((data: Car) => {
-      console.log(data);
       if (data && data.key !== undefined) {
         this.carForm.setValue(data as any);
       } else {
@@ -46,8 +45,8 @@ export class CarDetailFormComponent extends BaseAfterNavigatedHandler implements
       }
     });
     this.isNew = this.route.snapshot.data['is-new'];
-    this.backLink = this.route.snapshot.data['back-link'];
-    console.log('init')
+    console.log('backlink');
+    this.backLink = this.route.snapshot.data['back-link'] ?? '/cars';
     console.log(this.backLink);
   }
 
@@ -74,10 +73,8 @@ export class CarDetailFormComponent extends BaseAfterNavigatedHandler implements
   }
 
   protected override getActionsData(data: any): ActionsData {
-    console.log('actionsdata');
     const result = new ActionsData();
     result.backAction = ActionsData.createBackAction(this.backLink);
-    console.log(result.backAction)
     return result;
   }
 }

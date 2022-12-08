@@ -4,7 +4,15 @@ import {BackLinkResolver} from "../../common/resolvers/back-link.resolver";
 import {GeneralSettingsComponent} from "./general/general-settings.component";
 
 const routes: Routes = [
-  {path: '', component: GeneralSettingsComponent, resolve: {'back-link': BackLinkResolver}}
+  {path: '', redirectTo: 'general', pathMatch: 'full'},
+  {
+    path: '',
+    children: [
+      {path: 'general', component: GeneralSettingsComponent},
+      {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
+    ],
+    resolve: {'back-link': BackLinkResolver}
+  }
 ];
 
 @NgModule({
