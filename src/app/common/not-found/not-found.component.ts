@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ActionsData, NavigationService} from "../../services/navigation.service";
 import {AfterNavigatedHandler} from "../base/after-navigated-handler";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-not-found',
@@ -9,17 +10,15 @@ import {AfterNavigatedHandler} from "../base/after-navigated-handler";
 })
 export class NotFoundComponent extends AfterNavigatedHandler {
 
-  constructor(navigation: NavigationService) {
-    super(navigation);
+  constructor(route: ActivatedRoute, navigation: NavigationService) {
+    super(route, navigation);
   }
 
-  protected override isMatch(data: any): boolean {
-    console.log('not-found-is-match');
-    return true;
-  }
+  protected override readonly matchAllRoutes = true;
 
-  protected override getActionsData(data: any): ActionsData {
-    const actionsData = new ActionsData();
+  protected override getActionsData(): ActionsData {
+    const actionsData = super.getActionsData();
+    actionsData.backAction = null;
     actionsData.isMenuAvailable = false;
     return actionsData;
   }

@@ -24,16 +24,15 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
     key: ''
   });//async validator for licencePlate
   private carSubscription = new Subscription();
-  private backLink: string = '/cars';
 
   constructor(
     private formBuilder: FormBuilder,
     private carsService: CarsService,
-    private route: ActivatedRoute,
+    route: ActivatedRoute,
     private router: Router,
     private messageService: MessagesService,
     navigation: NavigationService) {
-    super(navigation);
+    super(route, navigation);
   }
 
   ngOnInit() {
@@ -45,9 +44,6 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
       }
     });
     this.isNew = this.route.snapshot.data['is-new'];
-    console.log('backlink');
-    this.backLink = this.route.snapshot.data['back-link'] ?? '/cars';
-    console.log(this.backLink);
   }
 
   ngOnDestroy() {
@@ -66,15 +62,5 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
           .catch(err => this.messageService.showError(err));
       }
     }
-  }
-
-  protected override isMatch(data: any): boolean {
-    return data?.startsWith('/cars/new') || data?.startsWith('/cars/edit')
-  }
-
-  protected override getActionsData(data: any): ActionsData {
-    const result = new ActionsData();
-    result.backAction = ActionsData.createBackAction(this.backLink);
-    return result;
   }
 }

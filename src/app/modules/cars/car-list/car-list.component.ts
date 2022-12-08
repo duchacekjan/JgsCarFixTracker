@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnDestroy} from '@angular/core';
 import {AuthService} from "../../../services/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {DataService} from "../../../services/data.service";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {Action} from "../../../models/action";
@@ -20,8 +20,8 @@ export class CarListComponent extends AfterNavigatedHandler implements OnDestroy
   private searchedText = new Subject<string>();
   private searchSubscription = new Subscription();
 
-  constructor(private authService: AuthService, private router: Router, private dataService: DataService, navigation: NavigationService, private carsService: CarsService) {
-    super(navigation);
+  constructor(route: ActivatedRoute, private authService: AuthService, private router: Router, private dataService: DataService, navigation: NavigationService, private carsService: CarsService) {
+    super(route, navigation);
   }
 
   ngOnDestroy(): void {
@@ -53,17 +53,13 @@ export class CarListComponent extends AfterNavigatedHandler implements OnDestroy
     this.router.navigate([`/cars/${carKey}`]).catch();
   }
 
-  protected override getActionsData(data: any): ActionsData {
+  protected override getActionsData(): ActionsData {
     const addAction = new Action('add_box');
     addAction.route = '/cars/new';
     addAction.tooltip = 'toolbar.newCar';
 
-    const result = new ActionsData();
+    const result = super.getActionsData();
     result.actions = [addAction]
     return result;
-  }
-
-  protected override isMatch(data: any): boolean {
-    return data === '/cars';
   }
 }

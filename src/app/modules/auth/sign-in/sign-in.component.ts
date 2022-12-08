@@ -21,13 +21,10 @@ export class SignInComponent extends AfterNavigatedHandler {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute,
+    route: ActivatedRoute,
     private messageService: MessagesService,
     navigation: NavigationService) {
-    super(navigation);
-  }
-
-  ngOnInit(): void {
+    super(route, navigation);
   }
 
   onSignIn() {
@@ -44,23 +41,19 @@ export class SignInComponent extends AfterNavigatedHandler {
     }
   }
 
-  protected override isMatch(data: any): boolean {
-    return data === '/auth/sign-in';
-  }
-
   protected override afterNavigationEnded() {
     this.authService.isSignedIn().then(async isAuthorized => {
       if (isAuthorized === true) {
         await this.navigateToRedirectUrl();
       } else if (isAuthorized === false) {
-        await this.router.navigate(['/auth/actions'], {replaceUrl: true, relativeTo: this.route, queryParams: {'mode': 'verifyEmail'}});
+        await this.navigateWithoutHistory('/auth/actions', {'mode': 'verifyEmail'});
       }
     })
   }
 
   private async navigateToRedirectUrl() {
     this.signInForm.reset();
-    const redirectUrl = this.route.snapshot.queryParamMap.get('redirectUrl') ?? '/cars';
+    const redirectUrl = this.getQueryParam('redirectUrl', '/cars');
     console.log(redirectUrl);
     await this.router.navigateByUrl(redirectUrl, {replaceUrl: true});
   }

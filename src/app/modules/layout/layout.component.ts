@@ -29,9 +29,9 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     private renderer: Renderer2,
     private overlay: OverlayContainer,
     private readonly router: Router,
-    private route: ActivatedRoute,
+    route: ActivatedRoute,
     navigation: NavigationService) {
-    super(navigation);
+    super(route, navigation);
     this.version = environment.appVersion;
     this.authUserSubscription = this.authService.currentUserChanged(user => this.setUser(user));
     this.actionsSubscription = this.navigation.actionsDataChanged(actionsData => this.setActions(actionsData));
@@ -56,7 +56,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
       .then(() => this.router.navigate(['auth/sign-in'], {replaceUrl: true}));
   }
 
-  protected override afterNavigated(data: any) {
+  protected override afterNavigated() {
     this.authService.getCurrentUser()
       .then(user => this.setUser(user));
   }

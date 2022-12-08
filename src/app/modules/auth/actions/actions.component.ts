@@ -16,9 +16,9 @@ export class ActionsComponent extends AfterNavigatedHandler implements OnInit {
   constructor(
     navigation: NavigationService,
     private readonly authService: AuthService,
-    private readonly route: ActivatedRoute,
+    route: ActivatedRoute,
     private readonly router: Router) {
-    super(navigation);
+    super(route, navigation);
   }
 
   ngOnInit() {
@@ -30,9 +30,5 @@ export class ActionsComponent extends AfterNavigatedHandler implements OnInit {
       .then(() => {
         this.router.navigate(['/auth/sign-in'], {replaceUrl: true, relativeTo: this.route}).then();
       });
-  }
-
-  protected override isMatch(data: any): boolean {
-    return data?.startsWith('/auth/actions');
   }
 }

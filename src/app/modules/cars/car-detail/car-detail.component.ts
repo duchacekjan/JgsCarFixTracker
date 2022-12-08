@@ -1,4 +1,4 @@
-import {Component, OnDestroy, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Action} from "../../../models/action";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -35,13 +35,13 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
   @ViewChild(FormGroupDirective, {static: true}) fixFormGroup!: FormGroupDirective;
 
   constructor(
-    private readonly route: ActivatedRoute,
+    route: ActivatedRoute,
     private readonly router: Router,
     private readonly messageService: MessagesService,
     private readonly helperService: HelperService,
     private readonly carsService: CarsService,
     navigation: NavigationService) {
-    super(navigation);
+    super(route, navigation);
     this.fixItemUpdateForm = new FormGroup({
       id: new FormControl(-1),
       lastUpdate: new FormControl({value: '', disabled: true}),
@@ -49,11 +49,11 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
       description: new FormControl('', [Validators.required])
     });
 
-    this.carSubscription = this.route.snapshot.data['car'].subscribe((car: Car) => {
+    this.carSubscription = this.getRouteData('car').subscribe((car: Car) => {
         if (car?.key) {
           this.carKey = car.key!;
           this.car = car;
-          this.invokeAction(this.route.snapshot.data['action']);
+          this.invokeAction(this.getRouteData('action'));
         } else {
           this.router.navigate(['/not-found'], {replaceUrl: true, relativeTo: this.route}).catch()
         }
@@ -92,29 +92,20 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
     this.saveFix(updatedFix);
   }
 
-  protected override isMatch(data: any): boolean {
-    return data?.startsWith('/cars/') === true &&
-      !(data?.startsWith('/cars/edit') === true ||
-        data?.startsWith('/cars/new') === true)
-  }
-
-  protected override getActionsData(data: any): ActionsData {
-    const id = this.route.snapshot.paramMap.get('id');
+  protected override getActionsData(): ActionsData {
+    const id = this.getRouteParam('id');
     console.log(`route id: ${id}`);
     const editAction = new Action('edit_document');
     editAction.route = `/cars/${id}/edit`;
-    //editAction.queryParams = {'id': id};
     editAction.color = 'accent';
     editAction.tooltip = 'toolbar.editCar';
 
     const removeAction = new Action('delete');
     removeAction.route = `/cars/${id}/delete`;
-    //removeAction.queryParams = {'action': 'delete'};
     removeAction.color = 'warn';
     removeAction.tooltip = 'toolbar.removeCar';
-    const result = new ActionsData();
+    const result = super.getActionsData();
     result.actions = [removeAction, editAction];
-    result.backAction = ActionsData.createBackAction('/cars');
     return result;
   }
 

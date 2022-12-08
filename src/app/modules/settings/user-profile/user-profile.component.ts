@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {NavigationService} from "../../../services/navigation.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-user-profile',
@@ -10,12 +11,4 @@ import {NavigationService} from "../../../services/navigation.service";
 })
 export class UserProfileComponent extends AfterNavigatedHandler {
 
-  constructor(navigation: NavigationService) {
-    super(navigation);
-  }
-
-
-  protected override isMatch(data: any): boolean {
-    return true;
-  }
 }

@@ -18,13 +18,12 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
   })
 
   private changesSubscription: Subscription;
-  private backLink = '';
 
   constructor(
     public readonly settingsService: SettingsService,
-    private readonly route: ActivatedRoute,
+    route: ActivatedRoute,
     navigation: NavigationService) {
-    super(navigation);
+    super(route, navigation);
     this.changesSubscription = this.settingsForm.valueChanges
       .subscribe(formValue => {
         this.settingsService.themeMode = formValue.themeMode ?? ThemeMode.Auto;
@@ -36,21 +35,15 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
     if (control) {
       control.patchValue(this.settingsService.themeMode);
     }
-    this.backLink = this.route.snapshot.data['back-link'];
   }
 
   ngOnDestroy(): void {
     this.changesSubscription.unsubscribe();
   }
 
-  protected override isMatch(data: any): boolean {
-    return data === '/settings/general'
-  }
-
-  protected override getActionsData(data: any): ActionsData {
-    const result = new ActionsData();
+  protected override getActionsData(): ActionsData {
+    const result = super.getActionsData();
     result.isSettingsVisible = false;
-    result.backAction = ActionsData.createBackAction(this.backLink);
     return result;
   }
 }
