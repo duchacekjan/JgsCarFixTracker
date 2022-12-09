@@ -1,1 +1,13 @@
-<p>user-profile works!</p>
+<form class="container-fluid">
+  <mat-form-field>
+    <input matInput type="text" [placeholder]="'settings.user-profile.displayName'|translate">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="email" [placeholder]="'settings.user-profile.email'|translate">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="text" [placeholder]="'settings.user-profile.password'|translate" readonly="true">
+    <mat-icon matSuffix>key</mat-icon>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">{{'buttons.save'|translate}}</button>
+</form>
