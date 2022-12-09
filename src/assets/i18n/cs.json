@@ -115,7 +115,8 @@
     "saved": "Uloženo",
     "emailVerified": "E-mail ověřen.",
     "resendVerificationEmail": "Ověřovací e-mail odeslán",
-    "resetEmailSend": "E-mail pro reset hesla odeslán"
+    "resetEmailSend": "E-mail pro reset hesla odeslán",
+    "notImplemented": "Neimplementováno"
   },
   "errors": {
     "licencePlateTaken": "SPZ je již uložena v databázi.",

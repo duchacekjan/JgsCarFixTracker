@@ -1,15 +1,16 @@
-<form class="container-fluid wrapper">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" #formDirective="ngForm" class="container-fluid wrapper">
   <h3>{{'settings.userProfile.title'|translate}}</h3>
   <mat-form-field>
-    <input matInput type="text" [placeholder]="'settings.userProfile.displayName'|translate">
+    <input matInput type="text" formControlName="displayName" aria-describedby="displayName" [placeholder]="'settings.userProfile.displayName'|translate">
   </mat-form-field>
   <mat-form-field>
-    <input matInput type="email" [placeholder]="'settings.userProfile.email'|translate">
+    <input matInput type="email" formControlName="email" aria-describedby="email" [placeholder]="'settings.userProfile.email'|translate">
   </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" [placeholder]="'settings.userProfile.password'|translate" readonly="true">
-    <mat-icon matSuffix [matTooltip]="'settings.userProfile.changePasswordTooltip'|translate" class="toggle">key</mat-icon>
-    <mat-hint>{{'settings.userProfile.changePasswordHint'|translate}}</mat-hint>
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">{{'buttons.save'|translate}}</button>
+  <div class="row">
+    <button mat-raised-button color="accent" class="col-6" (click)="onChangePassword()">
+      <mat-icon>key</mat-icon>
+      <span>{{'settings.userProfile.changePasswordTooltip'|translate}}</span>
+    </button>
+    <button mat-raised-button color="primary" type="submit" class="col-6" [disabled]="!form.valid">{{'buttons.save'|translate}}</button>
+  </div>
 </form>
