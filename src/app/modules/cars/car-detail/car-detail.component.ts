@@ -10,8 +10,8 @@ import {Fix} from "../../../models/fix";
 import {MessagesService} from "../../../services/messages.service";
 import {HelperService} from "../../../services/helper.service";
 import {CarsService} from "../../../services/cars.service";
-import {DialogData} from "../../../common/dialog/dialog.component";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
+import {DialogData} from "../../../common/dialog/dialog.model";
 
 @Component({
   selector: 'app-car-detail',

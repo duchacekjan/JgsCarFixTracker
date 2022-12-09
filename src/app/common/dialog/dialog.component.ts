@@ -1,19 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {ThemePalette} from "@angular/material/core";
-
-export interface DialogData {
-  title: string;
-  content: string;
-  actions: DialogAction[];
-}
-
-export interface DialogAction {
-  label: string
-  color: ThemePalette
-
-  getValue(): any;
-}
+import {DialogData} from "./dialog.model";
 
 @Component({
   selector: 'app-dialog',

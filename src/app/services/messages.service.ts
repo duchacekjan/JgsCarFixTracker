@@ -2,9 +2,10 @@ import {inject, Injectable} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {TranslateService} from "@ngx-translate/core";
-import {DialogComponent, DialogData} from "../common/dialog/dialog.component";
+import {DialogComponent} from "../common/dialog/dialog.component";
 import {SnackBarComponent} from "../common/snack-bar/snack-bar.component";
 import {ComponentType} from "@angular/cdk/overlay";
+import {DialogData} from "../common/dialog/dialog.model";
 
 export enum MessageType {
   Info,
