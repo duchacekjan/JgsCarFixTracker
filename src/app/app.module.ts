@@ -34,7 +34,8 @@ export function HttpLoaderFactory(http: HttpClient) {
  */
 export class CustomMissingTranslationHandler implements MissingTranslationHandler {
   public handle(params: MissingTranslationHandlerParams): string {
-    return `['${params.key}']`;
+    const parts = params.key.split('.');
+    return `['${parts[parts.length - 1]}']`;
   }
 }
 

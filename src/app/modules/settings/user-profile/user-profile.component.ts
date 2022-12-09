@@ -5,8 +5,8 @@ import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-user-profile',
-  //templateUrl: './user-profile.component.html',
-  template: '<h1>UNDER CONSTRUCTION</h1>',
+  templateUrl: './user-profile.component.html',
+  //template: '<h1>UNDER CONSTRUCTION</h1>',
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent extends AfterNavigatedHandler {
