@@ -77,7 +77,8 @@
   "paginator": {
     "firstPageLabel": "První stránka",
     "lastPageLabel": "Poslední stránka",
-    "itemsPerPageLabel": "",
+    "itemsPerPageLabel": "Položek na stránce",
+    "itemsPerPageLabelShort": "",
     "nextPageLabel": "Další stránka",
     "previousPageLabel": "Předchozí stránka",
     "pageRangeLabel_p1_p_2": "{{p1}} z {{p2}}"
