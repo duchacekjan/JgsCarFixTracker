@@ -16,7 +16,12 @@ export abstract class AfterNavigatedHandler implements AfterViewInit {
     this.afterNavigated();
   }
 
+  private get finalBackLink(): string | undefined {
+    return this.backLink ?? this.backLinkIfNotPresent;
+  }
+
   protected readonly matchAllRoutes: boolean = false;
+  protected readonly backLinkIfNotPresent?: string;
 
   protected getRouteData(key: string): any {
     return this.route.snapshot.data[key];
@@ -32,8 +37,8 @@ export abstract class AfterNavigatedHandler implements AfterViewInit {
 
   protected getActionsData(): ActionsData {
     const result = new ActionsData();
-    if (this.backLink) {
-      result.backAction = ActionsData.createBackAction(this.backLink);
+    if (this.finalBackLink !== undefined) {
+      result.backAction = ActionsData.createBackAction(this.finalBackLink);
     }
     return result;
   }
