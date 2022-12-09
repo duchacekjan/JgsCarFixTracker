@@ -99,8 +99,14 @@ export class AuthService implements OnDestroy {
   }
 
   private changePasswordAsync(email: string, oldPassword: string, newPassword: string): Promise<void> {
-    return new Promise<void>(resolve => {
-      resolve();
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        const credentials = await this.afAuth.signInWithEmailAndPassword(email, oldPassword);
+        await credentials.user?.updatePassword(newPassword);
+        resolve();
+      } catch (e) {
+        reject(e)
+      }
     });
   }
 }

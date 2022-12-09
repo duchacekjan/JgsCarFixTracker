@@ -42,9 +42,13 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
   }
 
   onSubmit() {
-    this.showPasswordDialog(password => {
-      //TODO Save changes
-    });
+    if (this.form.valid) {
+      this.messageService.showError('messages.notImplemented');
+      return;
+      this.showPasswordDialog(password => {
+        //TODO Save changes
+      });
+    }
   }
 
   onChangePassword() {
@@ -76,7 +80,8 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
     dlg.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);
-        this.authService.changePassword(this.user.email!, result.password, result.newPassword).then();
+        this.authService.changePassword(this.user.email!, result.password, result.newPassword)
+          .then(() => this.messageService.showSuccess({message: 'messages.passwordChanged'}));
       }
     })
   }
