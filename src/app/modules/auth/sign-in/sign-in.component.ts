@@ -18,6 +18,8 @@ export class SignInComponent extends AfterNavigatedHandler {
       password: new FormControl('', [Validators.required])
     });
 
+  showPassword: boolean = false;
+
   constructor(
     private authService: AuthService,
     private router: Router,

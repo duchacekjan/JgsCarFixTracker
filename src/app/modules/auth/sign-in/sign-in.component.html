@@ -11,7 +11,8 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="password" [placeholder]="'auth.password'|translate" formControlName="password">
+      <input matInput [type]="showPassword?'text':'password'" [placeholder]="'auth.password'|translate" formControlName="password">
+      <mat-icon matSuffix (click)="showPassword=!showPassword" class="toggle">{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
       <mat-error *ngIf="signInForm.get('password')?.hasError('required')">
         {{'validations.passwordRequired'|translate}}
       </mat-error>
