@@ -17,6 +17,14 @@
       "darkMode": "Tmavý režim",
       "lightMode": "Světlý režim",
       "autoMode": "Automatický režim"
+    },
+    "userProfile": {
+      "title": "Profil uživatele",
+      "displayName": "Jméno",
+      "email": "E-mail",
+      "password": "Heslo",
+      "changePasswordTooltip": "Změnit heslo",
+      "changePasswordHint": "Pro změnu použijte tlačítko vpravo"
     }
   },
   "auth": {
