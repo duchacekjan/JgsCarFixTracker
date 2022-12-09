@@ -7,6 +7,7 @@ import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/f
 import {CommonValidators} from "../../../common/validators/common.validators";
 import {HelperService} from "../../../services/helper.service";
 import {MessagesService} from "../../../services/messages.service";
+import {ChangePasswordDialog} from "./dialogs/change-password/change-password.dialog";
 
 @Component({
   selector: 'app-user-profile',
@@ -40,11 +41,41 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
   }
 
   onSubmit() {
-    this.messageService.showError({message:'messages.notImplemented'});
+    this.messageService.showError({message: 'messages.notImplemented'});
   }
 
   onChangePassword() {
-    this.messageService.showError({message:'messages.notImplemented'});
+    const dlg = this.messageService.showCustomDialog(ChangePasswordDialog, {
+      title: 'auth.confirmResetPassword.title',
+      content: '',
+      actions: [
+        {
+          label: 'buttons.cancel',
+          getValue(_: any): any {
+            return undefined
+          }
+        },
+        {
+          label: 'buttons.ok',
+          color: 'primary',
+          getValue(newPassword: any): any {
+            return newPassword
+          },
+          getDisabled(value: boolean): boolean {
+            return value
+          }
+        }
+      ],
+      extraData: {
+        password: '',
+      }
+    });
+    dlg.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        //TODO CHANGE password
+      }
+    })
   }
 
   private setUser(user: any) {

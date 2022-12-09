@@ -27,14 +27,14 @@ export class MessagesService {
   private translate = inject(TranslateService);
 
   showDialog(data: DialogData): MatDialogRef<DialogComponent> {
-    return this.showCustomDialog(DialogComponent, data, 480, 320);
+    return this.showCustomDialog(DialogComponent, data);
   }
 
   showCustomDialog<T>(dialogComponent: ComponentType<T>, data: DialogData, minHeight?: string | number, minWidth?: string | number): MatDialogRef<T> {
     return this.dialog.open(dialogComponent, {
       data: data,
-      minHeight: minHeight,
-      minWidth: minWidth
+      minHeight: minHeight ?? '480px',
+      minWidth: minWidth ?? '320px'
     });
   }
 

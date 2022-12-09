@@ -6,6 +6,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "../../material.module";
 import {GeneralSettingsComponent} from "./general/general-settings.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
+import {ChangePasswordDialog} from "./user-profile/dialogs/change-password/change-password.dialog";
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {UserProfileComponent} from "./user-profile/user-profile.component";
   ],
   declarations: [
     GeneralSettingsComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ChangePasswordDialog
   ]
 })
 export class SettingsModule {

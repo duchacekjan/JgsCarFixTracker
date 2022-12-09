@@ -223,15 +223,14 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
       actions: [
         {
           label: 'buttons.cancel',
-          color: undefined,
-          getValue(): any {
+          getValue(_: any): any {
             return false;
           }
         },
         {
           label: 'buttons.delete',
           color: 'warn',
-          getValue(): any {
+          getValue(_: any): any {
             return true;
           }
         }

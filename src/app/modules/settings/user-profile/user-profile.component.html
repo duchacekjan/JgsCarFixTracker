@@ -7,7 +7,7 @@
     <input matInput type="email" formControlName="email" aria-describedby="email" [placeholder]="'settings.userProfile.email'|translate">
   </mat-form-field>
   <div class="row">
-    <button mat-raised-button color="accent" class="col-6" (click)="onChangePassword()">
+    <button mat-raised-button color="accent" type="button" class="col-6" (click)="onChangePassword()">
       <mat-icon>key</mat-icon>
       <span>{{'settings.userProfile.changePasswordTooltip'|translate}}</span>
     </button>

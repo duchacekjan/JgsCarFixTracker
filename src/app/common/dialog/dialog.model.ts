@@ -3,12 +3,15 @@ import {ThemePalette} from "@angular/material/core";
 export interface DialogData {
   title: string;
   content: string;
-  actions: DialogAction[];
+  actions: IDialogAction[];
+  extraData?: any;
 }
 
-export interface DialogAction {
+export interface IDialogAction {
   label: string
-  color: ThemePalette
+  color?: ThemePalette
 
-  getValue(): any;
+  getValue(data: any): any;
+
+  getDisabled?: (value: boolean) => boolean;
 }
