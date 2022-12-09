@@ -8,6 +8,7 @@ import {CommonValidators} from "../../../common/validators/common.validators";
 import {HelperService} from "../../../services/helper.service";
 import {MessagesService} from "../../../services/messages.service";
 import {ChangePasswordDialog} from "./dialogs/change-password/change-password.dialog";
+import {PasswordDialog} from "./dialogs/password/password.dialog";
 
 @Component({
   selector: 'app-user-profile',
@@ -41,7 +42,9 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
   }
 
   onSubmit() {
-    this.messageService.showError({message: 'messages.notImplemented'});
+    this.showPasswordDialog(password => {
+      //TODO Save changes
+    });
   }
 
   onChangePassword() {
@@ -73,7 +76,41 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
     dlg.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);
-        //TODO CHANGE password
+        this.authService.changePassword(this.user.email!, result.password, result.newPassword).then();
+      }
+    })
+  }
+
+  private showPasswordDialog(onGetPassword: (password: any) => void) {
+    const dlg = this.messageService.showCustomDialog(PasswordDialog, {
+      title: 'auth.confirmResetPassword.title',
+      content: '',
+      actions: [
+        {
+          label: 'buttons.cancel',
+          getValue(_: any): any {
+            return undefined
+          }
+        },
+        {
+          label: 'buttons.ok',
+          color: 'primary',
+          getValue(password: any): any {
+            return password
+          },
+          getDisabled(value: boolean): boolean {
+            return value
+          }
+        }
+      ],
+      extraData: {
+        password: '',
+      }
+    });
+    dlg.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        onGetPassword(result);
       }
     })
   }

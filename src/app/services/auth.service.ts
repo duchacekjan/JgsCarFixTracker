@@ -73,8 +73,12 @@ export class AuthService implements OnDestroy {
     return this.dataService.execute(this.afAuth.applyActionCode(oobCode));
   }
 
-  sendVerificationEmail(email:string) {
+  sendVerificationEmail(email: string) {
     return this.dataService.execute(this.sendVerificationEmailAsync(email));
+  }
+
+  changePassword(email: string, oldPassword: string, newPassword: string) {
+    return this.dataService.execute(this.changePasswordAsync(email, oldPassword, newPassword));
   }
 
   ngOnDestroy(): void {
@@ -92,5 +96,11 @@ export class AuthService implements OnDestroy {
         reject('errors.userNotLoggedIn');
       }
     })
+  }
+
+  private changePasswordAsync(email: string, oldPassword: string, newPassword: string): Promise<void> {
+    return new Promise<void>(resolve => {
+      resolve();
+    });
   }
 }

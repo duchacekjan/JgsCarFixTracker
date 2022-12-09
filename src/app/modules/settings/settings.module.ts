@@ -7,6 +7,7 @@ import {MaterialModule} from "../../material.module";
 import {GeneralSettingsComponent} from "./general/general-settings.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {ChangePasswordDialog} from "./user-profile/dialogs/change-password/change-password.dialog";
+import {PasswordDialog} from "./user-profile/dialogs/password/password.dialog";
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import {ChangePasswordDialog} from "./user-profile/dialogs/change-password/chang
   declarations: [
     GeneralSettingsComponent,
     UserProfileComponent,
-    ChangePasswordDialog
+    ChangePasswordDialog,
+    PasswordDialog
   ]
 })
 export class SettingsModule {
