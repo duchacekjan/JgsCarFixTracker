@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {Action} from "../../../models/action";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -53,7 +53,7 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
         if (car?.key) {
           this.carKey = car.key!;
           this.car = car;
-          if(!this.invokeAction(this.getRouteData('action'))){
+          if (!this.invokeAction(this.getRouteData('action'))) {
             this.resetForm();
             //update the table with latest values
             this.tableConfig.table_data_changer.next({
@@ -217,11 +217,25 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
   }
 
   private createDeleteDialogData(title: string, content: string): DialogData {
-    const data = new DialogData();
-    data.title = title;
-    data.content = content;
-    data.setOk(false);
-    data.setDelete(true);
-    return data;
+    return {
+      title: title,
+      content: content,
+      actions: [
+        {
+          label: 'buttons.cancel',
+          color: undefined,
+          getValue(): any {
+            return false;
+          }
+        },
+        {
+          label: 'buttons.delete',
+          color: 'warn',
+          getValue(): any {
+            return true;
+          }
+        }
+      ]
+    };
   }
 }

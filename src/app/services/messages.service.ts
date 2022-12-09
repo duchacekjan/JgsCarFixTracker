@@ -4,6 +4,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {TranslateService} from "@ngx-translate/core";
 import {DialogComponent, DialogData} from "../common/dialog/dialog.component";
 import {SnackBarComponent} from "../common/snack-bar/snack-bar.component";
+import {ComponentType} from "@angular/cdk/overlay";
 
 export enum MessageType {
   Info,
@@ -25,10 +26,14 @@ export class MessagesService {
   private translate = inject(TranslateService);
 
   showDialog(data: DialogData): MatDialogRef<DialogComponent> {
-    return this.dialog.open(DialogComponent, {
-      data: data.getTranslation(this.translate),
-      minHeight: '480px',
-      minWidth: '320px'
+    return this.showCustomDialog(DialogComponent, data, 480, 320);
+  }
+
+  showCustomDialog<T>(dialogComponent: ComponentType<T>, data: DialogData, minHeight?: string | number, minWidth?: string | number): MatDialogRef<T> {
+    return this.dialog.open(dialogComponent, {
+      data: data,
+      minHeight: minHeight,
+      minWidth: minWidth
     });
   }
 
