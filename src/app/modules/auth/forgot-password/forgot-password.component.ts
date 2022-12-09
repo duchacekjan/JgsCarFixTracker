@@ -1,10 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {AuthService} from "../../../../services/auth.service";
-import {HelperService} from "../../../../services/helper.service";
-import {CommonValidators} from "../../../../common/validators/common.validators";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MessagesService} from "../../../../services/messages.service";
+import {CommonValidators} from "../../../common/validators/common.validators";
+import {AuthService} from "../../../services/auth.service";
+import {HelperService} from "../../../services/helper.service";
+import {MessagesService} from "../../../services/messages.service";
 
 @Component({
   selector: 'app-forgot-password',
@@ -39,5 +39,12 @@ export class ForgotPasswordComponent {
         this.router.navigate(['/auth/sign-in'], {replaceUrl: true, relativeTo: this.route,}).catch();
       });
     }
+  }
+
+  onLinkClick() {
+    this.authService.signOut()
+      .then(() => {
+        this.router.navigate(['/auth/sign-in'], {replaceUrl: true, relativeTo: this.route}).then();
+      });
   }
 }

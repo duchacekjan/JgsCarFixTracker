@@ -3,12 +3,14 @@ import {RouterModule, Routes} from '@angular/router';
 import {SignInComponent} from "./sign-in/sign-in.component";
 import {ActionsComponent} from "./actions/actions.component";
 import {AuthActionsGuard} from "../../services/auth-actions.guard";
+import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
 
 const routes: Routes = [
   {
     path: '',
     children: [
       {path: 'sign-in', component: SignInComponent},
+      {path: 'forgot-password', component: ForgotPasswordComponent},
       {path: 'actions', component: ActionsComponent, canActivate: [AuthActionsGuard]},
       {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
     ]

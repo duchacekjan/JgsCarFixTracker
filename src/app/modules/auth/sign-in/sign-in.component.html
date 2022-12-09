@@ -17,6 +17,6 @@
       </mat-error>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit" class="sign-in-button" [disabled]="!signInForm.valid">{{'auth.signIn.button'|translate}}</button>
-    <a class="sign-in-forgot-link" routerLink="../actions" [queryParams]="{'mode':'forgotPassword'}">{{'auth.forgotPassword.link'|translate}}</a>
+    <a class="sign-in-forgot-link" routerLink="../forgot-password">{{'auth.forgotPassword.link'|translate}}</a>
   </form>
 </div>
