@@ -53,7 +53,15 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
         if (car?.key) {
           this.carKey = car.key!;
           this.car = car;
-          this.invokeAction(this.getRouteData('action'));
+          if(!this.invokeAction(this.getRouteData('action'))){
+            this.resetForm();
+            //update the table with latest values
+            this.tableConfig.table_data_changer.next({
+              data: this.car.fixes,
+              updatedFixIndex: this.updatedFixIndex
+            });
+            this.updatedFixIndex = -1;
+          }
         } else {
           this.router.navigate(['/not-found'], {replaceUrl: true, relativeTo: this.route}).catch()
         }
@@ -187,7 +195,8 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
     return result;
   }
 
-  private invokeAction(action: string | null) {
+  private invokeAction(action: string | null): boolean {
+    let handled = false;
     if (action === 'delete') {
       const data = this.createDeleteDialogData('dialogs.deleteCar.title', 'dialogs.deleteCar.message');
       const dialogRef = this.messageService.showDialog(data);
@@ -201,7 +210,10 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
           this.router.navigate(['../'], {replaceUrl: true, relativeTo: this.route}).catch();
         }
       })
+      handled = true;
     }
+
+    return handled;
   }
 
   private createDeleteDialogData(title: string, content: string): DialogData {

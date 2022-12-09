@@ -1,7 +1,7 @@
 <div class="edit-table">
   <table mat-table matSort matSortActive="mileage" matSortDirection="desc" [dataSource]="table_data_source" class="edit-table__grid">
     <ng-container matColumnDef="mileage" sticky>
-      <th mat-header-cell *matHeaderCellDef class="numeric-col">{{'fix.mileageShort'|translate}}</th>
+      <th mat-header-cell *matHeaderCellDef class="numeric-col" [matTooltip]="'fix.mileage'|translate">{{'fix.mileageShort'|translate}}</th>
       <td mat-cell *matCellDef="let element" class="numeric-col"> {{element.mileage | number}} </td>
     </ng-container>
     <ng-container matColumnDef="description">
