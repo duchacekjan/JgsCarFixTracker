@@ -17,9 +17,6 @@ import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoa
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MaterialModule} from "./material.module";
 import {AppServicesModule} from "./services/services.module";
-import {AppAuthModule} from "./modules/auth/auth.module";
-import {AppCommonModule} from "./common/app-common.module";
-import {ReactiveFormsModule} from "@angular/forms";
 import {AppLayoutModule} from "./modules/layout/app-layout.module";
 import {JgsErrorHandler} from "./services/jgs-error.handler";
 
@@ -78,5 +75,6 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }

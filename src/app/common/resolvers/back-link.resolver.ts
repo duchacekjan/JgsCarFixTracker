@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from "@angular/router";
 import {NavigationService} from "../../services/navigation.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BackLinkResolver implements Resolve<string> {
 
   constructor(private readonly navigationService: NavigationService) {

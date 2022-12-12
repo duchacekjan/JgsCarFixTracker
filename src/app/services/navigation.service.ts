@@ -2,6 +2,7 @@ import {Injectable, OnDestroy} from "@angular/core";
 import {ActivatedRoute, NavigationEnd, Params, Router} from "@angular/router";
 import {Subject, Subscription} from "rxjs";
 import {Action} from "../models/action";
+import {TranslateService} from "@ngx-translate/core";
 
 export interface IMenuSettings {
   isAuthorized: boolean,
@@ -41,8 +42,10 @@ export class NavigationService implements OnDestroy {
   private routerEventSubscription: Subscription;
 
   constructor(
+    private readonly translate: TranslateService,
     private readonly router: Router) {
-    console.log('nav-svc');
+    translate.setDefaultLang('cs');
+    translate.use('cs');
     this.routerEventSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         console.log(`navigated ${event.url}`);

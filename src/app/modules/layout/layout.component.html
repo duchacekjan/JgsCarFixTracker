@@ -2,7 +2,7 @@
   <button *ngIf="actionsData.backAction" mat-icon-button (click)="backClick()" [matTooltip]="'toolbar.back' | translate">
     <mat-icon>arrow_back</mat-icon>
   </button>
-  <span>Car fix tracker</span>
+  <span>{{title.getTitle()}}</span>
   <span class="spacer"></span>
   <ng-container *ngFor="let action of actionsData.actions">
     <button mat-icon-button [routerLink]="action.route" queryParamsHandling="merge" [queryParams]="action.queryParams"

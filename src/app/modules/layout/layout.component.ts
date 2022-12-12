@@ -8,6 +8,7 @@ import {AuthService} from "../../services/auth.service";
 import {SettingsService} from "../../services/settings.service";
 import {environment} from "../../../environments/environment";
 import {AfterNavigatedHandler} from "../../common/base/after-navigated-handler";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-layout',
@@ -29,6 +30,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     private renderer: Renderer2,
     private overlay: OverlayContainer,
     private readonly router: Router,
+    public readonly title: Title,
     route: ActivatedRoute,
     navigation: NavigationService) {
     super(route, navigation);
