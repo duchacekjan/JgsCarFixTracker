@@ -23,6 +23,7 @@
       "changeEmailContent": "Pro změnu e-mailu zadejte své heslo.",
       "password": "Heslo",
       "changePasswordTooltip": "Změnit heslo",
+      "newEmail": "Nový e-mail",
       "loginVerification": "Ověření",
       "loginWithCurrentPassword": "Pro uložení změn zadejte své heslo."
     }

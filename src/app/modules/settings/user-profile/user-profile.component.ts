@@ -8,6 +8,7 @@ import {HelperService} from "../../../services/helper.service";
 import {MessagesService} from "../../../services/messages.service";
 import {ChangePasswordDialog} from "./dialogs/change-password/change-password.dialog";
 import {PasswordDialog} from "./dialogs/password/password.dialog";
+import {ChangeEmailDialog} from "./dialogs/change-email/change-email.dialog";
 
 @Component({
   selector: 'app-user-profile',
@@ -54,7 +55,7 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
 
   onChangeEmail() {
     if (this.form.valid) {
-      const dlg = this.messageService.showCustomDialog(ChangePasswordDialog, {
+      const dlg = this.messageService.showCustomDialog(ChangeEmailDialog, {
         title: 'settings.userProfile.changeEmailTooltip',
         content: 'settings.userProfile.changeEmailContent',
         actions: [
