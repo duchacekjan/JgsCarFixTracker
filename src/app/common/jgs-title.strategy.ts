@@ -12,7 +12,7 @@ export class JgsTitleStrategy extends TitleStrategy {
 
   override updateTitle(routerState: RouterStateSnapshot) {
     const title = this.buildTitle(routerState);
-    this.appTitle.updateTitle(title);
+    this.appTitle.updateTitleFromStrategy(title ?? 'title');
     setTimeout(() => {
       this.title.setTitle(this.translate.instant('title'));
     }, 0);
