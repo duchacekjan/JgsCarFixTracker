@@ -85,6 +85,10 @@ export class AuthService implements OnDestroy {
     return this.dataService.execute(this.changeEmailAsync(email, password, newEmail));
   }
 
+  changeDisplayName(email: string, password: string, displayName: string) {
+    return this.dataService.execute(this.changeDisplayNameAsync(email, password, displayName));
+  }
+
   ngOnDestroy(): void {
     this.authStateSubscription.unsubscribe();
     this.currentUser.complete();
@@ -106,27 +110,33 @@ export class AuthService implements OnDestroy {
     })
   }
 
-  private changePasswordAsync(email: string, oldPassword: string, newPassword: string): Promise<void> {
-    return new Promise<void>(async (resolve, reject) => {
-      try {
-        const credentials = await this.afAuth.signInWithEmailAndPassword(email, oldPassword);
-        await credentials.user?.updatePassword(newPassword);
-        resolve();
-      } catch (e) {
-        reject(e)
-      }
-    });
+  private async changePasswordAsync(email: string, oldPassword: string, newPassword: string): Promise<void> {
+    try {
+      const credentials = await this.afAuth.signInWithEmailAndPassword(email, oldPassword);
+      await credentials.user?.updatePassword(newPassword);
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 
-  private changeEmailAsync(email: string, password: string, newEmail: string): Promise<void> {
-    return new Promise<void>(async (resolve, reject) => {
-      try {
-        const credentials = await this.afAuth.signInWithEmailAndPassword(email, password);
-        await credentials.user?.verifyBeforeUpdateEmail(newEmail)
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    })
+  private async changeEmailAsync(email: string, password: string, newEmail: string): Promise<void> {
+    try {
+      const credentials = await this.afAuth.signInWithEmailAndPassword(email, password);
+      await credentials.user?.verifyBeforeUpdateEmail(newEmail)
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
+  private async changeDisplayNameAsync(email: string, password: string, displayName: string): Promise<void> {
+    try {
+      const credentials = await this.afAuth.signInWithEmailAndPassword(email, password);
+      await credentials.user?.updateProfile({displayName: displayName})
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 }

@@ -44,12 +44,22 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
   onSubmit() {
     if (this.form.valid) {
       this.showPasswordDialog(password => {
-        this.authService.changeEmail(this.user!.email, password, this.form.value.email!)
-          .then(() => this.messageService.showSuccess({message: 'messages.resendVerificationEmail'}))
-          .catch(err => {
-            this.setUser(this.user);
-            this.messageService.showError(err)
-          });
+        if (this.form.value.email != this.user.email) {
+          this.authService.changeEmail(this.user!.email, password, this.form.value.email!)
+            .then(() => this.messageService.showSuccess({message: 'messages.resendVerificationEmail'}))
+            .catch(err => {
+              this.setUser(this.user);
+              this.messageService.showError(err)
+            });
+        } else {
+          this.authService.changeDisplayName(this.user!.email, password, this.form.value.displayName!)
+            .then(() => this.messageService.showSuccess({message: 'messages.displayNameChanged'}))
+            .catch(err => {
+              this.setUser(this.user);
+              this.messageService.showError(err)
+            });
+        }
+
       });
     }
   }

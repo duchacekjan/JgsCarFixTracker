@@ -9,8 +9,8 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      {path: 'general', component: GeneralSettingsComponent},
-      {path: 'user-profile', component: UserProfileComponent},
+      {path: 'general', component: GeneralSettingsComponent, title: 'settings.general.title'},
+      {path: 'user-profile', component: UserProfileComponent, title: 'settings.userProfile.title'},
       {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
     ],
     resolve: {'back-link': BackLinkResolver}

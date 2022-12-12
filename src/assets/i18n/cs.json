@@ -19,10 +19,9 @@
     "userProfile": {
       "title": "Profil uživatele",
       "displayName": "Jméno",
-      "email": "E-mail",
+      "changeEmailTooltip": "Změnit e-mail",
       "password": "Heslo",
       "changePasswordTooltip": "Změnit heslo",
-      "changePasswordHint": "Pro změnu použijte tlačítko vpravo",
       "loginVerification": "Ověření",
       "loginWithCurrentPassword": "Pro uložení změn zadejte heslo."
     }
@@ -129,7 +128,8 @@
     "resendVerificationEmail": "Ověřovací e-mail odeslán",
     "resetEmailSend": "E-mail pro reset hesla odeslán",
     "notImplemented": "Neimplementováno",
-    "passwordChanged": "Heslo bylo změněno"
+    "passwordChanged": "Heslo bylo změněno",
+    "displayNameChanged": "Jméno bylo úspěšně změněno"
   },
   "errors": {
     "licencePlateTaken": "SPZ je již uložena v databázi.",
