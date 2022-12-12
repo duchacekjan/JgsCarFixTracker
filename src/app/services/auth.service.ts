@@ -77,8 +77,12 @@ export class AuthService implements OnDestroy {
     return this.dataService.execute(this.sendVerificationEmailAsync(email));
   }
 
-  changePassword(email: string, oldPassword: string, newPassword: string) {
+  changePassword(email: string, oldPassword: string, newPassword: string): Promise<void> {
     return this.dataService.execute(this.changePasswordAsync(email, oldPassword, newPassword));
+  }
+
+  changeEmail(email: string, password: string, newEmail: string) {
+    return this.dataService.execute(this.changeEmailAsync(email, password, newEmail));
   }
 
   ngOnDestroy(): void {
@@ -89,11 +93,15 @@ export class AuthService implements OnDestroy {
   private sendVerificationEmailAsync(email: string): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
       const user = await this.afAuth.currentUser;
-      if (user) {
-        await user.sendEmailVerification();
-        resolve();
-      } else {
-        reject('errors.userNotLoggedIn');
+      try {
+        if (user) {
+          await user.sendEmailVerification();
+          resolve();
+        } else {
+          reject('errors.userNotLoggedIn');
+        }
+      } catch (e) {
+        reject(e);
       }
     })
   }
@@ -108,5 +116,17 @@ export class AuthService implements OnDestroy {
         reject(e)
       }
     });
+  }
+
+  private changeEmailAsync(email: string, password: string, newEmail: string): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        const credentials = await this.afAuth.signInWithEmailAndPassword(email, password);
+        await credentials.user?.verifyBeforeUpdateEmail(newEmail)
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    })
   }
 }

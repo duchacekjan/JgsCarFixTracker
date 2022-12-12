@@ -123,7 +123,12 @@
     "licencePlateTaken": "SPZ je již uložena v databázi.",
     "noCarDefined": "Není vytvořeno auto.",
     "noCarsFound": "Nebyla nalezena žádná shoda.",
-    "notFound": "Stránka nenalezena."
+    "notFound": "Stránka nenalezena.",
+    "auth": {
+      "login": "Zadáno chybné heslo nebo neexistující uživatel.",
+      "tooManyRequests": "Bylo dosaženo maximálního počtu přihlášení. Zkuste to prosím později."
+    },
+    "unknown": "Neznámá chyba"
   },
   "validations": {
     "emailRequired": "E-mail je povinný",

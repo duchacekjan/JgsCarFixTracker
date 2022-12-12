@@ -21,6 +21,7 @@ export class VerifyEmailComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    //TODO handle action verifyAndChangeEmail specifically. Update texts, maybe
     this.authService.getCurrentUser().then(user => this.setUser(user));
     this.oobCode = this.route.snapshot.queryParamMap.get('oobCode') ?? '';
     console.log(this.oobCode);

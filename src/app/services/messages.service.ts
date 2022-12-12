@@ -6,6 +6,7 @@ import {DialogComponent} from "../common/dialog/dialog.component";
 import {SnackBarComponent} from "../common/snack-bar/snack-bar.component";
 import {ComponentType} from "@angular/cdk/overlay";
 import {DialogData} from "../common/dialog/dialog.model";
+import {FirebaseError} from "firebase/app";
 
 export enum MessageType {
   Info,
@@ -38,8 +39,12 @@ export class MessagesService {
     });
   }
 
-  showError(message: string | IMessage) {
-    this.showMessage(MessageType.Error, message, true, 4000);
+  showError(message: any | string | IMessage) {
+    let finalMessage = message;
+    if (message instanceof Error) {
+      finalMessage = ErrorsEnum.convertMessage(message);
+    }
+    this.showMessage(MessageType.Error, finalMessage, true, 4000);
   }
 
   showInfo(message: string | IMessage) {
@@ -87,5 +92,20 @@ export class MessagesService {
 }
 
 function isIMessage(object: any): object is IMessage {
-  return 'message' in object;
+  return typeof object !== 'string' && 'message' in object;
+}
+
+export namespace ErrorsEnum {
+  export function convertMessage(error: Error): IMessage {
+    let result = {message: 'errors.unknown'};
+    if (error instanceof FirebaseError) {
+      const code = error.code;
+      if (code.startsWith('auth/')) {
+        result.message = code === ''
+          ? 'errors.auth.login'
+          : 'errors.auth.tooManyRequests';
+      }
+    }
+    return result;
+  }
 }

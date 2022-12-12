@@ -1,4 +1,4 @@
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {ErrorHandler, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
 import {getAuth, provideAuth} from '@angular/fire/auth';
@@ -21,6 +21,7 @@ import {AppAuthModule} from "./modules/auth/auth.module";
 import {AppCommonModule} from "./common/app-common.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {AppLayoutModule} from "./modules/layout/app-layout.module";
+import {JgsErrorHandler} from "./services/jgs-error.handler";
 
 registerLocaleData(localeCz);
 
@@ -72,7 +73,8 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
   ],
   exports: [],
   providers: [
-    {provide: LOCALE_ID, useValue: 'cs-CZ'}
+    {provide: LOCALE_ID, useValue: 'cs-CZ'},
+    {provide: ErrorHandler, useClass: JgsErrorHandler}
   ],
   bootstrap: [AppComponent]
 })

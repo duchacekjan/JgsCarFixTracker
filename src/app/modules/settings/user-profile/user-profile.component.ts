@@ -43,10 +43,12 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
 
   onSubmit() {
     if (this.form.valid) {
-      this.messageService.showError('messages.notImplemented');
-      return;
       this.showPasswordDialog(password => {
-        //TODO Save changes
+        this.authService.changeEmail(this.user!.email, password, this.form.value.email!)
+          .then(() => this.messageService.showSuccess({message: 'messages.resendVerificationEmail'}))
+          .catch(err => {
+            console.log(err);
+            this.messageService.showError(err)});
       });
     }
   }
@@ -81,7 +83,8 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
       if (result) {
         console.log(result);
         this.authService.changePassword(this.user.email!, result.password, result.newPassword)
-          .then(() => this.messageService.showSuccess({message: 'messages.passwordChanged'}));
+          .then(() => this.messageService.showSuccess({message: 'messages.passwordChanged'}))
+          .catch(err => this.messageService.showError(err));
       }
     })
   }
@@ -111,7 +114,7 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
       extraData: {
         password: '',
       }
-    });
+    }, 240);
     dlg.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);
