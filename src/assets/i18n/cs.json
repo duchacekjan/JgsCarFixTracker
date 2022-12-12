@@ -63,6 +63,7 @@
   },
   "cars": {
     "list": {
+      "title": "Seznam aut",
       "searchHint": "Zadejte aspoň část SPZ"
     },
     "detail": {

@@ -6,7 +6,7 @@ import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/compat/database';
 import {getDatabase, provideDatabase} from '@angular/fire/database';
-import {RouterModule} from '@angular/router';
+import {RouterModule, TitleStrategy} from '@angular/router';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {CommonModule, registerLocaleData} from "@angular/common";
@@ -18,7 +18,8 @@ import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MaterialModule} from "./material.module";
 import {AppServicesModule} from "./services/services.module";
 import {AppLayoutModule} from "./modules/layout/app-layout.module";
-import {JgsErrorHandler} from "./services/jgs-error.handler";
+import {JgsErrorHandler} from "./common/jgs-error.handler";
+import {JgsTitleStrategy} from "./common/jgs-title.strategy";
 
 registerLocaleData(localeCz);
 
@@ -71,7 +72,8 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
   exports: [],
   providers: [
     {provide: LOCALE_ID, useValue: 'cs-CZ'},
-    {provide: ErrorHandler, useClass: JgsErrorHandler}
+    {provide: ErrorHandler, useClass: JgsErrorHandler},
+    {provide: TitleStrategy, useClass: JgsTitleStrategy}
   ],
   bootstrap: [AppComponent]
 })

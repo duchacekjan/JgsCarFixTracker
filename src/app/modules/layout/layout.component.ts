@@ -9,6 +9,7 @@ import {SettingsService} from "../../services/settings.service";
 import {environment} from "../../../environments/environment";
 import {AfterNavigatedHandler} from "../../common/base/after-navigated-handler";
 import {Title} from "@angular/platform-browser";
+import {JgsAppTitleStrategy} from "../../common/jgs-app-title.strategy";
 
 @Component({
   selector: 'app-layout',
@@ -30,7 +31,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     private renderer: Renderer2,
     private overlay: OverlayContainer,
     private readonly router: Router,
-    public readonly title: Title,
+    public readonly title: JgsAppTitleStrategy,
     route: ActivatedRoute,
     navigation: NavigationService) {
     super(route, navigation);
