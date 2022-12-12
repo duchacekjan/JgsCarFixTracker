@@ -7,11 +7,11 @@ import {BackLinkResolver} from "../../common/resolvers/back-link.resolver";
 import {CarDetailResolver} from "../../common/resolvers/car-detail.resolver";
 
 const routes: Routes = [
-  {path: '', component: CarListComponent, title:'cars.list.title'},
-  {path: 'new', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailResolver}, data: {'is-new': true}},
-  {path: ':id', component: CarDetailComponent, resolve: {'car': CarDetailResolver}, data: {'back-link': '/cars'}},
-  {path: ':id/edit', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailResolver}, data: {'is-new': false}},
-  {path: ':id/delete', component: CarDetailComponent, resolve: {'car': CarDetailResolver}, data: {'action': 'delete', 'back-link': '/cars'}},
+  {path: '', component: CarListComponent, title: 'cars.list.title'},
+  {path: 'new', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailResolver}, data: {'is-new': true}, title: 'cars.detail.new.title'},
+  {path: ':id', component: CarDetailComponent, resolve: {'car': CarDetailResolver}, data: {'back-link': '/cars'}, title: 'cars.detail.title'},
+  {path: ':id/edit', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailResolver}, data: {'is-new': false}, title: 'cars.detail.title'},
+  {path: ':id/delete', component: CarDetailComponent, resolve: {'car': CarDetailResolver}, data: {'action': 'delete', 'back-link': '/cars'}, title: 'cars.detail.title'},
   {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
 ];
 

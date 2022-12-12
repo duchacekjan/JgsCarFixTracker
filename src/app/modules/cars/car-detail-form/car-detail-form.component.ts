@@ -35,6 +35,8 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
     super(route, navigation);
   }
 
+  protected override readonly backLinkIfNotPresent: string = '/cars';
+
   ngOnInit() {
     this.carSubscription = this.route.snapshot.data['car'].subscribe((data: Car) => {
       if (data && data.key !== undefined) {

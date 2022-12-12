@@ -106,12 +106,12 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
     const editAction = new Action('edit_document');
     editAction.route = `/cars/${id}/edit`;
     editAction.color = 'accent';
-    editAction.tooltip = 'toolbar.editCar';
+    editAction.tooltip = 'cars.detail.edit.actionHint';
 
     const removeAction = new Action('delete');
     removeAction.route = `/cars/${id}/delete`;
     removeAction.color = 'warn';
-    removeAction.tooltip = 'toolbar.removeCar';
+    removeAction.tooltip = 'cars.detail.remove.actionHint';
     const result = super.getActionsData();
     result.actions = [removeAction, editAction];
     return result;

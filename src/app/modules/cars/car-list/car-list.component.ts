@@ -56,7 +56,7 @@ export class CarListComponent extends AfterNavigatedHandler implements OnDestroy
   protected override getActionsData(): ActionsData {
     const addAction = new Action('add_box');
     addAction.route = '/cars/new';
-    addAction.tooltip = 'toolbar.newCar';
+    addAction.tooltip = 'cars.detail.new.actionHint';
 
     const result = super.getActionsData();
     result.actions = [addAction]
