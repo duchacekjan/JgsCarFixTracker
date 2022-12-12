@@ -47,8 +47,9 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
         this.authService.changeEmail(this.user!.email, password, this.form.value.email!)
           .then(() => this.messageService.showSuccess({message: 'messages.resendVerificationEmail'}))
           .catch(err => {
-            console.log(err);
-            this.messageService.showError(err)});
+            this.setUser(this.user);
+            this.messageService.showError(err)
+          });
       });
     }
   }
@@ -91,8 +92,8 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
 
   private showPasswordDialog(onGetPassword: (password: any) => void) {
     const dlg = this.messageService.showCustomDialog(PasswordDialog, {
-      title: 'auth.confirmResetPassword.title',
-      content: '',
+      title: 'settings.userProfile.loginVerification',
+      content: 'settings.userProfile.loginWithCurrentPassword',
       actions: [
         {
           label: 'buttons.cancel',
@@ -128,10 +129,12 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
     const displayName = this.form.controls['displayName'];
     if (displayName) {
       displayName.patchValue(user.displayName);
+      displayName.markAsUntouched();
     }
     const email = this.form.controls['email'];
     if (email) {
       email.patchValue(user.email);
+      email.markAsUntouched();
     }
   }
 }

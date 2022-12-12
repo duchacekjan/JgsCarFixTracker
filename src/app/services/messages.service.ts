@@ -101,9 +101,17 @@ export namespace ErrorsEnum {
     if (error instanceof FirebaseError) {
       const code = error.code;
       if (code.startsWith('auth/')) {
-        result.message = code === ''
-          ? 'errors.auth.login'
-          : 'errors.auth.tooManyRequests';
+        switch (code){
+          case 'auth/email-already-in-use':
+            result.message= 'errors.auth.emailAlreadyInUse'
+            break;
+          case 'auth/too-many-requests':
+            result.message = 'errors.auth.tooManyRequests';
+            break;
+          default:
+            result.message = 'errors.auth.login'
+            break;
+        }
       }
     }
     return result;

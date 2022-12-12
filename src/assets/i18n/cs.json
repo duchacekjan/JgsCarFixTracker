@@ -24,7 +24,9 @@
       "email": "E-mail",
       "password": "Heslo",
       "changePasswordTooltip": "Změnit heslo",
-      "changePasswordHint": "Pro změnu použijte tlačítko vpravo"
+      "changePasswordHint": "Pro změnu použijte tlačítko vpravo",
+      "loginVerification": "Ověření",
+      "loginWithCurrentPassword": "Pro uložení změn zadejte heslo."
     }
   },
   "auth": {
@@ -55,7 +57,16 @@
       "notVerified": "Váš účet není ověřen.",
       "emailSendTo_email": "Byl vám zaslán ověřovací e-mail na adresu: <strong>{{email}}</strong>",
       "checkEmail": "Prosím ověřte svou adresu kliknutím na odkaz v zaslaném e-mailu.",
-      "button": "Znovu odeslat e-mail"
+      "button": "Znovu odeslat e-mail",
+      "buttonVerify": "Ověřit"
+    },
+    "confirmChangeEmail": {
+      "title": "Potvrzení změny e-mailu",
+      "notVerified": "Změna e-mailu není ověřena.",
+      "emailSendTo_email": "Požadavek na změnu e-mailové adresy: <strong>{{email}}</strong>",
+      "checkEmail": "Potvrďte požadovanou změnu.",
+      "button": "",
+      "buttonVerify": "Potvrdit"
     }
   },
   "cars": {
@@ -126,7 +137,8 @@
     "notFound": "Stránka nenalezena.",
     "auth": {
       "login": "Zadáno chybné heslo nebo neexistující uživatel.",
-      "tooManyRequests": "Bylo dosaženo maximálního počtu přihlášení. Zkuste to prosím později."
+      "tooManyRequests": "Bylo dosaženo maximálního počtu přihlášení. Zkuste to prosím později.",
+      "emailAlreadyInUse": "Zadaná e-mailová adresa je již použita."
     },
     "unknown": "Neznámá chyba"
   },
