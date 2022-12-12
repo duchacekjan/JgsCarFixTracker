@@ -20,10 +20,11 @@
       "title": "Profil uživatele",
       "displayName": "Jméno",
       "changeEmailTooltip": "Změnit e-mail",
+      "changeEmailContent": "Pro změnu e-mailu zadejte své heslo.",
       "password": "Heslo",
       "changePasswordTooltip": "Změnit heslo",
       "loginVerification": "Ověření",
-      "loginWithCurrentPassword": "Pro uložení změn zadejte heslo."
+      "loginWithCurrentPassword": "Pro uložení změn zadejte své heslo."
     }
   },
   "auth": {

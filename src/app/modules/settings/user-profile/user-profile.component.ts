@@ -3,8 +3,7 @@ import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handle
 import {NavigationService} from "../../../services/navigation.service";
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
-import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {CommonValidators} from "../../../common/validators/common.validators";
+import {FormControl, FormGroup, FormGroupDirective} from "@angular/forms";
 import {HelperService} from "../../../services/helper.service";
 import {MessagesService} from "../../../services/messages.service";
 import {ChangePasswordDialog} from "./dialogs/change-password/change-password.dialog";
@@ -20,8 +19,7 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
   user: any;
 
   form = new FormGroup({
-    'displayName': new FormControl(''),
-    'email': new FormControl('', [Validators.required, CommonValidators.firebaseEmail])
+    'displayName': new FormControl('')
   });
 
   @ViewChild(FormGroupDirective, {static: true}) formGroup!: FormGroupDirective;
@@ -42,25 +40,58 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
   }
 
   onSubmit() {
-    if (this.form.valid) {
+    if (this.form.valid && this.form.value.displayName != this.user.displayName) {
       this.showPasswordDialog(password => {
-        if (this.form.value.email != this.user.email) {
-          this.authService.changeEmail(this.user!.email, password, this.form.value.email!)
-            .then(() => this.messageService.showSuccess({message: 'messages.resendVerificationEmail'}))
-            .catch(err => {
-              this.setUser(this.user);
-              this.messageService.showError(err)
-            });
-        } else {
-          this.authService.changeDisplayName(this.user!.email, password, this.form.value.displayName!)
-            .then(() => this.messageService.showSuccess({message: 'messages.displayNameChanged'}))
-            .catch(err => {
-              this.setUser(this.user);
-              this.messageService.showError(err)
-            });
-        }
-
+        this.authService.changeDisplayName(this.user!.email, password, this.form.value.displayName!)
+          .then(() => this.messageService.showSuccess({message: 'messages.displayNameChanged'}))
+          .catch(err => {
+            this.setUser(this.user);
+            this.messageService.showError(err)
+          });
       });
+    }
+  }
+
+  onChangeEmail() {
+    if (this.form.valid) {
+      const dlg = this.messageService.showCustomDialog(ChangePasswordDialog, {
+        title: 'settings.userProfile.changeEmailTooltip',
+        content: 'settings.userProfile.changeEmailContent',
+        actions: [
+          {
+            label: 'buttons.cancel',
+            getValue(_: any): any {
+              return undefined
+            }
+          },
+          {
+            label: 'buttons.ok',
+            color: 'primary',
+            getValue(newPassword: any): any {
+              return newPassword
+            },
+            getDisabled(value: boolean): boolean {
+              return value
+            }
+          }
+        ],
+        extraData: {
+          password: '',
+        }
+      });
+      dlg.afterClosed().subscribe(result => {
+        if (result) {
+          console.log(result);
+          if (this.user.email != result.email) {
+            this.authService.changeEmail(this.user!.email, result.password, result.email)
+              .then(() => this.messageService.showSuccess({message: 'messages.resendVerificationEmail'}))
+              .catch(err => {
+                this.setUser(this.user);
+                this.messageService.showError(err)
+              });
+          }
+        }
+      })
     }
   }
 
@@ -140,11 +171,6 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
     if (displayName) {
       displayName.patchValue(user.displayName);
       displayName.markAsUntouched();
-    }
-    const email = this.form.controls['email'];
-    if (email) {
-      email.patchValue(user.email);
-      email.markAsUntouched();
     }
   }
 }

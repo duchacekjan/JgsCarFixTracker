@@ -8,6 +8,7 @@ import {GeneralSettingsComponent} from "./general/general-settings.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {ChangePasswordDialog} from "./user-profile/dialogs/change-password/change-password.dialog";
 import {PasswordDialog} from "./user-profile/dialogs/password/password.dialog";
+import {ChangeEmailDialog} from "./user-profile/dialogs/change-email/change-email.dialog";
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import {PasswordDialog} from "./user-profile/dialogs/password/password.dialog";
     GeneralSettingsComponent,
     UserProfileComponent,
     ChangePasswordDialog,
+    ChangeEmailDialog,
     PasswordDialog
   ]
 })

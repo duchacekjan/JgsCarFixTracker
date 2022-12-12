@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>{{data.title|translate}}</h2>
+<mat-dialog-content class="d-flex flex-column">
+  <span>{{data.content|translate}}</span>
+  <mat-form-field>
+    <input matInput type="password" [placeholder]="'auth.password'|translate" [formControl]="password">
+    <mat-error *ngIf="password.hasError('required')">
+      {{'validations.passwordRequired'|translate}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="email" [placeholder]="'auth.confirmResetPassword.password'|translate" [formControl]="email">
+    <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+      {{'validations.emailInvalid'|translate}}
+    </mat-error>
+    <mat-error *ngIf="email.hasError('required')">
+      {{'validations.emailRequired'|translate}}
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="spacer"></div>
+  <ng-container *ngFor="let action of data.actions">
+    <button mat-raised-button [mat-dialog-close]="action.getValue(form.value)" [color]="action.color" [disabled]="getDisabled(action)">{{action.label|translate}}</button>
+  </ng-container>
+</mat-dialog-actions>
