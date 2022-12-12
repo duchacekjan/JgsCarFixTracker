@@ -11,7 +11,6 @@ const routes: Routes = [
   {path: 'new', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailResolver}, data: {'is-new': true}, title: 'cars.detail.new.title'},
   {path: ':id', component: CarDetailComponent, resolve: {'car': CarDetailResolver}, data: {'back-link': '/cars'}, title: 'cars.detail.title'},
   {path: ':id/edit', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailResolver}, data: {'is-new': false}, title: 'cars.detail.title'},
-  {path: ':id/delete', component: CarDetailComponent, resolve: {'car': CarDetailResolver}, data: {'action': 'delete', 'back-link': '/cars'}, title: 'cars.detail.title'},
   {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
 ];
 

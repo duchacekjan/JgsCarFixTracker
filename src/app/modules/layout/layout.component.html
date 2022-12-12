@@ -6,11 +6,18 @@
     <span>{{title.title|async}}</span>
   </div>
   <ng-container *ngFor="let action of actionsData.actions">
-    <button mat-icon-button [routerLink]="action.route" queryParamsHandling="merge" [queryParams]="action.queryParams"
-            [matTooltip]="action.tooltip | translate">
-      <mat-icon *ngIf="!action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
-      <mat-icon *ngIf="action.color" [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
-    </button>
+    <ng-container *ngIf="action.route">
+      <button mat-icon-button [routerLink]="action.route" queryParamsHandling="merge" [queryParams]="action.queryParams"
+              [matTooltip]="action.tooltip | translate">
+        <mat-icon [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="action.execute">
+      <button mat-icon-button (click)="action.execute()"
+              [matTooltip]="action.tooltip | translate">
+        <mat-icon [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
+      </button>
+    </ng-container>
   </ng-container>
   <button *ngIf="menuSettings" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="App menu">
     <mat-icon>more_vert</mat-icon>

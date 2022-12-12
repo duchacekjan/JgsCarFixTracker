@@ -7,8 +7,9 @@ export class Action {
   }
 
   icon: string = '';
-  route: string = '';
+  route?: string;
   queryParams: Params | null = null;
   color: ThemePalette | null = null;
   tooltip: string = '';
+  execute?: () => void;
 }
