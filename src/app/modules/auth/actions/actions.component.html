@@ -7,8 +7,8 @@
       <app-verify-email></app-verify-email>
     </ng-container>
     <ng-container *ngSwitchCase="'verifyAndChangeEmail'">
-      <app-verify-email mode="mode"></app-verify-email>
+      <app-verify-email></app-verify-email>
     </ng-container>
   </ng-container>
-  <button mat-button (click)="onLinkClick()" class="actions-part-link col-12 col-sm-6 col-md-4 col-lg-2">{{'auth.goBackToSignIn'|translate}}</button>
+  <button mat-button (click)="onLinkClick()" class="actions-part-link extra col-12 col-sm-6 col-md-4 col-lg-2">{{'auth.goBackToSignIn'|translate}}</button>
 </div>

@@ -9,34 +9,7 @@ import {MessagesService} from "../../../../services/messages.service";
   styleUrls: ['./verify-email.component.scss']
 })
 export class VerifyEmailComponent implements AfterViewInit {
-  @Input() mode!: string;
   user: any = null;
-  canVerify = false;
-  title: string = '';
-  notVerified: string = '';
-  emailSendTo_email: string = '';
-  checkEmail: string = '';
-  button: string = '';
-  buttonVerify: string = '';
-
-  private _oobCode: string = '';
-  private get oobCode(): string {
-    return this._oobCode;
-  };
-
-  private set oobCode(value: string) {
-    this._oobCode = value ?? '';
-    this.canVerify = this._oobCode !== '';
-    const prefix = this.mode === 'verifyEmail'
-      ? 'auth.confirmVerifyEmail'
-      : 'auth.confirmChangeEmail';
-    this.title = prefix + 'title';
-    this.notVerified = prefix + 'notVerified';
-    this.emailSendTo_email = prefix + 'emailSendTo_email';
-    this.checkEmail = prefix + 'checkEmail';
-    this.button = prefix + 'button';
-    this.buttonVerify = prefix + 'buttonVerify';
-  }
 
   constructor(
     private readonly authService: AuthService,
@@ -46,10 +19,12 @@ export class VerifyEmailComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    //TODO handle action verifyAndChangeEmail specifically. Update texts, maybe
     this.authService.getCurrentUser().then(user => this.setUser(user));
-    this.oobCode = this.route.snapshot.queryParamMap.get('oobCode') ?? '';
-    console.log(this.oobCode);
+    const oobCode = this.route.snapshot.queryParamMap.get('oobCode') ?? '';
+    console.log(oobCode);
+    if (oobCode !== '') {
+      this.verifyCode(oobCode);
+    }
   }
 
   sendEmail() {
@@ -59,8 +34,9 @@ export class VerifyEmailComponent implements AfterViewInit {
       .then(() => this.router.navigate([''], {relativeTo: this.route, replaceUrl: true}));
   }
 
-  verifyCode() {
-    this.authService.applyActionCode(this.oobCode)
+  private verifyCode(oobCode: string) {
+    this.authService.applyActionCode(oobCode)
+      .then(() => this.messageService.showSuccess('messages.emailVerified'))
       .then(() => this.router.navigate([''], {relativeTo: this.route, replaceUrl: true}))
       .catch(err => this.messageService.showError(err));
   }

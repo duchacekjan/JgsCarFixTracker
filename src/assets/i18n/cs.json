@@ -57,16 +57,7 @@
       "notVerified": "Váš účet není ověřen.",
       "emailSendTo_email": "Byl vám zaslán ověřovací e-mail na adresu: <strong>{{email}}</strong>",
       "checkEmail": "Prosím ověřte svou adresu kliknutím na odkaz v zaslaném e-mailu.",
-      "button": "Znovu odeslat e-mail",
-      "buttonVerify": "Ověřit"
-    },
-    "confirmChangeEmail": {
-      "title": "Potvrzení změny e-mailu",
-      "notVerified": "Změna e-mailu není ověřena.",
-      "emailSendTo_email": "Požadavek na změnu e-mailové adresy: <strong>{{email}}</strong>",
-      "checkEmail": "Potvrďte požadovanou změnu.",
-      "button": "",
-      "buttonVerify": "Potvrdit"
+      "button": "Znovu odeslat e-mail"
     }
   },
   "cars": {
