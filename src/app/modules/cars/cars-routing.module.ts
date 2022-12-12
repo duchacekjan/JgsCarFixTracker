@@ -7,7 +7,7 @@ import {BackLinkResolver} from "../../common/resolvers/back-link.resolver";
 import {CarDetailResolver} from "../../common/resolvers/car-detail.resolver";
 
 const routes: Routes = [
-  {path: '', component: CarListComponent},
+  {path: '', component: CarListComponent, title:'cars.list.title'},
   {path: 'new', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailResolver}, data: {'is-new': true}},
   {path: ':id', component: CarDetailComponent, resolve: {'car': CarDetailResolver}, data: {'back-link': '/cars'}},
   {path: ':id/edit', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailResolver}, data: {'is-new': false}},

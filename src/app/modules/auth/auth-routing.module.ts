@@ -10,7 +10,7 @@ const routes: Routes = [
     path: '',
     children: [
       {path: 'sign-in', component: SignInComponent, title: 'auth.signIn.title'},
-      {path: 'forgot-password', component: ForgotPasswordComponent},
+      {path: 'forgot-password', component: ForgotPasswordComponent, title: 'auth.forgotPassword.title'},
       {path: 'actions', component: ActionsComponent, canActivate: [AuthActionsGuard]},
       {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
     ]
