@@ -56,7 +56,9 @@
       "notVerified": "Váš účet není ověřen.",
       "emailSendTo_email": "Byl vám zaslán ověřovací e-mail na adresu: <strong>{{email}}</strong>",
       "checkEmail": "Prosím ověřte svou adresu kliknutím na odkaz v zaslaném e-mailu. Zkontrolujte si i složku SPAM",
-      "button": "Znovu odeslat e-mail"
+      "button": "Znovu odeslat e-mail",
+      "buttonFirstTime": "Odeslat e-mail",
+      "emailSendToFirstTime_email": "Pro ověření adresy <strong>{{email}}</strong> vygenerujte ověřovací e-mail kliknutím na tlačítko níže."
     }
   },
   "cars": {

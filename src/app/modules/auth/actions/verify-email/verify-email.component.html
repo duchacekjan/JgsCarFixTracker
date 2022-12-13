@@ -1,12 +1,11 @@
 <div class="container-fluid actions-part-wrapper">
-  <h3>{{'auth.confirmVerifyEmail.title'|translate}}</h3>
   <p>{{'auth.confirmVerifyEmail.notVerified'|translate}}</p>
-  <p [innerHTML]="'auth.confirmVerifyEmail.emailSendTo_email'|translate:{email:user?.email??''}"></p>
-  <p>{{'auth.confirmVerifyEmail.checkEmail'|translate}}</p>
+  <p [innerHTML]="(firstTime?'auth.confirmVerifyEmail.emailSendToFirstTime_email':'auth.confirmVerifyEmail.emailSendTo_email')|translate:{email:user?.email??''}">
+  <p *ngIf="!firstTime">{{'auth.confirmVerifyEmail.checkEmail'|translate}}</p>
   <button [disabled]="user===null"
           mat-raised-button type="submit"
           color="primary"
           class="actions-part-button col-12 col-sm-6 col-md-4 col-lg-2"
-          (click)="sendEmail()">{{'auth.confirmVerifyEmail.button'|translate}}</button>
+          (click)="sendEmail()">{{(firstTime?'auth.confirmVerifyEmail.buttonFirstTime':'auth.confirmVerifyEmail.button')|translate}}</button>
 </div>
 

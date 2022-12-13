@@ -10,6 +10,9 @@ import {MessagesService} from "../../../../services/messages.service";
 })
 export class VerifyEmailComponent implements AfterViewInit {
   user: any = null;
+  firstTime: boolean = true;
+  private readonly visitorsKey = 'verifyEmailVisitors';
+  private visitors: string[] = [];
 
   constructor(
     private readonly authService: AuthService,
@@ -30,6 +33,13 @@ export class VerifyEmailComponent implements AfterViewInit {
   sendEmail() {
     this.authService.sendVerificationEmail(this.user!.email)
       .then(() => this.messageService.showSuccess({message: 'messages.resendVerificationEmail'}))
+      .then(() => {
+        const index = this.visitors.indexOf(this.user.uid);
+        if (index < 0) {
+          this.visitors.push(this.user.uid);
+          localStorage.setItem(this.visitorsKey, JSON.stringify(this.visitors));
+        }
+      })
       .then(() => this.authService.signOut())
       .then(() => this.router.navigate(['/auth/sign-in'], {relativeTo: this.route, replaceUrl: true}))
       .catch(err => this.messageService.showError(err));
@@ -37,14 +47,30 @@ export class VerifyEmailComponent implements AfterViewInit {
 
   private verifyCode(oobCode: string) {
     this.authService.applyActionCode(oobCode)
+      .then(() => {
+        const index = this.visitors.indexOf(this.user.uid);
+        if (index > -1) {
+          this.visitors.splice(index, 1);
+          localStorage.setItem(this.visitorsKey, JSON.stringify(this.visitors));
+        }
+      })
       .then(() => this.messageService.showSuccess({message: 'messages.emailVerified'}))
-      .then(() => this.router.navigate(['/cars'], {relativeTo: this.route, replaceUrl:true}))
+      .then(() => this.router.navigate(['/cars'], {relativeTo: this.route, replaceUrl: true}))
       .catch(err => this.messageService.showError(err));
   }
 
   private setUser(user: any) {
     setTimeout(() => {
       this.user = user;
+      const value = localStorage.getItem(this.visitorsKey);
+      console.log('local');
+      console.log(value);
+      if (value) {
+        this.visitors = JSON.parse(value);
+        if (this.visitors.includes(this.user.uid)) {
+          this.firstTime = false;
+        }
+      }
     }, 0);
   }
 }
