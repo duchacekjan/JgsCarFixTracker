@@ -1,4 +1,5 @@
 import {Injectable, OnDestroy} from '@angular/core';
+import {User} from '@firebase/auth-types';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {Subject, Subscription} from "rxjs";
 import {DataService} from "./data.service";
@@ -8,7 +9,7 @@ import {DataService} from "./data.service";
 })
 export class AuthService implements OnDestroy {
 
-  private currentUser = new Subject<any>();
+  private currentUser = new Subject<User | null>();
   private authStateSubscription: Subscription;
 
   constructor(
@@ -54,7 +55,7 @@ export class AuthService implements OnDestroy {
   }
 
   signIn(userName: string, password: string) {
-    return this.dataService.execute(this.afAuth.signInWithEmailAndPassword(userName, password))
+    return this.dataService.execute(this.signInAsync(userName, password))
   }
 
   signOut() {
@@ -70,7 +71,7 @@ export class AuthService implements OnDestroy {
   }
 
   applyActionCode(oobCode: string) {
-    return this.dataService.execute(this.afAuth.applyActionCode(oobCode));
+    return this.dataService.execute(this.applyActionCodeAsync(oobCode));
   }
 
   sendVerificationEmail(email: string) {
@@ -102,12 +103,28 @@ export class AuthService implements OnDestroy {
           await user.sendEmailVerification();
           resolve();
         } else {
-          reject('errors.userNotLoggedIn');
+          reject({message: 'errors.userNotLoggedIn'});
         }
       } catch (e) {
         reject(e);
       }
     })
+  }
+
+  private async applyActionCodeAsync(oobCode: string): Promise<void> {
+    const user = await this.afAuth.currentUser;
+    try {
+      await this.afAuth.applyActionCode(oobCode);
+      if (user) {
+        await user.reload()
+        return Promise.resolve();
+      } else {
+        return Promise.reject({message: 'errors.userNotLoggedIn'});
+      }
+    } catch (e) {
+      return Promise.reject(e);
+    }
+
   }
 
   private async changePasswordAsync(email: string, oldPassword: string, newPassword: string): Promise<void> {
@@ -137,6 +154,24 @@ export class AuthService implements OnDestroy {
       return Promise.resolve();
     } catch (e) {
       return Promise.reject(e);
+    }
+  }
+
+  private async signInAsync(userName: string, password: string): Promise<void> {
+    try {
+      await this.afAuth.signInWithEmailAndPassword(userName, password)
+      return Promise.resolve()
+    } catch (e) {
+      return Promise.reject(e)
+    }
+  }
+
+  private async signOutAsync(): Promise<void> {
+    try {
+      await this.afAuth.signOut();
+      return Promise.resolve()
+    } catch (e) {
+      return Promise.reject(e)
     }
   }
 }

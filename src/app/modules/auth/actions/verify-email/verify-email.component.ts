@@ -31,13 +31,14 @@ export class VerifyEmailComponent implements AfterViewInit {
     this.authService.sendVerificationEmail(this.user!.email)
       .then(() => this.messageService.showSuccess({message: 'messages.resendVerificationEmail'}))
       .then(() => this.authService.signOut())
-      .then(() => this.router.navigate([''], {relativeTo: this.route, replaceUrl: true}));
+      .then(() => this.router.navigate(['/auth/sign-in'], {relativeTo: this.route, replaceUrl: true}))
+      .catch(err => this.messageService.showError(err));
   }
 
   private verifyCode(oobCode: string) {
     this.authService.applyActionCode(oobCode)
-      .then(() => this.messageService.showSuccess('messages.emailVerified'))
-      .then(() => this.router.navigate([''], {relativeTo: this.route, replaceUrl: true}))
+      .then(() => this.messageService.showSuccess({message: 'messages.emailVerified'}))
+      .then(() => this.router.navigate(['/cars'], {relativeTo: this.route, replaceUrl:true}))
       .catch(err => this.messageService.showError(err));
   }
 

@@ -23,6 +23,7 @@ export class AuthActionsTitleResolver implements Resolve<string> {
   private buildAuthActionsAppTitle(mode: string): string {
     switch (mode) {
       case 'verifyEmail':
+        return 'auth.confirmVerifyEmail.title'
       case 'verifyAndChangeEmail':
         return 'auth.confirmVerifyEmail.title'
       case 'resetPassword':
