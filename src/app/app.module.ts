@@ -1,4 +1,4 @@
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {ErrorHandler, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
 import {getAuth, provideAuth} from '@angular/fire/auth';
@@ -6,7 +6,7 @@ import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/compat/database';
 import {getDatabase, provideDatabase} from '@angular/fire/database';
-import {RouterModule} from '@angular/router';
+import {RouterModule, TitleStrategy} from '@angular/router';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {CommonModule, registerLocaleData} from "@angular/common";
@@ -17,10 +17,9 @@ import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoa
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MaterialModule} from "./material.module";
 import {AppServicesModule} from "./services/services.module";
-import {AppAuthModule} from "./modules/auth/auth.module";
-import {AppCommonModule} from "./common/app-common.module";
-import {ReactiveFormsModule} from "@angular/forms";
 import {AppLayoutModule} from "./modules/layout/app-layout.module";
+import {JgsErrorHandler} from "./common/jgs-error.handler";
+import {JgsTitleStrategy} from "./common/jgs-title.strategy";
 
 registerLocaleData(localeCz);
 
@@ -34,7 +33,9 @@ export function HttpLoaderFactory(http: HttpClient) {
  */
 export class CustomMissingTranslationHandler implements MissingTranslationHandler {
   public handle(params: MissingTranslationHandlerParams): string {
-    return `['${params.key}']`;
+    const parts = params.key.split('.');
+    //return `['${parts[parts.length - 1]}']`;
+    return `[${params.key}]`;
   }
 }
 
@@ -71,9 +72,12 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
   ],
   exports: [],
   providers: [
-    {provide: LOCALE_ID, useValue: 'cs-CZ'}
+    {provide: LOCALE_ID, useValue: 'cs-CZ'},
+    {provide: ErrorHandler, useClass: JgsErrorHandler},
+    {provide: TitleStrategy, useClass: JgsTitleStrategy}
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }

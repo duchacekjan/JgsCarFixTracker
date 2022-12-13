@@ -3,20 +3,22 @@ import {User} from "@angular/fire/auth/firebase";
 import {Subscription} from "rxjs";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {ActivatedRoute, Router} from "@angular/router";
-import {BaseAfterNavigatedHandler} from "../../common/BaseAfterNavigatedHandler";
-import {ActionsData, NavigationService} from "../../services/navigation.service";
+import {ActionsData, IMenuSettings, NavigationService} from "../../services/navigation.service";
 import {AuthService} from "../../services/auth.service";
 import {SettingsService} from "../../services/settings.service";
 import {environment} from "../../../environments/environment";
+import {AfterNavigatedHandler} from "../../common/base/after-navigated-handler";
+import {Title} from "@angular/platform-browser";
+import {JgsAppTitleStrategy} from "../../common/jgs-app-title.strategy";
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent extends BaseAfterNavigatedHandler implements OnDestroy {
+export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy {
   actionsData = new ActionsData();
-  isLogoutVisible = false;
+  menuSettings?: IMenuSettings;
   version: string;
   user: User | null = null;
   private actionsSubscription: Subscription;
@@ -29,9 +31,10 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnDest
     private renderer: Renderer2,
     private overlay: OverlayContainer,
     private readonly router: Router,
-    private route: ActivatedRoute,
+    public readonly title: JgsAppTitleStrategy,
+    route: ActivatedRoute,
     navigation: NavigationService) {
-    super(navigation);
+    super(route, navigation);
     this.version = environment.appVersion;
     this.authUserSubscription = this.authService.currentUserChanged(user => this.setUser(user));
     this.actionsSubscription = this.navigation.actionsDataChanged(actionsData => this.setActions(actionsData));
@@ -53,27 +56,29 @@ export class LayoutComponent extends BaseAfterNavigatedHandler implements OnDest
 
   signOut() {
     this.authService.signOut()
-      .then(async () => {
-        await this.router.navigate(['auth/sign-in'], {replaceUrl: true});
-      });
+      .then(() => this.router.navigate(['auth/sign-in'], {replaceUrl: true}));
   }
 
-  protected override afterNavigated(data: any) {
+  protected override afterNavigated() {
     this.authService.getCurrentUser()
       .then(user => this.setUser(user));
   }
 
   private setUser(user: any) {
-
     this.user = user;
     setTimeout(() => {
-      this.isLogoutVisible = user?.emailVerified == true;
+      if (this.menuSettings) {
+        this.menuSettings.isAuthorized = this.user != null;
+      }
     }, 0);
   }
 
   private setActions(actionsData: ActionsData) {
     setTimeout(() => {
       this.actionsData = actionsData
+      console.log('set actions');
+      console.log(this.user !== null)
+      this.menuSettings = actionsData.getMenuSettings(this.user !== null)
     }, 0);
   }
 

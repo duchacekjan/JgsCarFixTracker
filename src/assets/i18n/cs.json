@@ -1,32 +1,46 @@
 {
+  "title": "JGS CarFixTracker",
   "toolbar": {
-    "darkMode": "Tmavý režim",
-    "lightMode": "Světlý režim",
     "back": "Zpět",
     "logout": "Odhlásit se",
     "settings": "Nastavení",
-    "newCar": "Nový vůz",
-    "editCar": "Upravit vůz",
-    "removeCar": "Smazat vůz",
     "version_ver": "Verze: {{ver}}",
-    "user_usr": "Uživatel: {{usr}}"
+    "user_usr": "Uživatel: {{usr}}",
+    "userProfile": "Uživatel"
   },
   "settings": {
-    "title": "Nastavení",
-    "themeMode": "Vzhled"
+    "general": {
+      "title": "Nastavení",
+      "themeMode": "Vzhled",
+      "darkMode": "Tmavý režim",
+      "lightMode": "Světlý režim",
+      "autoMode": "Automatický režim"
+    },
+    "userProfile": {
+      "title": "Profil uživatele",
+      "displayName": "Jméno",
+      "changeEmailTooltip": "Změnit e-mail",
+      "changeEmailContent": "Pro změnu e-mailu zadejte své heslo.",
+      "password": "Heslo",
+      "changePasswordTooltip": "Změnit heslo",
+      "newEmail": "Nový e-mail",
+      "loginVerification": "Ověření",
+      "loginWithCurrentPassword": "Pro uložení změn zadejte své heslo."
+    }
   },
   "auth": {
     "email": "E-mail",
     "password": "Heslo",
+    "goBackToSignIn": "Zpět na přihlášení",
     "signIn": {
       "title": "Přihlášení",
       "button": "Přihlásit"
     },
-    "forgotPassword": "Zapoměli jste heslo?",
-    "resetPassword": {
-      "title": "Resetovat heslo",
+    "forgotPassword": {
+      "link": "Zapoměli jste heslo?",
+      "title": "Zapomenuté heslo",
       "content": "Prosím zadejte svou e-mailovou adresu, na kterou vám bude zaslán e-mail pro reset hesla.",
-      "button": "Resetovat heslo"
+      "button": "Obnovit heslo"
     },
     "confirmResetPassword": {
       "title": "Změna hesla",
@@ -40,42 +54,57 @@
     "confirmVerifyEmail": {
       "title": "Ověření e-mailu",
       "notVerified": "Váš účet není ověřen.",
-      "emailSendTo": "Byl vám zaslán ověřovací e-mail na adresu",
-      "checkEmail": "Prosím ověřte svou adresu kliknutím na odkaz v zaslaném e-mailu.",
-      "button": "Znovu odeslat e-mail"
+      "emailSendTo_email": "Byl vám zaslán ověřovací e-mail na adresu: <strong>{{email}}</strong>",
+      "checkEmail": "Prosím ověřte svou adresu kliknutím na odkaz v zaslaném e-mailu. Zkontrolujte si i složku SPAM",
+      "button": "Znovu odeslat e-mail",
+      "buttonFirstTime": "Odeslat e-mail",
+      "emailSendToFirstTime_email": "Pro ověření adresy <strong>{{email}}</strong> vygenerujte ověřovací e-mail kliknutím na tlačítko níže."
+    }
+  },
+  "cars": {
+    "list": {
+      "title": "Seznam aut",
+      "searchHint": "Zadejte aspoň část SPZ"
     },
-    "goBackTo": "Zpět na "
-  },
-  "carList": {
-    "searchHint": "Zadejte aspoň část SPZ"
-  },
-  "carForm": {
-    "licencePlateHint": "Zadejte SPZ vozu",
-    "modelHint": "Zadejte model vozu",
-    "brandHint": "Zadejte značku vozu"
-  },
-  "car": {
-    "licencePlate": "SPZ",
-    "model": "Model",
-    "brand": "Značka"
-  },
-  "fix": {
-    "mileage": "Stav tachometru",
-    "mileageShort": "KM",
-    "description": "Popis",
-    "lastUpdate": "Poslední změna",
-    "descriptionHint": "Provedné úkony",
-    "lastUpdateHint": "Datum poslední změny",
-    "addRow": "Přidat nový záznam",
-    "editRow": "Upravit záznam",
-    "removeRow": "Odstranit záznam",
-    "addRowTitle": "Nový záznam",
-    "editRowTitle": "Úprava záznamu"
+    "detail": {
+      "title": "Detail vozu",
+      "new": {
+        "actionHint": "Nový vůz",
+        "title": "Nový vůz"
+      },
+      "edit": {
+        "actionHint": "Upravit vůz"
+      },
+      "remove": {
+        "actionHint": "Smazat vůz"
+      },
+      "licencePlateHint": "Zadejte SPZ vozu",
+      "modelHint": "Zadejte model vozu",
+      "brandHint": "Zadejte značku vozu",
+      "licencePlateReadOnlyHint": "Pouze pro čtení",
+      "licencePlate": "SPZ",
+      "model": "Model",
+      "brand": "Značka"
+    },
+    "fix": {
+      "mileage": "Stav tachometru",
+      "mileageShort": "KM",
+      "description": "Popis",
+      "lastUpdate": "Poslední změna",
+      "descriptionHint": "Provedné úkony",
+      "lastUpdateHint": "Datum poslední změny",
+      "addRow": "Přidat nový záznam",
+      "editRow": "Upravit záznam",
+      "removeRow": "Odstranit záznam",
+      "addRowTitle": "Nový záznam",
+      "editRowTitle": "Úprava záznamu"
+    }
   },
   "paginator": {
     "firstPageLabel": "První stránka",
     "lastPageLabel": "Poslední stránka",
-    "itemsPerPageLabel": "",
+    "itemsPerPageLabel": "Položek na stránce",
+    "itemsPerPageLabelShort": "",
     "nextPageLabel": "Další stránka",
     "previousPageLabel": "Předchozí stránka",
     "pageRangeLabel_p1_p_2": "{{p1}} z {{p2}}"
@@ -94,21 +123,29 @@
     "save": "Uložit",
     "delete": "Smazat",
     "cancel": "Zrušit",
-    "ok": "OK",
-    "resetPassword": "Obnovit heslo"
+    "ok": "OK"
   },
   "messages": {
     "deleted": "Smazáno",
     "saved": "Uloženo",
     "emailVerified": "E-mail ověřen.",
     "resendVerificationEmail": "Ověřovací e-mail odeslán",
-    "resetEmailSend": "E-mail pro reset hesla odeslán"
+    "resetEmailSend": "E-mail pro reset hesla odeslán",
+    "notImplemented": "Neimplementováno",
+    "passwordChanged": "Heslo bylo změněno",
+    "displayNameChanged": "Jméno bylo úspěšně změněno"
   },
   "errors": {
     "licencePlateTaken": "SPZ je již uložena v databázi.",
     "noCarDefined": "Není vytvořeno auto.",
     "noCarsFound": "Nebyla nalezena žádná shoda.",
-    "notFound": "Stránka nenalezena."
+    "notFound": "404 Stránka nenalezena",
+    "auth": {
+      "login": "Zadáno chybné heslo nebo neexistující uživatel.",
+      "tooManyRequests": "Bylo dosaženo maximálního počtu přihlášení. Zkuste to prosím později.",
+      "emailAlreadyInUse": "Zadaná e-mailová adresa je již použita."
+    },
+    "unknown": "Neznámá chyba"
   },
   "validations": {
     "emailRequired": "E-mail je povinný",

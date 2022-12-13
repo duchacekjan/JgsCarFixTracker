@@ -1,13 +1,14 @@
-<div>{{mode}}</div>
-<ng-container [ngSwitch]="mode">
-  <ng-container *ngSwitchCase="'forgotPassword'">
-    <app-forgot-password></app-forgot-password>
+<div class="container-fluid">
+  <ng-container [ngSwitch]="mode">
+    <ng-container *ngSwitchCase="'resetPassword'">
+      <app-confirm-reset-password></app-confirm-reset-password>
+    </ng-container>
+    <ng-container *ngSwitchCase="'verifyEmail'">
+      <app-verify-email></app-verify-email>
+    </ng-container>
+    <ng-container *ngSwitchCase="'verifyAndChangeEmail'">
+      <app-verify-email></app-verify-email>
+    </ng-container>
   </ng-container>
-  <ng-container *ngSwitchCase="'resetPassword'">
-    <app-confirm-reset-password></app-confirm-reset-password>
-  </ng-container>
-  <ng-container *ngSwitchCase="'verifyEmail'">
-<!--    <app-verify-email></app-verify-email>-->
-    verify
-  </ng-container>
-</ng-container>
+  <button mat-button (click)="onLinkClick()" class="actions-part-link extra col-12 col-sm-6 col-md-4 col-lg-2">{{'auth.goBackToSignIn'|translate}}</button>
+</div>

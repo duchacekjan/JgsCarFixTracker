@@ -1,6 +1,5 @@
 <div class="wrapper">
   <form class="d-flex flex-column" [formGroup]="signInForm" (ngSubmit)="onSignIn()">
-    <h3>{{'auth.signIn.title'|translate}}</h3>
     <mat-form-field>
       <input matInput type="email" [placeholder]="'auth.email'|translate" formControlName="email">
       <mat-error *ngIf="signInForm.get('email')?.hasError('email') && !signInForm.get('email')?.hasError('required')">
@@ -11,12 +10,13 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="password" [placeholder]="'auth.password'|translate" formControlName="password">
+      <input matInput [type]="showPassword?'text':'password'" [placeholder]="'auth.password'|translate" formControlName="password">
+      <mat-icon matSuffix (click)="showPassword=!showPassword" class="toggle">{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
       <mat-error *ngIf="signInForm.get('password')?.hasError('required')">
         {{'validations.passwordRequired'|translate}}
       </mat-error>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit" class="sign-in-button" [disabled]="!signInForm.valid">{{'auth.signIn.button'|translate}}</button>
-    <a class="sign-in-forgot-link" routerLink="../actions" [queryParams]="{'mode':'forgotPassword'}">{{'auth.forgotPassword'|translate}}</a>
+    <a class="sign-in-forgot-link" routerLink="../forgot-password">{{'auth.forgotPassword.link'|translate}}</a>
   </form>
 </div>

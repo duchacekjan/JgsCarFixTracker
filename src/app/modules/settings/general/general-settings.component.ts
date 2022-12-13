@@ -1,30 +1,29 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {SettingsService, ThemeMode} from "../../services/settings.service";
-import {BaseAfterNavigatedHandler} from "../../common/BaseAfterNavigatedHandler";
-import {ActionsData, NavigationService} from "../../services/navigation.service";
 import {ActivatedRoute} from "@angular/router";
+import {SettingsService, ThemeMode} from "../../../services/settings.service";
+import {ActionsData, NavigationService} from "../../../services/navigation.service";
+import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 
 @Component({
-  selector: 'app-user-detail',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  selector: 'app-general-settings',
+  templateUrl: './general-settings.component.html',
+  styleUrls: ['./general-settings.component.scss']
 })
-export class SettingsComponent extends BaseAfterNavigatedHandler implements OnInit, OnDestroy {
+export class GeneralSettingsComponent extends AfterNavigatedHandler implements OnInit, OnDestroy {
 
   settingsForm = new FormGroup({
     themeMode: new FormControl(ThemeMode.Auto)
   })
 
   private changesSubscription: Subscription;
-  private backLink = '';
 
   constructor(
     public readonly settingsService: SettingsService,
-    private readonly route: ActivatedRoute,
+    route: ActivatedRoute,
     navigation: NavigationService) {
-    super(navigation);
+    super(route, navigation);
     this.changesSubscription = this.settingsForm.valueChanges
       .subscribe(formValue => {
         this.settingsService.themeMode = formValue.themeMode ?? ThemeMode.Auto;
@@ -36,21 +35,15 @@ export class SettingsComponent extends BaseAfterNavigatedHandler implements OnIn
     if (control) {
       control.patchValue(this.settingsService.themeMode);
     }
-    this.backLink = this.route.snapshot.data['back-link'];
   }
 
   ngOnDestroy(): void {
     this.changesSubscription.unsubscribe();
   }
 
-  protected override isMatch(data: any): boolean {
-    return data === '/settings'
-  }
-
-  protected override getActionsData(data: any): ActionsData {
-    const result = new ActionsData();
+  protected override getActionsData(): ActionsData {
+    const result = super.getActionsData();
     result.isSettingsVisible = false;
-    result.backAction = ActionsData.createBackAction(this.backLink);
     return result;
   }
 }

@@ -1,27 +1,27 @@
 import {AfterViewInit, Component, OnDestroy} from '@angular/core';
 import {AuthService} from "../../../services/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {DataService} from "../../../services/data.service";
-import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {Action} from "../../../models/action";
 import {debounceTime, distinctUntilChanged, Observable, Subject, Subscription, switchMap} from "rxjs";
 import {Car} from "../../../models/car";
 import {CarsService} from "../../../services/cars.service";
+import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 
 @Component({
   selector: 'app-car-list',
   templateUrl: './car-list.component.html',
   styleUrls: ['./car-list.component.scss']
 })
-export class CarListComponent extends BaseAfterNavigatedHandler implements OnDestroy, AfterViewInit {
+export class CarListComponent extends AfterNavigatedHandler implements OnDestroy, AfterViewInit {
   cars?: Observable<Car[]>;
   searchText: string = '';
   private searchedText = new Subject<string>();
   private searchSubscription = new Subscription();
 
-  constructor(private authService: AuthService, private router: Router, private dataService: DataService, navigation: NavigationService, private carsService: CarsService) {
-    super(navigation);
+  constructor(route: ActivatedRoute, private authService: AuthService, private router: Router, private dataService: DataService, navigation: NavigationService, private carsService: CarsService) {
+    super(route, navigation);
   }
 
   ngOnDestroy(): void {
@@ -50,20 +50,16 @@ export class CarListComponent extends BaseAfterNavigatedHandler implements OnDes
   }
 
   private redirectToCarDetail(carKey: string = 'new') {
-    this.router.navigate([`/cars/detail/${carKey}`]).catch();
+    this.router.navigate([`/cars/${carKey}`]).catch();
   }
 
-  protected override getActionsData(data: any): ActionsData {
+  protected override getActionsData(): ActionsData {
     const addAction = new Action('add_box');
-    addAction.route = '/cars/detail/new';
-    addAction.tooltip = 'toolbar.newCar';
+    addAction.route = '/cars/new';
+    addAction.tooltip = 'cars.detail.new.actionHint';
 
-    const result = new ActionsData();
+    const result = super.getActionsData();
     result.actions = [addAction]
     return result;
-  }
-
-  protected override isMatch(data: any): boolean {
-    return data === '/cars';
   }
 }

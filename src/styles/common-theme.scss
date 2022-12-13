@@ -55,6 +55,22 @@
       color: mat.get-color-from-palette($primary-palette, 500);
     }
   }
+
+  .actions-part-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    width: 100%;
+  }
+
+  .actions-part-button {
+    margin: 0.5em 0;
+  }
+
+  .actions-part-link {
+    color: mat.get-color-from-palette($accent-palette, 400);
+    padding: 0 0.5em;
+  }
 }
 
 @mixin typography($theme) {

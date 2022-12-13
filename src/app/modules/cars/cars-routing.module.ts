@@ -2,29 +2,15 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CarListComponent} from './car-list/car-list.component';
 import {CarDetailFormComponent} from "./car-detail-form/car-detail-form.component";
-import {CarDetailFormCarResolver, CarDetailFormIsNewResolver} from "./car-detail-form/car-detail-form.resolver";
 import {CarDetailComponent} from "./car-detail/car-detail.component";
-import {CarDetailActionResolver, CarDetailCarResolver} from "./car-detail/car-detail.resolver";
 import {BackLinkResolver} from "../../common/resolvers/back-link.resolver";
+import {CarDetailResolver} from "../../common/resolvers/car-detail.resolver";
 
 const routes: Routes = [
-  {path: '', component: CarListComponent},
-  {
-    path: 'detail/new', component: CarDetailFormComponent, resolve: {
-      'back-link': BackLinkResolver,
-      'car': CarDetailFormCarResolver,
-      'is-new': CarDetailFormIsNewResolver
-    }
-  },
-  {
-    path: 'detail/edit', component: CarDetailFormComponent, resolve: {
-      'back-link': BackLinkResolver,
-      'car': CarDetailFormCarResolver,
-      'is-new': CarDetailFormIsNewResolver
-    }
-  },
-  {path: 'detail/:id', component: CarDetailComponent, resolve: {'car': CarDetailCarResolver}},
-  {path: 'detail/:id/:action', component: CarDetailComponent, resolve: {'car': CarDetailCarResolver, 'action':CarDetailActionResolver}},
+  {path: '', component: CarListComponent, title: 'cars.list.title'},
+  {path: 'new', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailResolver}, data: {'is-new': true}, title: 'cars.detail.new.title'},
+  {path: ':id', component: CarDetailComponent, resolve: {'car': CarDetailResolver}, data: {'back-link': '/cars'}, title: 'cars.detail.title'},
+  {path: ':id/edit', component: CarDetailFormComponent, resolve: {'back-link': BackLinkResolver, 'car': CarDetailResolver}, data: {'is-new': false}, title: 'cars.detail.title'},
   {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
 ];
 

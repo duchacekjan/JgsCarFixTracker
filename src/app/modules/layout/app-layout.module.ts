@@ -8,6 +8,7 @@ import {CommonModule} from "@angular/common";
 import {MaterialModule} from "../../material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {TranslateModule} from "@ngx-translate/core";
+import {CarDetailResolver} from "../../common/resolvers/car-detail.resolver";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {TranslateModule} from "@ngx-translate/core";
     AppLayoutRoutingModule
   ],
   providers: [
-    BackLinkResolver
+    BackLinkResolver,
+    CarDetailResolver
   ]
 })
 

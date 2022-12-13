@@ -1,5 +1,4 @@
 import {Component, OnDestroy, ViewChild} from '@angular/core';
-import {BaseAfterNavigatedHandler} from "../../../common/BaseAfterNavigatedHandler";
 import {Action} from "../../../models/action";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -11,14 +10,15 @@ import {Fix} from "../../../models/fix";
 import {MessagesService} from "../../../services/messages.service";
 import {HelperService} from "../../../services/helper.service";
 import {CarsService} from "../../../services/cars.service";
-import {DialogData} from "../../../common/dialog/dialog.component";
+import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
+import {DialogData} from "../../../common/dialog/dialog.model";
 
 @Component({
   selector: 'app-car-detail',
   templateUrl: './car-detail.component.html',
   styleUrls: ['./car-detail.component.scss']
 })
-export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnDestroy {
+export class CarDetailComponent extends AfterNavigatedHandler implements OnDestroy {
   car: Car = new Car();
   readonly tableConfig: TableConfig = new TableConfig(['mileage', 'description'])
 
@@ -35,13 +35,13 @@ export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnD
   @ViewChild(FormGroupDirective, {static: true}) fixFormGroup!: FormGroupDirective;
 
   constructor(
-    private readonly route: ActivatedRoute,
+    route: ActivatedRoute,
     private readonly router: Router,
     private readonly messageService: MessagesService,
     private readonly helperService: HelperService,
     private readonly carsService: CarsService,
     navigation: NavigationService) {
-    super(navigation);
+    super(route, navigation);
     this.fixItemUpdateForm = new FormGroup({
       id: new FormControl(-1),
       lastUpdate: new FormControl({value: '', disabled: true}),
@@ -49,11 +49,17 @@ export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnD
       description: new FormControl('', [Validators.required])
     });
 
-    this.carSubscription = this.route.snapshot.data['car'].subscribe((car: Car) => {
+    this.carSubscription = this.getRouteData('car').subscribe((car: Car) => {
         if (car?.key) {
           this.carKey = car.key!;
           this.car = car;
-          this.invokeAction(this.route.snapshot.data['action']);
+          this.resetForm();
+          //update the table with latest values
+          this.tableConfig.table_data_changer.next({
+            data: this.car.fixes,
+            updatedFixIndex: this.updatedFixIndex
+          });
+          this.updatedFixIndex = -1;
         } else {
           this.router.navigate(['/not-found'], {replaceUrl: true, relativeTo: this.route}).catch()
         }
@@ -92,30 +98,37 @@ export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnD
     this.saveFix(updatedFix);
   }
 
-  protected override isMatch(data: any): boolean {
-    return data?.startsWith('/cars/detail/') === true &&
-      !(data?.startsWith('/cars/detail/edit') === true ||
-        data?.startsWith('/cars/detail/new') === true)
-  }
-
-  protected override getActionsData(data: any): ActionsData {
-    const id = this.route.snapshot.paramMap.get('id');
+  protected override getActionsData(): ActionsData {
+    const id = this.getRouteParam('id');
     console.log(`route id: ${id}`);
     const editAction = new Action('edit_document');
-    editAction.route = `/cars/detail/edit`;
-    editAction.queryParams = {'id': id};
+    editAction.route = `/cars/${id}/edit`;
     editAction.color = 'accent';
-    editAction.tooltip = 'toolbar.editCar';
+    editAction.tooltip = 'cars.detail.edit.actionHint';
 
     const removeAction = new Action('delete');
-    removeAction.route = `/cars/detail/${id}/delete`;
-    //removeAction.queryParams = {'action': 'delete'};
+    //removeAction.route = `/cars/${id}/delete`;
+    removeAction.execute = () => this.callDelete();
     removeAction.color = 'warn';
-    removeAction.tooltip = 'toolbar.removeCar';
-    const result = new ActionsData();
+    removeAction.tooltip = 'cars.detail.remove.actionHint';
+    const result = super.getActionsData();
     result.actions = [removeAction, editAction];
-    result.backAction = ActionsData.createBackAction('/cars');
     return result;
+  }
+
+  private callDelete() {
+    const data = this.createDeleteDialogData('dialogs.deleteCar.title', 'dialogs.deleteCar.message');
+    const dialogRef = this.messageService.showDialog(data);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      if (result) {
+        this.carsService.remove(this.car)
+          .then(() => this.router.navigate(['/cars'], {replaceUrl: true, relativeTo: this.route}))
+          .catch(err => this.messageService.showError(err));
+      } else {
+        this.router.navigate(['../'], {replaceUrl: true, relativeTo: this.route}).catch();
+      }
+    })
   }
 
   private showForm(fix: Fix, isNewRow: boolean) {
@@ -196,29 +209,25 @@ export class CarDetailComponent extends BaseAfterNavigatedHandler implements OnD
     return result;
   }
 
-  private invokeAction(action: string | null) {
-    if (action === 'delete') {
-      const data = this.createDeleteDialogData('dialogs.deleteCar.title', 'dialogs.deleteCar.message');
-      const dialogRef = this.messageService.showDialog(data);
-      dialogRef.afterClosed().subscribe(result => {
-        console.log(result)
-        if (result) {
-          this.carsService.remove(this.car)
-            .then(() => this.router.navigate(['/cars'], {replaceUrl: true, relativeTo: this.route}))
-            .catch(err => this.messageService.showError(err));
-        } else {
-          this.router.navigate(['../'], {replaceUrl: true, relativeTo: this.route}).catch();
-        }
-      })
-    }
-  }
-
   private createDeleteDialogData(title: string, content: string): DialogData {
-    const data = new DialogData();
-    data.title = title;
-    data.content = content;
-    data.setOk(false);
-    data.setDelete(true);
-    return data;
+    return {
+      title: title,
+      content: content,
+      actions: [
+        {
+          label: 'buttons.cancel',
+          getValue(_: any): any {
+            return false;
+          }
+        },
+        {
+          label: 'buttons.delete',
+          color: 'warn',
+          getValue(_: any): any {
+            return true;
+          }
+        }
+      ]
+    };
   }
 }

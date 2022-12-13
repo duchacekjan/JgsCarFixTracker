@@ -1,15 +1,14 @@
 <form [formGroup]="settingsForm">
-  <h2 class="settings-title">{{'settings.title'|translate}}</h2>
   <div class="d-flex flex-column">
-    <mat-label>{{'settings.themeMode'|translate}}</mat-label>
+    <mat-label>{{'settings.general.themeMode'|translate}}</mat-label>
     <mat-button-toggle-group formControlName="themeMode" aria-label="Theme mode">
-      <mat-button-toggle value="Light" aria-describedby="Light">
+      <mat-button-toggle value="Light" aria-describedby="Light" [matTooltip]="'settings.general.lightMode'|translate">
         <mat-icon class="material-icons-outlined">light_mode</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="Auto" aria-describedby="Auto">
+      <mat-button-toggle value="Auto" aria-describedby="Auto" [matTooltip]="'settings.general.autoMode'|translate">
         <mat-icon class="material-icons-outlined">brightness_medium</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="Dark" aria-describedby="Dark">
+      <mat-button-toggle value="Dark" aria-describedby="Dark" [matTooltip]="'settings.general.darkMode'|translate">
         <mat-icon class="material-icons-outlined">dark_mode</mat-icon>
       </mat-button-toggle>
     </mat-button-toggle-group>
