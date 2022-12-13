@@ -1,8 +1,8 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI_CD
+name: Master deployment
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
@@ -13,12 +13,12 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Deploy  
+  # Deploy
   deploy:
-    name: deploy to firebase
-    
+    name: Deploy to firebase host
+
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
