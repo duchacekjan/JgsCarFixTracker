@@ -55,7 +55,7 @@
       "title": "Ověření e-mailu",
       "notVerified": "Váš účet není ověřen.",
       "emailSendTo_email": "Byl vám zaslán ověřovací e-mail na adresu: <strong>{{email}}</strong>",
-      "checkEmail": "Prosím ověřte svou adresu kliknutím na odkaz v zaslaném e-mailu.(Ověřte i složku SPAM)",
+      "checkEmail": "Prosím ověřte svou adresu kliknutím na odkaz v zaslaném e-mailu. Zkontrolujte si i složku SPAM",
       "button": "Znovu odeslat e-mail"
     }
   },
