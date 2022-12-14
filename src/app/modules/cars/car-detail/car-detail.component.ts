@@ -62,7 +62,7 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
           this.updatedFixIndex = -1;
         } else {
           this.messageService.showError({message:'cars.detail.notFound'});
-          this.router.navigate(['/cars'], {replaceUrl: true, relativeTo: this.route}).catch()
+          this.router.navigate(['/cars'], {replaceUrl: true, relativeTo: this.route}).catch();
         }
       }
     );
