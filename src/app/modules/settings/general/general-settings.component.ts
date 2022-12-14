@@ -30,6 +30,8 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
       });
   }
 
+  protected override backLinkIfNotPresent = '/';
+
   ngOnInit(): void {
     let control = this.settingsForm.get('themeMode');
     if (control) {
