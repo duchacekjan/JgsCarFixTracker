@@ -84,7 +84,9 @@
       "licencePlateReadOnlyHint": "Pouze pro čtení",
       "licencePlate": "SPZ",
       "model": "Model",
-      "brand": "Značka"
+      "brand": "Značka",
+      "notFound": "Vůz nebyl nalezen",
+      "errorCreate": "Vůz se nepodařilo vytvořit"
     },
     "fix": {
       "mileage": "Stav tachometru",

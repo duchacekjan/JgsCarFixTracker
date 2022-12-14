@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
-import {ActionsData, NavigationService} from "../../../services/navigation.service";
+import {NavigationService} from "../../../services/navigation.service";
 import {CarsService} from "../../../services/cars.service";
 import {Car} from "../../../models/car";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -38,14 +38,15 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   protected override readonly backLinkIfNotPresent: string = '/cars';
 
   ngOnInit() {
+    this.isNew = this.route.snapshot.data['is-new'];
     this.carSubscription = this.route.snapshot.data['car'].subscribe((data: Car) => {
       if (data && data.key !== undefined) {
         this.carForm.setValue(data as any);
       } else {
+        this.messageService.showError({ message:this.isNew?'cars.detail.errorCreate': 'cars.detail.notFound'});
         this.router.navigate(['/cars']).catch();
       }
     });
-    this.isNew = this.route.snapshot.data['is-new'];
   }
 
   ngOnDestroy() {
