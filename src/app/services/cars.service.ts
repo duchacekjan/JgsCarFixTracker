@@ -36,6 +36,16 @@ export class CarsService {
     return this.dataService.execute(this.updateAsync(value));
   }
 
+  stkIsClose(value: Car): boolean {
+    if (value.stk) {
+      let date =new Date();
+      date.setDate(date.getDate()-60);
+      return value.stk < date
+    } else {
+      return false;
+    }
+  }
+
   private removeAsync(car: Car): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
       if (car.key) {
@@ -151,6 +161,7 @@ export class CarsService {
       result.licencePlate = data.licencePlate;
     }
     result.fixes = data.fixes ?? [];
+    result.stk = data.stk;
     return result;
   }
 
@@ -164,7 +175,8 @@ export class CarsService {
       licencePlate: car.licencePlate,
       brand: car.brand,
       model: car.model,
-      fixes: car.fixes
+      fixes: car.fixes,
+      stk: car.stk
     }
   }
 }

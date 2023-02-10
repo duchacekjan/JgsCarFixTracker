@@ -6,6 +6,7 @@ export class Car {
   brand: string = '';
   model: string = '';
   fixes: Fix[] = [];
+  stk?: Date;
 
   getLastMileage(): number {
     if (this.fixes.length === 0) {
