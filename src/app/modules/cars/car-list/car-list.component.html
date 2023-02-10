@@ -14,7 +14,7 @@
       <mat-card-title>{{car.licencePlate}}</mat-card-title>
       <mat-card-content class="spacer">
         <mat-chip-list>
-          <mat-chip *ngIf="car.stk" color="warn" [selected]="carsService.stkIsClose(car)">{{'cars.detail.stk' | translate}} {{car.stk | date}}</mat-chip>
+          <mat-chip color="warn" [selected]="carsService.stkIsClose(car)">{{'cars.detail.stk' | translate}}: {{car.stk | date}}</mat-chip>
         </mat-chip-list>
         <span>{{car.brand}} {{car.model}}</span>
       </mat-card-content>
