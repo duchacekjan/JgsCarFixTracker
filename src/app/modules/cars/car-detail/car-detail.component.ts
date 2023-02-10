@@ -39,7 +39,7 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
     private readonly router: Router,
     private readonly messageService: MessagesService,
     private readonly helperService: HelperService,
-    private readonly carsService: CarsService,
+    public readonly carsService: CarsService,
     navigation: NavigationService) {
     super(route, navigation);
     this.fixItemUpdateForm = new FormGroup({

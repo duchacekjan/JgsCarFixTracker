@@ -12,7 +12,12 @@
   <div class="d-flex flex-row flex-wrap">
     <mat-card *ngFor="let car of cars | async" (click)="navigate(car.key)" class="car-card d-flex flex-column">
       <mat-card-title>{{car.licencePlate}}</mat-card-title>
-      <mat-card-content class="spacer">{{car.brand}} {{car.model}}</mat-card-content>
+      <mat-card-content class="spacer">
+        <mat-chip-list>
+          <mat-chip color="warn" [selected]="carsService.stkIsClose(car)">{{'cars.detail.stk' | translate}}: {{car.stk | date}}</mat-chip>
+        </mat-chip-list>
+        <span>{{car.brand}} {{car.model}}</span>
+      </mat-card-content>
       <mat-card-footer>{{car.getLastMileage() | number}} km</mat-card-footer>
     </mat-card>
     <ng-container *ngIf="searchText.length>0 && (!(cars |async) || (cars |async)?.length===0)">

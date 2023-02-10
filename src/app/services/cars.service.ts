@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList, DatabaseSnapshot} from '@angular/fire/compat/database';
-import {map, Observable} from 'rxjs';
+import {map, Observable, of} from 'rxjs';
 import {Car} from '../models/car';
 import {TranslateService} from "@ngx-translate/core";
 import {DataService} from "./data.service";
 import {AuthService} from "./auth.service";
+import {off} from "@angular/fire/database";
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,22 @@ export class CarsService {
     return this.dataService.execute(this.updateAsync(value));
   }
 
+  stkIsClose(value: Car): boolean {
+    if (value.stk) {
+      let dateStk = new Date(value.stk);
+      let offset = new Date();
+      offset.setDate(offset.getDate() + 60);
+      let result = dateStk < offset;
+      return result
+    } else {
+      return false;
+    }
+  }
+
+  isLicencePlateTaken(licencePlate: string): Promise<boolean> {
+    return this.dataService.execute(this.isLicencePlateTakenAsync(licencePlate, undefined));
+  }
+
   private removeAsync(car: Car): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
       if (car.key) {
@@ -52,9 +69,8 @@ export class CarsService {
   private upsertAsync(car: Car): Promise<string> {
     return new Promise(async (resolve, reject) => {
       if (car) {
-        const carsRef = await this.getCarsRefAsync();
-        const item = (await carsRef.query.orderByChild('licencePlate').equalTo(car.licencePlate).limitToFirst(1).get())?.val() as Car;
-        if (!item || item.key != car.key) {
+        const isLicencePlateTaken = await this.isLicencePlateTakenAsync(car.licencePlate, car.key);
+        if (isLicencePlateTaken) {
           if (car.key) {
             this.update(car)
               .then(() => resolve(car.key!))
@@ -70,6 +86,14 @@ export class CarsService {
         reject(this.translate.instant('errors.noCarDefined'));
       }
     });
+  }
+
+  private isLicencePlateTakenAsync(licencePlate: string, carKey: string | null | undefined): Promise<boolean> {
+    return new Promise(async (resolve) => {
+      const carsRef = await this.getCarsRefAsync();
+      const item = (await carsRef.query.orderByChild('licencePlate').equalTo(licencePlate).limitToFirst(1).get())?.val() as Car;
+      resolve(!item || item.key != carKey)
+    })
   }
 
   private updateAsync(value: Car): Promise<void> {
@@ -151,6 +175,7 @@ export class CarsService {
       result.licencePlate = data.licencePlate;
     }
     result.fixes = data.fixes ?? [];
+    result.stk = data.stk;
     return result;
   }
 
@@ -164,7 +189,8 @@ export class CarsService {
       licencePlate: car.licencePlate,
       brand: car.brand,
       model: car.model,
-      fixes: car.fixes
+      fixes: car.fixes,
+      stk: car.stk
     }
   }
 }

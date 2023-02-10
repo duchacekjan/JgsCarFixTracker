@@ -21,7 +21,8 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
     brand: '',
     model: '',
     fixes: [],
-    key: ''
+    key: '',
+    stk: null
   });//async validator for licencePlate
   private carSubscription = new Subscription();
 
@@ -41,9 +42,12 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
     this.isNew = this.route.snapshot.data['is-new'];
     this.carSubscription = this.route.snapshot.data['car'].subscribe((data: Car) => {
       if (data && data.key !== undefined) {
+        if (data.stk === undefined) {
+          data.stk = null;
+        }
         this.carForm.setValue(data as any);
       } else {
-        this.messageService.showError({ message:this.isNew?'cars.detail.errorCreate': 'cars.detail.notFound'});
+        this.messageService.showError({message: this.isNew ? 'cars.detail.errorCreate' : 'cars.detail.notFound'});
         this.router.navigate(['/cars']).catch();
       }
     });
