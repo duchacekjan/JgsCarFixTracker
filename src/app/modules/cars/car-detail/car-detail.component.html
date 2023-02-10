@@ -50,6 +50,7 @@
         <input matInput type="text" readonly="true" name="model" [(ngModel)]="car.model" [placeholder]="'cars.detail.model'|translate">
       </mat-form-field>
       <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-icon *ngIf="carsService.stkIsClose(car)" matPrefix color="warn" [matTooltip]="'cars.detail.stkWarningTooltip'|translate"> error</mat-icon>
         <input matInput [matDatepicker]="picker" name="stk" [(ngModel)]="car.stk" [placeholder]="'cars.detail.stkLong'|translate" readonly="true"/>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>

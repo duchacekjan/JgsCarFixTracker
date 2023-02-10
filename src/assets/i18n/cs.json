@@ -71,6 +71,7 @@
       "stk": "STK",
       "stkLong": "Datum příští STK",
       "stkHint": "Zadejte datum příští STK",
+      "stkWarningTooltip": "Blížící se datum STK",
       "new": {
         "actionHint": "Nový vůz",
         "title": "Nový vůz"
