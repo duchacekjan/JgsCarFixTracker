@@ -13,7 +13,6 @@ export class PaginatorTranslator implements MatPaginatorIntl {
   constructor() {
     this.breakpointObserver.observe([Breakpoints.XSmall])
       .subscribe(result => {
-        console.log(result)
         this.isSmall = result.matches;
         this.changes.next();
       });

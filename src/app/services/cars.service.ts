@@ -38,8 +38,8 @@ export class CarsService {
 
   stkIsClose(value: Car): boolean {
     if (value.stk) {
-      let date =new Date();
-      date.setDate(date.getDate()-60);
+      let date = new Date();
+      date.setDate(date.getDate() - 60);
       return value.stk < date
     } else {
       return false;

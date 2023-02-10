@@ -49,6 +49,10 @@
       <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
         <input matInput type="text" readonly="true" name="model" [(ngModel)]="car.model" [placeholder]="'cars.detail.model'|translate">
       </mat-form-field>
+      <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <input matInput [matDatepicker]="picker" name="stk" [(ngModel)]="car.stk" [placeholder]="'cars.detail.stkLong'|translate" readonly="true"/>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
     </div>
     <app-edit-table
       [table_config]="tableConfig"

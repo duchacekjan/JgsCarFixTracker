@@ -69,6 +69,8 @@
     "detail": {
       "title": "Detail vozu",
       "stk": "STK",
+      "stkLong": "Datum příští STK",
+      "stkHint": "Zadejte datum příští STK",
       "new": {
         "actionHint": "Nový vůz",
         "title": "Nový vůz"
