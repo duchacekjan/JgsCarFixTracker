@@ -190,7 +190,7 @@ export class CarsService {
       brand: car.brand,
       model: car.model,
       fixes: car.fixes,
-      stk: car.stk
+      stk: car.stk == undefined ? null : car.stk
     }
   }
 }
