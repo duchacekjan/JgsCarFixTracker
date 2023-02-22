@@ -57,9 +57,7 @@ export class CarsService {
     return new Promise<void>(async (resolve, reject) => {
       if (car.key) {
         const carsRef = await this.getCarsRefAsync();
-        carsRef.remove(car.key)
-          .then(() => resolve())
-          .catch(err => reject(err));
+        await carsRef.remove(car.key);
       } else {
         reject('translate.noCar');
       }

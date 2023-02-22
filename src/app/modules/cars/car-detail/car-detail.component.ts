@@ -31,6 +31,7 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
   //private queryParamSubscription: Subscription;
   private carSubscription: Subscription;
   private updatedFixIndex: number = -1;
+  private carDeleted: boolean = false;
 
   @ViewChild(FormGroupDirective, {static: true}) fixFormGroup!: FormGroupDirective;
 
@@ -61,7 +62,9 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
           });
           this.updatedFixIndex = -1;
         } else {
-          this.messageService.showError({message:'cars.detail.notFound'});
+          if (!this.carDeleted) {
+            this.messageService.showError({message: 'cars.detail.notFound'});
+          }
           this.router.navigate(['/cars'], {replaceUrl: true, relativeTo: this.route}).catch();
         }
       }
@@ -101,14 +104,12 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
 
   protected override getActionsData(): ActionsData {
     const id = this.getRouteParam('id');
-    console.log(`route id: ${id}`);
     const editAction = new Action('edit_document');
     editAction.route = `/cars/${id}/edit`;
     editAction.color = 'accent';
     editAction.tooltip = 'cars.detail.edit.actionHint';
 
     const removeAction = new Action('delete');
-    //removeAction.route = `/cars/${id}/delete`;
     removeAction.execute = () => this.callDelete();
     removeAction.color = 'warn';
     removeAction.tooltip = 'cars.detail.remove.actionHint';
@@ -121,9 +122,10 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
     const data = this.createDeleteDialogData('dialogs.deleteCar.title', 'dialogs.deleteCar.message');
     const dialogRef = this.messageService.showDialog(data);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
       if (result) {
+        this.carDeleted = true;
         this.carsService.remove(this.car)
+          .then(() => this.carDeleted = false)
           .then(() => this.router.navigate(['/cars'], {replaceUrl: true, relativeTo: this.route}))
           .catch(err => this.messageService.showError(err));
       } else {
