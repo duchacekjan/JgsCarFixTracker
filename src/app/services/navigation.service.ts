@@ -48,7 +48,6 @@ export class NavigationService implements OnDestroy {
     translate.use('cs');
     this.routerEventSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        console.log(`navigated ${event.url}`);
         this._currentNavigationData = event.url;
       }
     });
