@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList, DatabaseSnapshot} from '@angular/fire/compat/database';
-import {map, Observable, of} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {Car} from '../models/car';
 import {TranslateService} from "@ngx-translate/core";
 import {DataService} from "./data.service";
 import {AuthService} from "./auth.service";
-import {off} from "@angular/fire/database";
 
 @Injectable({
   providedIn: 'root'
@@ -42,8 +41,7 @@ export class CarsService {
       let dateStk = new Date(value.stk);
       let offset = new Date();
       offset.setDate(offset.getDate() + 60);
-      let result = dateStk < offset;
-      return result
+      return dateStk < offset
     } else {
       return false;
     }
