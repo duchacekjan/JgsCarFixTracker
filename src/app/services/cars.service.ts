@@ -50,7 +50,7 @@ export class CarsService {
   }
 
   isLicencePlateTaken(licencePlate: string): Promise<boolean> {
-    return this.dataService.execute(this.isLicencePlateTakenAsync(licencePlate, undefined));
+    return this.dataService.execute(this.isLicencePlateTakenAsync(licencePlate));
   }
 
   private removeAsync(car: Car): Promise<void> {
@@ -69,18 +69,13 @@ export class CarsService {
   private upsertAsync(car: Car): Promise<string> {
     return new Promise(async (resolve, reject) => {
       if (car) {
-        const isLicencePlateTaken = await this.isLicencePlateTakenAsync(car.licencePlate, car.key);
-        if (isLicencePlateTaken) {
-          if (car.key) {
-            this.update(car)
-              .then(() => resolve(car.key!))
-              .catch(reject);
-          } else {
-            const key = this.create(car);
-            resolve(key);
-          }
+        if (car.key) {
+          this.update(car)
+            .then(() => resolve(car.key!))
+            .catch(reject);
         } else {
-          reject(this.translate.instant('errors.licencePlateTaken'));
+          const key = this.create(car);
+          resolve(key);
         }
       } else {
         reject(this.translate.instant('errors.noCarDefined'));
@@ -88,11 +83,12 @@ export class CarsService {
     });
   }
 
-  private isLicencePlateTakenAsync(licencePlate: string, carKey: string | null | undefined): Promise<boolean> {
+  private isLicencePlateTakenAsync(licencePlate: string): Promise<boolean> {
     return new Promise(async (resolve) => {
       const carsRef = await this.getCarsRefAsync();
-      const item = (await carsRef.query.orderByChild('licencePlate').equalTo(licencePlate).limitToFirst(1).get())?.val() as Car;
-      resolve(!item || item.key != carKey)
+      const raw = await carsRef.query.orderByChild('licencePlate').equalTo(licencePlate).limitToFirst(1).get();
+      const item = raw?.val() as Car;
+      resolve(item != null)
     })
   }
 

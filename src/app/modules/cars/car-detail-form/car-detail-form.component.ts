@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NavigationService} from "../../../services/navigation.service";
 import {CarsService} from "../../../services/cars.service";
 import {Car} from "../../../models/car";
@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {MessagesService} from "../../../services/messages.service";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
+import {CommonValidators} from "../../../common/validators/common.validators";
 
 @Component({
   selector: 'app-car-detail-form',
@@ -16,14 +17,7 @@ import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handle
 export class CarDetailFormComponent extends AfterNavigatedHandler implements OnInit, OnDestroy {
   isNew = false;
 
-  carForm = this.formBuilder.group({
-    licencePlate: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(8)]],
-    brand: '',
-    model: '',
-    fixes: [],
-    key: '',
-    stk: null
-  });//async validator for licencePlate
+  carForm: FormGroup;
   private carSubscription = new Subscription();
 
   constructor(
@@ -34,6 +28,18 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
     private messageService: MessagesService,
     navigation: NavigationService) {
     super(route, navigation);
+    this.carForm = this.formBuilder.group({
+      licencePlate: ['', {
+        validators: [Validators.required, Validators.minLength(7), Validators.maxLength(8)],
+        asyncValidators: [CommonValidators.uniqueLicencePlate(this.carsService)],
+        updateOn: 'blur'
+      }],
+      brand: '',
+      model: '',
+      fixes: [],
+      key: '',
+      stk: null
+    });//async validator for licencePlate
   }
 
   protected override readonly backLinkIfNotPresent: string = '/cars';
