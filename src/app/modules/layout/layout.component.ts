@@ -76,8 +76,6 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
   private setActions(actionsData: ActionsData) {
     setTimeout(() => {
       this.actionsData = actionsData
-      console.log('set actions');
-      console.log(this.user !== null)
       this.menuSettings = actionsData.getMenuSettings(this.user !== null)
     }, 0);
   }

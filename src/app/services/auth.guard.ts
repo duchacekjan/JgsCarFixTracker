@@ -13,7 +13,6 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean | UrlTree> {
     const isAuthorized = await this.authService.isSignedIn();
-    console.log(`guard: ${isAuthorized}`)
     if (isAuthorized === null) {
       await this.router.navigate(['auth/sign-in'], {relativeTo: this.activatedRoute, queryParams: {'redirectUrl': state.url}});
     } else if (!isAuthorized) {

@@ -142,7 +142,6 @@
     "displayNameChanged": "Jméno bylo úspěšně změněno"
   },
   "errors": {
-    "licencePlateTaken": "SPZ je již uložena v databázi.",
     "noCarDefined": "Není vytvořeno auto.",
     "noCarsFound": "Nebyla nalezena žádná shoda.",
     "notFound": "404 Stránka nenalezena",
@@ -164,6 +163,7 @@
     "confirmPasswordRequired": "Potvrzovací heslo je povinné",
     "mismatchPasswords": "Hesla se neshodují",
     "passwordMinLength": "Heslo musí mít minimálně 6 znaků",
-    "passwordIsWeak": "Heslo je slabé."
+    "passwordIsWeak": "Heslo je slabé.",
+    "licencePlateTaken": "SPZ je již uložena v databázi."
   }
 }

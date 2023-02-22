@@ -1,5 +1,5 @@
 <form [formGroup]="carForm" class="container-fluid form-wrapper" (ngSubmit)="onSubmit()">
-  <div class="row">
+  <div class="row car-detail-row">
     <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-column">
       <input matInput type="text" formControlName="licencePlate" [placeholder]="'cars.detail.licencePlate'|translate" oninput="this.value = this.value.toUpperCase()" [readonly]="!isNew"/>
       <mat-hint *ngIf="isNew">{{'cars.detail.licencePlateHint'|translate}}</mat-hint>
@@ -10,12 +10,15 @@
       <mat-error *ngIf="carForm.get('licencePlate')?.hasError('maxlength') && !carForm.get('licencePlate')?.hasError('required')">
         {{'validations.licencePlateMaxLength'|translate}}
       </mat-error>
+      <mat-error *ngIf="carForm.get('licencePlate')?.hasError('licenceplatetaken') && !carForm.get('licencePlate')?.hasError('required')">
+        {{'validations.licencePlateTaken'|translate}}
+      </mat-error>
       <mat-error *ngIf="carForm.get('licencePlate')?.hasError('required')">
         {{'validations.licencePlateRequired'|translate}}
       </mat-error>
     </mat-form-field>
   </div>
-  <div class="row">
+  <div class="row car-detail-row">
     <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
       <input matInput type="text" formControlName="brand" [placeholder]="'cars.detail.brand'|translate"/>
       <mat-hint>{{'cars.detail.brandHint'|translate}}</mat-hint>

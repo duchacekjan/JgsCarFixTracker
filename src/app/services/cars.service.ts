@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList, DatabaseSnapshot} from '@angular/fire/compat/database';
-import {map, Observable, of} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {Car} from '../models/car';
 import {TranslateService} from "@ngx-translate/core";
 import {DataService} from "./data.service";
 import {AuthService} from "./auth.service";
-import {off} from "@angular/fire/database";
 
 @Injectable({
   providedIn: 'root'
@@ -42,24 +41,21 @@ export class CarsService {
       let dateStk = new Date(value.stk);
       let offset = new Date();
       offset.setDate(offset.getDate() + 60);
-      let result = dateStk < offset;
-      return result
+      return dateStk < offset
     } else {
       return false;
     }
   }
 
   isLicencePlateTaken(licencePlate: string): Promise<boolean> {
-    return this.dataService.execute(this.isLicencePlateTakenAsync(licencePlate, undefined));
+    return this.dataService.execute(this.isLicencePlateTakenAsync(licencePlate));
   }
 
   private removeAsync(car: Car): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
       if (car.key) {
         const carsRef = await this.getCarsRefAsync();
-        carsRef.remove(car.key)
-          .then(() => resolve())
-          .catch(err => reject(err));
+        await carsRef.remove(car.key);
       } else {
         reject('translate.noCar');
       }
@@ -69,18 +65,13 @@ export class CarsService {
   private upsertAsync(car: Car): Promise<string> {
     return new Promise(async (resolve, reject) => {
       if (car) {
-        const isLicencePlateTaken = await this.isLicencePlateTakenAsync(car.licencePlate, car.key);
-        if (isLicencePlateTaken) {
-          if (car.key) {
-            this.update(car)
-              .then(() => resolve(car.key!))
-              .catch(reject);
-          } else {
-            const key = this.create(car);
-            resolve(key);
-          }
+        if (car.key) {
+          this.update(car)
+            .then(() => resolve(car.key!))
+            .catch(reject);
         } else {
-          reject(this.translate.instant('errors.licencePlateTaken'));
+          const key = this.create(car);
+          resolve(key);
         }
       } else {
         reject(this.translate.instant('errors.noCarDefined'));
@@ -88,11 +79,12 @@ export class CarsService {
     });
   }
 
-  private isLicencePlateTakenAsync(licencePlate: string, carKey: string | null | undefined): Promise<boolean> {
+  private isLicencePlateTakenAsync(licencePlate: string): Promise<boolean> {
     return new Promise(async (resolve) => {
       const carsRef = await this.getCarsRefAsync();
-      const item = (await carsRef.query.orderByChild('licencePlate').equalTo(licencePlate).limitToFirst(1).get())?.val() as Car;
-      resolve(!item || item.key != carKey)
+      const raw = await carsRef.query.orderByChild('licencePlate').equalTo(licencePlate).limitToFirst(1).get();
+      const item = raw?.val() as Car;
+      resolve(item != null)
     })
   }
 
