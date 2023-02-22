@@ -1,4 +1,16 @@
+:host {
+  --offset: 0;
+}
+
 .edit-table {
+  height: calc(100vh - var(--offset));
+  display: flex;
+  flex-direction: column;
+
+  .edit-table__content {
+    overflow: auto;
+  }
+
   .edit-table__grid {
     width: 100%;
     table-layout: fixed;
