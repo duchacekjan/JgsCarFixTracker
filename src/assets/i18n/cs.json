@@ -14,7 +14,11 @@
       "themeMode": "Vzhled",
       "darkMode": "Tmavý režim",
       "lightMode": "Světlý režim",
-      "autoMode": "Automatický režim"
+      "autoMode": "Automatický režim",
+      "brandSearch": "Značka",
+      "brandSearchHint": "Zadejte značku",
+      "modelSearch": "Model",
+      "modelSearchHint": "Zadejte model"
     },
     "userProfile": {
       "title": "Profil uživatele",
@@ -164,6 +168,8 @@
     "mismatchPasswords": "Hesla se neshodují",
     "passwordMinLength": "Heslo musí mít minimálně 6 znaků",
     "passwordIsWeak": "Heslo je slabé.",
-    "licencePlateTaken": "SPZ je již uložena v databázi."
+    "licencePlateTaken": "SPZ je již uložena v databázi.",
+    "brandRequired": "Název značky musí být vyplněn",
+    "modelRequired": "Název modelu musí být vyplněn"
   }
 }

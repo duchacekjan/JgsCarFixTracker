@@ -1,7 +1,7 @@
-<form [formGroup]="settingsForm">
-  <div class="d-flex flex-column">
+<form class="jgs-wrapper">
+  <div class="jgs-theme-picker">
     <mat-label>{{'settings.general.themeMode'|translate}}</mat-label>
-    <mat-button-toggle-group formControlName="themeMode" aria-label="Theme mode">
+    <mat-button-toggle-group [formControl]="themeMode" aria-label="Theme mode">
       <mat-button-toggle value="Light" aria-describedby="Light" [matTooltip]="'settings.general.lightMode'|translate">
         <mat-icon class="material-icons-outlined">light_mode</mat-icon>
       </mat-button-toggle>
@@ -12,5 +12,81 @@
         <mat-icon class="material-icons-outlined">dark_mode</mat-icon>
       </mat-button-toggle>
     </mat-button-toggle-group>
+  </div>
+  <div class="d-flex flex-row">
+    <mat-form-field>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput type="text" id="brand-search-text" aria-describedby="brand-search-text"
+             [formControl]="brandSearchText"
+             [placeholder]="'settings.general.brandSearch'|translate"
+             [matAutocomplete]="autoBrand">
+      <mat-icon matSuffix (click)="clearBrandText()">cancel</mat-icon>
+      <mat-autocomplete #autoBrand="matAutocomplete" [displayWith]="brandDisplayFunction" (optionSelected)="onBrandSelected($event)">
+        <mat-option *ngFor="let option of brandOptions | async" [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-hint>{{'settings.general.brandSearchHint'|translate}}</mat-hint>
+    </mat-form-field>
+    <ng-container *ngIf="isBrandInEditMode">
+      <button mat-icon-button color="accent" (click)="saveBrand(true)">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="saveBrand(false)">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="!isBrandInEditMode">
+      <button mat-icon-button color="accent" (click)="editBrand()"
+              [disabled]="brandActions['edit']">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="addBrand()"
+              [disabled]="brandActions['new']">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="removeBrand()"
+              [disabled]="brandActions['delete']">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </ng-container>
+  </div>
+  <div class="d-flex flex-row">
+    <mat-form-field>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput type="text" id="model-search-text" aria-describedby="model-search-text"
+             [formControl]="modelSearchText"
+             [placeholder]="'settings.general.modelSearch'|translate"
+             [matAutocomplete]="autoModel">
+      <mat-icon matSuffix (click)="clearModelText()">cancel</mat-icon>
+      <mat-autocomplete #autoModel="matAutocomplete" [displayWith]="modelDisplayFunction" (optionSelected)="onModelSelected($event)">
+        <mat-option *ngFor="let option of modelOptions | async" [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-hint>{{'settings.general.modelSearchHint'|translate}}</mat-hint>
+    </mat-form-field>
+    <ng-container *ngIf="isModelInEditMode">
+      <button mat-icon-button color="accent" (click)="saveModel(true)">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="saveModel(false)">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="!isModelInEditMode">
+      <button mat-icon-button color="accent" (click)="editModel()"
+              [disabled]="modelActions['edit']">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="addModel()"
+              [disabled]="modelActions['new']">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="removeModel()"
+              [disabled]="modelActions['delete']">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </ng-container>
   </div>
 </form>

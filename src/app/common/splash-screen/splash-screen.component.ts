@@ -1,4 +1,4 @@
-import {Component, ContentChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SplashScreenStateService} from "../../services/splash-screen-state.service";
 
 @Component({
@@ -6,7 +6,7 @@ import {SplashScreenStateService} from "../../services/splash-screen-state.servi
   templateUrl: './splash-screen.component.html',
   styleUrls: ['./splash-screen.component.scss']
 })
-export class SplashScreenComponent {
+export class SplashScreenComponent implements OnInit {
   public showSplash = false;
 
   constructor(private splashScreenService: SplashScreenStateService) {
@@ -19,10 +19,6 @@ export class SplashScreenComponent {
   }
 
   private toggleSplashAnimation(isLoading: boolean) {
-    if (this.showSplash == isLoading) {
-      return;
-    }
-
     setTimeout(() => {
       this.showSplash = isLoading;
     }, 0);
