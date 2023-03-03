@@ -11,6 +11,6 @@ export const environment = {
     projectId: "jgs-car-fix-tracker",
     storageBucket: "jgs-car-fix-tracker.appspot.com",
     messagingSenderId: "134382232327",
-    appId: "1:134382232327:web:9d429ab77778612a3e9ba2"
+    appId: "1:134382232327:web:ede0ae36bb125ed53e9ba2"
   }
 };
