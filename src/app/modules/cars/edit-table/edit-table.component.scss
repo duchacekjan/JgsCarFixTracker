@@ -9,13 +9,10 @@
   flex-direction: column;
   flex-grow: 1;
 
-  .edit-table__content {
-    overflow: auto;
-  }
-
   .edit-table__grid {
     width: 100%;
     table-layout: fixed;
+    overflow: auto;
 
     .mat-header-row {
       .mat-header-cell {
