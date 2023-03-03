@@ -1,9 +1,6 @@
 {
   "rules": {
-    "users": {
-      ".indexOn": [
-        "uid"
-      ],
+    "brands": {
       ".write": "auth !== null",
       ".read": "auth !== null"
     },
