@@ -1,7 +1,14 @@
-
+:host{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-bottom: calc(var(--bs-gutter-x) * .5);
+}
 .edit-table {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
 
   .edit-table__content {
     overflow: auto;

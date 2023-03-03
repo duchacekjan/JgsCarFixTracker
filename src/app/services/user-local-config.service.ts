@@ -24,7 +24,6 @@ export class UserLocalConfigService {
         let user = await this.authService.getCurrentUser();
 
         if (user != null) {
-          console.log(user);
           resolve(localStorage.getItem(`${user.uid}.${key}`))
         } else {
           resolve(null);
