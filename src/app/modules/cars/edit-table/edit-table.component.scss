@@ -1,9 +1,5 @@
-:host {
-  --offset: 0;
-}
 
 .edit-table {
-  height: calc(100vh - var(--offset));
   display: flex;
   flex-direction: column;
 

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator} from "@angular/material/paginator";
 import {Subscription} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
@@ -13,8 +13,6 @@ import {MatSort} from "@angular/material/sort";
 export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() table_config = new TableConfig([]);
-  @Input() offset: string = "0";
-
   @Output() onRowAdd = new EventEmitter<any>();
   @Output() onRowEdit = new EventEmitter<any>();
   @Output() onRowRemove = new EventEmitter<any>();
@@ -26,16 +24,8 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  @HostBinding("style.--offset") hostOffset: string = "0";
   // Subscriptions
   private data_change_sub!: Subscription;
-
-  constructor() {
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.hostOffset = this.offset;
-  }
 
   ngOnInit(): void {
     this.setDisplayedColumns(this.table_config.columns);
