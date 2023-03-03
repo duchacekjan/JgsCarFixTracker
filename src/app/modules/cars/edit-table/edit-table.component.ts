@@ -1,9 +1,10 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator} from "@angular/material/paginator";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Subscription} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {TableConfig} from "./table-config";
 import {MatSort} from "@angular/material/sort";
+import {UserLocalConfigService} from "../../../services/user-local-config.service";
 
 @Component({
   selector: 'app-edit-table',
@@ -13,22 +14,23 @@ import {MatSort} from "@angular/material/sort";
 export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() table_config = new TableConfig([]);
-
   @Output() onRowAdd = new EventEmitter<any>();
   @Output() onRowEdit = new EventEmitter<any>();
   @Output() onRowRemove = new EventEmitter<any>();
 
   displayed_columns!: string[];
   table_data_source: any;
-  updated_row_index = -1;
+  pageOptions = [5, 10, 20, 50];
+  pageSize = 10;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   // Subscriptions
   private data_change_sub!: Subscription;
+  private pageSizeKey = 'car.detail.fix.pageSize';
 
-  constructor() {
+  constructor(private readonly userConfig: UserLocalConfigService) {
   }
 
   ngOnInit(): void {
@@ -41,6 +43,16 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
       // if there is a scope to update data
       this.trackDataChange();
     }
+
+    this.userConfig.load(this.pageSizeKey)
+      .then(currentPageSize => {
+        setTimeout(() => {
+          if (currentPageSize != null) {
+            this.pageSize = <number>JSON.parse(currentPageSize);
+          }
+        }, 0);
+      });
+
   }
 
   setDisplayedColumns(column_config: string[]) {
@@ -82,10 +94,6 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
             this.paginator.nextPage();
           }
         }
-        this.updated_row_index = updatedFixIndex - (page_size * calculated_page_index);
-        setTimeout(() => {
-          this.updated_row_index = -1;
-        }, 4000);
       }
     }, 100);
   }
@@ -111,5 +119,9 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.data_change_sub.unsubscribe()
+  }
+
+  handlePageEvent($event: PageEvent) {
+    this.userConfig.save(this.pageSizeKey, JSON.stringify($event.pageSize));
   }
 }

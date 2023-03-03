@@ -1,5 +1,5 @@
 <!--suppress JSUnusedGlobalSymbols -->
-<mat-drawer-container class="edit-table-drawer-container h-100">
+<mat-drawer-container class="edit-table-drawer-container jgs-flex-column grow">
   <mat-drawer mode="over" position="end"
               [opened]="isDrawerOpened"
               disableClose="true">
@@ -36,7 +36,7 @@
       </form>
     </section>
   </mat-drawer>
-  <mat-drawer-content class="container-fluid">
+  <mat-drawer-content class="container-fluid jgs-flex-column grow">
     <div class="row">
       <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
         <input matInput type="text" readonly="true" [(ngModel)]="car.licencePlate" name="licence-place" [placeholder]="'cars.detail.licencePlate'|translate"/>

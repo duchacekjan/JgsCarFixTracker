@@ -30,5 +30,6 @@
     <tr mat-header-row *matHeaderRowDef="displayed_columns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayed_columns;"></tr>
   </table>
-  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons></mat-paginator>
+  <span class="spacer"></span>
+  <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageOptions" (page)="handlePageEvent($event)" showFirstLastButtons></mat-paginator>
 </div>

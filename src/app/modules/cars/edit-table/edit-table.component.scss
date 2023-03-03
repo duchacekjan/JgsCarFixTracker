@@ -1,7 +1,18 @@
+:host{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-bottom: calc(var(--bs-gutter-x) * .5);
+}
 .edit-table {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
   .edit-table__grid {
     width: 100%;
     table-layout: fixed;
+    overflow: auto;
 
     .mat-header-row {
       .mat-header-cell {
