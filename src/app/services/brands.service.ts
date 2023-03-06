@@ -28,7 +28,7 @@ export class BrandsService {
   upsertBrand(brand: Brand) {
     let data = {
       name: brand.name,
-      models: brand.models
+      models: brand.models ?? []
     }
     if (!brand.key) {
       return this.brandsRef.push(data);
