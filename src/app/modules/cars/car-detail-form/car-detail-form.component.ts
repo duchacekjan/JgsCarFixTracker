@@ -37,25 +37,15 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
     stk: this.stk
   });
 
-  brandActions = {
-    'edit': false,
-    'new': false,
-    'delete': false
-  };
-
-  modelActions = {
-    'edit': false,
-    'new': false,
-    'delete': false
-  };
+  disabledAddBrand = false;
+  disabledAddModel = false;
   brandOptions: Observable<Brand[]> = of([]);
   modelOptions: Observable<Model[]> = of([]);
 
   private _selectedBrand?: Brand;
   private _selectedModel?: Model;
+  // noinspection JSMismatchedCollectionQueryUpdate
   private brands: Brand[] = [];
-  private _isBrandInEditMode: boolean = false;
-  private _isModelInEditMode: boolean = false;
   private dataLoaded: boolean = false;
 
   private carSubscription = new Subscription();
@@ -78,34 +68,6 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   }
 
   protected override readonly backLinkIfNotPresent: string = '/cars';
-
-  get isModelInEditMode() {
-    return this._isModelInEditMode;
-  }
-
-  set isModelInEditMode(value: boolean) {
-    this._isModelInEditMode = value;
-    if (value) {
-      this.brand.disable();
-    } else {
-      this.brand.enable();
-    }
-    this.updateActions();
-  }
-
-  get isBrandInEditMode() {
-    return this._isBrandInEditMode;
-  }
-
-  set isBrandInEditMode(value: boolean) {
-    this._isBrandInEditMode = value;
-    if (value) {
-      this.model.disable();
-    } else {
-      this.model.enable();
-    }
-    this.updateActions();
-  }
 
   get selectedBrand() {
     return this._selectedBrand;
@@ -202,33 +164,6 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
       .then(() => this.reassign());
   }
 
-  removeBrand() {
-    if (this.selectedBrand) {
-      this.brandsService.remove(this.selectedBrand)
-        .then(() => this.brand.setValue(''));
-    }
-  }
-
-  editBrand() {
-    this.isBrandInEditMode = true;
-  }
-
-  saveBrand(save: boolean) {
-    if (save && this.selectedBrand) {
-      let newName = this.brand.value;
-      if (newName) {
-        this.selectedBrand.name = newName;
-        this.brandsService.upsertBrand(this.selectedBrand)
-          .then(() => this.isBrandInEditMode = false)
-          .then(() => this.reassign());
-      } else {
-        this.isBrandInEditMode = false;
-      }
-    } else {
-      this.isBrandInEditMode = false;
-    }
-  }
-
   onBrandSelected($event: any) {
     this.selectedBrand = $event.option.value;
   }
@@ -267,38 +202,6 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
     this.brandsService.upsertBrand(this.selectedBrand)
       .then(() => this.selectedModel = model)
       .then(() => this.reassign());
-  }
-
-  editModel() {
-    this.isModelInEditMode = true;
-  }
-
-  saveModel(save: boolean) {
-    if (save && this.selectedModel && this.selectedBrand) {
-      let newName = this.model.value;
-      if (newName) {
-        this.selectedModel.name = newName;
-        this.brandsService.upsertBrand(this.selectedBrand)
-          .then(() => this.isModelInEditMode = false)
-          .then(() => this.reassign());
-      } else {
-        this.isModelInEditMode = false;
-      }
-    } else {
-      this.isModelInEditMode = false;
-    }
-  }
-
-  removeModel() {
-    if (this.selectedModel && this.selectedBrand?.models) {
-      let index = this.selectedBrand.models.indexOf(this.selectedModel);
-      if (index < 0) {
-        return;
-      }
-      this.selectedBrand.models.splice(index, 1);
-      this.brandsService.upsertBrand(this.selectedBrand)
-        .then(() => this.model.setValue(''));
-    }
   }
 
   onModelSelected($event: any) {
@@ -342,9 +245,6 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   }
 
   private searchBrands(searchedText: string): Brand[] {
-    if (this.isBrandInEditMode) {
-      return [];
-    }
     this.selectedBrand = undefined;
 
     if (searchedText.length == 0) {
@@ -354,9 +254,6 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   }
 
   private searchModels(searchedText: string): Model[] {
-    if (this.isModelInEditMode) {
-      return [];
-    }
     this.selectedModel = undefined;
     if (searchedText.length == 0 || !this.selectedBrand) {
       return [];
@@ -368,23 +265,10 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   private updateActions() {
     let brandName = this.brand.value;
     let brandNameInvalid = !brandName || brandName.length == 0;
-    this.brandActions = {
-      'edit': this.isModelInEditMode || !this.selectedBrand,
-
-      'new': this.isModelInEditMode || this.selectedBrand != undefined || brandNameInvalid,
-
-      'delete': this.isModelInEditMode || !this.selectedBrand
-    }
-    let baseModelState = this.isBrandInEditMode || !this.selectedBrand;
-    let modelName = this.brand.value;
+    this.disabledAddBrand = this.selectedBrand != undefined || brandNameInvalid;
+    let modelName = this.model.value;
     let modelNameInvalid = !modelName || modelName.length == 0;
-    this.modelActions = {
-      'edit': baseModelState || !this.selectedModel,
-
-      'new': baseModelState || this.selectedModel != undefined || modelNameInvalid,
-
-      'delete': baseModelState || !this.selectedModel
-    }
+    this.disabledAddModel = !this.selectedBrand || this.selectedModel != undefined || modelNameInvalid;
   }
 
   private selectBrandAndModel() {
@@ -397,7 +281,7 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
 
     if (brandName != null && brandName.length > 0) {
       this.selectedBrand = this.searchBrands(brandName).find(() => true);
-      if(this.selectedBrand != undefined){
+      if (this.selectedBrand != undefined) {
         this.brand.setValue(this.selectedBrand as any);
       }
     }
@@ -408,7 +292,7 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
 
     if (modelName != null && modelName.length > 0) {
       this.selectedModel = this.searchModels(modelName).find(() => true);
-      if(this.selectedModel != undefined){
+      if (this.selectedModel != undefined) {
         this.model.setValue(this.selectedModel as any);
       }
     }

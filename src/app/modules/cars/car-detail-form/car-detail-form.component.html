@@ -34,28 +34,32 @@
         </mat-autocomplete>
         <mat-hint>{{'cars.detail.brandHint'|translate}}</mat-hint>
       </mat-form-field>
-      <ng-container *ngIf="isBrandInEditMode">
-        <button mat-icon-button color="accent" type="button" (click)="saveBrand(true)" [matTooltip]="'cars.detail.saveBrand'|translate">
-          <mat-icon>save</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" type="button" (click)="saveBrand(false)" [matTooltip]="'cars.detail.cancelEditBrand'|translate">
-          <mat-icon>cancel</mat-icon>
-        </button>
-      </ng-container>
-      <ng-container *ngIf="!isBrandInEditMode">
-        <button mat-icon-button color="accent" type="button" (click)="editBrand()" [matTooltip]="'cars.detail.editBrand'|translate"
-                [disabled]="brandActions['edit']">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="primary" type="button" (click)="addBrand()" [matTooltip]="'cars.detail.addBrand'|translate"
-                [disabled]="brandActions['new']">
-          <mat-icon>add</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" type="button" (click)="removeBrand()" [matTooltip]="'cars.detail.removeBrand'|translate"
-                [disabled]="brandActions['delete']">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </ng-container>
+      <button mat-icon-button color="primary" type="button" (click)="addBrand()" [matTooltip]="'cars.detail.addBrand'|translate"
+              [disabled]="disabledAddBrand">
+        <mat-icon>add</mat-icon>
+      </button>
+      <!--      <ng-container *ngIf="isBrandInEditMode">-->
+      <!--        <button mat-icon-button color="accent" type="button" (click)="saveBrand(true)" [matTooltip]="'cars.detail.saveBrand'|translate">-->
+      <!--          <mat-icon>save</mat-icon>-->
+      <!--        </button>-->
+      <!--        <button mat-icon-button color="warn" type="button" (click)="saveBrand(false)" [matTooltip]="'cars.detail.cancelEditBrand'|translate">-->
+      <!--          <mat-icon>cancel</mat-icon>-->
+      <!--        </button>-->
+      <!--      </ng-container>-->
+      <!--      <ng-container *ngIf="!isBrandInEditMode">-->
+      <!--        <button mat-icon-button color="accent" type="button" (click)="editBrand()" [matTooltip]="'cars.detail.editBrand'|translate"-->
+      <!--                [disabled]="brandActions['edit']">-->
+      <!--          <mat-icon>edit</mat-icon>-->
+      <!--        </button>-->
+      <!--        <button mat-icon-button color="primary" type="button" (click)="addBrand()" [matTooltip]="'cars.detail.addBrand'|translate"-->
+      <!--                [disabled]="brandActions['new']">-->
+      <!--          <mat-icon>add</mat-icon>-->
+      <!--        </button>-->
+      <!--        <button mat-icon-button color="warn" type="button" (click)="removeBrand()" [matTooltip]="'cars.detail.removeBrand'|translate"-->
+      <!--                [disabled]="brandActions['delete']">-->
+      <!--          <mat-icon>delete</mat-icon>-->
+      <!--        </button>-->
+      <!--      </ng-container>-->
     </div>
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-row">
       <mat-form-field class="spacer">
@@ -72,28 +76,32 @@
         </mat-autocomplete>
         <mat-hint>{{'cars.detail.modelHint'|translate}}</mat-hint>
       </mat-form-field>
-      <ng-container *ngIf="isModelInEditMode">
-        <button mat-icon-button color="accent" type="button" (click)="saveModel(true)" [matTooltip]="'cars.detail.saveModel'|translate">
-          <mat-icon>save</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" type="button" (click)="saveModel(false)" [matTooltip]="'cars.detail.cancelEditModel'|translate">
-          <mat-icon>cancel</mat-icon>
-        </button>
-      </ng-container>
-      <ng-container *ngIf="!isModelInEditMode">
-        <button mat-icon-button color="accent" type="button" (click)="editModel()" [matTooltip]="'cars.detail.editModel'|translate"
-                [disabled]="modelActions['edit']">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="primary" type="button" (click)="addModel()" [matTooltip]="'cars.detail.addModel'|translate"
-                [disabled]="modelActions['new']">
-          <mat-icon>add</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" type="button" (click)="removeModel()" [matTooltip]="'cars.detail.removeModel'|translate"
-                [disabled]="modelActions['delete']">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </ng-container>
+      <!--      <ng-container *ngIf="isModelInEditMode">-->
+      <!--        <button mat-icon-button color="accent" type="button" (click)="saveModel(true)" [matTooltip]="'cars.detail.saveModel'|translate">-->
+      <!--          <mat-icon>save</mat-icon>-->
+      <!--        </button>-->
+      <!--        <button mat-icon-button color="warn" type="button" (click)="saveModel(false)" [matTooltip]="'cars.detail.cancelEditModel'|translate">-->
+      <!--          <mat-icon>cancel</mat-icon>-->
+      <!--        </button>-->
+      <!--      </ng-container>-->
+      <!--      <ng-container *ngIf="!isModelInEditMode">-->
+      <!--        <button mat-icon-button color="accent" type="button" (click)="editModel()" [matTooltip]="'cars.detail.editModel'|translate"-->
+      <!--                [disabled]="modelActions['edit']">-->
+      <!--          <mat-icon>edit</mat-icon>-->
+      <!--        </button>-->
+      <!--        <button mat-icon-button color="primary" type="button" (click)="addModel()" [matTooltip]="'cars.detail.addModel'|translate"-->
+      <!--                [disabled]="modelActions['new']">-->
+      <!--          <mat-icon>add</mat-icon>-->
+      <!--        </button>-->
+      <!--        <button mat-icon-button color="warn" type="button" (click)="removeModel()" [matTooltip]="'cars.detail.removeModel'|translate"-->
+      <!--                [disabled]="modelActions['delete']">-->
+      <!--          <mat-icon>delete</mat-icon>-->
+      <!--        </button>-->
+      <!--      </ng-container>-->
+      <button mat-icon-button color="primary" type="button" (click)="addModel()" [matTooltip]="'cars.detail.addModel'|translate"
+              [disabled]="disabledAddModel">
+        <mat-icon>add</mat-icon>
+      </button>
     </div>
     <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
       <input matInput [matDatepicker]="picker" formControlName="stk" [placeholder]="'cars.detail.stkLong'|translate"/>
