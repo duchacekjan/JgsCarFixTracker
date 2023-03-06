@@ -16,11 +16,12 @@
   <div class="d-flex flex-row">
     <mat-form-field>
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput type="text" id="brand-search-text" aria-describedby="brand-search-text"
+      <input matInput type="text" aria-describedby="brand-search-text"
              [formControl]="brandSearchText"
              [placeholder]="'settings.general.brandSearch'|translate"
-             [matAutocomplete]="autoBrand">
-      <mat-icon matSuffix (click)="clearBrandText()" class="active-icon" [matTooltip]="'cars.detail.clearModel'|translate">cancel</mat-icon>
+             [matAutocomplete]="autoBrand"
+             #brandInput>
+      <mat-icon matSuffix (click)="clearBrandText()" class="active-icon" [matTooltip]="'settings.general.clearModel'|translate">cancel</mat-icon>
       <mat-autocomplete #autoBrand="matAutocomplete" [displayWith]="brandDisplayFunction" (optionSelected)="onBrandSelected($event)">
         <mat-option *ngFor="let option of brandOptions | async" [value]="option">
           {{option.name}}
@@ -41,7 +42,7 @@
               [disabled]="brandActions['edit']">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button color="primary" type="button" (click)="addBrand()" [matTooltip]="'cars.detail.addBrand'|translate"
+      <button mat-icon-button color="primary" type="button" (click)="addBrand()" [matTooltip]="'settings.general.addBrand'|translate"
               [disabled]="brandActions['new']">
         <mat-icon>add</mat-icon>
       </button>
@@ -54,11 +55,12 @@
   <div class="d-flex flex-row">
     <mat-form-field>
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput type="text" id="model-search-text" aria-describedby="model-search-text"
+      <input matInput type="text" aria-describedby="model-search-text"
              [formControl]="modelSearchText"
              [placeholder]="'settings.general.modelSearch'|translate"
-             [matAutocomplete]="autoModel">
-      <mat-icon matSuffix (click)="clearModelText()" class="active-icon" [matTooltip]="'cars.detail.clearModel'|translate">cancel</mat-icon>
+             [matAutocomplete]="autoModel"
+             #brandInput>
+      <mat-icon matSuffix (click)="clearModelText()" class="active-icon" [matTooltip]="'settings.general.clearModel'|translate">cancel</mat-icon>
       <mat-autocomplete #autoModel="matAutocomplete" [displayWith]="modelDisplayFunction" (optionSelected)="onModelSelected($event)">
         <mat-option *ngFor="let option of modelOptions | async" [value]="option">
           {{option.name}}
@@ -79,7 +81,7 @@
               [disabled]="modelActions['edit']">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button color="primary" type="button" (click)="addModel()" [matTooltip]="'cars.detail.addModel'|translate"
+      <button mat-icon-button color="primary" type="button" (click)="addModel()" [matTooltip]="'settings.general.addModel'|translate"
               [disabled]="modelActions['new']">
         <mat-icon>add</mat-icon>
       </button>

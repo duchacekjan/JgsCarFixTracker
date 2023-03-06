@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {map, Observable, of, Subscription} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
@@ -43,6 +43,9 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
   private brands: Brand[] = [];
   private _isBrandInEditMode: boolean = false;
   private _isModelInEditMode: boolean = false;
+
+  @ViewChild("brandInput") brandInput!: ElementRef;
+  @ViewChild("modelInput") modelInput!: ElementRef;
 
   constructor(
     public readonly settingsService: SettingsService,
@@ -136,28 +139,34 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
     }
     this.brandsService.upsertBrand(brand)
       .then(() => this.selectedBrand = brand)
-      .then(() => this.reassign());
+      .then(() => this.messageService.showSuccess({message: 'messages.carBrandCreated'}))
+      .then(() => this.reassign())
+      .catch(err => this.messageService.showError(err));
   }
 
   removeBrand() {
     if (this.selectedBrand) {
       this.brandsService.remove(this.selectedBrand)
-        .then(() => this.brandSearchText.setValue(''));
+        .then(() => this.brandSearchText.setValue(''))
+        .then(() => this.messageService.showSuccess({message: 'messages.carBrandDeleted'}));
     }
   }
 
   editBrand() {
+    this.brandInput.nativeElement.focus();
     this.isBrandInEditMode = true;
   }
 
   saveBrand(save: boolean) {
     if (save && this.selectedBrand) {
       let newName = this.brandSearchText.value;
+      console.log(newName);
       if (newName) {
         this.selectedBrand.name = newName;
         this.brandsService.upsertBrand(this.selectedBrand)
           .then(() => this.isBrandInEditMode = false)
-          .then(() => this.reassign());
+          .then(() => this.reassign())
+          .then(() => this.messageService.showSuccess({message: 'messages.carBrandEdited'}));
       } else {
         this.isBrandInEditMode = false;
       }
@@ -217,10 +226,12 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
 
     this.brandsService.upsertBrand(this.selectedBrand)
       .then(() => this.selectedModel = model)
+      .then(() => this.messageService.showSuccess({message: 'messages.carModelCreated'}))
       .then(() => this.reassign());
   }
 
   editModel() {
+    this.modelInput.nativeElement.focus();
     this.isModelInEditMode = true;
   }
 
@@ -231,6 +242,7 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
         this.selectedModel.name = newName;
         this.brandsService.upsertBrand(this.selectedBrand)
           .then(() => this.isModelInEditMode = false)
+          .then(() => this.messageService.showSuccess({message: 'messages.carModelEdited'}))
           .then(() => this.reassign());
       } else {
         this.isModelInEditMode = false;
@@ -248,7 +260,8 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
       }
       this.selectedBrand.models.splice(index, 1);
       this.brandsService.upsertBrand(this.selectedBrand)
-        .then(() => this.modelSearchText.setValue(''));
+        .then(() => this.modelSearchText.setValue(''))
+        .then(() => this.messageService.showSuccess({message: 'messages.carModelRemoved'}));
     }
   }
 

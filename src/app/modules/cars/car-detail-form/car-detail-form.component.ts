@@ -161,6 +161,7 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
     }
     this.brandsService.upsertBrand(brand)
       .then(() => this.selectedBrand = brand)
+      .then(()=>this.messageService.showSuccess({message:'messages.carBrandCreated'}))
       .then(() => this.reassign());
   }
 
@@ -201,6 +202,7 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
 
     this.brandsService.upsertBrand(this.selectedBrand)
       .then(() => this.selectedModel = model)
+      .then(()=>this.messageService.showSuccess({message:'messages.carModelCreated'}))
       .then(() => this.reassign());
   }
 
