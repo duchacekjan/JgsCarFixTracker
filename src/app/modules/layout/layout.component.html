@@ -25,14 +25,17 @@
   <mat-menu #notificationMenu>
     <div class="notifications-header">
       <label class="spacer">{{'toolbar.notifications'|translate}}</label>
-      <button mat-icon-button [disabled]="notificationsCount==0">
+      <button mat-icon-button [disabled]="notificationsCount==0" (click)="markAllAsRead()">
         <mat-icon>checklist</mat-icon>
       </button>
     </div>
     <mat-divider></mat-divider>
-    <button *ngFor="let notification of notifications">
-      {{notification.subject}}
-    </button>
+    <div *ngFor="let notification of notifications" mat-menu-item class="d-flex flex-row align-items-center" (click)="onNotificationClick(notification)">
+      <label class="spacer">{{notification.data.subject}}</label>
+      <button mat-icon-button (click)="deleteClick(notification); $event.stopPropagation()">
+        <mat-icon class="notification-item-icon">delete</mat-icon>
+      </button>
+    </div>
     <div class="notifications-footer">
       <label class="spacer" *ngIf="notifications.length==0">{{'toolbar.noNotifications'|translate}}</label>
     </div>

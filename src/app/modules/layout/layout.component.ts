@@ -8,9 +8,8 @@ import {AuthService} from "../../services/auth.service";
 import {SettingsService} from "../../services/settings.service";
 import {environment} from "../../../environments/environment";
 import {AfterNavigatedHandler} from "../../common/base/after-navigated-handler";
-import {Title} from "@angular/platform-browser";
 import {JgsAppTitleStrategy} from "../../common/jgs-app-title.strategy";
-import {JgsNotification} from "../../models/jgsNotification";
+import {JgsNotification} from "../../models/INotification";
 import {NotificationsService} from "../../services/notifications.service";
 
 @Component({
@@ -28,7 +27,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
   private actionsSubscription: Subscription;
   private authUserSubscription: Subscription;
   private themeModeSubscription: Subscription;
-  private notificationsSubscription: Subscription;
+  private notificationsSubscription = new Subscription();
 
   constructor(
     private readonly authService: AuthService,
@@ -45,11 +44,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     this.authUserSubscription = this.authService.currentUserChanged(user => this.setUser(user));
     this.actionsSubscription = this.navigation.actionsDataChanged(actionsData => this.setActions(actionsData));
     this.themeModeSubscription = this.settingsService.themeChangedSubscription(() => this.updateThemeMode());
-    this.notificationsSubscription = this.notificationsService.getList().subscribe(data => {
-      this.notifications = data;
-      this.notificationsCount = data.filter(n => !n.isRead).length;
-    });
-    this.updateThemeMode()
+    this.updateThemeMode();
   }
 
   ngOnDestroy(): void {
@@ -70,6 +65,21 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
       .then(() => this.router.navigate(['auth/sign-in'], {replaceUrl: true}));
   }
 
+  async markAllAsRead() {
+    let items = this.notifications.filter(f => !f.isRead);
+    for (const item of items) {
+      await this.notificationsService.setAsRead(item.data, this.user?.uid);
+    }
+  }
+
+  deleteClick(notification: JgsNotification) {
+    console.log(notification);
+  }
+
+  onNotificationClick(notification: JgsNotification) {
+    console.log(notification);
+  }
+
   protected override afterNavigated() {
     this.authService.getCurrentUser()
       .then(user => this.setUser(user));
@@ -81,6 +91,20 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
       if (this.menuSettings) {
         this.menuSettings.isAuthorized = this.user != null;
       }
+      this.notificationsSubscription.unsubscribe();
+      this.notificationsSubscription = this.notificationsService.getList(this.user?.uid ?? '').subscribe(data => {
+        this.notifications = data;
+        let t = new JgsNotification({
+          key: "test",
+          subject: "Zprava",
+          body: "BODAYDWINDANDNWDNAONWD",
+          read: [],
+          deleted: []
+        }, false);
+        this.notifications = [t];
+        console.log(this.notifications);
+        this.notificationsCount = this.notifications.filter(n => !n.isRead).length;
+      });
     }, 0);
   }
 
