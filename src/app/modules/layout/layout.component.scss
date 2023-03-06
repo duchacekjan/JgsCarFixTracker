@@ -17,6 +17,17 @@
   color: lightgray;
 }
 
-.spacer-content{
+.spacer-content {
   text-align: center;
+}
+
+.notifications-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 1em;
+}
+
+.mark-unread{
+  margin: 0.5em 0.6em 0.5em 0.5em;
 }

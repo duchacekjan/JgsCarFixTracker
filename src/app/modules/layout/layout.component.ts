@@ -10,6 +10,8 @@ import {environment} from "../../../environments/environment";
 import {AfterNavigatedHandler} from "../../common/base/after-navigated-handler";
 import {Title} from "@angular/platform-browser";
 import {JgsAppTitleStrategy} from "../../common/jgs-app-title.strategy";
+import {JgsNotification} from "../../models/jgsNotification";
+import {NotificationsService} from "../../services/notifications.service";
 
 @Component({
   selector: 'app-layout',
@@ -21,9 +23,12 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
   menuSettings?: IMenuSettings;
   version: string;
   user: User | null = null;
+  notificationsCount: number = 0;
+  notifications: JgsNotification[] = [];
   private actionsSubscription: Subscription;
   private authUserSubscription: Subscription;
   private themeModeSubscription: Subscription;
+  private notificationsSubscription: Subscription;
 
   constructor(
     private readonly authService: AuthService,
@@ -32,6 +37,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     private overlay: OverlayContainer,
     private readonly router: Router,
     public readonly title: JgsAppTitleStrategy,
+    private readonly notificationsService: NotificationsService,
     route: ActivatedRoute,
     navigation: NavigationService) {
     super(route, navigation);
@@ -39,6 +45,10 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     this.authUserSubscription = this.authService.currentUserChanged(user => this.setUser(user));
     this.actionsSubscription = this.navigation.actionsDataChanged(actionsData => this.setActions(actionsData));
     this.themeModeSubscription = this.settingsService.themeChangedSubscription(() => this.updateThemeMode());
+    this.notificationsSubscription = this.notificationsService.getList().subscribe(data => {
+      this.notifications = data;
+      this.notificationsCount = data.filter(n => !n.isRead).length;
+    });
     this.updateThemeMode()
   }
 
@@ -46,6 +56,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     this.actionsSubscription.unsubscribe();
     this.authUserSubscription.unsubscribe();
     this.themeModeSubscription.unsubscribe();
+    this.notificationsSubscription.unsubscribe();
   }
 
   async backClick() {

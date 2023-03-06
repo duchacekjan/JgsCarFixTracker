@@ -19,6 +19,19 @@
       </button>
     </ng-container>
   </ng-container>
+  <button mat-icon-button [matMenuTriggerFor]="notificationMenu" aria-label="Notification menu" [matTooltip]="'toolbar.notifications'|translate">
+    <mat-icon [matBadge]="notificationsCount" [matBadgeHidden]="notificationsCount==0" matBadgeColor="warn">notifications</mat-icon>
+  </button>
+  <mat-menu #notificationMenu>
+    <div class="notifications-header">
+      <span class="spacer">{{'toolbar.notifications'|translate}}</span>
+      <mat-icon class="active-icon mark-unread">checklist</mat-icon>
+    </div>
+    <mat-divider></mat-divider>
+    <button *ngFor="let notification of notifications">
+      {{notification.subject}}
+    </button>
+  </mat-menu>
   <button *ngIf="menuSettings" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="App menu">
     <mat-icon>more_vert</mat-icon>
   </button>

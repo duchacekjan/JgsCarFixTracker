@@ -6,7 +6,8 @@
     "settings": "Nastavení",
     "version_ver": "Verze: {{ver}}",
     "user_usr": "Uživatel: {{usr}}",
-    "userProfile": "Uživatel"
+    "userProfile": "Uživatel",
+    "notifications": "Upozornění"
   },
   "settings": {
     "general": {
