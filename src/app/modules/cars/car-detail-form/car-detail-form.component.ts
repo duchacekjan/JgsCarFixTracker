@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NavigationService} from "../../../services/navigation.service";
 import {CarsService} from "../../../services/cars.service";
 import {Car} from "../../../models/car";
@@ -8,6 +8,7 @@ import {Subscription} from "rxjs";
 import {MessagesService} from "../../../services/messages.service";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {CommonValidators} from "../../../common/validators/common.validators";
+import {Fix} from "../../../models/fix";
 
 @Component({
   selector: 'app-car-detail-form',
@@ -17,35 +18,42 @@ import {CommonValidators} from "../../../common/validators/common.validators";
 export class CarDetailFormComponent extends AfterNavigatedHandler implements OnInit, OnDestroy {
   isNew = false;
 
-  carForm: FormGroup;
+  licencePlate = new FormControl('', {updateOn: 'blur'});
+  brand = new FormControl('');
+  model = new FormControl('');
+  fixes = new FormControl(<Fix[]>[]);
+  key = new FormControl('');
+  stk = new FormControl(<string | null>null);
+  carForm = new FormGroup({
+    licencePlate: this.licencePlate,
+    brand: this.brand,
+    model: this.model,
+    fixes: this.fixes,
+    key: this.key,
+    stk: this.stk
+  })
   private carSubscription = new Subscription();
 
   constructor(
-    private formBuilder: FormBuilder,
     private carsService: CarsService,
     route: ActivatedRoute,
     private router: Router,
     private messageService: MessagesService,
     navigation: NavigationService) {
     super(route, navigation);
-    this.carForm = this.formBuilder.group({
-      licencePlate: ['', {
-        validators: [Validators.required, Validators.minLength(7), Validators.maxLength(8)],
-        asyncValidators: [CommonValidators.uniqueLicencePlate(this.carsService)],
-        updateOn: 'blur'
-      }],
-      brand: '',
-      model: '',
-      fixes: [],
-      key: '',
-      stk: null
-    });//async validator for licencePlate
   }
 
   protected override readonly backLinkIfNotPresent: string = '/cars';
 
   ngOnInit() {
     this.isNew = this.route.snapshot.data['is-new'];
+
+    if (this.isNew) {
+      this.licencePlate.clearValidators();
+      this.licencePlate.addValidators([Validators.required, Validators.minLength(7), Validators.maxLength(8)]);
+      this.licencePlate.addAsyncValidators([CommonValidators.uniqueLicencePlate(this.carsService)]);
+    }
+
     this.carSubscription = this.route.snapshot.data['car'].subscribe((data: Car) => {
       if (data && data.key !== undefined) {
         if (data.stk === undefined) {
