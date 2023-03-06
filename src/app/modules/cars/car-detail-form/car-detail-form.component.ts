@@ -56,6 +56,7 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   private brands: Brand[] = [];
   private _isBrandInEditMode: boolean = false;
   private _isModelInEditMode: boolean = false;
+  private dataLoaded: boolean = false;
 
   private carSubscription = new Subscription();
   private brandsSubscription: Subscription;
@@ -71,6 +72,8 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
     this.brandsSubscription = this.brandsService.getList()
       .subscribe(data => {
         this.brands = data;
+        this.dataLoaded = true;
+        this.selectBrandAndModel();
       })
   }
 
@@ -128,6 +131,13 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   }
 
   ngOnInit() {
+    this.brandOptions = this.brand.valueChanges.pipe(
+      search(),
+      map((searchQuery: string) => this.searchBrands(searchQuery || '')));
+    this.modelOptions = this.model.valueChanges.pipe(
+      search(),
+      map((searchQuery: string) => this.searchModels(searchQuery || '')));
+
     this.isNew = this.route.snapshot.data['is-new'];
 
     if (this.isNew) {
@@ -142,18 +152,12 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
           data.stk = null;
         }
         this.carForm.setValue(data as any);
+        this.selectBrandAndModel();
       } else {
         this.messageService.showError({message: this.isNew ? 'cars.detail.errorCreate' : 'cars.detail.notFound'});
         this.router.navigate(['/cars']).catch();
       }
     });
-
-    this.brandOptions = this.brand.valueChanges.pipe(
-      search(),
-      map((searchQuery: string) => this.searchBrands(searchQuery || '')));
-    this.modelOptions = this.model.valueChanges.pipe(
-      search(),
-      map((searchQuery: string) => this.searchModels(searchQuery || '')));
   }
 
   ngOnDestroy() {
@@ -165,6 +169,14 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
     if (this.carForm.valid) {
       let car = (this.carForm.value as any) as Car;
       if (car && car.licencePlate) {
+        let brand = <Brand>(this.brand.value as any);
+        if (brand) {
+          car.brand = brand.name;
+        }
+        let model = <Model>(this.model.value as any);
+        if (model) {
+          car.model = model.name;
+        }
         this.carsService.upsert(car)
           .then(id => {
             this.messageService.showSuccess({message: 'messages.saved'});
@@ -372,6 +384,33 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
       'new': baseModelState || this.selectedModel != undefined || modelNameInvalid,
 
       'delete': baseModelState || !this.selectedModel
+    }
+  }
+
+  private selectBrandAndModel() {
+    if (!this.dataLoaded) {
+      return;
+    }
+
+    let brandName = this.brand.value;
+    let modelName = this.model.value;
+
+    if (brandName != null && brandName.length > 0) {
+      this.selectedBrand = this.searchBrands(brandName).find(() => true);
+      if(this.selectedBrand != undefined){
+        this.brand.setValue(this.selectedBrand as any);
+      }
+    }
+
+    if (!this.selectedBrand) {
+      return;
+    }
+
+    if (modelName != null && modelName.length > 0) {
+      this.selectedModel = this.searchModels(modelName).find(() => true);
+      if(this.selectedModel != undefined){
+        this.model.setValue(this.selectedModel as any);
+      }
     }
   }
 }
