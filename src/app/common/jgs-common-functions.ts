@@ -13,12 +13,12 @@ export interface SearchTextOptions {
   caseInsensitive: boolean
 }
 
-export function search(options: SearchOptions = {}): OperatorFunction<string, any> {
+export function search(options: SearchOptions = {}): OperatorFunction<string | null, any> {
   return pipe(
     startWith(''),
     debounceTime(options.debounceTime || DEFAULT_DEBOUNCE),
     distinctUntilChanged(),
-    filter(x => !x || x.length >= (options.minLength || DEFAULT_LENGTH))
+    filter(x => !x || false || x.length >= (options.minLength || DEFAULT_LENGTH))
   );
 }
 

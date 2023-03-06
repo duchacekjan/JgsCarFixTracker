@@ -14,11 +14,7 @@
       "themeMode": "Vzhled",
       "darkMode": "Tmavý režim",
       "lightMode": "Světlý režim",
-      "autoMode": "Automatický režim",
-      "brandSearch": "Značka",
-      "brandSearchHint": "Zadejte značku",
-      "modelSearch": "Model",
-      "modelSearchHint": "Zadejte model"
+      "autoMode": "Automatický režim"
     },
     "userProfile": {
       "title": "Profil uživatele",
@@ -94,7 +90,19 @@
       "model": "Model",
       "brand": "Značka",
       "notFound": "Vůz nebyl nalezen",
-      "errorCreate": "Vůz se nepodařilo vytvořit"
+      "errorCreate": "Vůz se nepodařilo vytvořit",
+      "clearBrand": "Vyčistit značku",
+      "editBrand": "Upravit značku",
+      "addBrand": "Vytvořit značku",
+      "removeBrand": "Odstranit značku",
+      "saveBrand": "Uložit značku",
+      "cancelEditBrand": "Zrušit změny",
+      "clearModel": "Vyčistit model",
+      "editModel": "Upravit model",
+      "addModel": "Vytvořit model",
+      "removeModel": "Odstranit model",
+      "saveModel": "Uložit model",
+      "cancelEditModel": "Zrušit změny"
     },
     "fix": {
       "mileage": "Stav tachometru",

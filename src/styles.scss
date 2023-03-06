@@ -13,8 +13,14 @@ body {
   flex-direction: column;
 }
 
-html, body { height: 100%; }
+html, body {
+  height: 100%;
+}
 
-.spacer{
+.spacer {
   flex: 1 1 auto
+}
+
+.active-icon {
+  cursor: pointer;
 }
