@@ -26,7 +26,11 @@
       "editModel": "Upravit model",
       "removeModel": "Odstranit model",
       "saveModel": "Uložit model",
-      "cancelEditModel": "Zrušit změny"
+      "cancelEditModel": "Zrušit změny",
+      "clearBrand": "Vyčistit značku",
+      "addBrand": "Vytvořit značku",
+      "clearModel": "Vyčistit model",
+      "addModel": "Vytvořit model"
     },
     "userProfile": {
       "title": "Profil uživatele",
@@ -102,15 +106,7 @@
       "model": "Model",
       "brand": "Značka",
       "notFound": "Vůz nebyl nalezen",
-      "errorCreate": "Vůz se nepodařilo vytvořit",
-      "clearBrand": "Vyčistit značku",
-      "addBrand": "Vytvořit značku",
-      "editBrand": "Upravit značku",
-      "removeBrand": "Odstranit značku",
-      "saveBrand": "Uložit značku",
-      "cancelEditBrand": "Zrušit změny",
-      "clearModel": "Vyčistit model",
-      "addModel": "Vytvořit model"
+      "errorCreate": "Vůz se nepodařilo vytvořit"
     },
     "fix": {
       "mileage": "Stav tachometru",
@@ -159,7 +155,13 @@
     "resetEmailSend": "E-mail pro reset hesla odeslán",
     "notImplemented": "Neimplementováno",
     "passwordChanged": "Heslo bylo změněno",
-    "displayNameChanged": "Jméno bylo úspěšně změněno"
+    "displayNameChanged": "Jméno bylo úspěšně změněno",
+    "carBrandCreated": "Značka vytvořena.",
+    "carBrandEdited": "Značka upravena.",
+    "carBrandDeleted": "Značka s modely smazána.",
+    "carModelCreated": "Model vytvořen.",
+    "carModelEdited": "Model upraven.",
+    "carModelDeleted": "Model smazán."
   },
   "errors": {
     "noCarDefined": "Není vytvořeno auto.",
