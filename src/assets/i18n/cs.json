@@ -7,7 +7,8 @@
     "version_ver": "Verze: {{ver}}",
     "user_usr": "Uživatel: {{usr}}",
     "userProfile": "Uživatel",
-    "notifications": "Upozornění"
+    "notifications": "Upozornění",
+    "noNotifications": "Žádná upozornění"
   },
   "settings": {
     "general": {
