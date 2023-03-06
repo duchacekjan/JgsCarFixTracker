@@ -1,9 +1,6 @@
 {
   "rules": {
-    "users": {
-      ".indexOn": [
-        "uid"
-      ],
+    "brands": {
       ".write": "auth !== null",
       ".read": "auth !== null"
     },
@@ -15,6 +12,25 @@
           ".indexOn": [
             "licencePlate"
           ]
+        }
+      }
+    },
+    "test": {
+      ".write": "auth !== null",
+      ".read": "auth !== null",
+      "brands": {
+        ".write": "auth !== null",
+        ".read": "auth !== null"
+      },
+      "items": {
+        "$uid": {
+          ".write": "$uid === auth.uid||!data.exists() || !newData.exists()",
+          ".read": "$uid === auth.uid",
+          "cars": {
+            ".indexOn": [
+              "licencePlate"
+            ]
+          }
         }
       }
     }

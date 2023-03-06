@@ -14,7 +14,19 @@
       "themeMode": "Vzhled",
       "darkMode": "Tmavý režim",
       "lightMode": "Světlý režim",
-      "autoMode": "Automatický režim"
+      "autoMode": "Automatický režim",
+      "brandSearch": "Značka",
+      "brandSearchHint": "Zadejte značku",
+      "modelSearch": "Model",
+      "modelSearchHint": "Zadejte model",
+      "editBrand": "Upravit značku",
+      "removeBrand": "Odstranit značku",
+      "saveBrand": "Uložit značku",
+      "cancelEditBrand": "Zrušit změny",
+      "editModel": "Upravit model",
+      "removeModel": "Odstranit model",
+      "saveModel": "Uložit model",
+      "cancelEditModel": "Zrušit změny"
     },
     "userProfile": {
       "title": "Profil uživatele",
@@ -90,7 +102,15 @@
       "model": "Model",
       "brand": "Značka",
       "notFound": "Vůz nebyl nalezen",
-      "errorCreate": "Vůz se nepodařilo vytvořit"
+      "errorCreate": "Vůz se nepodařilo vytvořit",
+      "clearBrand": "Vyčistit značku",
+      "addBrand": "Vytvořit značku",
+      "editBrand": "Upravit značku",
+      "removeBrand": "Odstranit značku",
+      "saveBrand": "Uložit značku",
+      "cancelEditBrand": "Zrušit změny",
+      "clearModel": "Vyčistit model",
+      "addModel": "Vytvořit model"
     },
     "fix": {
       "mileage": "Stav tachometru",
@@ -164,6 +184,8 @@
     "mismatchPasswords": "Hesla se neshodují",
     "passwordMinLength": "Heslo musí mít minimálně 6 znaků",
     "passwordIsWeak": "Heslo je slabé.",
-    "licencePlateTaken": "SPZ je již uložena v databázi."
+    "licencePlateTaken": "SPZ je již uložena v databázi.",
+    "brandRequired": "Název značky musí být vyplněn",
+    "modelRequired": "Název modelu musí být vyplněn"
   }
 }

@@ -4,10 +4,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DataService} from "../../../services/data.service";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {Action} from "../../../models/action";
-import {debounceTime, distinctUntilChanged, Observable, Subject, Subscription, switchMap} from "rxjs";
+import {Observable, Subject, Subscription, switchMap} from "rxjs";
 import {Car} from "../../../models/car";
 import {CarsService} from "../../../services/cars.service";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
+import {search} from "../../../common/jgs-common-functions";
 
 @Component({
   selector: 'app-car-list',
@@ -31,8 +32,7 @@ export class CarListComponent extends AfterNavigatedHandler implements OnDestroy
   override ngAfterViewInit() {
     super.ngAfterViewInit();
     this.searchSubscription = this.searchedText.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
+      search({minLength: 0}),
       switchMap(async (searchQuery: string) => await this.carsService.search(searchQuery)))
       .subscribe((results) => (this.cars = results));
 

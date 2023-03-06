@@ -5,6 +5,7 @@ import {Car} from '../models/car';
 import {TranslateService} from "@ngx-translate/core";
 import {DataService} from "./data.service";
 import {AuthService} from "./auth.service";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -122,7 +123,8 @@ export class CarsService {
     const currentUser = await this.auth.getCurrentUser();
     if (currentUser?.uid) {
       const keyValue = key ? `/${key}` : '';
-      return `items/${currentUser.uid}/${this.dbPath}${keyValue}`;
+      const prefix = environment.production ? "" : "test/"
+      return `${prefix}items/${currentUser.uid}/${this.dbPath}${keyValue}`;
     }
     return '';
   }

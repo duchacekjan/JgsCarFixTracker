@@ -19,14 +19,46 @@
     </mat-form-field>
   </div>
   <div class="row car-detail-row">
-    <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <input matInput type="text" formControlName="brand" [placeholder]="'cars.detail.brand'|translate"/>
-      <mat-hint>{{'cars.detail.brandHint'|translate}}</mat-hint>
-    </mat-form-field>
-    <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <input matInput type="text" formControlName="model" [placeholder]="'cars.detail.model'|translate"/>
-      <mat-hint>{{'cars.detail.modelHint'|translate}}</mat-hint>
-    </mat-form-field>
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-row">
+      <mat-form-field class="spacer">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput type="text" id="brand-search-text" aria-describedby="brand-search-text"
+               formControlName="brand"
+               [placeholder]="'cars.detail.brand'|translate"
+               [matAutocomplete]="autoBrand">
+        <mat-icon matSuffix (click)="clearBrandText()" class="active-icon" [matTooltip]="'cars.detail.clearBrand'|translate">cancel</mat-icon>
+        <mat-autocomplete #autoBrand="matAutocomplete" [displayWith]="brandDisplayFunction" (optionSelected)="onBrandSelected($event)">
+          <mat-option *ngFor="let option of brandOptions | async" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-hint>{{'cars.detail.brandHint'|translate}}</mat-hint>
+      </mat-form-field>
+      <button mat-icon-button color="primary" type="button" (click)="addBrand()" [matTooltip]="'cars.detail.addBrand'|translate"
+              [disabled]="disabledAddBrand">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-row">
+      <mat-form-field class="spacer">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput type="text" id="model-search-text" aria-describedby="model-search-text"
+               formControlName="model"
+               [placeholder]="'cars.detail.model'|translate"
+               [matAutocomplete]="autoModel">
+        <mat-icon matSuffix (click)="clearModelText()" [matTooltip]="'cars.detail.clearModel'|translate">cancel</mat-icon>
+        <mat-autocomplete #autoModel="matAutocomplete" [displayWith]="modelDisplayFunction" (optionSelected)="onModelSelected($event)">
+          <mat-option *ngFor="let option of modelOptions | async" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-hint>{{'cars.detail.modelHint'|translate}}</mat-hint>
+      </mat-form-field>
+      <button mat-icon-button color="primary" type="button" (click)="addModel()" [matTooltip]="'cars.detail.addModel'|translate"
+              [disabled]="disabledAddModel">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
     <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
       <input matInput [matDatepicker]="picker" formControlName="stk" [placeholder]="'cars.detail.stkLong'|translate"/>
       <mat-hint>{{'cars.detail.stkHint'|translate}}</mat-hint>
