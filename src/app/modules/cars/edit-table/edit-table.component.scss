@@ -1,59 +1,6 @@
-:host{
+:host {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding-bottom: calc(var(--bs-gutter-x) * .5);
-}
-.edit-table {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-
-  .edit-table__grid {
-    width: 100%;
-    table-layout: fixed;
-    overflow: auto;
-
-    .mat-header-row {
-      .mat-header-cell {
-        font-size: 1em;
-        cursor: default;
-
-        &.row-action-column {
-          padding: 0 0.1em;
-          width: 6em;
-          text-align: right;
-        }
-      }
-    }
-
-    .mat-cell {
-      &.row-action-column {
-        padding: 0 0.1em;
-        width: 6em;
-      }
-    }
-
-    .description-col {
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-      width: auto
-    }
-
-    .numeric-col {
-      width: 7em;
-      padding-left: 0;
-
-      &.mat-cell {
-        text-align: right;
-        padding-right: 1em;
-      }
-
-      &.mat-header-cell {
-        text-align: center;
-        padding-right: 1em;
-      }
-    }
-  }
 }
