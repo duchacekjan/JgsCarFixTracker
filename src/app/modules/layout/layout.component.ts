@@ -61,6 +61,9 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
   }
 
   signOut() {
+    this.notificationsSubscription.unsubscribe();
+    this.notifications = [];
+    this.notificationsCount = 0;
     this.authService.signOut()
       .then(() => this.router.navigate(['auth/sign-in'], {replaceUrl: true}));
   }
@@ -73,14 +76,14 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
   }
 
   deleteClick(notification: JgsNotification) {
-    console.log(notification);
+    this.notificationsService.setAsDeleted(notification.data, this.user?.uid).then();
   }
 
   onNotificationClick(notification: JgsNotification) {
-    console.log(notification);
+    this.router.navigate(['notifications']).catch(err => console.log(err));
   }
 
-  protected override afterNavigated() {
+  protected override afterNavigationEnded() {
     this.authService.getCurrentUser()
       .then(user => this.setUser(user));
   }
@@ -89,29 +92,36 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     this.user = user;
     setTimeout(() => {
       if (this.menuSettings) {
-        this.menuSettings.isAuthorized = this.user != null;
+        let menuSettings = this.menuSettings;
+        menuSettings.isAuthorized = this.user != null;
+        console.log(this.menuSettings);
+        menuSettings.isNotificationsVisible = menuSettings.isAuthorized && menuSettings.isNotificationsVisible;
+        this.menuSettings = {
+          isAuthorized: menuSettings.isAuthorized,
+          isSettingsVisible: menuSettings.isSettingsVisible,
+          isNotificationsVisible: menuSettings.isNotificationsVisible
+        }
+        console.log(this.menuSettings);
       }
       this.notificationsSubscription.unsubscribe();
-      this.notificationsSubscription = this.notificationsService.getList(this.user?.uid ?? '').subscribe(data => {
-        this.notifications = data;
-        let t = new JgsNotification({
-          key: "test",
-          subject: "Zprava",
-          body: "BODAYDWINDANDNWDNAONWD",
-          read: [],
-          deleted: []
-        }, false);
-        this.notifications = [t];
-        console.log(this.notifications);
-        this.notificationsCount = this.notifications.filter(n => !n.isRead).length;
-      });
+      this.notifications = [];
+      this.notificationsCount = 0;
+      if (this.user != null) {
+        this.notificationsSubscription = this.notificationsService.getList(this.user?.uid ?? '').subscribe(data => {
+          this.notifications = data;
+          this.notificationsCount = this.notifications.filter(n => !n.isRead).length;
+        });
+      }
+
     }, 0);
   }
 
   private setActions(actionsData: ActionsData) {
     setTimeout(() => {
       this.actionsData = actionsData
-      this.menuSettings = actionsData.getMenuSettings(this.user !== null)
+      this.menuSettings = actionsData.getMenuSettings(this.user !== null);
+      console.log(actionsData);
+      console.log(this.menuSettings);
     }, 0);
   }
 

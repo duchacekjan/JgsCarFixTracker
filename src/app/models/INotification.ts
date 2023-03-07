@@ -2,9 +2,10 @@ export interface INotification {
   key?: string,
   subject: string,
   body: string,
+  created: Date,
   read: string[],
   deleted: string[],
-  visibleFrom?: Date
+  visibleFrom: Date | null
 }
 
 export class JgsNotification {

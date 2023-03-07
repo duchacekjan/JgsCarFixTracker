@@ -6,6 +6,7 @@ import {CarsModule} from "../cars/cars.module";
 import {AuthGuard} from "../../services/auth.guard";
 import {SettingsModule} from "../settings/settings.module";
 import {NotFoundComponent} from "../../common/not-found/not-found.component";
+import {NotificationsModule} from "../notifications/notifications.module";
 
 const routes: Routes = [
   {path: '', redirectTo: 'cars', pathMatch: 'full'},
@@ -16,7 +17,8 @@ const routes: Routes = [
       {path: 'auth', loadChildren: () => AppAuthModule},
       {path: 'cars', loadChildren: () => CarsModule, canActivate: [AuthGuard]},
       {path: 'settings', loadChildren: () => SettingsModule},
-      {path: 'not-found', component: NotFoundComponent, title:'errors.notFound'},
+      {path: 'notifications', loadChildren: () => NotificationsModule, canActivate: [AuthGuard]},
+      {path: 'not-found', component: NotFoundComponent, title: 'errors.notFound'},
       {path: '**', redirectTo: 'not-found', pathMatch: 'full'}
     ]
   }

@@ -124,6 +124,11 @@
       "editRowTitle": "Úprava záznamu"
     }
   },
+  "notifications": {
+    "list": {
+      "title": "Upozornění"
+    }
+  },
   "paginator": {
     "firstPageLabel": "První stránka",
     "lastPageLabel": "Poslední stránka",

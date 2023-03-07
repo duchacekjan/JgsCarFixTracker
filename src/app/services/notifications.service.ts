@@ -24,10 +24,22 @@ export class NotificationsService {
         }
       ),
       map(data => data
-        .filter((x: INotification) => !x.deleted.find(f => f == userId))
+        .filter((x: INotification) => !x.deleted?.find(f => f == userId))
         .filter((x: INotification) => !x.visibleFrom || new Date(x.visibleFrom) <= now)),
-      map(data => data.map(notification => new JgsNotification(notification, notification.read.find(f => f == userId) != undefined)))
+      map(data => data.map(notification => new JgsNotification(notification, notification.read?.find(f => f == userId) != undefined)))
     );
+  }
+
+  create(subject: string, body: string, visibleFrom: Date | null = null) {
+    let data = {
+      subject: subject,
+      body: body,
+      created: new Date(),
+      read: [],
+      deleted: [],
+      visibleFrom: visibleFrom
+    }
+    return this.notificationsRef.push(data);
   }
 
   setAsRead(notification: INotification, userId?: string) {
@@ -52,7 +64,11 @@ export class NotificationsService {
     return this.notificationsRef.update(notification.key, data);
   }
 
-  serAsDeleted(notification: INotification, userId: string) {
+  setAsDeleted(notification: INotification, userId?: string) {
+    if (!userId) {
+      return Promise.resolve();
+    }
+
     if (!notification.key) {
       return Promise.resolve();
     }

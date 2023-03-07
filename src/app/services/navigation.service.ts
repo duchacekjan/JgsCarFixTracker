@@ -6,7 +6,8 @@ import {TranslateService} from "@ngx-translate/core";
 
 export interface IMenuSettings {
   isAuthorized: boolean,
-  isSettingsVisible: boolean
+  isSettingsVisible: boolean,
+  isNotificationsVisible: boolean
 }
 
 export class ActionsData {
@@ -14,12 +15,14 @@ export class ActionsData {
   actions: Action[] = [];
   isMenuAvailable: boolean = true;
   isSettingsVisible: boolean = true;
+  isNotificationsVisible: boolean = true;
 
   getMenuSettings(isAuthorized: boolean): IMenuSettings | undefined {
     return this.isMenuAvailable
       ? {
         isAuthorized: isAuthorized,
-        isSettingsVisible: this.isSettingsVisible
+        isSettingsVisible: this.isSettingsVisible,
+        isNotificationsVisible: this.isNotificationsVisible
       }
       : undefined;
   }

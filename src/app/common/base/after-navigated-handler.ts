@@ -52,6 +52,9 @@ export abstract class AfterNavigatedHandler implements AfterViewInit {
   }
 
   protected afterNavigated(): void {
+    if (this.route.snapshot.component?.name === "LayoutComponent") {
+      return;
+    }
     if (this.route.snapshot.component?.name === this.constructor.name || this.matchAllRoutes) {
       const actions = this.getActionsData();
       this.navigation.updateActionsData(actions);

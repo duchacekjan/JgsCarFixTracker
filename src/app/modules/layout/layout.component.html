@@ -19,7 +19,7 @@
       </button>
     </ng-container>
   </ng-container>
-  <button mat-icon-button [matMenuTriggerFor]="notificationMenu" aria-label="Notification menu" [matTooltip]="'toolbar.notifications'|translate">
+  <button *ngIf="menuSettings?.isNotificationsVisible===true" mat-icon-button [matMenuTriggerFor]="notificationMenu" aria-label="Notification menu" [matTooltip]="'toolbar.notifications'|translate">
     <mat-icon [matBadge]="notificationsCount" [matBadgeHidden]="notificationsCount==0" matBadgeColor="warn">notifications</mat-icon>
   </button>
   <mat-menu #notificationMenu>
@@ -30,7 +30,7 @@
       </button>
     </div>
     <mat-divider></mat-divider>
-    <div *ngFor="let notification of notifications" mat-menu-item class="d-flex flex-row align-items-center" (click)="onNotificationClick(notification)">
+    <div *ngFor="let notification of notifications" mat-menu-item class="notification d-flex flex-row align-items-center" (click)="onNotificationClick(notification)">
       <label class="spacer">{{notification.data.subject}}</label>
       <button mat-icon-button (click)="deleteClick(notification); $event.stopPropagation()">
         <mat-icon class="notification-item-icon">delete</mat-icon>

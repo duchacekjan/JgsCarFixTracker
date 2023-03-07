@@ -1,0 +1,11 @@
+<mat-selection-list #notificationItems>
+  <mat-list-option *ngFor="let notification of notifications|async" checkboxPosition="before">
+    <div *ngIf="notification.isRead">
+      <span>{{notification.data.subject}}</span>
+    </div>
+    <div *ngIf="!notification.isRead" class="unread">
+      <span>{{notification.data.subject}}</span>
+    </div>
+  </mat-list-option>
+</mat-selection-list>
+<button (click)="test()">Test</button>
