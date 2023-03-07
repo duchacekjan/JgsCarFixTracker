@@ -1,0 +1,33 @@
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+form {
+  flex-grow: 1;
+  padding: 0;
+}
+
+.button-row {
+  padding: 0 1em;
+}
+
+.actions {
+  padding: 0.5em 0;
+}
+
+.notifications-table {
+  height: 50%;
+  flex-grow: 0;
+}
+
+.mat-column-select {
+  width: 4em;
+}
+
+.mat-column-created {
+  width: 6em;
+  padding: 0 0.1em;
+}

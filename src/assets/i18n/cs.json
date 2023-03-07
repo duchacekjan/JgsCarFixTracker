@@ -130,8 +130,15 @@
       "subject": "Předmět",
       "date": "Datum",
       "delete": "Smazat",
-      "markAllAsRead": "Přečíst",
+      "markAllAsRead": "Přečteno",
       "markAllAsReadTooltip": "Označit vše za přečtené"
+    },
+    "admin": {
+      "title": "Upozornění - administrace",
+      "validFrom": "Platné od",
+      "send": "Odeslat",
+      "body": "Zpráva",
+      "newNotification": "Nová zpráva"
     }
   },
   "paginator": {
@@ -173,7 +180,8 @@
     "carBrandDeleted": "Značka s modely smazána.",
     "carModelCreated": "Model vytvořen.",
     "carModelEdited": "Model upraven.",
-    "carModelDeleted": "Model smazán."
+    "carModelDeleted": "Model smazán.",
+    "notificationSend": "Notifikace odeslána"
   },
   "errors": {
     "noCarDefined": "Není vytvořeno auto.",

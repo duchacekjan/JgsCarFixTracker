@@ -15,7 +15,7 @@ export class NotificationsService {
     this.notificationsRef = this.db.list(prefix + "notifications");
   }
 
-  getList(userId?: string): Observable<JgsNotification[]> {
+  getList(userId?: string, isAdmin: boolean = false): Observable<JgsNotification[]> {
     let now = new Date();
     return this.notificationsRef.snapshotChanges().pipe(
       map(changes => {
@@ -24,8 +24,8 @@ export class NotificationsService {
         }
       ),
       map(data => data
-        .filter((x: INotification) => !x.deleted?.find(f => f == userId))
-        .filter((x: INotification) => !x.visibleFrom || new Date(x.visibleFrom) <= now)),
+        .filter((x: INotification) => isAdmin || !x.deleted?.find(f => f == userId))
+        .filter((x: INotification) => isAdmin || !x.visibleFrom || new Date(x.visibleFrom) <= now)),
       map(data => data.map(notification => new JgsNotification(notification, notification.read?.find(f => f == userId) != undefined)))
     );
   }
@@ -35,6 +35,13 @@ export class NotificationsService {
 
     console.log(data);
     return this.notificationsRef.push(data);
+  }
+
+  delete(notification: INotification) {
+    if (!notification.key) {
+      return Promise.resolve();
+    }
+    return this.notificationsRef.remove(notification.key);
   }
 
   setAsRead(notification: INotification, userId?: string) {
