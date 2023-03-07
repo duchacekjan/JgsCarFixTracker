@@ -41,6 +41,10 @@ export class JgsNotification {
     return this._isRead;
   }
 
+  get anyRead(): boolean {
+    return this.data.read?.length > 0
+  }
+
   get created(): string {
     let today = new Date(new Date().toDateString());
     let createdDateTime = new Date(this.data.created);

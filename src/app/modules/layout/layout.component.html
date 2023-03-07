@@ -19,27 +19,12 @@
       </button>
     </ng-container>
   </ng-container>
-  <button *ngIf="menuSettings?.isNotificationsVisible===true" mat-icon-button [matMenuTriggerFor]="notificationMenu" aria-label="Notification menu" [matTooltip]="'toolbar.notifications'|translate">
+  <button *ngIf="menuSettings?.isNotificationsVisible===true"
+          mat-icon-button aria-label="Notification menu"
+          [matTooltip]="'toolbar.notifications'|translate"
+          routerLink="/notifications">
     <mat-icon [matBadge]="notificationsCount" [matBadgeHidden]="notificationsCount==0" matBadgeColor="warn">notifications</mat-icon>
   </button>
-  <mat-menu #notificationMenu>
-    <div class="notifications-header">
-      <label class="spacer">{{'toolbar.notifications'|translate}}</label>
-      <button mat-icon-button [disabled]="notificationsCount==0" (click)="markAllAsRead()">
-        <mat-icon>checklist</mat-icon>
-      </button>
-    </div>
-    <mat-divider></mat-divider>
-    <div *ngFor="let notification of notifications" mat-menu-item class="notification d-flex flex-row align-items-center" (click)="onNotificationClick(notification)">
-      <label class="spacer">{{notification.data.subject}}</label>
-      <button mat-icon-button (click)="deleteClick(notification); $event.stopPropagation()">
-        <mat-icon class="notification-item-icon">delete</mat-icon>
-      </button>
-    </div>
-    <div class="notifications-footer">
-      <label class="spacer" *ngIf="notifications.length==0">{{'toolbar.noNotifications'|translate}}</label>
-    </div>
-  </mat-menu>
   <button *ngIf="menuSettings" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="App menu">
     <mat-icon>more_vert</mat-icon>
   </button>

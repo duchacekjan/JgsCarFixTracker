@@ -68,21 +68,6 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
       .then(() => this.router.navigate(['auth/sign-in'], {replaceUrl: true}));
   }
 
-  async markAllAsRead() {
-    let items = this.notifications.filter(f => !f.isRead);
-    for (const item of items) {
-      await this.notificationsService.setAsRead(item.data, this.user?.uid);
-    }
-  }
-
-  deleteClick(notification: JgsNotification) {
-    this.notificationsService.setAsDeleted(notification.data, this.user?.uid).then();
-  }
-
-  onNotificationClick(notification: JgsNotification) {
-    this.router.navigate(['notifications']).catch(err => console.log(err));
-  }
-
   protected override afterNavigationEnded() {
     this.authService.getCurrentUser()
       .then(user => this.setUser(user));
@@ -109,6 +94,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
       if (this.user != null) {
         this.notificationsSubscription = this.notificationsService.getList(this.user?.uid ?? '').subscribe(data => {
           this.notifications = data;
+          console.log(data);
           this.notificationsCount = this.notifications.filter(n => !n.isRead).length;
         });
       }

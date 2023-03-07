@@ -71,12 +71,6 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
 
   protected override backLinkIfNotPresent = '/';
 
-  protected override getActionsData(): ActionsData {
-    const result = super.getActionsData();
-    result.isNotificationsVisible = false;
-    return result;
-  }
-
   onSubmit() {
     if (this.formGroup.valid) {
       let validFrom: Date | null = null;
