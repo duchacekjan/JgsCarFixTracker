@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from "@angular/fire/compat/database";
 import {environment} from "../../environments/environment";
-import {INotification, JgsNotification} from "../models/INotification";
+import {INotification, JgsNotification, NewNotification} from "../models/INotification";
 import {map, Observable, of} from "rxjs";
 
 @Injectable({
@@ -31,14 +31,9 @@ export class NotificationsService {
   }
 
   create(subject: string, body: string, visibleFrom: Date | null = null) {
-    let data = {
-      subject: subject,
-      body: body,
-      created: new Date(),
-      read: [],
-      deleted: [],
-      visibleFrom: visibleFrom
-    }
+    let data = new NewNotification(subject, body, visibleFrom);
+
+    console.log(data);
     return this.notificationsRef.push(data);
   }
 
@@ -57,7 +52,9 @@ export class NotificationsService {
       return Promise.resolve();
     }
 
+    console.log(userId);
     notification.read.push(userId);
+    console.log(notification.read);
     let data = {
       read: notification.read
     }

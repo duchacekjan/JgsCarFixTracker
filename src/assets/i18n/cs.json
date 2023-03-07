@@ -126,7 +126,12 @@
   },
   "notifications": {
     "list": {
-      "title": "Upozornění"
+      "title": "Upozornění",
+      "subject": "Předmět",
+      "date": "Datum",
+      "delete": "Smazat",
+      "markAllAsRead": "Přečíst",
+      "markAllAsReadTooltip": "Označit vše za přečtené"
     }
   },
   "paginator": {

@@ -31,6 +31,10 @@
       }
     }
   }
+
+  .notification-body{
+    border: solid 1px mat.get-color-from-palette($primary-palette, 500);
+  }
 }
 
 @mixin theme($theme) {
@@ -89,6 +93,11 @@
           width: 6em;
           text-align: right;
         }
+        &.created-column {
+          padding: 0 1em;
+          width: 6em;
+          text-align: right;
+        }
       }
     }
 
@@ -118,6 +127,10 @@
       &.mat-header-cell {
         text-align: center;
         padding-right: 1em;
+      }
+
+      &.unread {
+        font-weight: bold;
       }
     }
   }

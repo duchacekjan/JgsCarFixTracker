@@ -120,8 +120,6 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     setTimeout(() => {
       this.actionsData = actionsData
       this.menuSettings = actionsData.getMenuSettings(this.user !== null);
-      console.log(actionsData);
-      console.log(this.menuSettings);
     }, 0);
   }
 
