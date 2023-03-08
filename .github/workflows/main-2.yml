@@ -1,4 +1,4 @@
-name: Release deployment 2
+name: Release deployment GPC
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -38,6 +38,6 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: hosting:channel:deploy beta --only hosting
+          args: deploy --only hosting
         env:
           GCP_SA_KEY: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
