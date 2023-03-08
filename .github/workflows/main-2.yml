@@ -1,14 +1,11 @@
-name: Release deployment
+name: Release deployment 2
 on:
-  release:
-    types: [ released ]
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: Deploy to firebase host
+    name: Deploy to firebase beta host
 
     runs-on: ubuntu-latest
 
@@ -21,6 +18,6 @@ jobs:
       - run: npm run buildProd
       - uses: w9jds/firebase-action@master
         with:
-          args: hosting:channel:deploy notifications_2
+          args: hosting:channel:deploy beta
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
