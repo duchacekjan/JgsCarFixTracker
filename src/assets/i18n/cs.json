@@ -108,7 +108,8 @@
       "model": "Model",
       "brand": "Značka",
       "notFound": "Vůz nebyl nalezen",
-      "errorCreate": "Vůz se nepodařilo vytvořit"
+      "errorCreate": "Vůz se nepodařilo vytvořit",
+      "noFixData": "Žádné opravy nebyly provedeny"
     },
     "fix": {
       "mileage": "Stav tachometru",
@@ -131,7 +132,8 @@
       "date": "Datum",
       "delete": "Smazat",
       "markAllAsRead": "Přečteno",
-      "markAllAsReadTooltip": "Označit vše za přečtené"
+      "markAllAsReadTooltip": "Označit vše za přečtené",
+      "noData": "Žádná upozornění"
     },
     "admin": {
       "title": "Upozornění - administrace",

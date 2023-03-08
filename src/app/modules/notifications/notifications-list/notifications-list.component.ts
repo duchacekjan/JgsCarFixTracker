@@ -144,6 +144,16 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
       (new_data: JgsNotification[]) => {
         this.dataSource = new MatTableDataSource<JgsNotification>(new_data);
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sortingDataAccessor = (item, property) => {
+          switch (property) {
+            case 'created':
+              return item.data.created.valueOf();
+            case 'subject':
+              return item.data.subject;
+            default:
+              return item.toString();
+          }
+        };
         this.dataSource.sort = this.sort;
         if (this._notification != undefined) {
           this._notification = new_data.find(f => f.data.key == this._notification?.data.key);

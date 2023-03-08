@@ -6,16 +6,18 @@ import {TranslateModule} from "@ngx-translate/core";
 import {NotificationsRoutingModule} from "./notifications-routing.module";
 import {NotificationsListComponent} from './notifications-list/notifications-list.component';
 import {NotificationsAdminComponent} from './notifications-admin/notifications-admin.component';
+import {AppCommonModule} from "../../common/app-common.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MaterialModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    NotificationsRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        MaterialModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        NotificationsRoutingModule,
+        AppCommonModule
+    ],
   declarations: [
     NotificationsListComponent,
     NotificationsAdminComponent,

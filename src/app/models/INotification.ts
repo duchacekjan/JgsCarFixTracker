@@ -44,15 +44,4 @@ export class JgsNotification {
   get anyRead(): boolean {
     return this.data.read?.length > 0
   }
-
-  get created(): string {
-    let today = new Date(new Date().toDateString());
-    let createdDateTime = new Date(this.data.created);
-    let created = new Date(createdDateTime.toDateString());
-    if (created < today) {
-      return created.toLocaleDateString();
-    } else {
-      return formatTime(createdDateTime);
-    }
-  }
 }

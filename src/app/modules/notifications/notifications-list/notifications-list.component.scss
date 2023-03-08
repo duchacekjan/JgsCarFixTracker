@@ -19,7 +19,7 @@
   padding: 0 0.1em;
 }
 
-.mat-cell {
+.mat-cell:not(.no-data) {
   cursor: pointer;
 }
 
@@ -44,9 +44,11 @@
   .notifications-action {
     display: flex;
     flex-direction: row;
-    button{
+
+    button {
       margin-left: 1em;
-      span{
+
+      span {
         margin-left: 0.5em;
       }
     }

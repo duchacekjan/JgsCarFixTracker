@@ -29,6 +29,9 @@
 
     <tr mat-header-row *matHeaderRowDef="displayed_columns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayed_columns;"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-data" [attr.colspan]="displayed_columns.length">{{'cars.detail.noFixData'|translate}}</td>
+    </tr>
   </table>
   <span class="spacer"></span>
   <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageOptions" (page)="handlePageEvent($event)" showFirstLastButtons></mat-paginator>
