@@ -18,6 +18,6 @@ jobs:
       - run: npm run buildProd
       - uses: w9jds/firebase-action@master
         with:
-          args: hosting:channel:deploy beta
+          args: deploy
         env:
           GCP_SA_KEY: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
