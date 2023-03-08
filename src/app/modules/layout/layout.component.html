@@ -19,6 +19,12 @@
       </button>
     </ng-container>
   </ng-container>
+  <button *ngIf="menuSettings?.isNotificationsVisible===true"
+          mat-icon-button aria-label="Notification menu"
+          [matTooltip]="'toolbar.notifications'|translate"
+          routerLink="/notifications">
+    <mat-icon [matBadge]="notificationsCount" [matBadgeHidden]="notificationsCount==0" matBadgeColor="warn">notifications</mat-icon>
+  </button>
   <button *ngIf="menuSettings" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="App menu">
     <mat-icon>more_vert</mat-icon>
   </button>

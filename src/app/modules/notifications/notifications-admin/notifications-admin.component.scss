@@ -1,0 +1,60 @@
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+form {
+  flex-grow: 1;
+  padding: 0;
+}
+
+.button-row {
+  padding: 0 1em;
+}
+
+.actions {
+  padding: 0.5em 0;
+}
+
+.notifications-table {
+  height: 50%;
+  flex-grow: 0;
+}
+
+.mat-column-select {
+  width: 4em;
+}
+
+.mat-column-created {
+  width: 6em;
+  padding: 0 0.1em;
+}
+
+.mat-cell:not(.body-row):not(.no-data) {
+  cursor: pointer;
+}
+
+tr.body-row {
+  height: 0;
+}
+
+.body-container {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.body-content {
+  width: 100%;
+  padding: 0.5em 0;
+}
+
+.body-info {
+  margin-top: 0.5em;
+
+  span {
+    padding-right: 1em;
+  }
+}

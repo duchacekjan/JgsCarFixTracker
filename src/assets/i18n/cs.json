@@ -6,7 +6,9 @@
     "settings": "Nastavení",
     "version_ver": "Verze: {{ver}}",
     "user_usr": "Uživatel: {{usr}}",
-    "userProfile": "Uživatel"
+    "userProfile": "Uživatel",
+    "notifications": "Upozornění",
+    "noNotifications": "Žádná upozornění"
   },
   "settings": {
     "general": {
@@ -106,7 +108,8 @@
       "model": "Model",
       "brand": "Značka",
       "notFound": "Vůz nebyl nalezen",
-      "errorCreate": "Vůz se nepodařilo vytvořit"
+      "errorCreate": "Vůz se nepodařilo vytvořit",
+      "noFixData": "Žádné opravy nebyly provedeny"
     },
     "fix": {
       "mileage": "Stav tachometru",
@@ -120,6 +123,28 @@
       "removeRow": "Odstranit záznam",
       "addRowTitle": "Nový záznam",
       "editRowTitle": "Úprava záznamu"
+    }
+  },
+  "notifications": {
+    "list": {
+      "title": "Upozornění",
+      "subject": "Předmět",
+      "date": "Datum",
+      "delete": "Smazat",
+      "markAllAsRead": "Přečteno",
+      "markAllAsReadTooltip": "Označit vše za přečtené",
+      "noData": "Žádná upozornění",
+      "new": "Nová"
+    },
+    "admin": {
+      "title": "Upozornění - administrace",
+      "validFrom": "Platné od",
+      "send": "Odeslat",
+      "body": "Zpráva",
+      "newNotification": "Nová zpráva",
+      "none": "Nikdo",
+      "readersCount": "Počet čtenářů:",
+      "deleteCount": "Počet smazání:"
     }
   },
   "paginator": {
@@ -161,7 +186,12 @@
     "carBrandDeleted": "Značka s modely smazána.",
     "carModelCreated": "Model vytvořen.",
     "carModelEdited": "Model upraven.",
-    "carModelDeleted": "Model smazán."
+    "carModelDeleted": "Model smazán.",
+    "notificationSend": "Notifikace odeslána",
+    "notificationListRead": "Upozornění přečtena",
+    "notificationRead": "Upozornění přečteno",
+    "notificationListDeleted": "Upozornění smazána",
+    "notificationDeleted": "Upozornění smazáno"
   },
   "errors": {
     "noCarDefined": "Není vytvořeno auto.",

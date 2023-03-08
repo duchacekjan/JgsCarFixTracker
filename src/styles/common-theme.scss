@@ -15,6 +15,13 @@
     background-color: mat.get-color-from-palette($primary-palette, 500);
   }
 
+  .jgs-chip{
+    background-color: mat.get-color-from-palette($primary-palette, 500);
+    border-radius: 1em;
+    padding: 0.1em 0.5em;
+    margin: 0.5em;
+  }
+
   .settings-title {
     h2 {
       color: mat.get-color-from-palette($primary-palette, 500);

@@ -10,6 +10,8 @@ import {BrandsService} from "../../../services/brands.service";
 import {search, searchText} from "../../../common/jgs-common-functions";
 import {Model} from "../../../models/model";
 import {MessagesService} from "../../../services/messages.service";
+import {AuthService} from "../../../services/auth.service";
+import {JgsNotification} from "../../../models/INotification";
 
 @Component({
   selector: 'app-general-settings',
@@ -34,11 +36,12 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
     'new': false,
     'delete': false
   }
+  isAuthorized: boolean = false;
   private _selectedBrand?: Brand;
   private _selectedModel?: Model;
 
   private changesSubscription: Subscription;
-  private brandsSubscription: Subscription;
+  private brandsSubscription = new Subscription();
 
   private brands: Brand[] = [];
   private _isBrandInEditMode: boolean = false;
@@ -51,6 +54,7 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
     public readonly settingsService: SettingsService,
     private readonly brandsService: BrandsService,
     private readonly messageService: MessagesService,
+    private readonly authService: AuthService,
     route: ActivatedRoute,
     navigation: NavigationService) {
     super(route, navigation);
@@ -58,11 +62,6 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
       .subscribe(themeModeValue => {
         this.settingsService.themeMode = themeModeValue ?? ThemeMode.Auto;
       });
-    this.brandsSubscription = this.brandsService.getList()
-      .subscribe(brands => {
-        this.brands = brands;
-        this.reassign();
-      })
   }
 
   protected override backLinkIfNotPresent = '/';
@@ -71,6 +70,11 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
     const result = super.getActionsData();
     result.isSettingsVisible = false;
     return result;
+  }
+
+  protected override afterNavigationEnded() {
+    this.authService.getCurrentUser()
+      .then(user => this.setIsAuthorized(user != null));
   }
 
   ngOnInit(): void {
@@ -349,5 +353,20 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
 
       'delete': baseModelState || !this.selectedModel
     }
+  }
+
+  private setIsAuthorized(isAuthorized: boolean) {
+    this.isAuthorized = isAuthorized;
+    setTimeout(() => {
+      this.brandsSubscription.unsubscribe();
+      this.brands = [];
+      if (this.isAuthorized) {
+        this.brandsSubscription = this.brandsService.getList()
+          .subscribe(brands => {
+            this.brands = brands;
+            this.reassign();
+          });
+      }
+    }, 0);
   }
 }

@@ -12,6 +12,7 @@ import {HelperService} from "../../../services/helper.service";
 import {CarsService} from "../../../services/cars.service";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {DialogData} from "../../../common/dialog/dialog.model";
+import {formatDate} from "../../../common/jgs-common-functions";
 
 @Component({
   selector: 'app-car-detail',
@@ -138,7 +139,7 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
     this.resetForm();
     this.fixItemUpdateForm.patchValue(fix);
     if (!isNewRow) {
-      this.fixItemUpdateForm.get('lastUpdate')!.patchValue(this.formatDate(fix.lastUpdate));
+      this.fixItemUpdateForm.get('lastUpdate')!.patchValue(formatDate(fix.lastUpdate));
     }
     this.isDrawerOpened = true;
     this.isNewRowBeingAdded = isNewRow;
@@ -146,16 +147,6 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
 
   private resetForm() {
     this.helperService.resetForm(this.fixItemUpdateForm, this.fixFormGroup, () => this.isDrawerOpened = false);
-  }
-
-  private formatDate(date: any) {
-    const d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-    return [year, month, day].join('-');
   }
 
   private saveFix(fix: Fix | null) {

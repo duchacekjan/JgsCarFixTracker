@@ -7,6 +7,7 @@ import {SnackBarComponent} from './snack-bar/snack-bar.component';
 import {DialogComponent} from './dialog/dialog.component';
 import {PasswordStrengthHintComponent} from "./password-strength-hint/password-strength-hint.component";
 import {CommonModule} from "@angular/common";
+import {NotificationDatePipe} from "./NotificationDatePipe";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {CommonModule} from "@angular/common";
     SplashScreenComponent,
     SnackBarComponent,
     DialogComponent,
-    PasswordStrengthHintComponent
+    PasswordStrengthHintComponent,
+    NotificationDatePipe
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import {CommonModule} from "@angular/common";
   ],
   exports: [
     SplashScreenComponent,
-    PasswordStrengthHintComponent
+    PasswordStrengthHintComponent,
+    NotificationDatePipe
   ]
 })
 

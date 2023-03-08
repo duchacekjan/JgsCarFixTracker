@@ -17,6 +17,29 @@
   color: lightgray;
 }
 
-.spacer-content{
+.spacer-content {
   text-align: center;
+}
+
+.notifications-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.3em 6px 0 1em;
+}
+
+.notifications-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.5em 1em;
+}
+
+.mat-menu-item {
+  &.notification{
+    padding: 0 0 0 16px;
+  }
+  .notification-item-icon {
+    margin-right: 0;
+  }
 }
