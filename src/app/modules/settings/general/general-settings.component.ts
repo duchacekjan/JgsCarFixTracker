@@ -66,8 +66,8 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
 
   protected override backLinkIfNotPresent = '/';
 
-  protected override getActionsData(): ActionsData {
-    const result = super.getActionsData();
+  protected override getActionsData(): ActionsData | null {
+    const result = super.getDefaultActionsData();
     result.isSettingsVisible = false;
     return result;
   }

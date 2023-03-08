@@ -16,8 +16,8 @@ export class NotFoundComponent extends AfterNavigatedHandler {
 
   protected override readonly matchAllRoutes = true;
 
-  protected override getActionsData(): ActionsData {
-    const actionsData = super.getActionsData();
+  protected override getActionsData(): ActionsData | null {
+    const actionsData = super.getDefaultActionsData();
     actionsData.backAction = null;
     actionsData.isMenuAvailable = false;
     return actionsData;

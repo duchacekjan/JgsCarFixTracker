@@ -103,7 +103,7 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
     this.saveFix(updatedFix);
   }
 
-  protected override getActionsData(): ActionsData {
+  protected override getActionsData(): ActionsData | null {
     const id = this.getRouteParam('id');
     const editAction = new Action('edit_document');
     editAction.route = `/cars/${id}/edit`;
@@ -114,7 +114,7 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
     removeAction.execute = () => this.callDelete();
     removeAction.color = 'warn';
     removeAction.tooltip = 'cars.detail.remove.actionHint';
-    const result = super.getActionsData();
+    const result = super.getDefaultActionsData();
     result.actions = [removeAction, editAction];
     return result;
   }

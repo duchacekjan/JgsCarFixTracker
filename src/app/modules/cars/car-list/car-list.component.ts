@@ -53,12 +53,12 @@ export class CarListComponent extends AfterNavigatedHandler implements OnDestroy
     this.router.navigate([`/cars/${carKey}`]).catch();
   }
 
-  protected override getActionsData(): ActionsData {
+  protected override getActionsData(): ActionsData | null {
     const addAction = new Action('add_box');
     addAction.route = '/cars/new';
     addAction.tooltip = 'cars.detail.new.actionHint';
 
-    const result = super.getActionsData();
+    const result = super.getDefaultActionsData();
     result.actions = [addAction]
     return result;
   }
