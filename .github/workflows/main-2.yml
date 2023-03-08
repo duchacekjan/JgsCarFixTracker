@@ -24,7 +24,7 @@ jobs:
             name: dist
             path: dist/jgs-car-fix-tracker
   deploy:
-    name: Deploy to firebase host
+    name: Deploy to firebase beta host
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -38,6 +38,6 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting
+          args: hosting:channel:deploy beta --only hosting
         env:
           GCP_SA_KEY: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
