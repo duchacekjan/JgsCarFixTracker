@@ -23,7 +23,7 @@
       <td mat-cell *matCellDef="let element" class="description-col">
         <div class="d-flex align-items-center">
           <span>{{element.data.subject}}</span>
-          <div *ngIf="!element.anyRead" class="jgs-chip">NEW</div>
+          <div *ngIf="!element.anyRead" class="jgs-chip">{{'notifications.list.new'|translate}}</div>
         </div>
       </td>
     </ng-container>

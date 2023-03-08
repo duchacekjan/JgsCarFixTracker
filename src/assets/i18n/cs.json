@@ -133,7 +133,8 @@
       "delete": "Smazat",
       "markAllAsRead": "Přečteno",
       "markAllAsReadTooltip": "Označit vše za přečtené",
-      "noData": "Žádná upozornění"
+      "noData": "Žádná upozornění",
+      "new": "Nová"
     },
     "admin": {
       "title": "Upozornění - administrace",
