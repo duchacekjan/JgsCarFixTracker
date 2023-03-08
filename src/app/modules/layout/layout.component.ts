@@ -89,7 +89,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
       this.notificationsSubscription.unsubscribe();
       this.notifications = [];
       this.notificationsCount = 0;
-      if (this.user != null) {
+      if (this.user != null && this.menuSettings?.isNotificationsVisible === true) {
         this.notificationsSubscription = this.notificationsService.getList(this.user?.uid ?? '').subscribe(data => {
           this.notifications = data;
           this.notificationsCount = this.notifications.filter(n => !n.isRead).length;
