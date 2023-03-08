@@ -60,8 +60,8 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
 
   protected override backLinkIfNotPresent = '/';
 
-  protected override getActionsData(): ActionsData {
-    const result = super.getActionsData();
+  protected override getActionsData(): ActionsData | null {
+    const result = super.getDefaultActionsData();
     result.isNotificationsVisible = false;
     return result;
   }

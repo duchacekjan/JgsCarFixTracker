@@ -8,7 +8,7 @@ export abstract class AfterNavigatedHandler implements AfterViewInit {
 
   private backLink?: string;
 
-  constructor(protected route: ActivatedRoute, protected navigation: NavigationService) {
+  protected constructor(protected route: ActivatedRoute, protected navigation: NavigationService) {
   }
 
   ngAfterViewInit(): void {
@@ -35,12 +35,16 @@ export abstract class AfterNavigatedHandler implements AfterViewInit {
     return this.route.snapshot.queryParamMap.get(key) ?? defaultValue;
   }
 
-  protected getActionsData(): ActionsData {
+  protected getDefaultActionsData(): ActionsData {
     const result = new ActionsData();
     if (this.finalBackLink !== undefined) {
       result.backAction = ActionsData.createBackAction(this.finalBackLink);
     }
     return result;
+  }
+
+  protected getActionsData(): ActionsData | null {
+    return this.getDefaultActionsData();
   }
 
   protected afterNavigationEnded(): void {
@@ -53,9 +57,8 @@ export abstract class AfterNavigatedHandler implements AfterViewInit {
 
   protected afterNavigated(): void {
     if (this.route.snapshot.component?.name === this.constructor.name || this.matchAllRoutes) {
-
-      if (this.route.snapshot.component?.name != "LayoutComponent") {
-        const actions = this.getActionsData();
+      const actions = this.getActionsData();
+      if (actions != null) {
         this.navigation.updateActionsData(actions);
       }
       this.afterNavigationEnded();

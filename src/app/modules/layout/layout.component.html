@@ -1,52 +1,56 @@
 <mat-toolbar color="primary">
-  <button *ngIf="actionsData.backAction" mat-icon-button (click)="backClick()" [matTooltip]="'toolbar.back' | translate">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
+  <ng-container *ngIf="actionsData!=null">
+    <button *ngIf="actionsData.backAction" mat-icon-button (click)="backClick()" [matTooltip]="'toolbar.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </ng-container>
   <div class="spacer spacer-content">
     <span>{{title.title|async}}</span>
   </div>
-  <ng-container *ngFor="let action of actionsData.actions">
-    <ng-container *ngIf="action.route">
-      <button mat-icon-button [routerLink]="action.route" queryParamsHandling="merge" [queryParams]="action.queryParams"
-              [matTooltip]="action.tooltip | translate">
-        <mat-icon [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
-      </button>
+  <ng-container *ngIf="actionsData!=null">
+    <ng-container *ngFor="let action of actionsData.actions">
+      <ng-container *ngIf="action.route">
+        <button mat-icon-button [routerLink]="action.route" queryParamsHandling="merge" [queryParams]="action.queryParams"
+                [matTooltip]="action.tooltip | translate">
+          <mat-icon [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="action.execute">
+        <button mat-icon-button (click)="action.execute()"
+                [matTooltip]="action.tooltip | translate">
+          <mat-icon [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
+        </button>
+      </ng-container>
     </ng-container>
-    <ng-container *ngIf="action.execute">
-      <button mat-icon-button (click)="action.execute()"
-              [matTooltip]="action.tooltip | translate">
-        <mat-icon [color]="action.color" class="material-icons-outlined">{{action.icon}}</mat-icon>
+    <button *ngIf="menuSettings?.isNotificationsVisible===true"
+            mat-icon-button aria-label="Notification menu"
+            [matTooltip]="'toolbar.notifications'|translate"
+            routerLink="/notifications">
+      <mat-icon [matBadge]="notificationsCount" [matBadgeHidden]="notificationsCount==0" matBadgeColor="warn">notifications</mat-icon>
+    </button>
+    <button *ngIf="menuSettings" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="App menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #appMenu>
+      <button *ngIf="menuSettings?.isSettingsVisible" mat-menu-item routerLink="/settings">
+        <mat-icon>settings</mat-icon>
+        <span>{{'toolbar.settings' | translate}}</span>
       </button>
-    </ng-container>
+      <button [disabled]="menuSettings?.isAuthorized!==true" routerLink="/settings/user-profile" mat-menu-item>
+        <mat-icon>manage_accounts</mat-icon>
+        <span>{{'toolbar.userProfile' | translate}}</span>
+      </button>
+      <button [disabled]="menuSettings?.isAuthorized!==true" (click)="signOut()" mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        <span>{{'toolbar.logout' | translate}}</span>
+      </button>
+      <mat-divider></mat-divider>
+      <div class="version">
+        <span>{{user?.displayName ?? user?.email ?? 'anonymous'}}</span>
+        <span [translate]="'toolbar.version_ver'" [translateParams]="{ver: version}"></span>
+      </div>
+    </mat-menu>
   </ng-container>
-  <button *ngIf="menuSettings?.isNotificationsVisible===true"
-          mat-icon-button aria-label="Notification menu"
-          [matTooltip]="'toolbar.notifications'|translate"
-          routerLink="/notifications">
-    <mat-icon [matBadge]="notificationsCount" [matBadgeHidden]="notificationsCount==0" matBadgeColor="warn">notifications</mat-icon>
-  </button>
-  <button *ngIf="menuSettings" mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="App menu">
-    <mat-icon>more_vert</mat-icon>
-  </button>
-  <mat-menu #appMenu>
-    <button *ngIf="menuSettings?.isSettingsVisible" mat-menu-item routerLink="/settings">
-      <mat-icon>settings</mat-icon>
-      <span>{{'toolbar.settings' | translate}}</span>
-    </button>
-    <button [disabled]="menuSettings?.isAuthorized!==true" routerLink="/settings/user-profile" mat-menu-item>
-      <mat-icon>manage_accounts</mat-icon>
-      <span>{{'toolbar.userProfile' | translate}}</span>
-    </button>
-    <button [disabled]="menuSettings?.isAuthorized!==true" (click)="signOut()" mat-menu-item>
-      <mat-icon>logout</mat-icon>
-      <span>{{'toolbar.logout' | translate}}</span>
-    </button>
-    <mat-divider></mat-divider>
-    <div class="version">
-      <span>{{user?.displayName ?? user?.email ?? 'anonymous'}}</span>
-      <span [translate]="'toolbar.version_ver'" [translateParams]="{ver: version}"></span>
-    </div>
-  </mat-menu>
 </mat-toolbar>
 <div class="main-layout-content ">
   <router-outlet></router-outlet>

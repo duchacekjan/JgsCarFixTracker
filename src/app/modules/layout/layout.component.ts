@@ -18,7 +18,7 @@ import {NotificationsService} from "../../services/notifications.service";
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy {
-  actionsData = new ActionsData();
+  actionsData: ActionsData | null = null;
   menuSettings?: IMenuSettings;
   version: string;
   user: User | null = null;
@@ -55,7 +55,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
   }
 
   async backClick() {
-    if (this.actionsData.backAction != null) {
+    if (this.actionsData?.backAction != null) {
       await this.router.navigate([this.actionsData.backAction.route], {queryParams: this.actionsData.backAction.queryParams, replaceUrl: true, relativeTo: this.route})
     }
   }
@@ -71,6 +71,10 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
   protected override afterNavigationEnded() {
     this.authService.getCurrentUser()
       .then(user => this.setUser(user));
+  }
+
+  protected override getActionsData(): ActionsData | null {
+    return this.actionsData;
   }
 
   private setUser(user: any) {
