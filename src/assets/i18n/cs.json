@@ -138,7 +138,10 @@
       "validFrom": "Platné od",
       "send": "Odeslat",
       "body": "Zpráva",
-      "newNotification": "Nová zpráva"
+      "newNotification": "Nová zpráva",
+      "none": "Nikdo",
+      "readersCount": "Počet čtenářů:",
+      "deleteCount": "Počet smazání:"
     }
   },
   "paginator": {

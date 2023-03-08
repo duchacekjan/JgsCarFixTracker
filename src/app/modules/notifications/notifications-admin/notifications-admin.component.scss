@@ -42,8 +42,19 @@ tr.body-row {
 
 .body-container {
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .body-content {
+  width: 100%;
   padding: 0.5em 0;
+}
+
+.body-info {
+  margin-top: 0.5em;
+
+  span {
+    padding-right: 1em;
+  }
 }
