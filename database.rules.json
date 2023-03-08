@@ -12,12 +12,12 @@
           ".indexOn": [
             "licencePlate"
           ]
-        },
-        "notifications": {
-          ".write": "auth !== null",
-          ".read": "auth !== null"
         }
       }
+    },
+    "notifications": {
+      ".write": "auth !== null",
+      ".read": "auth !== null"
     },
     "test": {
       ".write": "auth !== null",
@@ -34,12 +34,12 @@
             ".indexOn": [
               "licencePlate"
             ]
-          },
-          "notifications": {
-            ".write": "auth !== null",
-            ".read": "auth !== null"
           }
         }
+      },
+      "notifications": {
+        ".write": "auth !== null",
+        ".read": "auth !== null"
       }
     }
   }
