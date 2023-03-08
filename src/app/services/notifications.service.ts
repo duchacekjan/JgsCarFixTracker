@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from "@angular/fire/compat/database";
 import {environment} from "../../environments/environment";
 import {INotification, JgsNotification, NewNotification} from "../models/INotification";
-import {map, Observable, of} from "rxjs";
+import {map, Observable} from "rxjs";
+import {MessagesService} from "./messages.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {map, Observable, of} from "rxjs";
 export class NotificationsService {
   private notificationsRef: AngularFireList<INotification>;
 
-  constructor(private readonly db: AngularFireDatabase) {
+  constructor(private readonly db: AngularFireDatabase, private readonly messageService: MessagesService) {
     const prefix = environment.production ? "" : "test/"
     this.notificationsRef = this.db.list(prefix + "notifications");
   }
@@ -37,11 +38,29 @@ export class NotificationsService {
     return this.notificationsRef.push(data);
   }
 
-  delete(notification: INotification) {
-    if (!notification.key) {
-      return Promise.resolve();
+  async deleteListAsync(items: INotification[]) {
+    for (let item of items) {
+      if (!item.key) continue;
+      await this.notificationsRef.remove(item.key);
     }
-    return this.notificationsRef.remove(notification.key);
+    let message = items.length == 1 ? 'messages.notificationDeleted' : 'messages.notificationListDeleted'
+    this.messageService.showSuccess({message: message});
+  }
+
+  async markAllAsDeletedAsync(items: INotification[], userId?: string) {
+    for (let item of items) {
+      await this.setAsDeleted(item, userId);
+    }
+    let message = items.length == 1 ? 'messages.notificationDeleted' : 'messages.notificationListDeleted'
+    this.messageService.showSuccess({message: message});
+  }
+
+  async markAllAsReadAsync(items: INotification[], userId?: string) {
+    for (let item of items) {
+      await this.setAsRead(item, userId);
+    }
+    let message = items.length == 1 ? 'messages.notificationRead' : 'messages.notificationListRead'
+    this.messageService.showSuccess({message: message});
   }
 
   setAsRead(notification: INotification, userId?: string) {
@@ -68,7 +87,7 @@ export class NotificationsService {
     return this.notificationsRef.update(notification.key, data);
   }
 
-  setAsDeleted(notification: INotification, userId?: string) {
+  private setAsDeleted(notification: INotification, userId?: string) {
     if (!userId) {
       return Promise.resolve();
     }

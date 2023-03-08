@@ -11,6 +11,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import {UserLocalConfigService} from "../../../services/user-local-config.service";
 import {SelectionModel} from "@angular/cdk/collections";
+import {MessagesService} from "../../../services/messages.service";
 
 @Component({
   selector: 'app-notifications-list',
@@ -35,6 +36,7 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
     private readonly authService: AuthService,
     private readonly notificationService: NotificationsService,
     private readonly userConfig: UserLocalConfigService,
+    private readonly messageService: MessagesService,
     route: ActivatedRoute,
     navigationService: NavigationService) {
     super(route, navigationService);
@@ -115,19 +117,13 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
   }
 
   deleteSelection() {
-    let items = this.selection.selected.filter(item => true);
-    items.forEach(item => {
-      this.notificationService.setAsDeleted(item.data, this.userId).then();
-    });
-    this.selection.clear();
+    this.notificationService.markAllAsDeletedAsync(this.selection.selected.map(m => m.data), this.userId)
+      .then(() => this.selection.clear());
   }
 
   markAllAsRead() {
-    let items = this.selection.selected.filter(item => true);
-    items.forEach(item => {
-      this.notificationService.setAsRead(item.data, this.userId).then();
-    });
-    this.selection.clear();
+    this.notificationService.markAllAsReadAsync(this.selection.selected.map(m => m.data), this.userId)
+      .then(() => this.selection.clear());
   }
 
   private setUserId(userId?: string) {

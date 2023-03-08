@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {MatTableDataSource} from "@angular/material/table";
-import {INotification, JgsNotification} from "../../../models/INotification";
+import {JgsNotification} from "../../../models/INotification";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
@@ -9,7 +9,7 @@ import {Subscription} from "rxjs";
 import {NotificationsService} from "../../../services/notifications.service";
 import {UserLocalConfigService} from "../../../services/user-local-config.service";
 import {ActivatedRoute} from "@angular/router";
-import {ActionsData, NavigationService} from "../../../services/navigation.service";
+import {NavigationService} from "../../../services/navigation.service";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {MessagesService} from "../../../services/messages.service";
 import {HelperService} from "../../../services/helper.service";
@@ -123,11 +123,8 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
   }
 
   deleteSelection() {
-    let items = this.selection.selected.filter(item => true);
-    items.forEach(item => {
-      this.notificationService.delete(item.data).then();
-    });
-    this.selection.clear();
+    this.notificationService.deleteListAsync(this.selection.selected.map(m => m.data))
+      .then(() => this.selection.clear());
   }
 
   setCurrentNotification(notification: JgsNotification) {

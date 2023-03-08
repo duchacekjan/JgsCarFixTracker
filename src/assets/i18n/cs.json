@@ -186,7 +186,11 @@
     "carModelCreated": "Model vytvořen.",
     "carModelEdited": "Model upraven.",
     "carModelDeleted": "Model smazán.",
-    "notificationSend": "Notifikace odeslána"
+    "notificationSend": "Notifikace odeslána",
+    "notificationListRead": "Upozornění přečtena",
+    "notificationRead": "Upozornění přečteno",
+    "notificationListDeleted": "Upozornění smazána",
+    "notificationDeleted": "Upozornění smazáno"
   },
   "errors": {
     "noCarDefined": "Není vytvořeno auto.",
