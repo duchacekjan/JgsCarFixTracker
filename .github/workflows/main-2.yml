@@ -1,0 +1,26 @@
+name: Release deployment
+on:
+  release:
+    types: [ released ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to firebase host
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: '16.14'
+      - run: npm install
+      - run: npm run buildProd
+      - uses: w9jds/firebase-action@master
+        with:
+          args: hosting:channel:deploy notifications_2
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
