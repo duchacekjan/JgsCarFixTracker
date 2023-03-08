@@ -31,3 +31,19 @@ form {
   width: 6em;
   padding: 0 0.1em;
 }
+
+.mat-cell:not(.body-row) {
+  cursor: pointer;
+}
+
+tr.body-row {
+  height: 0;
+}
+
+.body-container {
+  overflow: hidden;
+}
+
+.body-content {
+  padding: 0.5em 0;
+}

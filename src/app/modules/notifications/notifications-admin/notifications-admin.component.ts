@@ -13,11 +13,19 @@ import {ActionsData, NavigationService} from "../../../services/navigation.servi
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {MessagesService} from "../../../services/messages.service";
 import {HelperService} from "../../../services/helper.service";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-notifications-admin',
   templateUrl: './notifications-admin.component.html',
-  styleUrls: ['./notifications-admin.component.scss']
+  styleUrls: ['./notifications-admin.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class NotificationsAdminComponent extends AfterNavigatedHandler implements OnInit {
 
@@ -34,6 +42,7 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
   pageOptions = [5, 10, 20, 50];
   pageSize = 10;
   selection = new SelectionModel<JgsNotification>(true, []);
+  selected?: JgsNotification;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -119,6 +128,14 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
       this.notificationService.delete(item.data).then();
     });
     this.selection.clear();
+  }
+
+  setCurrentNotification(notification: JgsNotification) {
+    if (this.selected?.data.key == notification.data.key) {
+      this.selected = undefined;
+    } else {
+      this.selected = notification
+    }
   }
 
   private clearForm() {

@@ -79,14 +79,12 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
       if (this.menuSettings) {
         let menuSettings = this.menuSettings;
         menuSettings.isAuthorized = this.user != null;
-        console.log(this.menuSettings);
         menuSettings.isNotificationsVisible = menuSettings.isAuthorized && menuSettings.isNotificationsVisible;
         this.menuSettings = {
           isAuthorized: menuSettings.isAuthorized,
           isSettingsVisible: menuSettings.isSettingsVisible,
           isNotificationsVisible: menuSettings.isNotificationsVisible
         }
-        console.log(this.menuSettings);
       }
       this.notificationsSubscription.unsubscribe();
       this.notifications = [];
@@ -94,7 +92,6 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
       if (this.user != null) {
         this.notificationsSubscription = this.notificationsService.getList(this.user?.uid ?? '').subscribe(data => {
           this.notifications = data;
-          console.log(data);
           this.notificationsCount = this.notifications.filter(n => !n.isRead).length;
         });
       }
