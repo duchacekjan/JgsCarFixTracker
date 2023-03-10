@@ -36,10 +36,26 @@
 }
 
 .mat-menu-item {
-  &.notification{
+  &.notification {
     padding: 0 0 0 16px;
   }
+
   .notification-item-icon {
     margin-right: 0;
+  }
+}
+
+.live-notification {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  padding-left: 1em;
+  align-items: center;
+  cursor: pointer;
+  .live-notification-body{
+    padding-left: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

@@ -33,8 +33,6 @@ export class NotificationsService {
 
   create(subject: string, body: string, visibleFrom: Date | null = null) {
     let data = new NewNotification(subject, body, visibleFrom);
-
-    console.log(data);
     return this.notificationsRef.push(data);
   }
 
@@ -78,9 +76,7 @@ export class NotificationsService {
       return Promise.resolve();
     }
 
-    console.log(userId);
     notification.read.push(userId);
-    console.log(notification.read);
     let data = {
       read: notification.read
     }

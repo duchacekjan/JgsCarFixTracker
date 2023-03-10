@@ -52,6 +52,19 @@
     </mat-menu>
   </ng-container>
 </mat-toolbar>
+<div class="live-notification"
+     [@liveNotificationExpand]="liveNotification!=undefined ? 'expanded' : 'collapsed'"
+     routerLink="/notifications"
+     [queryParams]="liveQueryParams"
+     (click)="dismissLiveNotification()">
+  <label class="flex-shrink-0"><strong>{{liveSubject}}</strong></label>
+  <span class="spacer live-notification-body">
+    {{liveBody}}
+  </span>
+  <button mat-icon-button (click)="dismissLiveNotification(); $event.stopPropagation();">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
 <div class="main-layout-content ">
   <router-outlet></router-outlet>
 </div>
