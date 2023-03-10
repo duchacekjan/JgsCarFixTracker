@@ -120,14 +120,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     this.user = user;
     setTimeout(() => {
       if (this.menuSettings) {
-        let menuSettings = this.menuSettings;
-        menuSettings.isAuthorized = this.user != null;
-        menuSettings.isNotificationsVisible = menuSettings.isAuthorized && menuSettings.isNotificationsVisible;
-        this.menuSettings = {
-          isAuthorized: menuSettings.isAuthorized,
-          isSettingsVisible: menuSettings.isSettingsVisible,
-          isNotificationsVisible: menuSettings.isNotificationsVisible
-        }
+        this.menuSettings = this.actionsData?.getMenuSettings(this.user != null);
       }
       this.notificationsSubscription.unsubscribe();
       this.notifications = [];
