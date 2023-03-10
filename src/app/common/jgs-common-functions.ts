@@ -49,6 +49,20 @@ export function formatTime(date: Date) {
   ].join(':')
 }
 
+export function insertBase(original: string, selStart:number, selEnd:number, tag: string, defaultSelection: string = '', attributes: string[] = []): string {
+  let selection = original.slice(selStart, selEnd);
+  console.log(selection)
+  if (selection.length == 0) {
+    selection = defaultSelection;
+  }
+  const tagAttributes = attributes.length==0?'':` ${attributes.join(' ')}`;
+  const startTag = `<${tag}${tagAttributes}>`;
+  const endTag = `</${tag}>`;
+  return original.slice(0, selStart) +
+    startTag + selection + endTag +
+    original.slice(selEnd);
+}
+
 function setCaseInsensitivity(text: string, caseInsensitive: boolean): string {
   return caseInsensitive ? text.toLowerCase() : text;
 }

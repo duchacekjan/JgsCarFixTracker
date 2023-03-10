@@ -10,10 +10,6 @@ form {
   padding: 0;
 }
 
-.button-row {
-  padding: 0 1em;
-}
-
 .actions {
   padding: 0.5em 0;
 }
@@ -56,5 +52,25 @@ tr.body-row {
 
   span {
     padding-right: 1em;
+  }
+}
+
+.preview-content {
+  flex: 1 1 auto;
+  padding: 1em;
+}
+
+.tab-body {
+  overflow: hidden;
+}
+
+.insert-toolbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  button {
+    margin-right: 0.3em;
+    margin-bottom: 0.3em;
   }
 }

@@ -64,34 +64,59 @@
     <span>{{'notifications.list.delete'|translate}}</span>
   </button>
 </div>
-<div class="border-separator">
-  <label>{{'notifications.admin.newNotification'|translate}}:</label>
-</div>
-<form [formGroup]="formGroup" class="container-fluid"
+<form [formGroup]="formGroup"
       (ngSubmit)="onSubmit()"
       #formDirective="ngForm">
-  <div class="row">
-    <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <input type="text" matInput formControlName="subject"
-             [placeholder]="'notifications.list.subject'|translate">
-    </mat-form-field>
-    <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <input matInput [matDatepicker]="picker" formControlName="validFrom"
-             [placeholder]="'notifications.admin.validFrom'|translate"/>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </div>
-  <mat-form-field class="col-12 col-sm-10 col-md-8 col-lg-6">
-    <textarea matInput formControlName="body"
-              [placeholder]="'notifications.admin.body'|translate"
-              rows="4"></textarea>
-  </mat-form-field>
-  <div class="row button-row">
-    <button mat-raised-button color="primary" type="submit"
-            class="col-12 col-sm-6 col-md-4 col-lg-3"
-            [disabled]="!formGroup.valid">
-      {{'notifications.admin.send'|translate}}
-    </button>
-  </div>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab [label]="'notifications.admin.newNotification'|translate" class="tab-body">
+      <div class="container-fluid">
+        <div class="row">
+          <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <input type="text" matInput formControlName="subject"
+                   [placeholder]="'notifications.list.subject'|translate">
+          </mat-form-field>
+          <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <input matInput [matDatepicker]="picker" formControlName="validFrom"
+                   [placeholder]="'notifications.admin.validFrom'|translate"/>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="insert-toolbar">
+          <button mat-raised-button type="button" (click)="insertUrl()">
+            <mat-icon>link</mat-icon>
+            {{'notifications.admin.addLink'|translate}}
+          </button>
+          <button mat-raised-button type="button" (click)="insertBold()">
+            <mat-icon>format_bold</mat-icon>
+            {{'notifications.admin.addBold'|translate}}
+          </button>
+          <button mat-raised-button type="button" (click)="insertItalic()">
+            <mat-icon>format_italic</mat-icon>
+            {{'notifications.admin.addItalic'|translate}}
+          </button>
+        </div>
+        <mat-form-field class="col-12 col-sm-10 col-md-8 col-lg-6">
+          <textarea matInput formControlName="body"
+                    #bodyArea
+                    [placeholder]="'notifications.admin.body'|translate"
+                    rows="4"></textarea>
+        </mat-form-field>
+        <div class="button-row">
+          <button mat-raised-button color="primary" type="submit"
+                  class="col-12 col-sm-6 col-md-4 col-lg-3"
+                  [disabled]="!formGroup.valid">
+            {{'notifications.admin.send'|translate}}
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab [label]="'notifications.admin.preview'|translate"
+             [disabled]="!body.valid">
+      <div class="preview-content" [innerHTML]="bodyHtml"></div>
+      <div>
+        strong:<strong>dawdaw</strong>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </form>

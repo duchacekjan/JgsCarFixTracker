@@ -58,9 +58,8 @@
      [queryParams]="liveQueryParams"
      (click)="dismissLiveNotification()">
   <label class="flex-shrink-0"><strong>{{liveSubject}}</strong></label>
-  <span class="spacer live-notification-body">
-    {{liveBody}}
-  </span>
+  <div class="spacer live-notification-body" [innerHTML]="liveBody">
+  </div>
   <button mat-icon-button (click)="dismissLiveNotification(); $event.stopPropagation();">
     <mat-icon>close</mat-icon>
   </button>

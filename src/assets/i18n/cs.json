@@ -140,11 +140,15 @@
       "title": "Upozornění - administrace",
       "validFrom": "Platné od",
       "send": "Odeslat",
+      "preview": "Náhled",
       "body": "Zpráva",
       "newNotification": "Nová zpráva",
       "none": "Nikdo",
       "readersCount": "Počet čtenářů:",
-      "deleteCount": "Počet smazání:"
+      "deleteCount": "Počet smazání:",
+      "addLink": "URL",
+      "addBold": "Tučně",
+      "addItalic": "Kurzíva"
     }
   },
   "paginator": {

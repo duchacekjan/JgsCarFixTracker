@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {MatTableDataSource} from "@angular/material/table";
 import {JgsNotification} from "../../../models/INotification";
@@ -14,6 +14,13 @@ import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handle
 import {MessagesService} from "../../../services/messages.service";
 import {HelperService} from "../../../services/helper.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {insertBase} from "../../../common/jgs-common-functions";
+
+interface ITextSelection {
+  start: number
+  end: number,
+  insertLength: number
+}
 
 @Component({
   selector: 'app-notifications-admin',
@@ -29,8 +36,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 })
 export class NotificationsAdminComponent extends AfterNavigatedHandler implements OnInit {
 
+  body = new FormControl('', [Validators.required]);
   private subject = new FormControl('', [Validators.required]);
-  private body = new FormControl('', [Validators.required]);
   private validFrom = new FormControl(<string | null>null);
   formGroup = new FormGroup({
     subject: this.subject,
@@ -47,6 +54,7 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(FormGroupDirective, {static: true}) notificationFormGroup!: FormGroupDirective;
+  @ViewChild("bodyArea") bodyTextArea!: ElementRef;
 
   private pageSizeKey = 'notifications.pageSize';
   private notificationsSubscription = new Subscription();
@@ -60,6 +68,14 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
     navigationService: NavigationService) {
     super(route, navigationService);
     this.clearForm();
+  }
+
+  get bodyHtml(): string {
+    return this.body.valid
+      ? this.body.value!
+        .replace('\r\n', '</br>')
+        .replace('\n', '</br>')
+      : ''
   }
 
   ngOnInit(): void {
@@ -88,7 +104,7 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
       }
       this.notificationService.create(
         this.subject.value!,
-        this.body.value!,
+        this.bodyHtml,
         validFrom
       )
         .then(() => this.messageService.showSuccess({message: 'messages.notificationSend'}))
@@ -169,5 +185,55 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
 
   private resetForm() {
     this.helperService.resetForm(this.formGroup, this.notificationFormGroup);
+  }
+
+  insertUrl() {
+    let tag = 'a';
+    let attributes = ['href="url"'];
+    let selection = this.insertBase(tag, attributes, 'link');
+    this.bodyTextArea.nativeElement.selectionStart = selection.start + 9;
+    this.bodyTextArea.nativeElement.selectionEnd = selection.start + 12;
+  }
+
+  insertBold() {
+    let tag = 'strong';
+    let selection = this.insertBase(tag);
+    let tagLength = tag.length + 2;
+    this.bodyTextArea.nativeElement.selectionStart = selection.start + tagLength;
+    this.bodyTextArea.nativeElement.selectionEnd = selection.start + tagLength + selection.insertLength;
+  }
+
+  insertItalic() {
+    let tag = 'em';
+    let selection = this.insertBase(tag);
+    let tagLength = tag.length + 2;
+    this.bodyTextArea.nativeElement.selectionStart = selection.start + tagLength;
+    this.bodyTextArea.nativeElement.selectionEnd = selection.start + tagLength + selection.insertLength;
+  }
+
+  private insertBase(tag: string, attributes: string[] = [], defaultSelection: string = ''): ITextSelection {
+    let original = this.body.value;
+    if (original == null) {
+      return {
+        start: 0,
+        end: 0,
+        insertLength: 0
+      };
+    }
+    let selStart = this.bodyTextArea.nativeElement.selectionStart;
+    let setEnd = this.bodyTextArea.nativeElement.selectionEnd;
+    let insert = insertBase(original, selStart, setEnd, tag, defaultSelection, attributes);
+    let length = insert.length - original.length;
+    if (length < 0) {
+      length = 0
+    }
+    this.body.patchValue(insert);
+
+    this.bodyTextArea.nativeElement.focus();
+    return {
+      start: selStart,
+      end: setEnd,
+      insertLength: length
+    };
   }
 }
