@@ -38,6 +38,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
   private notificationsSubscription = new Subscription();
   private isFirstCall: boolean = false;
   private _liveNotification?: JgsNotification;
+  private readonly liveNotifications: Array<JgsNotification> = [];
 
   constructor(
     private readonly authService: AuthService,
@@ -65,7 +66,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     this._liveNotification = value;
     if (value != undefined) {
       setTimeout(() => {
-        this.liveNotification = undefined;
+        this.setNextLiveNotification();
       }, 4000)
     }
   }
@@ -167,7 +168,11 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
         .filter(n => !n.isRead)
         .sort((a, b) => a.data.created > b.data.created ? 1 : a.data.created < b.data.created ? -1 : 0);
       if (newNotifications.length == 1) {
-        this.liveNotification = newNotifications[0];
+        if (this.liveNotification != undefined) {
+          this.liveNotifications.push(newNotifications[0])
+        } else {
+          this.liveNotification = newNotifications[0];
+        }
       }
     }
     this.notifications = data;
@@ -176,5 +181,14 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
 
   dismissLiveNotification() {
     this.liveNotification = undefined
+  }
+
+  private setNextLiveNotification() {
+    if (this.liveNotifications.length > 0) {
+      setTimeout(() => {
+        this.liveNotification = this.liveNotifications.shift();
+      }, 300);
+    }
+    this.liveNotification = undefined;
   }
 }
