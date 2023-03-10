@@ -135,6 +135,7 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
 
   private trackDataChange() {
     this.notificationsSubscription.unsubscribe();
+    let selected = this.route.snapshot.queryParamMap.get('key') ?? undefined;
     this.dataSource = new MatTableDataSource<JgsNotification>([]);
     this.notificationsSubscription = this.notificationService.getList(this.userId).subscribe(
       (new_data: JgsNotification[]) => {
@@ -152,9 +153,21 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
         };
         this.dataSource.sort = this.sort;
         if (this._notification != undefined) {
-          this._notification = new_data.find(f => f.data.key == this._notification?.data.key);
+          selected = this._notification.data.key;
         }
+        setTimeout(() => {
+          this.initSelected(selected, new_data)
+        }, 0)
       }
     );
+  }
+
+  private initSelected(selected: string | undefined, data: JgsNotification[]) {
+    if (selected != undefined) {
+      let found = data.find(f => f.data.key == selected);
+      if (found) {
+        this.showNotification(found)
+      }
+    }
   }
 }

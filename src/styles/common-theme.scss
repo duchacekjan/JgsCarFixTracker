@@ -15,7 +15,7 @@
     background-color: mat.get-color-from-palette($primary-palette, 500);
   }
 
-  .jgs-chip{
+  .jgs-chip {
     background-color: mat.get-color-from-palette($primary-palette, 500);
     border-radius: 1em;
     padding: 0.1em 0.5em;
@@ -52,13 +52,15 @@
     }
   }
   .password-strength-hint {
-    &.weak{
+    &.weak {
       color: mat.get-color-from-palette($warn-palette, 500);
     }
-    &.moderate{
+
+    &.moderate {
       color: mat.get-color-from-palette($accent-palette, 500);
     }
-    &.strong{
+
+    &.strong {
       color: mat.get-color-from-palette($primary-palette, 500);
     }
   }
@@ -77,6 +79,10 @@
   .actions-part-link {
     color: mat.get-color-from-palette($accent-palette, 400);
     padding: 0 0.5em;
+  }
+
+  .live-notification {
+    background: mat.get-color-from-palette($accent-palette, 400);
   }
 }
 
