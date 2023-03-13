@@ -6,7 +6,7 @@ import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/compat/database';
 import {getDatabase, provideDatabase} from '@angular/fire/database';
-import {RouterModule, TitleStrategy} from '@angular/router';
+import {RouterModule, Routes, TitleStrategy} from '@angular/router';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {CommonModule, registerLocaleData} from "@angular/common";
@@ -20,6 +20,11 @@ import {AppServicesModule} from "./services/services.module";
 import {AppLayoutModule} from "./modules/layout/app-layout.module";
 import {JgsErrorHandler} from "./common/jgs-error.handler";
 import {JgsTitleStrategy} from "./common/jgs-title.strategy";
+import {GeneralSettingsComponent} from "./modules/settings/general/general-settings.component";
+import {UserProfileComponent} from "./modules/settings/user-profile/user-profile.component";
+import {BackLinkResolver} from "./common/resolvers/back-link.resolver";
+import {LayoutModule} from "@angular/cdk/layout";
+import {PrintModule} from "./modules/print/print.module";
 
 registerLocaleData(localeCz);
 
@@ -39,6 +44,11 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
   }
 }
 
+const routes: Routes = [
+  {path: '', loadChildren: () => PrintModule},
+  {path: '', loadChildren: () => LayoutModule}
+];
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -53,7 +63,7 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
-    RouterModule.forRoot([]),
+    RouterModule.forRoot(routes),
     HttpClientModule,
     TranslateModule.forRoot({
       defaultLanguage: 'cs',
@@ -68,6 +78,7 @@ export class CustomMissingTranslationHandler implements MissingTranslationHandle
       }
     }),
     AppLayoutModule,
+    PrintModule,
     AppServicesModule
   ],
   exports: [],
