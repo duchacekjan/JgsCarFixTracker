@@ -23,11 +23,11 @@ import {NotificationDatePipe} from "./NotificationDatePipe";
     MaterialModule,
     TranslateModule
   ],
-  exports: [
-    SplashScreenComponent,
-    PasswordStrengthHintComponent,
-    NotificationDatePipe
-  ]
+    exports: [
+        SplashScreenComponent,
+        PasswordStrengthHintComponent,
+        NotificationDatePipe
+    ]
 })
 
 export class AppCommonModule {
