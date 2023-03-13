@@ -1,0 +1,15 @@
+.header {
+  position: fixed;
+  top: 0;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+}
+
+@media screen {
+  :host {
+    display: none;
+  }
+}
