@@ -9,10 +9,12 @@ import {MaterialModule} from "../../material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {TranslateModule} from "@ngx-translate/core";
 import {CarDetailResolver} from "../../common/resolvers/car-detail.resolver";
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
-    LayoutComponent
+    LayoutComponent,
+    MenuComponent
   ],
   imports: [
     CommonModule,

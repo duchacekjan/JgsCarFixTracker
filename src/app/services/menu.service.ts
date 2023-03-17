@@ -12,7 +12,7 @@ export class MenuService {
 
   private menuItemsRef: AngularFireList<MenuItem>;
 
-  constructor(private readonly db: AngularFireDatabase, private readonly dataService: DataService) {
+  constructor(private readonly db: AngularFireDatabase) {
     const prefix = environment.production ? "" : "test/"
     this.menuItemsRef = db.list<MenuItem>(prefix + "menu");
   }

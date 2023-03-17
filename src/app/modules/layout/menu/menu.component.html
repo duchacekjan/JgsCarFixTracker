@@ -1,0 +1,6 @@
+<ng-container *ngFor="let menuItem of menuItems|async">
+  <button mat-raised-button [routerLink]="menuItem.route">
+    <mat-icon>{{menuItem.icon}}</mat-icon>
+    {{menuItem.name|translate}}
+  </button>
+</ng-container>

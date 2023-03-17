@@ -105,6 +105,7 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
   }
 
   protected override afterNavigationEnded() {
+    console.log(this.route.snapshot.url.toString())
     this.authService.getCurrentUser()
       .then(user => this.setUser(user));
   }
