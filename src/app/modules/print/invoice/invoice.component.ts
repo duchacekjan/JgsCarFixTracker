@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {PrintService} from "../../../services/print.service";
+import {DataService} from "../../../services/data.service";
 
 @Component({
   selector: 'app-invoice',
@@ -12,7 +13,8 @@ export class InvoiceComponent implements OnInit {
   invoiceDetails: Promise<any>[] = [];
 
   constructor(route: ActivatedRoute,
-              private readonly printService: PrintService) {
+              private readonly printService: PrintService,
+              private readonly dataService: DataService) {
     this.invoiceIds = route.snapshot.params['invoiceIds']
       .split(',');
   }
@@ -20,14 +22,14 @@ export class InvoiceComponent implements OnInit {
   ngOnInit() {
     this.invoiceDetails = this.invoiceIds
       .map(id => this.getInvoiceDetails(id));
-    Promise.all(this.invoiceDetails)
-      .then(() => this.printService.onDataReady());
+    this.dataService.execute(Promise.all(this.invoiceDetails)
+      .then(() => this.printService.onDataReady())).then();
   }
 
   getInvoiceDetails(invoiceId: string) {
     const amount = Math.floor((Math.random() * 100));
     return new Promise(resolve =>
-      setTimeout(() => resolve({amount}), 1000)
+      setTimeout(() => resolve({amount}), 2000)
     );
   }
 }
