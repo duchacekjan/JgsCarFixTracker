@@ -22,7 +22,12 @@ export class CarListComponent extends AfterNavigatedHandler implements OnDestroy
   private searchedText = new Subject<string>();
   private searchSubscription = new Subscription();
 
-  constructor(route: ActivatedRoute, private authService: AuthService, private router: Router, private dataService: DataService, navigation: NavigationService, public carsService: CarsService) {
+  constructor(
+    route: ActivatedRoute,
+    private authService: AuthService,
+    private dataService: DataService,
+    navigation: NavigationService,
+    public carsService: CarsService) {
     super(route, navigation);
   }
 

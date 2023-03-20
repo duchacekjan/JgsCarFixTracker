@@ -38,7 +38,6 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
 
   constructor(
     route: ActivatedRoute,
-    private readonly router: Router,
     private readonly messageService: MessagesService,
     private readonly helperService: HelperService,
     public readonly carsService: CarsService,

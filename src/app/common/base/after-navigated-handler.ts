@@ -1,14 +1,24 @@
-import {AfterViewInit, Component} from "@angular/core";
+import {AfterViewInit, Component, inject} from "@angular/core";
 import {ActionsData, NavigationService} from "../../services/navigation.service";
 import {ActivatedRoute, Params} from "@angular/router";
+import {ServiceProvider} from "./service-provider";
+import {environment} from "../../../environments/environment";
 
 
-@Component({template: ''})
+@Component({
+  template: '',
+  providers: [ServiceProvider]
+})
 export abstract class AfterNavigatedHandler implements AfterViewInit {
 
   private backLink?: string;
+  private readonly serviceProvider = inject(ServiceProvider);
+  protected readonly router = this.serviceProvider.router;
+  private readonly isFromMenu: boolean;
 
   protected constructor(protected route: ActivatedRoute, protected navigation: NavigationService) {
+    let state = this.router.getCurrentNavigation()?.extras.state ?? {};
+    this.isFromMenu = state['isFromMenu'] ?? false;
   }
 
   ngAfterViewInit(): void {
@@ -37,7 +47,9 @@ export abstract class AfterNavigatedHandler implements AfterViewInit {
 
   protected getDefaultActionsData(): ActionsData {
     const result = new ActionsData();
-    if (this.finalBackLink !== undefined) {
+    if (!environment.production && this.isFromMenu) {
+      result.backAction = ActionsData.createHomeAction();
+    } else if (this.finalBackLink !== undefined) {
       result.backAction = ActionsData.createBackAction(this.finalBackLink);
     }
     return result;

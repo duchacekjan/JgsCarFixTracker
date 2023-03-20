@@ -2,7 +2,7 @@ import {Component, OnDestroy, Renderer2} from '@angular/core';
 import {User} from "@angular/fire/auth/firebase";
 import {Subscription} from "rxjs";
 import {OverlayContainer} from "@angular/cdk/overlay";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {ActionsData, IMenuSettings, NavigationService} from "../../services/navigation.service";
 import {AuthService} from "../../services/auth.service";
 import {SettingsService} from "../../services/settings.service";
@@ -46,7 +46,6 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     private settingsService: SettingsService,
     private renderer: Renderer2,
     private overlay: OverlayContainer,
-    private readonly router: Router,
     public readonly title: JgsAppTitleStrategy,
     private readonly notificationsService: NotificationsService,
     route: ActivatedRoute,
@@ -106,7 +105,6 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
   }
 
   protected override afterNavigationEnded() {
-    console.log(this.route.snapshot.url.toString())
     this.authService.getCurrentUser()
       .then(user => this.setUser(user));
   }

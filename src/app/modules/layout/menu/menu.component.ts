@@ -15,10 +15,8 @@ import {ActionsData, NavigationService} from "../../../services/navigation.servi
 export class MenuComponent extends AfterNavigatedHandler implements OnInit {
 
   menuItems: Observable<MenuItem[]>;
-
   constructor(
     private readonly menuService: MenuService,
-    private readonly router: Router,
     route: ActivatedRoute,
     navigation: NavigationService) {
     super(route, navigation);
@@ -26,7 +24,11 @@ export class MenuComponent extends AfterNavigatedHandler implements OnInit {
   }
 
   navigate(link: string) {
-    this.router.navigate([link]).then();
+    this.router.navigate([link], {
+      state: {
+        isFromMenu: true
+      }
+    }).then();
   }
 
   ngOnInit(): void {

@@ -53,7 +53,7 @@ export class NavigationService implements OnDestroy {
 
   constructor(
     private readonly translate: TranslateService,
-    private readonly router: Router) {
+    public readonly router: Router) {
     translate.setDefaultLang('cs');
     translate.use('cs');
     this.routerEventSubscription = this.router.events.subscribe(event => {
