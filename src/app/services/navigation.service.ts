@@ -33,6 +33,13 @@ export class ActionsData {
     result.tooltip = 'toolbar.back'
     return result;
   }
+
+  static createHomeAction(): Action {
+    const result = new Action('home');
+    result.route = '';
+    result.tooltip = 'toolbar.home'
+    return result;
+  }
 }
 
 @Injectable({

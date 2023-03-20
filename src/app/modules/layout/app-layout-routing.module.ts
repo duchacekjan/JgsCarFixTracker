@@ -14,7 +14,7 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      {path: '', component: MenuComponent, canActivate: [AuthGuard]},
+      {path: '', component: MenuComponent, canActivate: [AuthGuard], title: 'menu.title'},
       {path: 'auth', loadChildren: () => AppAuthModule},
       {path: 'cars', loadChildren: () => CarsModule, canActivate: [AuthGuard]},
       {path: 'settings', loadChildren: () => SettingsModule},

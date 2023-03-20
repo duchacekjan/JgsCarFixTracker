@@ -84,6 +84,10 @@
   .live-notification {
     background: mat.get-color-from-palette($accent-palette, 400);
   }
+
+  .menu-card {
+    border: solid 1px mat.get-color-from-palette($primary-palette, 500);
+  }
 }
 
 @mixin typography($theme) {

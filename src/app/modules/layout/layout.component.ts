@@ -26,6 +26,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
   ]
 })
 export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy {
+  isDebug: boolean = !environment.production
   actionsData: ActionsData | null = null;
   menuSettings?: IMenuSettings;
   version: string;
