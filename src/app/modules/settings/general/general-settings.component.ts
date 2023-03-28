@@ -11,7 +11,6 @@ import {search, searchText} from "../../../common/jgs-common-functions";
 import {Model} from "../../../models/model";
 import {MessagesService} from "../../../services/messages.service";
 import {AuthService} from "../../../services/auth.service";
-import {JgsNotification} from "../../../models/INotification";
 
 @Component({
   selector: 'app-general-settings',
@@ -132,13 +131,18 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
   }
 
   addBrand() {
-    let searchText = this.brandSearchText.value;
-    if (!searchText || searchText.length == 0) {
-      this.messageService.showError({message: 'validations.brandRequired'})
+    let searchedText = this.brandSearchText.value;
+    if (!searchedText || searchedText.length == 0) {
+      this.messageService.showError({message: 'validations.brandRequired'});
+      return;
+    }
+
+    if (this.brands.some(s => searchText(s.name, searchedText))) {
+      this.messageService.showError({message: 'errors.brandAlreadyTaken'});
       return;
     }
     let brand = <Brand>{
-      name: searchText,
+      name: searchedText,
       models: []
     }
     this.brandsService.upsertBrand(brand)
@@ -215,16 +219,22 @@ export class GeneralSettingsComponent extends AfterNavigatedHandler implements O
   }
 
   addModel() {
-    let searchText = this.modelSearchText.value;
-    if (!searchText || searchText.length == 0 || !this.selectedBrand) {
+    let searchedText = this.modelSearchText.value;
+    if (!searchedText || searchedText.length == 0 || !this.selectedBrand) {
       return;
     }
+
     let model = <Model>{
       id: this.getNewId(this.selectedBrand.models),
-      name: searchText
+      name: searchedText
     }
     if (!this.selectedBrand.models) {
       this.selectedBrand.models = [];
+    }
+
+    if (this.selectedBrand.models!.some(s => searchText(s.name, searchedText))) {
+      this.messageService.showError({message: 'errors.modelAlreadyTaken'})
+      return;
     }
     this.selectedBrand.models.push(model);
 

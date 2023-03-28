@@ -146,13 +146,17 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   }
 
   addBrand() {
-    let searchText = this.brand.value;
-    if (!searchText || searchText.length == 0) {
+    let searchedText = this.brand.value;
+    if (!searchedText || searchedText.length == 0) {
       this.messageService.showError({message: 'validations.brandRequired'})
       return;
     }
+    if (this.brands.some(s => searchText(s.name, searchedText!))) {
+      this.messageService.showError({message: 'errors.brandAlreadyTaken'});
+      return;
+    }
     let brand = <Brand>{
-      name: searchText,
+      name: searchedText,
       models: []
     }
     this.brandsService.upsertBrand(brand)
@@ -183,17 +187,22 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   };
 
   addModel() {
-    let searchText = this.model.value;
-    if (!searchText || searchText.length == 0 || !this.selectedBrand) {
+    let searchedText = this.model.value;
+    if (!searchedText || searchedText.length == 0 || !this.selectedBrand) {
       return;
     }
     let model = <Model>{
       id: this.getNewId(this.selectedBrand.models),
-      name: searchText
+      name: searchedText
     }
     if (!this.selectedBrand.models) {
       this.selectedBrand.models = [];
     }
+    if (this.selectedBrand.models!.some(s => searchText(s.name, searchedText!))) {
+      this.messageService.showError({message: 'errors.modelAlreadyTaken'})
+      return;
+    }
+
     this.selectedBrand.models.push(model);
 
     this.brandsService.upsertBrand(this.selectedBrand)
