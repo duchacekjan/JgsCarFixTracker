@@ -130,15 +130,11 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   onSubmit() {
     if (this.carForm.valid) {
       let car = (this.carForm.value as any) as Car;
+
       if (car && car.licencePlate) {
-        let brand = <Brand>(this.brand.value as any);
-        if (brand) {
-          car.brand = brand.name;
-        }
-        let model = <Model>(this.model.value as any);
-        if (model) {
-          car.model = model.name;
-        }
+        car.brand = this.getBrandName();
+        car.model = this.getModelName();
+
         this.carsService.upsert(car)
           .then(id => {
             this.messageService.showSuccess({message: 'messages.saved'});
@@ -150,18 +146,22 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   }
 
   addBrand() {
-    let searchText = this.brand.value;
-    if (!searchText || searchText.length == 0) {
+    let searchedText = this.brand.value;
+    if (!searchedText || searchedText.length == 0) {
       this.messageService.showError({message: 'validations.brandRequired'})
       return;
     }
+    if (this.brands.some(s => searchText(s.name, searchedText!))) {
+      this.messageService.showError({message: 'errors.brandAlreadyTaken'});
+      return;
+    }
     let brand = <Brand>{
-      name: searchText,
+      name: searchedText,
       models: []
     }
     this.brandsService.upsertBrand(brand)
       .then(() => this.selectedBrand = brand)
-      .then(()=>this.messageService.showSuccess({message:'messages.carBrandCreated'}))
+      .then(() => this.messageService.showSuccess({message: 'messages.carBrandCreated'}))
       .then(() => this.reassign());
   }
 
@@ -187,22 +187,27 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   };
 
   addModel() {
-    let searchText = this.model.value;
-    if (!searchText || searchText.length == 0 || !this.selectedBrand) {
+    let searchedText = this.model.value;
+    if (!searchedText || searchedText.length == 0 || !this.selectedBrand) {
       return;
     }
     let model = <Model>{
       id: this.getNewId(this.selectedBrand.models),
-      name: searchText
+      name: searchedText
     }
     if (!this.selectedBrand.models) {
       this.selectedBrand.models = [];
     }
+    if (this.selectedBrand.models!.some(s => searchText(s.name, searchedText!))) {
+      this.messageService.showError({message: 'errors.modelAlreadyTaken'})
+      return;
+    }
+
     this.selectedBrand.models.push(model);
 
     this.brandsService.upsertBrand(this.selectedBrand)
       .then(() => this.selectedModel = model)
-      .then(()=>this.messageService.showSuccess({message:'messages.carModelCreated'}))
+      .then(() => this.messageService.showSuccess({message: 'messages.carModelCreated'}))
       .then(() => this.reassign());
   }
 
@@ -298,5 +303,25 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
         this.model.setValue(this.selectedModel as any);
       }
     }
+  }
+
+  private getModelName(): string {
+    let result = this.model.value;
+
+    let model = <Model>(result as any)
+    if (model) {
+      result = model.name;
+    }
+    return result ?? "";
+  }
+
+  private getBrandName(): string {
+    let result = this.brand.value;
+
+    let brand = <Brand>(result as any)
+    if (brand) {
+      result = brand.name;
+    }
+    return result ?? "";
   }
 }
