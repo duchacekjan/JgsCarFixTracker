@@ -23,7 +23,7 @@
                [matAutocomplete]="autoBrand"
                #brandInput>
         <mat-icon matSuffix (click)="clearBrandText()" class="active-icon" [matTooltip]="'settings.general.clearModel'|translate">cancel</mat-icon>
-        <mat-autocomplete #autoBrand="matAutocomplete" [displayWith]="brandDisplayFunction" (optionSelected)="onBrandSelected($event)">
+        <mat-autocomplete autoActiveFirstOption #autoBrand="matAutocomplete" [displayWith]="brandDisplayFunction" (optionSelected)="onBrandSelected($event)">
           <mat-option *ngFor="let option of brandOptions | async" [value]="option">
             {{option.name}}
           </mat-option>
@@ -62,7 +62,7 @@
                [matAutocomplete]="autoModel"
                #brandInput>
         <mat-icon matSuffix (click)="clearModelText()" class="active-icon" [matTooltip]="'settings.general.clearModel'|translate">cancel</mat-icon>
-        <mat-autocomplete #autoModel="matAutocomplete" [displayWith]="modelDisplayFunction" (optionSelected)="onModelSelected($event)">
+        <mat-autocomplete autoActiveFirstOption #autoModel="matAutocomplete" [displayWith]="modelDisplayFunction" (optionSelected)="onModelSelected($event)">
           <mat-option *ngFor="let option of modelOptions | async" [value]="option">
             {{option.name}}
           </mat-option>
