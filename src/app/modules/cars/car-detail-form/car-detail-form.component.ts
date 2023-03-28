@@ -130,15 +130,11 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   onSubmit() {
     if (this.carForm.valid) {
       let car = (this.carForm.value as any) as Car;
+
       if (car && car.licencePlate) {
-        let brand = <Brand>(this.brand.value as any);
-        if (brand) {
-          car.brand = brand.name;
-        }
-        let model = <Model>(this.model.value as any);
-        if (model) {
-          car.model = model.name;
-        }
+        car.brand = this.getBrandName();
+        car.model = this.getModelName();
+
         this.carsService.upsert(car)
           .then(id => {
             this.messageService.showSuccess({message: 'messages.saved'});
@@ -161,7 +157,7 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
     }
     this.brandsService.upsertBrand(brand)
       .then(() => this.selectedBrand = brand)
-      .then(()=>this.messageService.showSuccess({message:'messages.carBrandCreated'}))
+      .then(() => this.messageService.showSuccess({message: 'messages.carBrandCreated'}))
       .then(() => this.reassign());
   }
 
@@ -202,7 +198,7 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
 
     this.brandsService.upsertBrand(this.selectedBrand)
       .then(() => this.selectedModel = model)
-      .then(()=>this.messageService.showSuccess({message:'messages.carModelCreated'}))
+      .then(() => this.messageService.showSuccess({message: 'messages.carModelCreated'}))
       .then(() => this.reassign());
   }
 
@@ -298,5 +294,25 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
         this.model.setValue(this.selectedModel as any);
       }
     }
+  }
+
+  private getModelName(): string {
+    let result = this.model.value;
+
+    let model = <Model>(result as any)
+    if (model) {
+      result = model.name;
+    }
+    return result ?? "";
+  }
+
+  private getBrandName(): string {
+    let result = this.brand.value;
+
+    let brand = <Brand>(result as any)
+    if (brand) {
+      result = brand.name;
+    }
+    return result ?? "";
   }
 }
