@@ -213,6 +213,8 @@
       "tooManyRequests": "Bylo dosaženo maximálního počtu přihlášení. Zkuste to prosím později.",
       "emailAlreadyInUse": "Zadaná e-mailová adresa je již použita."
     },
+    "brandAlreadyTaken": "Značka je již uložena",
+    "modelAlreadyTaken": "Model je již uložen",
     "unknown": "Neznámá chyba"
   },
   "validations": {

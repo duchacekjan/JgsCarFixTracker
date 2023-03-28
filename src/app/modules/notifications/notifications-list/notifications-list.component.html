@@ -67,7 +67,6 @@
       </ng-container>
     </div>
   </div>
-  <div class="notification-body" *ngIf="notification!=undefined">
-    <p>{{notification.data.body}}</p>
+  <div class="notification-body" *ngIf="notification!=undefined" [innerHTML]="notification.data.body">
   </div>
 </ng-container>
