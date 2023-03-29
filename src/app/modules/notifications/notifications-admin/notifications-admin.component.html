@@ -113,7 +113,9 @@
     </mat-tab>
     <mat-tab [label]="'notifications.admin.preview'|translate"
              [disabled]="!body.valid">
-      <div class="preview-content" [innerHTML]="bodyHtml"></div>
+      <div class="preview-content">
+        <div [innerHTML]="bodyHtml"></div>
+      </div>
     </mat-tab>
   </mat-tab-group>
 </form>

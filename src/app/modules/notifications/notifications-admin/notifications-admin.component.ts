@@ -71,10 +71,12 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
   }
 
   get bodyHtml(): string {
+    const matchRN = RegExp('\r\n', 'g')
+    const matchN = RegExp('\n', 'g')
     return this.body.valid
       ? this.body.value!
-        .replace('\r\n', '</br>')
-        .replace('\n', '</br>')
+        .replace(matchRN, '<br>')
+        .replace(matchN, '<br>')
       : ''
   }
 
@@ -102,6 +104,7 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
       if (this.validFrom.value != null) {
         validFrom = new Date(this.validFrom.value)
       }
+      console.log(this.bodyHtml)
       this.notificationService.create(
         this.subject.value!,
         this.bodyHtml,

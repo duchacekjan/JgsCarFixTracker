@@ -49,13 +49,28 @@ export function formatTime(date: Date) {
   ].join(':')
 }
 
-export function insertBase(original: string, selStart:number, selEnd:number, tag: string, defaultSelection: string = '', attributes: string[] = []): string {
+export function formatNotificationDate(date: Date) {
+  const d = new Date(date);
+  let parts = [
+    padTo2Digits(date.getDate()),
+    padTo2Digits(d.getMonth() + 1)
+  ];
+  const year = date.getFullYear();
+  if (year < (new Date()).getFullYear()) {
+    parts.push(year.toString())
+  }else{
+    parts.push('')
+  }
+  return parts.join('.')
+}
+
+export function insertBase(original: string, selStart: number, selEnd: number, tag: string, defaultSelection: string = '', attributes: string[] = []): string {
   let selection = original.slice(selStart, selEnd);
   console.log(selection)
   if (selection.length == 0) {
     selection = defaultSelection;
   }
-  const tagAttributes = attributes.length==0?'':` ${attributes.join(' ')}`;
+  const tagAttributes = attributes.length == 0 ? '' : ` ${attributes.join(' ')}`;
   const startTag = `<${tag}${tagAttributes}>`;
   const endTag = `</${tag}>`;
   return original.slice(0, selStart) +
