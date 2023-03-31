@@ -42,8 +42,8 @@
   <span class="spacer"></span>
   <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageOptions" (page)="handlePageEvent($event)" showFirstLastButtons></mat-paginator>
 </div>
-<ng-container *ngIf="selection.selected.length>0">
-  <div class="notification-selected-info">
+<ng-container>
+  <div class="notification-selected-info" *ngIf="notification!=undefined" >
     <div class="d-flex flex-column" *ngIf="notification!=undefined">
       <div class="d-flex">
         <label>{{'notifications.list.subject'|translate}}:</label>
@@ -54,7 +54,7 @@
         <span>{{notification.data.created|notificationDate}}</span>
       </div>
     </div>
-    <div class="notifications-action spacer">
+    <div class="notifications-action spacer" *ngIf="selection.selected.length>0">
       <span class="spacer"></span>
       <ng-container *ngIf="selection.selected.length>1">
         <button mat-raised-button (click)="markAllAsRead()">

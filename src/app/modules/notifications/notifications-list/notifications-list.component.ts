@@ -109,11 +109,7 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
   }
 
   showNotification(notification: JgsNotification) {
-    if (this.selection.selected.length < 2) {
-      this.selection.clear();
-      this.selection.toggle(notification);
-      this.notification = notification;
-    }
+    this.notification = notification;
   }
 
   deleteSelection() {
