@@ -104,7 +104,6 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
       if (this.validFrom.value != null) {
         validFrom = new Date(this.validFrom.value)
       }
-      console.log(this.bodyHtml)
       this.notificationService.create(
         this.subject.value!,
         this.bodyHtml,

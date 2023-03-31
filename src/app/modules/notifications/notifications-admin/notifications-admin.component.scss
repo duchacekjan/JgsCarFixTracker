@@ -17,7 +17,11 @@ form {
 .notifications-table {
   height: 50%;
   flex-grow: 0;
-  overflow: scroll;
+
+  .scroll-wrapper {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
 .mat-column-select {
