@@ -3,6 +3,8 @@
   padding: 1em;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  height: calc(100vh - 64px);
 }
 
 .notifications-table {
@@ -32,6 +34,7 @@
   padding: 1em;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 
 .notification-selected-info {
