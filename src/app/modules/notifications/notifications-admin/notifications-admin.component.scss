@@ -18,7 +18,7 @@ form {
 
 .notifications-table {
   flex: 0 0 40%;
-
+  max-height: 40%;
   .scroll-wrapper {
     overflow-x: hidden;
     overflow-y: auto;
