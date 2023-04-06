@@ -13,7 +13,6 @@ import {NavigationService} from "../../../services/navigation.service";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {MessagesService} from "../../../services/messages.service";
 import {HelperService} from "../../../services/helper.service";
-import {animate, state, style, transition, trigger} from "@angular/animations";
 import {insertBase} from "../../../common/jgs-common-functions";
 
 interface ITextSelection {
@@ -25,14 +24,7 @@ interface ITextSelection {
 @Component({
   selector: 'app-notifications-admin',
   templateUrl: './notifications-admin.component.html',
-  styleUrls: ['./notifications-admin.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ]
+  styleUrls: ['./notifications-admin.component.scss']
 })
 export class NotificationsAdminComponent extends AfterNavigatedHandler implements OnInit {
 
