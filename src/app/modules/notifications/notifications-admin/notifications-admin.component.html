@@ -59,65 +59,67 @@
   <span class="spacer"></span>
   <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageOptions" (page)="handlePageEvent($event)" showFirstLastButtons></mat-paginator>
 </div>
-<div class="d-flex actions">
-  <span class="spacer"></span>
-  <button mat-raised-button (click)="deleteSelection()" [disabled]="selection.isEmpty()">
-    <mat-icon>delete</mat-icon>
-    <span>{{'notifications.list.delete'|translate}}</span>
-  </button>
-</div>
-<form [formGroup]="formGroup"
-      (ngSubmit)="onSubmit()"
-      #formDirective="ngForm">
-  <mat-tab-group mat-align-tabs="start">
-    <mat-tab [label]="'notifications.admin.newNotification'|translate" class="tab-body">
-      <div class="container-fluid">
-        <div class="row">
-          <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <input type="text" matInput formControlName="subject"
-                   [placeholder]="'notifications.list.subject'|translate">
-          </mat-form-field>
-          <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <input matInput [matDatepicker]="picker" formControlName="validFrom"
-                   [placeholder]="'notifications.admin.validFrom'|translate"/>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="insert-toolbar">
-          <button mat-raised-button type="button" (click)="insertUrl()">
-            <mat-icon>link</mat-icon>
-            {{'notifications.admin.addLink'|translate}}
-          </button>
-          <button mat-raised-button type="button" (click)="insertBold()">
-            <mat-icon>format_bold</mat-icon>
-            {{'notifications.admin.addBold'|translate}}
-          </button>
-          <button mat-raised-button type="button" (click)="insertItalic()">
-            <mat-icon>format_italic</mat-icon>
-            {{'notifications.admin.addItalic'|translate}}
-          </button>
-        </div>
-        <mat-form-field class="col-12 col-sm-10 col-md-8 col-lg-6">
+<section class="notification-detail">
+  <div class="d-flex actions">
+    <span class="spacer"></span>
+    <button mat-raised-button (click)="deleteSelection()" [disabled]="selection.isEmpty()">
+      <mat-icon>delete</mat-icon>
+      <span>{{'notifications.list.delete'|translate}}</span>
+    </button>
+  </div>
+  <form [formGroup]="formGroup"
+        (ngSubmit)="onSubmit()"
+        #formDirective="ngForm">
+    <mat-tab-group mat-align-tabs="start" class="tabs">
+      <mat-tab [label]="'notifications.admin.newNotification'|translate">
+        <div class="container-fluid">
+          <div class="row">
+            <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <input type="text" matInput formControlName="subject"
+                     [placeholder]="'notifications.list.subject'|translate">
+            </mat-form-field>
+            <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <input matInput [matDatepicker]="picker" formControlName="validFrom"
+                     [placeholder]="'notifications.admin.validFrom'|translate"/>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="insert-toolbar">
+            <button mat-raised-button type="button" (click)="insertUrl()">
+              <mat-icon>link</mat-icon>
+              {{'notifications.admin.addLink'|translate}}
+            </button>
+            <button mat-raised-button type="button" (click)="insertBold()">
+              <mat-icon>format_bold</mat-icon>
+              {{'notifications.admin.addBold'|translate}}
+            </button>
+            <button mat-raised-button type="button" (click)="insertItalic()">
+              <mat-icon>format_italic</mat-icon>
+              {{'notifications.admin.addItalic'|translate}}
+            </button>
+          </div>
+          <mat-form-field class="col-12 col-sm-10 col-md-8 col-lg-6">
           <textarea matInput formControlName="body"
                     #bodyArea
                     [placeholder]="'notifications.admin.body'|translate"
                     rows="4"></textarea>
-        </mat-form-field>
-        <div class="button-row">
-          <button mat-raised-button color="primary" type="submit"
-                  class="col-12 col-sm-6 col-md-4 col-lg-3"
-                  [disabled]="!formGroup.valid">
-            {{'notifications.admin.send'|translate}}
-          </button>
+          </mat-form-field>
+          <div class="button-row">
+            <button mat-raised-button color="primary" type="submit"
+                    class="col-12 col-sm-6 col-md-4 col-lg-3"
+                    [disabled]="!formGroup.valid">
+              {{'notifications.admin.send'|translate}}
+            </button>
+          </div>
         </div>
-      </div>
-    </mat-tab>
-    <mat-tab [label]="'notifications.admin.preview'|translate"
-             [disabled]="!body.valid">
-      <div class="preview-content">
-        <div [innerHTML]="bodyHtml"></div>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
-</form>
+      </mat-tab>
+      <mat-tab [label]="'notifications.admin.preview'|translate"
+               [disabled]="!body.valid">
+        <div class="preview-content">
+          <div [innerHTML]="bodyHtml"></div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </form>
+</section>

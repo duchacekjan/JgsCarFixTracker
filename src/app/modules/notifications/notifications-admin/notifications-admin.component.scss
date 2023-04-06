@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   padding: 1em;
+  height: calc(100vh - 64px);
+  overflow: hidden;
 }
 
 form {
@@ -15,13 +17,22 @@ form {
 }
 
 .notifications-table {
-  height: 50%;
-  flex: 0 0 50%;
+  flex: 0 0 40%;
 
   .scroll-wrapper {
     overflow-x: hidden;
     overflow-y: auto;
   }
+}
+
+.notification-detail{
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-selected-section{
+  flex-grow: 1;
 }
 
 .mat-column-select {
@@ -63,6 +74,10 @@ tr.body-row {
 .preview-content {
   flex: 1 1 auto;
   padding: 1em;
+}
+
+.tabs{
+  height: 60%;
 }
 
 .tab-body {
