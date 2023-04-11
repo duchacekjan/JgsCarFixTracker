@@ -32,10 +32,6 @@
     }
   }
 
-  .notification-body{
-    border: solid 1px mat.get-color-from-palette($primary-palette, 500);
-  }
-
   .border-separator{
     border-bottom: solid 1px mat.get-color-from-palette($primary-palette, 500);
   }

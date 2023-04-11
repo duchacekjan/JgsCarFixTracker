@@ -1,5 +1,3 @@
-import {formatTime} from "../common/jgs-common-functions";
-
 export interface INotification {
   key?: string,
   subject: string,
@@ -26,6 +24,10 @@ export class NewNotification implements INotification {
     this.deleted = [];
     this.visibleFrom = visibleFrom;
   }
+
+  static FromJgs(notification: JgsNotification): NewNotification {
+    return new NewNotification(notification.data.subject, notification.data.body, notification.data.visibleFrom)
+  }
 }
 
 export class JgsNotification {
@@ -43,5 +45,9 @@ export class JgsNotification {
 
   get anyRead(): boolean {
     return this.data.read?.length > 0
+  }
+
+  isSame(other?: JgsNotification) {
+    return this.data.key == other?.data.key;
   }
 }

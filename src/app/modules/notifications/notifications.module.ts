@@ -7,6 +7,7 @@ import {NotificationsRoutingModule} from "./notifications-routing.module";
 import {NotificationsListComponent} from './notifications-list/notifications-list.component';
 import {NotificationsAdminComponent} from './notifications-admin/notifications-admin.component';
 import {AppCommonModule} from "../../common/app-common.module";
+import {NotificationsTableComponent} from './notifications-table/notifications-table.component';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import {AppCommonModule} from "../../common/app-common.module";
   declarations: [
     NotificationsListComponent,
     NotificationsAdminComponent,
-    NotificationsListComponent
+    NotificationsListComponent,
+    NotificationsTableComponent
   ]
 })
 
