@@ -1,50 +1,4 @@
-<div class="edit-table notifications-table">
-  <section class="scroll-wrapper">
-    <table mat-table matSort matSortActive="created" matSortDirection="desc"
-           [dataSource]="dataSource" class="edit-table__grid"
-           multiTemplateDataRows>
-      <ng-container matColumnDef="select" sticky>
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                        [checked]="selection.hasValue() && isAllSelected()"
-                        [indeterminate]="selection.hasValue() && !isAllSelected()"
-                        [aria-label]="checkboxLabel()">
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()"
-                        (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row)"
-                        [aria-label]="checkboxLabel(row)">
-          </mat-checkbox>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="subject">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'notifications.list.subject'|translate}}</th>
-        <td mat-cell *matCellDef="let element" class="description-col">
-          <div class="d-flex align-items-center">
-            <span>{{element.data.subject}}</span>
-            <div *ngIf="!element.anyRead" class="jgs-chip">{{'notifications.list.new'|translate}}</div>
-          </div>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="created" stickyEnd>
-        <th mat-header-cell *matHeaderCellDef mat-sort-header
-            class="created-column">{{'notifications.list.date'|translate}}</th>
-        <td mat-cell *matCellDef="let element" class="numeric-col" [ngClass]="{'unread':!element.isRead}">{{element.data.created|notificationDate}}</td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="setCurrentNotification(row)"></tr>
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">{{'notifications.list.noData'|translate}}</td>
-      </tr>
-    </table>
-  </section>
-
-  <span class="spacer"></span>
-  <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageOptions" (page)="handlePageEvent($event)" showFirstLastButtons></mat-paginator>
-</div>
-<section class="notification-detail">
+<app-notifications-table [selection]="selection" (currentItemChange)="onCurrentItemChanged($event)" [currentItem]="selected">
   <div class="d-flex actions">
     <span class="spacer"></span>
     <button mat-raised-button (click)="deleteSelection()" [disabled]="selection.isEmpty()">
@@ -89,14 +43,18 @@
                     #bodyArea
                     [placeholder]="'notifications.admin.body'|translate"
                     rows="4"></textarea>
+            <mat-error>
+              {{formGroup.errors}}
+            </mat-error>
           </mat-form-field>
-          <div class="button-row">
-            <button mat-raised-button color="primary" type="submit"
-                    class="col-12 col-sm-6 col-md-4 col-lg-3"
-                    [disabled]="!formGroup.valid">
-              {{'notifications.admin.send'|translate}}
-            </button>
-          </div>
+        </div>
+        <span class="spacer"></span>
+        <div class="button-row">
+          <button mat-raised-button color="primary" type="submit"
+                  class="col-12 col-sm-6 col-md-4 col-lg-3"
+                  [disabled]="!formGroup.valid">
+            {{'notifications.admin.send'|translate}}
+          </button>
         </div>
       </mat-tab>
       <mat-tab [label]="'notifications.admin.preview'|translate"
@@ -107,4 +65,4 @@
       </mat-tab>
     </mat-tab-group>
   </form>
-</section>
+</app-notifications-table>

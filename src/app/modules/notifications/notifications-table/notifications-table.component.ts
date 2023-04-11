@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {JgsNotification} from "../../../models/INotification";
 import {SelectionModel} from "@angular/cdk/collections";
@@ -10,7 +10,7 @@ import {UserLocalConfigService} from "../../../services/user-local-config.servic
 import {MessagesService} from "../../../services/messages.service";
 import {HelperService} from "../../../services/helper.service";
 import {ActivatedRoute} from "@angular/router";
-import {NavigationService} from "../../../services/navigation.service";
+import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 
 @Component({
@@ -20,12 +20,13 @@ import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handle
 })
 export class NotificationsTableComponent extends AfterNavigatedHandler implements OnInit, OnDestroy {
   @Input() isNewFn: (item: JgsNotification) => boolean = () => false;
+  @Input() selection = new SelectionModel<JgsNotification>(true, [], true);
+  @Input() currentItem?: JgsNotification;
+  @Output() currentItemChange = new EventEmitter<JgsNotification | undefined>();
   displayedColumns: string[] = ['select', 'subject', 'created'];
   dataSource: MatTableDataSource<JgsNotification> = new MatTableDataSource<JgsNotification>([]);
   pageOptions = [5, 10, 20, 50];
   pageSize = 10;
-  selection = new SelectionModel<JgsNotification>(true, []);
-  selected?: JgsNotification;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -43,6 +44,11 @@ export class NotificationsTableComponent extends AfterNavigatedHandler implement
   }
 
   protected override backLinkIfNotPresent = '/';
+  protected override getActionsData(): ActionsData | null {
+    const result = super.getDefaultActionsData();
+    result.isNotificationsVisible = false;
+    return result;
+  }
 
   ngOnInit(): void {
     this.userConfig.load(this.pageSizeKey)
@@ -54,6 +60,12 @@ export class NotificationsTableComponent extends AfterNavigatedHandler implement
         }, 0);
       });
     this.trackDataChange();
+    this.selection.changed.subscribe(s => {
+      if (s.source.selected.length > 1) {
+        this.currentItem = undefined;
+        this.currentItemChange.emit(undefined);
+      }
+    })
   }
 
   ngOnDestroy(): void {
@@ -87,11 +99,18 @@ export class NotificationsTableComponent extends AfterNavigatedHandler implement
   }
 
   setCurrentNotification(notification: JgsNotification) {
-    if (this.selected?.data.key == notification.data.key) {
-      this.selected = undefined;
-    } else {
-      this.selected = notification
+    if (this.selection.selected.length > 1) {
+      return;
     }
+    this.selection.clear();
+    if (this.currentItem?.data.key == notification.data.key) {
+      this.currentItem = undefined;
+    } else {
+      this.currentItem = notification
+      this.selection.select(notification)
+    }
+    console.log(this.currentItem)
+    this.currentItemChange.emit(this.currentItem)
   }
 
   private trackDataChange() {

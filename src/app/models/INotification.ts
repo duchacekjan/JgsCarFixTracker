@@ -1,5 +1,3 @@
-import {formatTime} from "../common/jgs-common-functions";
-
 export interface INotification {
   key?: string,
   subject: string,
@@ -25,6 +23,10 @@ export class NewNotification implements INotification {
     this.read = [];
     this.deleted = [];
     this.visibleFrom = visibleFrom;
+  }
+
+  static FromJgs(notification: JgsNotification): NewNotification {
+    return new NewNotification(notification.data.subject, notification.data.body, notification.data.visibleFrom)
   }
 }
 
