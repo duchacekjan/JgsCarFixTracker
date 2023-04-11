@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnDestroy} from '@angular/core';
 import {AuthService} from "../../../services/auth.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {DataService} from "../../../services/data.service";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {Action} from "../../../models/action";

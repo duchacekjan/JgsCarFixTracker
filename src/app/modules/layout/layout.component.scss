@@ -52,14 +52,20 @@
   padding-left: 1em;
   align-items: center;
   cursor: pointer;
-  .live-notification-body{
+
+  .live-notification-body {
     padding-left: 1em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 }
-.debug-info{
+
+.debug-info {
   background: yellow;
   color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
