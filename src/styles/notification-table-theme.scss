@@ -1,0 +1,45 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@import 'bootstrap/scss/bootstrap-utilities';
+
+@mixin color($theme) {
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($theme);
+  // Get the primary color palette from the color-config.
+  $primary-palette: map.get($color-config, 'primary');
+  .notification-body{
+    border: solid 1px mat.get-color-from-palette($primary-palette, 500);
+  }
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+}
+
+.notification-table-action-button {
+  margin-left: 1em;
+
+  span {
+    margin-left: 0.5em;
+  }
+}
+
+.notification-table-detail-info {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-weight: bold;
+    margin-right: 1em;
+  }
+}
+
+.notification-body {
+  flex: 1 1 auto;
+  padding: 1em;
+  overflow: auto;
+}

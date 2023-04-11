@@ -1,72 +1,33 @@
-<div class="edit-table notifications-table">
-  <table mat-table matSort matSortActive="created" matSortDirection="desc" [dataSource]="dataSource" class="edit-table__grid">
-    <ng-container matColumnDef="select" sticky>
-      <th mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                      [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()"
-                      [aria-label]="checkboxLabel()">
-        </mat-checkbox>
-      </th>
-      <td mat-cell *matCellDef="let row">
-        <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? selection.toggle(row) : null"
-                      [checked]="selection.isSelected(row)"
-                      [aria-label]="checkboxLabel(row)">
-        </mat-checkbox>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="subject">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'notifications.list.subject'|translate}}</th>
-      <td mat-cell *matCellDef="let element" class="description-col">
-        <div class="d-flex align-items-center">
-          <span>{{element.data.subject}}</span>
-          <div *ngIf="!element.isRead" class="jgs-chip">{{'notifications.list.new'|translate}}</div>
-        </div>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="created" stickyEnd>
-      <th mat-header-cell *matHeaderCellDef mat-sort-header
-          class="created-column">{{'notifications.list.date'|translate}}</th>
-      <td mat-cell *matCellDef="let element" class="numeric-col" [ngClass]="{'unread':!element.isRead}">{{element.data.created|notificationDate}}</td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="showNotification(row)"></tr>
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">{{'notifications.list.noData'|translate}}</td>
-    </tr>
-  </table>
-  <span class="spacer"></span>
-  <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageOptions" (page)="handlePageEvent($event)" showFirstLastButtons></mat-paginator>
-</div>
-<ng-container *ngIf="selection.selected.length>0">
-  <div class="notification-selected-info">
-    <div class="d-flex flex-column" *ngIf="notification!=undefined">
+<app-notifications-table [selection]="selection" (currentItemChange)="onCurrentItemChanged($event)" [currentItem]="selected"
+                         [actions]="adminActions"
+                         [detailInfo]="detailInfo">
+  <ng-template #detailInfo>
+    <div class="notification-table-detail-info" *ngIf="selected!=undefined">
       <div class="d-flex">
         <label>{{'notifications.list.subject'|translate}}:</label>
-        <span>{{notification.data.subject}}</span>
+        <span>{{selected.data.subject}}</span>
       </div>
       <div class="d-flex">
         <label>{{'notifications.list.date'|translate}}:</label>
-        <span>{{notification.data.created|notificationDate}}</span>
+        <span>{{selected.data.created|notificationDate}}</span>
       </div>
     </div>
-    <div class="notifications-action spacer">
-      <span class="spacer"></span>
-      <ng-container *ngIf="selection.selected.length>1">
-        <button mat-raised-button (click)="markAllAsRead()">
-          <mat-icon>checklist</mat-icon>
-          <span>{{'notifications.list.markAllAsRead'|translate}}</span>
-        </button>
-      </ng-container>
-      <ng-container *ngIf="selection.selected.length>0">
-        <button mat-raised-button (click)="deleteSelection()">
-          <mat-icon>delete</mat-icon>
-          <span>{{'notifications.list.delete'|translate}}</span>
-        </button>
-      </ng-container>
-    </div>
+  </ng-template>
+  <ng-template #adminActions>
+    <ng-container *ngIf="selection.selected.length>1">
+      <button mat-raised-button (click)="markAllAsRead()" class="notification-table-action-button">
+        <mat-icon>checklist</mat-icon>
+        <span>{{'notifications.list.markAllAsRead'|translate}}</span>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="selection.selected.length>0">
+      <button mat-raised-button (click)="deleteSelection()" class="notification-table-action-button">
+        <mat-icon>delete</mat-icon>
+        <span>{{'notifications.list.delete'|translate}}</span>
+      </button>
+    </ng-container>
+  </ng-template>
+  <div class="notification-body" *ngIf="selected!=undefined">
+    <div [innerHTML]="selected.data.body"></div>
   </div>
-  <div class="notification-body" *ngIf="notification!=undefined" [innerHTML]="notification.data.body">
-  </div>
-</ng-container>
+</app-notifications-table>

@@ -36,6 +36,11 @@ export class NotificationsService {
     return this.notificationsRef.push(data);
   }
 
+  update(notification: JgsNotification) {
+    let data = NewNotification.FromJgs(notification);
+    return this.notificationsRef.update(notification.data.key!, data);
+  }
+
   async deleteListAsync(items: INotification[]) {
     for (let item of items) {
       if (!item.key) continue;
