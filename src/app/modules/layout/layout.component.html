@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
-  <ng-container *ngIf="actionsData!=null">
-    <button *ngIf="actionsData.backAction" mat-icon-button (click)="backClick()" [matTooltip]="actionsData.backAction.tooltip | translate">
-      <mat-icon>{{actionsData.backAction.icon}}</mat-icon>
+  <ng-container *ngIf="backAction!=null">
+    <button *ngIf="backAction" mat-icon-button (click)="backClick()" [matTooltip]="backAction.tooltip | translate">
+      <mat-icon>{{backAction.icon}}</mat-icon>
     </button>
   </ng-container>
   <div class="spacer spacer-content">

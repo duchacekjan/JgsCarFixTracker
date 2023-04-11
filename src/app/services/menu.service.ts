@@ -25,9 +25,13 @@ export class MenuService {
       ));
   }
 
-  getCount(): Observable<number> {
-    return this.getItems().pipe(
-      map(m => m.length)
-    )
+  getIsMenuActive() {
+    return this.getItems()
+      .pipe(
+        map(p => {
+          console.log(p.length)
+          return p.length > 1
+        })
+      );
   }
 }

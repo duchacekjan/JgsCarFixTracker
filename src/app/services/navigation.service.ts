@@ -27,6 +27,16 @@ export class ActionsData {
       : undefined;
   }
 
+  getCurrentBackAction(isMenuActive: boolean): Action | null {
+    if (this.backAction == null) {
+      return null;
+    }
+    if (this.backAction.icon == 'home' && !isMenuActive) {
+      return null;
+    }
+    return this.backAction;
+  }
+
   static createBackAction(route: string): Action {
     const result = new Action('arrow_back');
     result.route = route ?? '';

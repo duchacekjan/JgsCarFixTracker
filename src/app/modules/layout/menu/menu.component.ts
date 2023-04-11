@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuService} from "../../../services/menu.service";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {MenuItem} from "../../../models/menuItem";
-import {ActivatedRoute, Router} from "@angular/router";
-import {environment} from "../../../../environments/environment";
+import {ActivatedRoute} from "@angular/router";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 
@@ -12,9 +11,11 @@ import {ActionsData, NavigationService} from "../../../services/navigation.servi
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent extends AfterNavigatedHandler implements OnInit {
+export class MenuComponent extends AfterNavigatedHandler implements OnInit, OnDestroy {
 
   menuItems: Observable<MenuItem[]>;
+  private isMenuActiveSubscription = new Subscription();
+
   constructor(
     private readonly menuService: MenuService,
     route: ActivatedRoute,
@@ -32,20 +33,22 @@ export class MenuComponent extends AfterNavigatedHandler implements OnInit {
   }
 
   ngOnInit(): void {
-    if (environment.production) {
-      this.router.navigate(['/cars']).then();
-    }
+    this.isMenuActiveSubscription = this.menuService.getIsMenuActive().subscribe(c => {
+      if (!c) {
+        this.router.navigate(['/cars']).then();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.isMenuActiveSubscription.unsubscribe()
   }
 
   protected override getActionsData(): ActionsData | null {
     const result = super.getActionsData();
-    if (!environment.production && result != null) {
+    if (result != null) {
       result.backAction = null;
     }
     return result;
-  }
-
-  protected override afterNavigationEnded() {
-    super.afterNavigationEnded();
   }
 }
