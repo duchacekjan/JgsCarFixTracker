@@ -30,7 +30,7 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
   private userId?: string;
   private pageSizeKey = 'notifications.pageSize';
   private notificationsSubscription = new Subscription();
-  private _notification?: JgsNotification;
+  private _selected?: JgsNotification;
 
   constructor(
     private readonly authService: AuthService,
@@ -71,14 +71,14 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
       .then(user => this.setUserId(user?.uid));
   }
 
-  get notification(): JgsNotification | undefined {
-    return this._notification;
+  get selected(): JgsNotification | undefined {
+    return this._selected;
   }
 
-  private set notification(value: JgsNotification | undefined) {
-    this._notification = value;
-    if (this._notification != undefined && !this._notification.isRead) {
-      this.notificationService.setAsRead(this._notification.data, this.userId).then();
+  private set selected(value: JgsNotification | undefined) {
+    this._selected = value;
+    if (this._selected != undefined && !this._selected.isRead) {
+      this.notificationService.setAsRead(this._selected.data, this.userId).then();
     }
   }
 
@@ -108,12 +108,9 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${1}`;
   }
 
-  showNotification(notification: JgsNotification) {
-    if (this.selection.selected.length < 2) {
-      this.selection.clear();
-      this.selection.toggle(notification);
-      this.notification = notification;
-    }
+
+  onCurrentItemChanged(notification?: JgsNotification) {
+    this.selected = notification;
   }
 
   deleteSelection() {
@@ -152,8 +149,8 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
           }
         };
         this.dataSource.sort = this.sort;
-        if (this._notification != undefined) {
-          selected = this._notification.data.key;
+        if (this._selected != undefined) {
+          selected = this._selected.data.key;
         }
         setTimeout(() => {
           this.initSelected(selected, new_data)
@@ -166,7 +163,7 @@ export class NotificationsListComponent extends AfterNavigatedHandler implements
     if (selected != undefined) {
       let found = data.find(f => f.data.key == selected);
       if (found) {
-        this.showNotification(found)
+        this.onCurrentItemChanged(found)
       }
     }
   }

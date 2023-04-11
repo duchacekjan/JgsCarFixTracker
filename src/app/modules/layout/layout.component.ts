@@ -20,7 +20,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
   animations: [
     trigger('liveNotificationExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('expanded', style({height: '64px'})),
       transition('expanded <=> collapsed', animate('500ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ]

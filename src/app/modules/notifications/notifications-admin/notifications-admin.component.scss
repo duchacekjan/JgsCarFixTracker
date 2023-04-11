@@ -3,65 +3,27 @@
   display: flex;
   flex-direction: column;
   padding: 1em;
+  height: calc(100vh - 64px);
+  overflow: hidden;
 }
 
 form {
   flex-grow: 1;
-  padding: 0;
+  padding-left: 0;
+  padding-top: 0.5em;
 }
 
-.actions {
-  padding: 0.5em 0;
+.notification-form-content {
+  padding-left: 0;
+  padding-top: 0.5em;
 }
 
-.notifications-table {
-  height: 50%;
-  flex-grow: 0;
+.notification-body{
+  border: none;
 }
 
-.mat-column-select {
-  width: 4em;
-}
-
-.mat-column-created {
-  width: 6em;
-  padding: 0 0.1em;
-}
-
-.mat-cell:not(.body-row):not(.no-data) {
-  cursor: pointer;
-}
-
-tr.body-row {
-  height: 0;
-}
-
-.body-container {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.body-content {
-  width: 100%;
-  padding: 0.5em 0;
-}
-
-.body-info {
-  margin-top: 0.5em;
-
-  span {
-    padding-right: 1em;
-  }
-}
-
-.preview-content {
-  flex: 1 1 auto;
-  padding: 1em;
-}
-
-.tab-body {
-  overflow: hidden;
+.tabs {
+  height: calc(100% - 64px);
 }
 
 .insert-toolbar {

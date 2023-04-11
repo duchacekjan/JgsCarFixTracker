@@ -1,20 +1,17 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {MatTableDataSource} from "@angular/material/table";
 import {JgsNotification} from "../../../models/INotification";
-import {SelectionModel} from "@angular/cdk/collections";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {Subscription} from "rxjs";
 import {NotificationsService} from "../../../services/notifications.service";
 import {UserLocalConfigService} from "../../../services/user-local-config.service";
-import {ActivatedRoute} from "@angular/router";
-import {NavigationService} from "../../../services/navigation.service";
-import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {MessagesService} from "../../../services/messages.service";
 import {HelperService} from "../../../services/helper.service";
-import {animate, state, style, transition, trigger} from "@angular/animations";
-import {insertBase} from "../../../common/jgs-common-functions";
+import {formatDate, insertBase} from "../../../common/jgs-common-functions";
+import {SelectionModel} from "@angular/cdk/collections";
+import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
+import {ActivatedRoute} from "@angular/router";
+import {NavigationService} from "../../../services/navigation.service";
 
 interface ITextSelection {
   start: number
@@ -25,16 +22,9 @@ interface ITextSelection {
 @Component({
   selector: 'app-notifications-admin',
   templateUrl: './notifications-admin.component.html',
-  styleUrls: ['./notifications-admin.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ]
+  styleUrls: ['./notifications-admin.component.scss']
 })
-export class NotificationsAdminComponent extends AfterNavigatedHandler implements OnInit {
+export class NotificationsAdminComponent extends AfterNavigatedHandler {
 
   body = new FormControl('', [Validators.required]);
   private subject = new FormControl('', [Validators.required]);
@@ -44,20 +34,13 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
     body: this.body,
     validFrom: this.validFrom
   });
-  displayedColumns: string[] = ['select', 'subject', 'created'];
-  dataSource: MatTableDataSource<JgsNotification> = new MatTableDataSource<JgsNotification>([]);
-  pageOptions = [5, 10, 20, 50];
-  pageSize = 10;
-  selection = new SelectionModel<JgsNotification>(true, []);
   selected?: JgsNotification;
+  selection = new SelectionModel<JgsNotification>(true, [], true);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(FormGroupDirective, {static: true}) notificationFormGroup!: FormGroupDirective;
   @ViewChild("bodyArea") bodyTextArea!: ElementRef;
-
-  private pageSizeKey = 'notifications.pageSize';
-  private notificationsSubscription = new Subscription();
 
   constructor(
     private readonly notificationService: NotificationsService,
@@ -71,30 +54,14 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
   }
 
   get bodyHtml(): string {
+    const matchRN = RegExp('\r\n', 'g')
+    const matchN = RegExp('\n', 'g')
     return this.body.valid
       ? this.body.value!
-        .replace('\r\n', '</br>')
-        .replace('\n', '</br>')
+        .replace(matchRN, '<br>')
+        .replace(matchN, '<br>')
       : ''
   }
-
-  ngOnInit(): void {
-    this.userConfig.load(this.pageSizeKey)
-      .then(currentPageSize => {
-        setTimeout(() => {
-          if (currentPageSize != null) {
-            this.pageSize = <number>JSON.parse(currentPageSize);
-          }
-        }, 0);
-      });
-    this.trackDataChange();
-  }
-
-  ngOnDestroy(): void {
-    this.notificationsSubscription.unsubscribe();
-  }
-
-  protected override backLinkIfNotPresent = '/';
 
   onSubmit() {
     if (this.formGroup.valid) {
@@ -102,53 +69,29 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
       if (this.validFrom.value != null) {
         validFrom = new Date(this.validFrom.value)
       }
-      this.notificationService.create(
-        this.subject.value!,
-        this.bodyHtml,
-        validFrom
-      )
-        .then(() => this.messageService.showSuccess({message: 'messages.notificationSend'}))
-        .then(() => this.clearForm());
+      if (this.selected?.data.key != undefined) {
+        this.selected.data.visibleFrom = validFrom;
+        this.selected.data.body = this.bodyHtml;
+        this.selected.data.subject = this.subject.value!;
+        this.notificationService.update(this.selected)
+          .then(() => this.messageService.showSuccess({message: 'messages.notificationUpdated'}))
+          .then(() => this.clearForm())
+          .then(() => this.selected = undefined);
+      } else {
+        this.notificationService.create(
+          this.subject.value!,
+          this.bodyHtml,
+          validFrom
+        )
+          .then(() => this.messageService.showSuccess({message: 'messages.notificationSend'}))
+          .then(() => this.clearForm());
+      }
     }
-  }
-
-  handlePageEvent($event: PageEvent) {
-    this.userConfig.save(this.pageSizeKey, JSON.stringify($event.pageSize));
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  checkboxLabel(row?: JgsNotification): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${1}`;
   }
 
   deleteSelection() {
     this.notificationService.deleteListAsync(this.selection.selected.map(m => m.data))
       .then(() => this.selection.clear());
-  }
-
-  setCurrentNotification(notification: JgsNotification) {
-    if (this.selected?.data.key == notification.data.key) {
-      this.selected = undefined;
-    } else {
-      this.selected = notification
-    }
   }
 
   private clearForm() {
@@ -159,28 +102,6 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
     }
     this.formGroup.setValue(data as any);
     this.resetForm();
-  }
-
-  private trackDataChange() {
-    this.notificationsSubscription.unsubscribe();
-    this.dataSource = new MatTableDataSource<JgsNotification>([]);
-    this.notificationsSubscription = this.notificationService.getList(undefined, true).subscribe(
-      (new_data: JgsNotification[]) => {
-        this.dataSource = new MatTableDataSource<JgsNotification>(new_data);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sortingDataAccessor = (item, property) => {
-          switch (property) {
-            case 'created':
-              return item.data.created.valueOf();
-            case 'subject':
-              return item.data.subject;
-            default:
-              return item.toString();
-          }
-        };
-        this.dataSource.sort = this.sort;
-      }
-    );
   }
 
   private resetForm() {
@@ -235,5 +156,24 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler implement
       end: setEnd,
       insertLength: length
     };
+  }
+
+  onCurrentItemChanged(notification?: JgsNotification) {
+    this.selected = notification
+    this.clearForm();
+    if (notification) {
+      let data = {
+        subject: notification.data.subject,
+        body: this.getBody(notification),
+        validFrom: formatDate(notification.data.visibleFrom)
+      }
+      this.formGroup.setValue(data as any);
+    }
+  }
+
+  private getBody(notification: JgsNotification): string {
+    const matchRN = RegExp('<br>', 'g')
+    return notification.data.body
+      .replace(matchRN, '\n');
   }
 }
