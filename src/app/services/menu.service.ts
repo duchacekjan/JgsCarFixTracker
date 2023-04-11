@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from "@angular/fire/compat/database";
-import {DataService} from "./data.service";
 import {MenuItem} from "../models/menuItem";
 import {map, Observable} from "rxjs";
 import {environment} from "../../environments/environment";
@@ -24,5 +23,11 @@ export class MenuService {
             (<MenuItem>{key: c.key, ...c.payload.val()}))
         }
       ));
+  }
+
+  getCount(): Observable<number> {
+    return this.getItems().pipe(
+      map(m => m.length)
+    )
   }
 }
