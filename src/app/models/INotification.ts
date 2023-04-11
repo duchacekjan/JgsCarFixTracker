@@ -46,4 +46,8 @@ export class JgsNotification {
   get anyRead(): boolean {
     return this.data.read?.length > 0
   }
+
+  isSame(other?: JgsNotification) {
+    return this.data.key == other?.data.key;
+  }
 }

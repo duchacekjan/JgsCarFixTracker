@@ -45,12 +45,6 @@ export class NotificationsTableComponent implements OnInit, OnDestroy {
         }, 0);
       });
     this.trackDataChange();
-    this.selection.changed.subscribe(s => {
-      if (s.source.selected.length > 1) {
-        this.currentItem = undefined;
-        this.currentItemChange.emit(undefined);
-      }
-    })
   }
 
   ngOnDestroy(): void {
@@ -83,18 +77,30 @@ export class NotificationsTableComponent implements OnInit, OnDestroy {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${1}`;
   }
 
-  setCurrentNotification(notification: JgsNotification) {
+  setCurrentNotification(notification: JgsNotification, selectClick: boolean = false) {
+    if (!selectClick || !notification.isSame(this.currentItem)) {
+      this.toggleCurrentItem(notification);
+    }
+
+    if (selectClick) {
+      this.selection.toggle(notification)
+      return;
+    }
     if (this.selection.selected.length > 1) {
       return;
     }
     this.selection.clear();
-    if (this.currentItem?.data.key == notification.data.key) {
+    if (this.currentItem) {
+      this.selection.select(this.currentItem)
+    }
+  }
+
+  private toggleCurrentItem(notification: JgsNotification) {
+    if (notification.isSame(this.currentItem)) {
       this.currentItem = undefined;
     } else {
       this.currentItem = notification
-      this.selection.select(notification)
     }
-    console.log(this.currentItem)
     this.currentItemChange.emit(this.currentItem)
   }
 
