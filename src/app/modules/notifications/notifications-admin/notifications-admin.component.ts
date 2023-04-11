@@ -9,6 +9,9 @@ import {MessagesService} from "../../../services/messages.service";
 import {HelperService} from "../../../services/helper.service";
 import {formatDate, insertBase} from "../../../common/jgs-common-functions";
 import {SelectionModel} from "@angular/cdk/collections";
+import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
+import {ActivatedRoute} from "@angular/router";
+import {NavigationService} from "../../../services/navigation.service";
 
 interface ITextSelection {
   start: number
@@ -21,7 +24,7 @@ interface ITextSelection {
   templateUrl: './notifications-admin.component.html',
   styleUrls: ['./notifications-admin.component.scss']
 })
-export class NotificationsAdminComponent {
+export class NotificationsAdminComponent extends AfterNavigatedHandler {
 
   body = new FormControl('', [Validators.required]);
   private subject = new FormControl('', [Validators.required]);
@@ -43,7 +46,10 @@ export class NotificationsAdminComponent {
     private readonly notificationService: NotificationsService,
     private readonly userConfig: UserLocalConfigService,
     private readonly messageService: MessagesService,
-    private readonly helperService: HelperService) {
+    private readonly helperService: HelperService,
+    route: ActivatedRoute,
+    navigationService: NavigationService) {
+    super(route, navigationService);
     this.clearForm();
   }
 
