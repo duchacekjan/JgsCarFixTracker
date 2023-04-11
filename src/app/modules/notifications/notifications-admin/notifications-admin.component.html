@@ -1,78 +1,17 @@
-<div class="edit-table notifications-table">
-  <section class="scroll-wrapper">
-    <table mat-table matSort matSortActive="created" matSortDirection="desc"
-           [dataSource]="dataSource" class="edit-table__grid"
-           multiTemplateDataRows>
-      <ng-container matColumnDef="select" sticky>
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                        [checked]="selection.hasValue() && isAllSelected()"
-                        [indeterminate]="selection.hasValue() && !isAllSelected()"
-                        [aria-label]="checkboxLabel()">
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()"
-                        (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row)"
-                        [aria-label]="checkboxLabel(row)">
-          </mat-checkbox>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="subject">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'notifications.list.subject'|translate}}</th>
-        <td mat-cell *matCellDef="let element" class="description-col">
-          <div class="d-flex align-items-center">
-            <span>{{element.data.subject}}</span>
-            <div *ngIf="!element.anyRead" class="jgs-chip">{{'notifications.list.new'|translate}}</div>
-          </div>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="created" stickyEnd>
-        <th mat-header-cell *matHeaderCellDef mat-sort-header
-            class="created-column">{{'notifications.list.date'|translate}}</th>
-        <td mat-cell *matCellDef="let element" class="numeric-col" [ngClass]="{'unread':!element.isRead}">{{element.data.created|notificationDate}}</td>
-      </ng-container>
-      <ng-container matColumnDef="body">
-        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length" class="body-row">
-          <div class="body-container"
-               [@detailExpand]="element == selected ? 'expanded' : 'collapsed'">
-            <div class="border-separator body-info">
-              <span>{{'notifications.admin.readersCount'|translate}}</span>
-              <span>{{element.data.read?.length ?? ('notifications.admin.none'|translate)}}</span>
-              <span>{{'notifications.admin.deleteCount'|translate}}</span>
-              <span>{{element.data.deleted?.length ?? ('notifications.admin.none'|translate)}}</span>
-            </div>
-            <div class="body-content" [innerHTML]="element.data.body"></div>
-          </div>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-          (click)="setCurrentNotification(row)"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['body']" class="body-row"></tr>
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">{{'notifications.list.noData'|translate}}</td>
-      </tr>
-    </table>
-  </section>
-  <span class="spacer"></span>
-  <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageOptions" (page)="handlePageEvent($event)" showFirstLastButtons></mat-paginator>
-</div>
-<section class="notification-detail">
-  <div class="d-flex actions">
-    <span class="spacer"></span>
-    <button mat-raised-button (click)="deleteSelection()" [disabled]="selection.isEmpty()">
+<app-notifications-table [selection]="selection" (currentItemChange)="onCurrentItemChanged($event)" [currentItem]="selected"
+                         [actions]="adminActions">
+  <ng-template #adminActions>
+    <button mat-raised-button (click)="deleteSelection()" [disabled]="selection.isEmpty()" class="notification-table-action-button">
       <mat-icon>delete</mat-icon>
       <span>{{'notifications.list.delete'|translate}}</span>
     </button>
-  </div>
-  <form [formGroup]="formGroup"
-        (ngSubmit)="onSubmit()"
-        #formDirective="ngForm">
-    <mat-tab-group mat-align-tabs="start" class="tabs">
-      <mat-tab [label]="'notifications.admin.newNotification'|translate">
-        <div class="container-fluid">
+  </ng-template>
+  <mat-tab-group mat-align-tabs="start" class="tabs">
+    <mat-tab [label]="'notifications.admin.newNotification'|translate">
+      <form [formGroup]="formGroup"
+            (ngSubmit)="onSubmit()"
+            #formDirective="ngForm">
+        <div class="container-fluid notification-form-content">
           <div class="row">
             <mat-form-field class="col-12 col-sm-6 col-md-4 col-lg-3">
               <input type="text" matInput formControlName="subject"
@@ -100,26 +39,26 @@
             </button>
           </div>
           <mat-form-field class="col-12 col-sm-10 col-md-8 col-lg-6">
-          <textarea matInput formControlName="body"
-                    #bodyArea
+          <textarea matInput formControlName="body" #bodyArea
                     [placeholder]="'notifications.admin.body'|translate"
                     rows="4"></textarea>
           </mat-form-field>
-          <div class="button-row">
-            <button mat-raised-button color="primary" type="submit"
-                    class="col-12 col-sm-6 col-md-4 col-lg-3"
-                    [disabled]="!formGroup.valid">
-              {{'notifications.admin.send'|translate}}
-            </button>
-          </div>
         </div>
-      </mat-tab>
-      <mat-tab [label]="'notifications.admin.preview'|translate"
-               [disabled]="!body.valid">
-        <div class="preview-content">
-          <div [innerHTML]="bodyHtml"></div>
+        <span class="spacer"></span>
+        <div class="button-row">
+          <button mat-raised-button color="primary" type="submit"
+                  class="col-12 col-sm-6 col-md-4 col-lg-3"
+                  [disabled]="!formGroup.valid">
+            {{'notifications.admin.send'|translate}}
+          </button>
         </div>
-      </mat-tab>
-    </mat-tab-group>
-  </form>
-</section>
+      </form>
+    </mat-tab>
+    <mat-tab [label]="'notifications.admin.preview'|translate"
+             [disabled]="!body.valid">
+      <div class="notification-body">
+        <div [innerHTML]="bodyHtml"></div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</app-notifications-table>

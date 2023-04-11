@@ -33,7 +33,10 @@ export function searchText(targetText: string, searchedText: string, options: Se
   return targetValue.includes(searchValue);
 }
 
-export function formatDate(date: any) {
+export function formatDate(date: any): string | null {
+  if (date == null) {
+    return null;
+  }
   const d = new Date(date);
   let month = '' + padTo2Digits(d.getMonth() + 1);
   let day = '' + padTo2Digits(d.getDate());
@@ -42,7 +45,6 @@ export function formatDate(date: any) {
 }
 
 export function formatTime(date: Date) {
-  const d = new Date(date);
   return [
     padTo2Digits(date.getHours()),
     padTo2Digits(date.getMinutes())
@@ -50,15 +52,14 @@ export function formatTime(date: Date) {
 }
 
 export function formatNotificationDate(date: Date) {
-  const d = new Date(date);
   let parts = [
     padTo2Digits(date.getDate()),
-    padTo2Digits(d.getMonth() + 1)
+    padTo2Digits(date.getMonth() + 1)
   ];
   const year = date.getFullYear();
   if (year < (new Date()).getFullYear()) {
     parts.push(year.toString())
-  }else{
+  } else {
     parts.push('')
   }
   return parts.join('.')

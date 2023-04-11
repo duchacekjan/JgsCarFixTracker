@@ -9,79 +9,21 @@
 
 form {
   flex-grow: 1;
-  padding: 0;
+  padding-left: 0;
+  padding-top: 0.5em;
 }
 
-.actions {
-  padding: 0.5em 0;
+.notification-form-content {
+  padding-left: 0;
+  padding-top: 0.5em;
 }
 
-.notifications-table {
-  flex: 0 0 40%;
-  max-height: 40%;
-  .scroll-wrapper {
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
+.notification-body{
+  border: none;
 }
 
-.notification-detail{
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.notification-selected-section{
-  flex-grow: 1;
-}
-
-.mat-column-select {
-  width: 4em;
-}
-
-.mat-column-created {
-  width: 7em;
-  padding: 0 0.1em;
-}
-
-.mat-cell:not(.body-row):not(.no-data) {
-  cursor: pointer;
-}
-
-tr.body-row {
-  height: 0;
-}
-
-.body-container {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.body-content {
-  width: 100%;
-  padding: 0.5em 0;
-}
-
-.body-info {
-  margin-top: 0.5em;
-
-  span {
-    padding-right: 1em;
-  }
-}
-
-.preview-content {
-  flex: 1 1 auto;
-  padding: 1em;
-}
-
-.tabs{
-  height: 60%;
-}
-
-.tab-body {
-  overflow: hidden;
+.tabs {
+  height: calc(100% - 64px);
 }
 
 .insert-toolbar {
