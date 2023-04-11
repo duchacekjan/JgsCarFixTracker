@@ -140,18 +140,15 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
         this.menuSettings = this.actionsData?.getMenuSettings(this.user != null);
       }
 
-      this.backAction = this.actionsData == null
-        ? null
-        : this.actionsData.getCurrentBackAction(this.isMenuActive);
-      console.log(this.isMenuActive);
-      console.log(this.backAction);
+      this.backAction = this.actionsData == null ? null : this.actionsData.getCurrentBackAction(this.isMenuActive);
       this.notificationsSubscription.unsubscribe();
       this.notifications = [];
       this.notificationsCount = 0;
       if (this.user != null && this.menuSettings?.isNotificationsVisible === true) {
-        this.notificationsSubscription = this.notificationsService.getList(this.user?.uid ?? '').subscribe(data => {
-          this.updateNotifications(data);
-        });
+        this.notificationsSubscription = this.notificationsService.getList(this.user?.uid ?? '')
+          .subscribe(data => {
+            this.updateNotifications(data);
+          });
       }
 
     }, 0);

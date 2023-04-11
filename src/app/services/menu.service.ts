@@ -29,7 +29,6 @@ export class MenuService {
     return this.getItems()
       .pipe(
         map(p => {
-          console.log(p.length)
           return p.length > 1
         })
       );
