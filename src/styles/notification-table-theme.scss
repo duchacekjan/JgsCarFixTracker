@@ -1,0 +1,23 @@
+.notification-table-action-button {
+  margin-left: 1em;
+
+  span {
+    margin-left: 0.5em;
+  }
+}
+
+.notification-table-detail-info {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-weight: bold;
+    margin-right: 1em;
+  }
+}
+
+.notification-body {
+  flex: 1 1 auto;
+  padding: 1em;
+  overflow: auto;
+}

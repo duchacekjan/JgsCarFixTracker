@@ -1,7 +1,7 @@
 <app-notifications-table [selection]="selection" (currentItemChange)="onCurrentItemChanged($event)" [currentItem]="selected"
                          [actions]="adminActions">
   <ng-template #adminActions>
-    <button mat-raised-button (click)="deleteSelection()" [disabled]="selection.isEmpty()">
+    <button mat-raised-button (click)="deleteSelection()" [disabled]="selection.isEmpty()" class="notification-table-action-button">
       <mat-icon>delete</mat-icon>
       <span>{{'notifications.list.delete'|translate}}</span>
     </button>
@@ -60,7 +60,7 @@
     </mat-tab>
     <mat-tab [label]="'notifications.admin.preview'|translate"
              [disabled]="!body.valid">
-      <div class="preview-content">
+      <div class="notification-body">
         <div [innerHTML]="bodyHtml"></div>
       </div>
     </mat-tab>
