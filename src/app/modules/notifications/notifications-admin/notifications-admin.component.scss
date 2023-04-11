@@ -12,6 +12,11 @@ form {
   padding: 0;
 }
 
+.notification-form-content {
+  padding-left: 0;
+  padding-top: 0.5em;
+}
+
 .actions {
   padding: 0.5em 0;
 }
@@ -19,19 +24,20 @@ form {
 .notifications-table {
   flex: 0 0 40%;
   max-height: 40%;
+
   .scroll-wrapper {
     overflow-x: hidden;
     overflow-y: auto;
   }
 }
 
-.notification-detail{
+.notification-detail {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
-.notification-selected-section{
+.notification-selected-section {
   flex-grow: 1;
 }
 
@@ -76,7 +82,7 @@ tr.body-row {
   padding: 1em;
 }
 
-.tabs{
+.tabs {
   height: 60%;
 }
 
