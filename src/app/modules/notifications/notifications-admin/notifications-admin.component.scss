@@ -9,7 +9,8 @@
 
 form {
   flex-grow: 1;
-  padding: 0;
+  padding-left: 0;
+  padding-top: 0.5em;
 }
 
 .notification-form-content {
@@ -79,11 +80,11 @@ tr.body-row {
 
 .preview-content {
   flex: 1 1 auto;
-  padding: 1em;
+  padding: 1em 1em 1em 0;
 }
 
 .tabs {
-  height: 60%;
+  height: calc(100% - 64px);
 }
 
 .insert-toolbar {

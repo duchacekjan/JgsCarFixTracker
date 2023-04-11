@@ -38,9 +38,12 @@
 }
 
 .notification-detail {
+  flex: 0 0 60%;
+  max-height: 60%;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .actions {
