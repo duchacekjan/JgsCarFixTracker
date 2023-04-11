@@ -1,11 +1,11 @@
-<app-notifications-table [selection]="selection" (currentItemChange)="onCurrentItemChanged($event)" [currentItem]="selected">
-  <div class="d-flex actions">
-    <span class="spacer"></span>
+<app-notifications-table [selection]="selection" (currentItemChange)="onCurrentItemChanged($event)" [currentItem]="selected"
+                         [actions]="adminActions">
+  <ng-template #adminActions>
     <button mat-raised-button (click)="deleteSelection()" [disabled]="selection.isEmpty()">
       <mat-icon>delete</mat-icon>
       <span>{{'notifications.list.delete'|translate}}</span>
     </button>
-  </div>
+  </ng-template>
   <form [formGroup]="formGroup"
         (ngSubmit)="onSubmit()"
         #formDirective="ngForm">

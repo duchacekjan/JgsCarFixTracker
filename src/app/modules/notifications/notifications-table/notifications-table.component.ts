@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {JgsNotification} from "../../../models/INotification";
 import {SelectionModel} from "@angular/cdk/collections";
@@ -23,6 +23,7 @@ export class NotificationsTableComponent extends AfterNavigatedHandler implement
   @Input() selection = new SelectionModel<JgsNotification>(true, [], true);
   @Input() currentItem?: JgsNotification;
   @Output() currentItemChange = new EventEmitter<JgsNotification | undefined>();
+  @Input() actions?: TemplateRef<any>
   displayedColumns: string[] = ['select', 'subject', 'created'];
   dataSource: MatTableDataSource<JgsNotification> = new MatTableDataSource<JgsNotification>([]);
   pageOptions = [5, 10, 20, 50];

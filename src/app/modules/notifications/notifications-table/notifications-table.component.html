@@ -47,5 +47,9 @@
                  showFirstLastButtons></mat-paginator>
 </div>
 <section class="notification-detail">
+  <div class="actions">
+    <span class="spacer"></span>
+    <ng-container *ngIf="actions" [ngTemplateOutlet]="actions"></ng-container>
+  </div>
   <ng-content></ng-content>
 </section>
