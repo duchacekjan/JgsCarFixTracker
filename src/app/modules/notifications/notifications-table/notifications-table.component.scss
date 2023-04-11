@@ -1,0 +1,61 @@
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: calc(100vh - 64px);
+}
+
+.notifications-table {
+  flex: 0 0 40%;
+  max-height: 40%;
+
+  .scroll-wrapper {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+.mat-column-select {
+  width: 4em;
+}
+
+.mat-column-created {
+  width: 6em;
+  padding: 0 0.1em;
+}
+
+.mat-cell:not(.no-data) {
+  cursor: pointer;
+}
+
+.notification-body {
+  flex-grow: 1;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.notification-detail {
+  flex: 0 0 60%;
+  max-height: 60%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5em 0;
+}
+
+.action-button {
+  margin-left: 1em;
+
+  span {
+    margin-left: 0.5em;
+  }
+}
