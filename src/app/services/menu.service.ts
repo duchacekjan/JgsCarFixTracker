@@ -25,7 +25,7 @@ export class MenuService {
       ));
   }
 
-  getIsMenuActive() {
+  getIsMenuActive(): Observable<boolean> {
     return this.getItems()
       .pipe(
         map(p => {
