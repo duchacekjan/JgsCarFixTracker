@@ -48,6 +48,7 @@
 </div>
 <section class="notification-detail">
   <div class="actions">
+    <ng-container *ngIf="detailInfo" [ngTemplateOutlet]="detailInfo"></ng-container>
     <span class="spacer"></span>
     <ng-container *ngIf="actions" [ngTemplateOutlet]="actions"></ng-container>
   </div>

@@ -7,23 +7,19 @@ import {MatSort} from "@angular/material/sort";
 import {Subscription} from "rxjs";
 import {NotificationsService} from "../../../services/notifications.service";
 import {UserLocalConfigService} from "../../../services/user-local-config.service";
-import {MessagesService} from "../../../services/messages.service";
-import {HelperService} from "../../../services/helper.service";
-import {ActivatedRoute} from "@angular/router";
-import {ActionsData, NavigationService} from "../../../services/navigation.service";
-import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 
 @Component({
   selector: 'app-notifications-table',
   templateUrl: './notifications-table.component.html',
   styleUrls: ['./notifications-table.component.scss']
 })
-export class NotificationsTableComponent extends AfterNavigatedHandler implements OnInit, OnDestroy {
+export class NotificationsTableComponent implements OnInit, OnDestroy {
   @Input() isNewFn: (item: JgsNotification) => boolean = () => false;
   @Input() selection = new SelectionModel<JgsNotification>(true, [], true);
   @Input() currentItem?: JgsNotification;
   @Output() currentItemChange = new EventEmitter<JgsNotification | undefined>();
   @Input() actions?: TemplateRef<any>
+  @Input() detailInfo?: TemplateRef<any>
   displayedColumns: string[] = ['select', 'subject', 'created'];
   dataSource: MatTableDataSource<JgsNotification> = new MatTableDataSource<JgsNotification>([]);
   pageOptions = [5, 10, 20, 50];
@@ -36,19 +32,7 @@ export class NotificationsTableComponent extends AfterNavigatedHandler implement
 
   constructor(
     private readonly notificationService: NotificationsService,
-    private readonly userConfig: UserLocalConfigService,
-    private readonly messageService: MessagesService,
-    private readonly helperService: HelperService,
-    route: ActivatedRoute,
-    navigationService: NavigationService) {
-    super(route, navigationService);
-  }
-
-  protected override backLinkIfNotPresent = '/';
-  protected override getActionsData(): ActionsData | null {
-    const result = super.getDefaultActionsData();
-    result.isNotificationsVisible = false;
-    return result;
+    private readonly userConfig: UserLocalConfigService) {
   }
 
   ngOnInit(): void {
