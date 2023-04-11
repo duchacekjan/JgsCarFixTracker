@@ -63,9 +63,11 @@ $JgsCarFixTracker-dark-theme: mat.define-dark-theme((
 @include mat.all-component-themes($JgsCarFixTracker-light-theme);
 @include edit-table.theme($JgsCarFixTracker-light-theme);
 @include common.theme($JgsCarFixTracker-light-theme);
+@include notification-table.theme($JgsCarFixTracker-light-theme);
 
 .darkMode {
   @include mat.all-component-colors($JgsCarFixTracker-dark-theme);
   @include edit-table.theme($JgsCarFixTracker-dark-theme);
   @include common.theme($JgsCarFixTracker-dark-theme);
+  @include notification-table.theme($JgsCarFixTracker-light-theme);
 }
