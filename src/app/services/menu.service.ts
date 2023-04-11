@@ -29,6 +29,8 @@ export class MenuService {
     return this.getItems()
       .pipe(
         map(p => {
+          console.warn("IS MENU ACTIVE")
+          console.log(p.length>1);
           return p.length > 1
         })
       );

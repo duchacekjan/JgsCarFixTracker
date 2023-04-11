@@ -61,12 +61,6 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     this.authUserSubscription = this.authService.currentUserChanged(user => this.setUser(user));
     this.actionsSubscription = this.navigation.actionsDataChanged(actionsData => this.setActions(actionsData));
     this.themeModeSubscription = this.settingsService.themeChangedSubscription(() => this.updateThemeMode());
-    this.isMenuActiveSubscription = this.menuService.getIsMenuActive().subscribe(c => {
-      if (this.isMenuActive != c) {
-        this.isMenuActive = c;
-        this.setUser(this.user)
-      }
-    });
     this.updateThemeMode();
   }
 
@@ -136,6 +130,15 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     }
     this.user = user;
     setTimeout(() => {
+      this.isMenuActiveSubscription.unsubscribe()
+      if (this.user != null) {
+        this.isMenuActiveSubscription = this.menuService.getIsMenuActive().subscribe(c => {
+          if (this.isMenuActive != c) {
+            this.isMenuActive = c;
+            this.backAction = this.actionsData == null ? null : this.actionsData.getCurrentBackAction(this.isMenuActive);
+          }
+        });
+      }
       if (this.menuSettings) {
         this.menuSettings = this.actionsData?.getMenuSettings(this.user != null);
       }

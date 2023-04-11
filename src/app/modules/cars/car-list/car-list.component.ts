@@ -9,7 +9,6 @@ import {Car} from "../../../models/car";
 import {CarsService} from "../../../services/cars.service";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {search} from "../../../common/jgs-common-functions";
-import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-car-list',
@@ -65,9 +64,7 @@ export class CarListComponent extends AfterNavigatedHandler implements OnDestroy
     addAction.tooltip = 'cars.detail.new.actionHint';
 
     const result = super.getDefaultActionsData();
-    if (!environment.production) {
-      result.backAction = ActionsData.createHomeAction();
-    }
+    result.backAction = ActionsData.createHomeAction();
     result.actions = [addAction]
     return result;
   }

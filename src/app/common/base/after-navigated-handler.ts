@@ -2,7 +2,6 @@ import {AfterViewInit, Component, inject} from "@angular/core";
 import {ActionsData, NavigationService} from "../../services/navigation.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {ServiceProvider} from "./service-provider";
-import {environment} from "../../../environments/environment";
 
 
 @Component({
@@ -47,7 +46,7 @@ export abstract class AfterNavigatedHandler implements AfterViewInit {
 
   protected getDefaultActionsData(): ActionsData {
     const result = new ActionsData();
-    if (!environment.production && this.isFromMenu) {
+    if (this.isFromMenu) {
       result.backAction = ActionsData.createHomeAction();
     } else if (this.finalBackLink !== undefined) {
       result.backAction = ActionsData.createBackAction(this.finalBackLink);
