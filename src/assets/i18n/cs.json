@@ -50,6 +50,16 @@
       "newEmail": "Nový e-mail",
       "loginVerification": "Ověření",
       "loginWithCurrentPassword": "Pro uložení změn zadejte své heslo."
+    },
+    "menu": {
+      "title": "Správa menu",
+      "itemTooltip": "Úpravy menu",
+      "addTitle": "Nová položka",
+      "editTitle": "Úprava položky",
+      "name": "Název",
+      "route": "Cesta/Route",
+      "icon": "Ikona",
+      "tooltip": "Tooltip"
     }
   },
   "auth": {

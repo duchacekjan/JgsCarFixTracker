@@ -6,7 +6,7 @@ import {MenuService} from "../../../services/menu.service";
 import {Observable} from "rxjs";
 import {MenuItem} from "../../../models/menuItem";
 import {Action} from "../../../models/action";
-import {FormControl, FormGroup, FormGroupDirective} from "@angular/forms";
+import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {resetFormGroup} from "../../../common/jgs-common-functions";
 
 @Component({
@@ -33,9 +33,9 @@ export class MenuSettingsComponent extends AfterNavigatedHandler {
     this.menuItemForm = new FormGroup({
       key: new FormControl(undefined),
       icon: new FormControl(''),
-      route: new FormControl(''),
+      route: new FormControl('', [Validators.required]),
       tooltip: new FormControl(''),
-      name: new FormControl(''),
+      name: new FormControl('', [Validators.required]),
       allowed: new FormControl([]),
     });
   }
