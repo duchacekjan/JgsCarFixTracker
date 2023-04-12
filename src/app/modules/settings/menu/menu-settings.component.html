@@ -1,0 +1,4 @@
+<mat-card *ngFor="let menuItem of menuItems |async" (click)="select(menuItem)" class="menu-card" [matTooltip]="menuItem.tooltip|translate">
+  <mat-icon class="spacer">{{menuItem.icon}}</mat-icon>
+  <mat-card-content>{{menuItem.name|translate}}</mat-card-content>
+</mat-card>

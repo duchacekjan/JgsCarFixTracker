@@ -16,12 +16,16 @@ export class MenuService {
     this.menuItemsRef = db.list<MenuItem>(prefix + "menu");
   }
 
-  getItems(user: any): Observable<MenuItem[]> {
+  getAllItems(): Observable<MenuItem[]> {
     return this.menuItemsRef.snapshotChanges().pipe(
       map(changes => {
           return changes.map(c => assignMenuItem(c))
         }
       ))
+  }
+
+  getItems(user: any): Observable<MenuItem[]> {
+    return this.getAllItems()
       .pipe(
         map(items => {
           if (user) {
