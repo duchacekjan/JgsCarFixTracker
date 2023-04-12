@@ -47,7 +47,7 @@ export abstract class AfterNavigatedHandler implements AfterViewInit {
   protected getDefaultActionsData(): ActionsData {
     const result = new ActionsData();
     if (this.isFromMenu) {
-      result.backAction = ActionsData.createHomeAction();
+      result.backAction = ActionsData.createBackAction('/');
     } else if (this.finalBackLink !== undefined) {
       result.backAction = ActionsData.createBackAction(this.finalBackLink);
     }

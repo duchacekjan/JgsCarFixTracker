@@ -33,13 +33,17 @@ export class ActionsData {
       return null;
     }
     if (this.backAction.route == ActionsData.homeRoute && !isMenuActive) {
-      return ActionsData.createBackAction("/");
+      return null;
     }
     return this.backAction;
   }
 
-  static createBackAction(route: string): Action {
+  static createBackAction(route: string, isMenuActive: boolean = false): Action {
     if (route == this.homeRoute) {
+      return this.createHomeAction();
+    }
+
+    if (isMenuActive && route == '/') {
       return this.createHomeAction();
     }
     const result = new Action('arrow_back');
@@ -48,7 +52,7 @@ export class ActionsData {
     return result;
   }
 
-  static createHomeAction(): Action {
+  private static createHomeAction(): Action {
     const result = new Action('home');
     result.route = this.homeRoute;
     result.tooltip = 'toolbar.home'
