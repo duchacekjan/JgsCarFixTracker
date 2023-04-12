@@ -45,4 +45,23 @@ export class MenuService {
         })
       );
   }
+
+  createOrUpdate(data: MenuItem) {
+    if (data.key) {
+      let strippedData = {
+        name: data.name,
+        icon: data.icon,
+        route: data.route,
+        tooltip: data.tooltip,
+        allowed: data.allowed
+      }
+      return this.menuItemsRef.update(data.key, strippedData);
+    } else {
+      return this.menuItemsRef.push(data);
+    }
+  }
+
+  delete(data: MenuItem) {
+    return this.menuItemsRef.remove(data.key);
+  }
 }

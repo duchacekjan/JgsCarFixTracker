@@ -8,7 +8,6 @@ export interface MenuItem {
   tooltip: string,
   allowed: string[]
 }
-
 export function assignMenuItem(snapshotAction: SnapshotAction<MenuItem>): MenuItem {
   let values = {...snapshotAction.payload.val()};
   let key = snapshotAction.key ?? undefined;
