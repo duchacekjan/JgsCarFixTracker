@@ -38,7 +38,7 @@ export class ActionsData {
     return this.backAction;
   }
 
-  static createBackAction(route: string, isMenuActive: boolean = false): Action {
+  static createBackAction(route: string, isMenuActive: boolean = true): Action {
     if (route == this.homeRoute) {
       return this.createHomeAction();
     }

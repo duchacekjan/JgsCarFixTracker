@@ -64,7 +64,7 @@ export class CarListComponent extends AfterNavigatedHandler implements OnDestroy
     addAction.tooltip = 'cars.detail.new.actionHint';
 
     const result = super.getDefaultActionsData();
-    result.backAction = ActionsData.createBackAction('/', true);
+    result.backAction = ActionsData.createBackAction('/');
     result.actions = [addAction]
     return result;
   }
