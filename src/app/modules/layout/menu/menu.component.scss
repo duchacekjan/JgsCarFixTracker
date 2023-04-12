@@ -5,22 +5,3 @@
   padding: 1em;
   flex: 0 0 auto;
 }
-
-.menu-card {
-  display: flex;
-  flex-direction: column;
-  margin: 0.2em;
-  align-items: center;
-  cursor: pointer;
-  width: 150px;
-  height: 150px;
-
-  mat-card-content{
-    text-align: center;
-  }
-
-  mat-icon{
-    font-size: 4em;
-    width: 50%;
-  }
-}

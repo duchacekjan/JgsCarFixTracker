@@ -87,6 +87,22 @@
 
   .menu-card {
     border: solid 1px mat.get-color-from-palette($primary-palette, 500);
+    display: flex;
+    flex-direction: column;
+    margin: 0.2em;
+    align-items: center;
+    cursor: pointer;
+    width: 150px;
+    height: 150px;
+
+    mat-card-content {
+      text-align: center;
+    }
+
+    mat-icon {
+      font-size: 4em;
+      width: 50%;
+    }
   }
 }
 
