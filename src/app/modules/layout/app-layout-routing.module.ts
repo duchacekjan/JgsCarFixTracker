@@ -15,6 +15,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {path: '', component: MenuComponent, canActivate: [AuthGuard], title: 'menu.title'},
+      {path: 'home', redirectTo: '', pathMatch: 'full'},
       {path: 'auth', loadChildren: () => AppAuthModule},
       {path: 'cars', loadChildren: () => CarsModule, canActivate: [AuthGuard]},
       {path: 'settings', loadChildren: () => SettingsModule},

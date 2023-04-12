@@ -11,7 +11,7 @@ import {formatDate, insertBase} from "../../../common/jgs-common-functions";
 import {SelectionModel} from "@angular/cdk/collections";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {ActivatedRoute} from "@angular/router";
-import {NavigationService} from "../../../services/navigation.service";
+import {ActionsData, NavigationService} from "../../../services/navigation.service";
 
 interface ITextSelection {
   start: number
@@ -52,6 +52,8 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler {
     super(route, navigationService);
     this.clearForm();
   }
+
+  protected override backLinkIfNotPresent = ActionsData.homeRoute;
 
   get bodyHtml(): string {
     const matchRN = RegExp('\r\n', 'g')

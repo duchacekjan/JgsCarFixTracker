@@ -16,6 +16,7 @@ export class ActionsData {
   isMenuAvailable: boolean = true;
   isSettingsVisible: boolean = true;
   isNotificationsVisible: boolean = true;
+  static readonly homeRoute = '/home';
 
   getMenuSettings(isAuthorized: boolean): IMenuSettings | undefined {
     return this.isMenuAvailable
@@ -31,13 +32,16 @@ export class ActionsData {
     if (this.backAction == null) {
       return null;
     }
-    if (this.backAction.icon == 'home' && !isMenuActive) {
-      return null;
+    if (this.backAction.route == ActionsData.homeRoute && !isMenuActive) {
+      return ActionsData.createBackAction("/");
     }
     return this.backAction;
   }
 
   static createBackAction(route: string): Action {
+    if (route == this.homeRoute) {
+      return this.createHomeAction();
+    }
     const result = new Action('arrow_back');
     result.route = route ?? '';
     result.tooltip = 'toolbar.back'
@@ -46,7 +50,7 @@ export class ActionsData {
 
   static createHomeAction(): Action {
     const result = new Action('home');
-    result.route = '';
+    result.route = this.homeRoute;
     result.tooltip = 'toolbar.home'
     return result;
   }

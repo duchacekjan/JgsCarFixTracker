@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuService} from "../../../services/menu.service";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {MenuItem} from "../../../models/menuItem";
 import {ActivatedRoute} from "@angular/router";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-menu',
@@ -13,15 +14,17 @@ import {ActionsData, NavigationService} from "../../../services/navigation.servi
 })
 export class MenuComponent extends AfterNavigatedHandler implements OnInit, OnDestroy {
 
-  menuItems: Observable<MenuItem[]>;
-  private isMenuActiveSubscription = new Subscription();
+  menuItems: MenuItem[] = [];
+  private currentUserSubscription = new Subscription();
+  private itemsSubscription = new Subscription();
 
   constructor(
     private readonly menuService: MenuService,
+    private readonly authService: AuthService,
     route: ActivatedRoute,
     navigation: NavigationService) {
     super(route, navigation);
-    this.menuItems = menuService.getItems();
+    this.authService.getCurrentUser().then(t => this.setUser(t));
   }
 
   navigate(link: string) {
@@ -33,15 +36,12 @@ export class MenuComponent extends AfterNavigatedHandler implements OnInit, OnDe
   }
 
   ngOnInit(): void {
-    this.isMenuActiveSubscription = this.menuService.getIsMenuActive().subscribe(c => {
-      if (!c) {
-        this.router.navigate(['/cars']).then();
-      }
-    });
+    this.currentUserSubscription = this.authService.currentUserChanged(u => this.setUser(u))
   }
 
   ngOnDestroy() {
-    this.isMenuActiveSubscription.unsubscribe()
+    this.currentUserSubscription.unsubscribe();
+    this.itemsSubscription.unsubscribe();
   }
 
   protected override getActionsData(): ActionsData | null {
@@ -50,5 +50,23 @@ export class MenuComponent extends AfterNavigatedHandler implements OnInit, OnDe
       result.backAction = null;
     }
     return result;
+  }
+
+  private setUser(user: any) {
+    this.itemsSubscription.unsubscribe();
+    setTimeout(() => {
+      if (user) {
+        this.itemsSubscription = this.menuService.getItems(user)
+          .subscribe(items => {
+            if (items.length > 1) {
+              this.menuItems = items;
+            } else {
+              this.router.navigate(['/cars']).then();
+            }
+          })
+      } else {
+        this.menuItems = [];
+      }
+    }, 0);
   }
 }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from "@angular/fire/compat/database";
-import {MenuItem} from "../models/menuItem";
+import {assignMenuItem, MenuItem} from "../models/menuItem";
 import {map, Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 
@@ -16,21 +16,27 @@ export class MenuService {
     this.menuItemsRef = db.list<MenuItem>(prefix + "menu");
   }
 
-  getItems(): Observable<MenuItem[]> {
+  getItems(user: any): Observable<MenuItem[]> {
     return this.menuItemsRef.snapshotChanges().pipe(
       map(changes => {
-          return changes.map(c =>
-            (<MenuItem>{key: c.key, ...c.payload.val()}))
+          return changes.map(c => assignMenuItem(c))
         }
-      ));
+      ))
+      .pipe(
+        map(items => {
+          if (user) {
+            return items.filter(i => i.allowed.length == 0 || i.allowed.some(s => s == user.uid))
+          } else {
+            return [];
+          }
+        })
+      );
   }
 
-  getIsMenuActive(): Observable<boolean> {
-    return this.getItems()
+  getIsMenuActive(user: any): Observable<boolean> {
+    return this.getItems(user)
       .pipe(
         map(p => {
-          console.warn("IS MENU ACTIVE")
-          console.log(p.length>1);
           return p.length > 1
         })
       );
