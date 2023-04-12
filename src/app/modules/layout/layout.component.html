@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
-  <ng-container *ngIf="actionsData!=null">
-    <button *ngIf="actionsData.backAction" mat-icon-button (click)="backClick()" [matTooltip]="'toolbar.back' | translate">
-      <mat-icon>arrow_back</mat-icon>
+  <ng-container *ngIf="backAction!=null">
+    <button *ngIf="backAction" mat-icon-button (click)="backClick()" [matTooltip]="backAction.tooltip | translate">
+      <mat-icon>{{backAction.icon}}</mat-icon>
     </button>
   </ng-container>
   <div class="spacer spacer-content">
@@ -52,6 +52,9 @@
     </mat-menu>
   </ng-container>
 </mat-toolbar>
+<div *ngIf="isDebug" class="debug-info">
+  DEBUG SERVER
+</div>
 <div class="live-notification"
      [@liveNotificationExpand]="liveNotification!=undefined ? 'expanded' : 'collapsed'"
      routerLink="/notifications"

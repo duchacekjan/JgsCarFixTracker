@@ -54,7 +54,6 @@ export class CarDetailFormComponent extends AfterNavigatedHandler implements OnI
   constructor(
     private carsService: CarsService,
     route: ActivatedRoute,
-    private router: Router,
     private messageService: MessagesService,
     private brandsService: BrandsService,
     navigation: NavigationService) {

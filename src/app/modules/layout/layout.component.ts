@@ -2,7 +2,7 @@ import {Component, OnDestroy, Renderer2} from '@angular/core';
 import {User} from "@angular/fire/auth/firebase";
 import {Subscription} from "rxjs";
 import {OverlayContainer} from "@angular/cdk/overlay";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {ActionsData, IMenuSettings, NavigationService} from "../../services/navigation.service";
 import {AuthService} from "../../services/auth.service";
 import {SettingsService} from "../../services/settings.service";
@@ -12,6 +12,8 @@ import {JgsAppTitleStrategy} from "../../common/jgs-app-title.strategy";
 import {JgsNotification} from "../../models/INotification";
 import {NotificationsService} from "../../services/notifications.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {MenuService} from "../../services/menu.service";
+import {Action} from "../../models/action";
 
 @Component({
   selector: 'app-layout',
@@ -26,7 +28,9 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
   ]
 })
 export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy {
+  isDebug: boolean = !environment.production
   actionsData: ActionsData | null = null;
+  backAction: Action | null = null;
   menuSettings?: IMenuSettings;
   version: string;
   user: User | null = null;
@@ -36,18 +40,20 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
   private authUserSubscription: Subscription;
   private themeModeSubscription: Subscription;
   private notificationsSubscription = new Subscription();
+  private isMenuActiveSubscription = new Subscription();
   private isFirstCall: boolean = false;
+  private isMenuActive: boolean = false;
   private _liveNotification?: JgsNotification;
   private readonly liveNotifications: Array<JgsNotification> = [];
 
   constructor(
     private readonly authService: AuthService,
-    private settingsService: SettingsService,
-    private renderer: Renderer2,
-    private overlay: OverlayContainer,
-    private readonly router: Router,
+    private readonly settingsService: SettingsService,
+    private readonly renderer: Renderer2,
+    private readonly overlay: OverlayContainer,
     public readonly title: JgsAppTitleStrategy,
     private readonly notificationsService: NotificationsService,
+    private readonly menuService: MenuService,
     route: ActivatedRoute,
     navigation: NavigationService) {
     super(route, navigation);
@@ -87,12 +93,17 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     this.actionsSubscription.unsubscribe();
     this.authUserSubscription.unsubscribe();
     this.themeModeSubscription.unsubscribe();
+    this.isMenuActiveSubscription.unsubscribe();
     this.notificationsSubscription.unsubscribe();
   }
 
   async backClick() {
     if (this.actionsData?.backAction != null) {
-      await this.router.navigate([this.actionsData.backAction.route], {queryParams: this.actionsData.backAction.queryParams, replaceUrl: true, relativeTo: this.route})
+      await this.router.navigate([this.actionsData.backAction.route], {
+        queryParams: this.actionsData.backAction.queryParams,
+        replaceUrl: true,
+        relativeTo: this.route
+      })
     }
   }
 
@@ -119,16 +130,26 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
     }
     this.user = user;
     setTimeout(() => {
+      this.isMenuActiveSubscription.unsubscribe()
+      this.isMenuActiveSubscription = this.menuService.getIsMenuActive(this.user).subscribe(c => {
+        if (this.isMenuActive != c) {
+          this.isMenuActive = c;
+          this.backAction = this.actionsData == null ? null : this.actionsData.getCurrentBackAction(this.isMenuActive);
+        }
+      });
       if (this.menuSettings) {
         this.menuSettings = this.actionsData?.getMenuSettings(this.user != null);
       }
+
+      this.backAction = this.actionsData == null ? null : this.actionsData.getCurrentBackAction(this.isMenuActive);
       this.notificationsSubscription.unsubscribe();
       this.notifications = [];
       this.notificationsCount = 0;
       if (this.user != null && this.menuSettings?.isNotificationsVisible === true) {
-        this.notificationsSubscription = this.notificationsService.getList(this.user?.uid ?? '').subscribe(data => {
-          this.updateNotifications(data);
-        });
+        this.notificationsSubscription = this.notificationsService.getList(this.user?.uid ?? '')
+          .subscribe(data => {
+            this.updateNotifications(data);
+          });
       }
 
     }, 0);
@@ -136,7 +157,8 @@ export class LayoutComponent extends AfterNavigatedHandler implements OnDestroy 
 
   private setActions(actionsData: ActionsData) {
     setTimeout(() => {
-      this.actionsData = actionsData
+      this.actionsData = actionsData;
+      this.backAction = actionsData.getCurrentBackAction(this.isMenuActive);
       this.menuSettings = actionsData.getMenuSettings(this.user !== null);
     }, 0);
   }

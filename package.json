@@ -1,12 +1,13 @@
 {
   "name": "jgs-car-fix-tracker",
-  "version": "2.6.4",
+  "version": "3.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "buildProd": "ng build --configuration production",
+    "startProd": "ng serve --configuration production",
     "test": "ng test"
   },
   "private": true,

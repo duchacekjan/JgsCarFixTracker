@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnDestroy} from '@angular/core';
 import {AuthService} from "../../../services/auth.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {DataService} from "../../../services/data.service";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {Action} from "../../../models/action";
@@ -21,7 +21,12 @@ export class CarListComponent extends AfterNavigatedHandler implements OnDestroy
   private searchedText = new Subject<string>();
   private searchSubscription = new Subscription();
 
-  constructor(route: ActivatedRoute, private authService: AuthService, private router: Router, private dataService: DataService, navigation: NavigationService, public carsService: CarsService) {
+  constructor(
+    route: ActivatedRoute,
+    private authService: AuthService,
+    private dataService: DataService,
+    navigation: NavigationService,
+    public carsService: CarsService) {
     super(route, navigation);
   }
 
@@ -59,6 +64,7 @@ export class CarListComponent extends AfterNavigatedHandler implements OnDestroy
     addAction.tooltip = 'cars.detail.new.actionHint';
 
     const result = super.getDefaultActionsData();
+    result.backAction = ActionsData.createBackAction('/');
     result.actions = [addAction]
     return result;
   }

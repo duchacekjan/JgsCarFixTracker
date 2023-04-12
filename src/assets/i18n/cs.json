@@ -1,7 +1,13 @@
 {
   "title": "JGS CarFixTracker",
+  "menu": {
+    "title": "Menu",
+    "fixes": "Opravy",
+    "fixesTooltip": "Přehled aut s jejich opravama"
+  },
   "toolbar": {
     "back": "Zpět",
+    "home": "Domů",
     "logout": "Odhlásit se",
     "settings": "Nastavení",
     "version_ver": "Verze: {{ver}}",
@@ -44,6 +50,23 @@
       "newEmail": "Nový e-mail",
       "loginVerification": "Ověření",
       "loginWithCurrentPassword": "Pro uložení změn zadejte své heslo."
+    },
+    "menu": {
+      "title": "Správa menu",
+      "itemTooltip": "Úpravy menu",
+      "addHint": "Vytvožit novou položku",
+      "addTitle": "Nová položka",
+      "editTitle": "Úprava položky",
+      "deleteTitle": "Smazat položku",
+      "name": "Název",
+      "route": "Cesta/Route",
+      "icon": "Ikona",
+      "tooltip": "Tooltip",
+      "uid": "Uživatelské id",
+      "allowed": "Seznam povolených",
+      "allowedAdd": "Přidat uživatele",
+      "allowedDelete": "Odebrat uživatele",
+      "items": "Vyberte položky menu k úpravě"
     }
   },
   "auth": {
@@ -137,7 +160,8 @@
       "new": "Nová"
     },
     "admin": {
-      "title": "Upozornění - administrace",
+      "title": "Správa upozornění",
+      "tooltip": "Správa upozornění",
       "validFrom": "Platné od",
       "send": "Odeslat",
       "preview": "Náhled",

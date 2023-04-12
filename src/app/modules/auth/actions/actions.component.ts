@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationService} from "../../../services/navigation.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 
@@ -16,8 +16,7 @@ export class ActionsComponent extends AfterNavigatedHandler implements OnInit {
   constructor(
     navigation: NavigationService,
     private readonly authService: AuthService,
-    route: ActivatedRoute,
-    private readonly router: Router) {
+    route: ActivatedRoute) {
     super(route, navigation);
   }
 

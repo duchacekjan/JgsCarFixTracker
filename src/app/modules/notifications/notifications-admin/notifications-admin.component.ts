@@ -6,12 +6,11 @@ import {MatSort} from "@angular/material/sort";
 import {NotificationsService} from "../../../services/notifications.service";
 import {UserLocalConfigService} from "../../../services/user-local-config.service";
 import {MessagesService} from "../../../services/messages.service";
-import {HelperService} from "../../../services/helper.service";
-import {formatDate, insertBase} from "../../../common/jgs-common-functions";
+import {formatDate, insertBase, resetForm} from "../../../common/jgs-common-functions";
 import {SelectionModel} from "@angular/cdk/collections";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {ActivatedRoute} from "@angular/router";
-import {NavigationService} from "../../../services/navigation.service";
+import {ActionsData, NavigationService} from "../../../services/navigation.service";
 
 interface ITextSelection {
   start: number
@@ -46,12 +45,13 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler {
     private readonly notificationService: NotificationsService,
     private readonly userConfig: UserLocalConfigService,
     private readonly messageService: MessagesService,
-    private readonly helperService: HelperService,
     route: ActivatedRoute,
     navigationService: NavigationService) {
     super(route, navigationService);
     this.clearForm();
   }
+
+  protected override backLinkIfNotPresent = ActionsData.homeRoute;
 
   get bodyHtml(): string {
     const matchRN = RegExp('\r\n', 'g')
@@ -101,11 +101,11 @@ export class NotificationsAdminComponent extends AfterNavigatedHandler {
       validFrom: <string | null>null
     }
     this.formGroup.setValue(data as any);
-    this.resetForm();
+    this.callResetForm();
   }
 
-  private resetForm() {
-    this.helperService.resetForm(this.formGroup, this.notificationFormGroup);
+  private callResetForm() {
+    resetForm(this.formGroup, this.notificationFormGroup);
   }
 
   insertUrl() {

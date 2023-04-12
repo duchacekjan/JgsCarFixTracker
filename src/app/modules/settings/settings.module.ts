@@ -9,6 +9,7 @@ import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {ChangePasswordDialog} from "./user-profile/dialogs/change-password/change-password.dialog";
 import {PasswordDialog} from "./user-profile/dialogs/password/password.dialog";
 import {ChangeEmailDialog} from "./user-profile/dialogs/change-email/change-email.dialog";
+import {MenuSettingsComponent} from './menu/menu-settings.component';
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import {ChangeEmailDialog} from "./user-profile/dialogs/change-email/change-emai
     UserProfileComponent,
     ChangePasswordDialog,
     ChangeEmailDialog,
-    PasswordDialog
+    PasswordDialog,
+    MenuSettingsComponent
   ]
 })
 export class SettingsModule {
