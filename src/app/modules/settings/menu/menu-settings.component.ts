@@ -6,8 +6,9 @@ import {MenuService} from "../../../services/menu.service";
 import {Observable} from "rxjs";
 import {MenuItem} from "../../../models/menuItem";
 import {Action} from "../../../models/action";
-import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {resetFormGroup} from "../../../common/jgs-common-functions";
+import {MessagesService} from "../../../services/messages.service";
 
 @Component({
   selector: 'app-menu-settings',
@@ -26,6 +27,7 @@ export class MenuSettingsComponent extends AfterNavigatedHandler {
 
   constructor(
     private readonly menuService: MenuService,
+    private readonly messageService: MessagesService,
     route: ActivatedRoute,
     navigation: NavigationService) {
     super(route, navigation);
@@ -36,7 +38,7 @@ export class MenuSettingsComponent extends AfterNavigatedHandler {
       route: new FormControl('', [Validators.required]),
       tooltip: new FormControl(''),
       name: new FormControl('', [Validators.required]),
-      allowed: new FormControl([]),
+      allowed: new FormArray([])
     });
   }
 
@@ -53,6 +55,23 @@ export class MenuSettingsComponent extends AfterNavigatedHandler {
     return result;
   }
 
+  get allowed(): FormArray {
+    return this.menuItemForm.controls["allowed"] as FormArray;
+  }
+
+  get allowedControls() {
+    return this.allowed.controls.map(p => p as FormControl);
+  }
+
+  addAllowed(defaultValue: string = '') {
+    const allowedControl = new FormControl(defaultValue);
+    this.allowed.push(allowedControl);
+  }
+
+  deleteAllowed(allowedIndex: number) {
+    this.allowed.removeAt(allowedIndex);
+  }
+
   select(row: MenuItem) {
     this.existing_row_values = {...row};
     this.showForm(row as MenuItem, false);
@@ -60,21 +79,50 @@ export class MenuSettingsComponent extends AfterNavigatedHandler {
   }
 
   updateTableData() {
-    this.isDrawerOpened = false;
+    let menuItem = this.getItem()
+    this.menuService.createOrUpdate(menuItem)
+      .then(() => this.messageService.showSuccess({message: 'messages.saved'}))
+      .then(() => this.callResetForm())
+      .catch(err => this.messageService.showError(err));
+  }
+
+  deleteMenuItem() {
+    let menuItem = this.getItem();
+    this.menuService.delete(menuItem)
+      .then(() => this.messageService.showSuccess({message: 'messages.deleted'}))
+      .then(() => this.callResetForm())
+      .catch(err => this.messageService.showError(err))
+  }
+
+  private getItem(): MenuItem {
+    let updated_row_data = (this.isNewRowBeingAdded) ? {...this.menuItemForm.value} : {...this.existing_row_values, ...this.menuItemForm.value};
+    return updated_row_data as MenuItem;
   }
 
   private callAdd() {
-
+    let menuItem: MenuItem = {
+      key: undefined,
+      name: '',
+      route: '',
+      icon: '',
+      tooltip: '',
+      allowed: []
+    }
+    this.select(menuItem);
   }
 
   private showForm(menuItem: MenuItem, isNewRow: boolean) {
     this.callResetForm();
     this.menuItemForm.patchValue(menuItem);
+    for (let i = 0; i < menuItem.allowed.length; i++) {
+      this.addAllowed(menuItem.allowed[i]);
+    }
     this.isDrawerOpened = true;
     this.isNewRowBeingAdded = isNewRow;
   }
 
   private callResetForm() {
+    this.allowed.clear();
     resetFormGroup(this.menuFormGroup, () => this.isDrawerOpened = false);
   }
 }

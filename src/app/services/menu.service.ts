@@ -47,17 +47,17 @@ export class MenuService {
   }
 
   createOrUpdate(data: MenuItem) {
+    let strippedData = {
+      name: data.name,
+      icon: data.icon,
+      route: data.route,
+      tooltip: data.tooltip,
+      allowed: data.allowed
+    }
     if (data.key) {
-      let strippedData = {
-        name: data.name,
-        icon: data.icon,
-        route: data.route,
-        tooltip: data.tooltip,
-        allowed: data.allowed
-      }
       return this.menuItemsRef.update(data.key, strippedData);
     } else {
-      return this.menuItemsRef.push(data);
+      return this.menuItemsRef.push(strippedData);
     }
   }
 

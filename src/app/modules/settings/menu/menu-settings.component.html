@@ -7,7 +7,12 @@
             [formGroup]="menuItemForm"
             (ngSubmit)="updateTableData()"
             #formDirective="ngForm">
-        <h3 class="table-update__header">{{(isNewRowBeingAdded ? 'settings.menu.addTitle' : 'settings.menu.editTitle')|translate}}</h3>
+        <div class="menu-item-header">
+          <h3 class="table-update__header spacer">{{(isNewRowBeingAdded ? 'settings.menu.addTitle' : 'settings.menu.editTitle')|translate}}</h3>
+          <button mat-icon-button color="warn" type="button" (click)="deleteMenuItem()" [matTooltip]="'settings.menu.deleteTitle'|translate">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
         <mat-form-field>
           <input matInput formControlName="name" aria-describedby="name" [placeholder]="'settings.menu.name'|translate" #nameInput>
           <mat-hint>{{nameInput.value | translate}}</mat-hint>
@@ -23,10 +28,28 @@
           <input matInput formControlName="tooltip" aria-describedby="tooltip" [placeholder]="'settings.menu.tooltip'|translate" #tooltipInput>
           <mat-hint>{{tooltipInput.value | translate}}</mat-hint>
         </mat-form-field>
+        <div class="menu-item-allowed-header">
+          <mat-label>{{'settings.menu.allowed'|translate}}</mat-label>
+          <span class="spacer"></span>
+          <button mat-icon-button type="button" color="primary"
+                  (click)="addAllowed()" [matTooltip]="'settings.menu.allowedAdd'|translate">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <ng-container formArrayName="allowed">
+          <ng-container *ngFor="let allowedItem of allowedControls; let i = index">
+            <mat-form-field>
+              <input matInput [formControl]="allowedItem" [placeholder]="'settings.menu.uid'|translate">
+              <mat-icon matSuffix color="warn"
+                        (click)="deleteAllowed(i)" [matTooltip]="'settings.menu.allowedDelete'|translate">delete
+              </mat-icon>
+            </mat-form-field>
+          </ng-container>
+        </ng-container>
         <div class="table-update__footer">
           <div class="row">
             <div class="col-12 col-sm-6">
-              <button mat-raised-button (click)="isDrawerOpened = false">{{'buttons.cancel'|translate}}</button>
+              <button mat-raised-button type="reset" (click)="isDrawerOpened = false">{{'buttons.cancel'|translate}}</button>
             </div>
             <div class="col-12 col-sm-6">
               <button mat-raised-button class="col-12 col-sm-6" color="primary" type="submit" [disabled]="!menuItemForm.valid">{{'buttons.save'|translate}}</button>

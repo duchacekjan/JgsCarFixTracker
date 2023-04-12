@@ -19,3 +19,15 @@
   flex: 0 0 auto;
 }
 
+.menu-item-allowed-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.menu-item-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
