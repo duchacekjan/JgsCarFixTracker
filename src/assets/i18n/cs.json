@@ -65,7 +65,8 @@
       "uid": "Uživatelské id",
       "allowed": "Seznam povolených",
       "allowedAdd": "Přidat uživatele",
-      "allowedDelete": "Odebrat uživatele"
+      "allowedDelete": "Odebrat uživatele",
+      "items": "Vyberte položky menu k úpravě"
     }
   },
   "auth": {

@@ -59,6 +59,7 @@
       </form>
     </section>
   </mat-drawer>
+  <h3 class="menu-item-list-header">{{'settings.menu.items'|translate}}</h3>
   <section class="menu-settings-content">
     <mat-card *ngFor="let menuItem of menuItems |async" (click)="select(menuItem)" class="menu-card" [matTooltip]="menuItem.tooltip|translate">
       <mat-icon class="spacer">{{menuItem.icon}}</mat-icon>
