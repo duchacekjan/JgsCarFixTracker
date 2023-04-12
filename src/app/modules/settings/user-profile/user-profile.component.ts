@@ -4,7 +4,6 @@ import {NavigationService} from "../../../services/navigation.service";
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {FormControl, FormGroup, FormGroupDirective} from "@angular/forms";
-import {HelperService} from "../../../services/helper.service";
 import {MessagesService} from "../../../services/messages.service";
 import {ChangePasswordDialog} from "./dialogs/change-password/change-password.dialog";
 import {PasswordDialog} from "./dialogs/password/password.dialog";
@@ -27,7 +26,6 @@ export class UserProfileComponent extends AfterNavigatedHandler implements OnIni
 
   constructor(
     private readonly authService: AuthService,
-    private readonly helperService: HelperService,
     private readonly messageService: MessagesService,
     navigation: NavigationService,
     route: ActivatedRoute) {

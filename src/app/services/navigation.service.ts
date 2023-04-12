@@ -16,6 +16,7 @@ export class ActionsData {
   isMenuAvailable: boolean = true;
   isSettingsVisible: boolean = true;
   isNotificationsVisible: boolean = true;
+  static readonly homeRoute = '/home';
 
   getMenuSettings(isAuthorized: boolean): IMenuSettings | undefined {
     return this.isMenuAvailable
@@ -27,10 +28,34 @@ export class ActionsData {
       : undefined;
   }
 
-  static createBackAction(route: string): Action {
+  getCurrentBackAction(isMenuActive: boolean): Action | null {
+    if (this.backAction == null) {
+      return null;
+    }
+    if (this.backAction.route == ActionsData.homeRoute && !isMenuActive) {
+      return null;
+    }
+    return this.backAction;
+  }
+
+  static createBackAction(route: string, isMenuActive: boolean = true): Action {
+    if (route == this.homeRoute) {
+      return this.createHomeAction();
+    }
+
+    if (isMenuActive && route == '/') {
+      return this.createHomeAction();
+    }
     const result = new Action('arrow_back');
     result.route = route ?? '';
     result.tooltip = 'toolbar.back'
+    return result;
+  }
+
+  private static createHomeAction(): Action {
+    const result = new Action('home');
+    result.route = this.homeRoute;
+    result.tooltip = 'toolbar.home'
     return result;
   }
 }
@@ -46,7 +71,7 @@ export class NavigationService implements OnDestroy {
 
   constructor(
     private readonly translate: TranslateService,
-    private readonly router: Router) {
+    public readonly router: Router) {
     translate.setDefaultLang('cs');
     translate.use('cs');
     this.routerEventSubscription = this.router.events.subscribe(event => {

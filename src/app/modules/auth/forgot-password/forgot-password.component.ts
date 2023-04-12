@@ -3,8 +3,8 @@ import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/f
 import {ActivatedRoute, Router} from "@angular/router";
 import {CommonValidators} from "../../../common/validators/common.validators";
 import {AuthService} from "../../../services/auth.service";
-import {HelperService} from "../../../services/helper.service";
 import {MessagesService} from "../../../services/messages.service";
+import {resetForm} from "../../../common/jgs-common-functions";
 
 @Component({
   selector: 'app-forgot-password',
@@ -23,7 +23,6 @@ export class ForgotPasswordComponent {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly helperService: HelperService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly messageService: MessagesService
@@ -34,7 +33,7 @@ export class ForgotPasswordComponent {
     if (this.form.valid) {
       const email = this.form.controls['email'].value;
       this.authService.forgotPassword(email).then(() => {
-        this.helperService.resetForm(this.form, this.formGroup);
+        resetForm(this.form, this.formGroup);
         this.messageService.showInfo({message: 'messages.resetEmailSend'});
         this.router.navigate(['/auth/sign-in'], {replaceUrl: true, relativeTo: this.route,}).catch();
       });

@@ -22,7 +22,6 @@ export class SignInComponent extends AfterNavigatedHandler {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
     private messageService: MessagesService,
     route: ActivatedRoute,
     navigation: NavigationService) {

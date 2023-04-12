@@ -3,10 +3,10 @@ import {PasswordService, PasswordStrength} from "../../../../services/password.s
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../../services/auth.service";
-import {HelperService} from "../../../../services/helper.service";
 import {CommonValidators} from "../../../../common/validators/common.validators";
 import {PasswordStrengthInfo} from "../../../../common/password-strength-hint/password-strength-hint.component";
 import {MessagesService} from "../../../../services/messages.service";
+import {resetForm} from "../../../../common/jgs-common-functions";
 
 @Component({
   selector: 'app-confirm-reset-password',
@@ -36,7 +36,6 @@ export class ConfirmResetPasswordComponent {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly authService: AuthService,
-    private readonly helperService: HelperService,
     private readonly passwordService: PasswordService,
     private readonly messageService: MessagesService) {
     this.form.get('password')!.valueChanges.subscribe(() => this.onPasswordChanged())
@@ -67,7 +66,7 @@ export class ConfirmResetPasswordComponent {
       const password = this.form.value.password!;
       this.authService.confirmPasswordReset(password, this.oobCode)
         .then(() => {
-          this.helperService.resetForm(this.form, this.formGroup);
+          resetForm(this.form, this.formGroup);
           this.router.navigate(['/auth/sign-in'], {replaceUrl: true, relativeTo: this.route}).catch();
         })
         .catch(err => this.messageService.showError(err));

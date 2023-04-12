@@ -1,5 +1,9 @@
 {
   "rules": {
+    "menu": {
+      ".write": "auth !== null",
+      ".read": "auth !== null"
+    },
     "brands": {
       ".write": "auth !== null",
       ".read": "auth !== null"
@@ -20,8 +24,10 @@
       ".read": "auth !== null"
     },
     "test": {
-      ".write": "auth !== null",
-      ".read": "auth !== null",
+      "menu": {
+        ".write": "auth !== null",
+        ".read": "auth !== null"
+      },
       "brands": {
         ".write": "auth !== null",
         ".read": "auth !== null"
