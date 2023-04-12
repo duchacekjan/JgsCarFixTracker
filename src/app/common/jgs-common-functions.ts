@@ -1,4 +1,5 @@
 import {debounceTime, distinctUntilChanged, filter, OperatorFunction, pipe, startWith} from "rxjs";
+import {FormGroup, FormGroupDirective} from "@angular/forms";
 
 const DEFAULT_DEBOUNCE = 300;
 const DEFAULT_LENGTH = 1;
@@ -77,6 +78,27 @@ export function insertBase(original: string, selStart: number, selEnd: number, t
   return original.slice(0, selStart) +
     startTag + selection + endTag +
     original.slice(selEnd);
+}
+
+export function resetForm(form: FormGroup, formGroup?: FormGroupDirective, customResetAction?: () => {}) {
+  if (customResetAction) {
+    customResetAction();
+  }
+  form.reset();
+  form.setErrors(null);
+  form.updateValueAndValidity();
+  formGroup?.resetForm();
+}
+
+export function resetFormGroup(formGroup?: FormGroupDirective, customResetAction?: () => {}) {
+  if (customResetAction) {
+    customResetAction();
+  }
+  let form = formGroup?.form;
+  form?.reset();
+  form?.setErrors(null);
+  form?.updateValueAndValidity();
+  formGroup?.resetForm();
 }
 
 function setCaseInsensitivity(text: string, caseInsensitive: boolean): string {

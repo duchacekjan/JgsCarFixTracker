@@ -6,7 +6,6 @@ import {AuthService} from "./auth.service";
 import {NavigationService} from "./navigation.service";
 import {CarsService} from "./cars.service";
 import {MessagesService} from "./messages.service";
-import {HelperService} from "./helper.service";
 import {PasswordService} from "./password.service";
 
 @NgModule({
@@ -21,7 +20,6 @@ import {PasswordService} from "./password.service";
     NavigationService,
     CarsService,
     MessagesService,
-    HelperService,
     PasswordService
   ]
 })

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {ActivatedRoute} from "@angular/router";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
@@ -6,7 +6,8 @@ import {MenuService} from "../../../services/menu.service";
 import {Observable} from "rxjs";
 import {MenuItem} from "../../../models/menuItem";
 import {Action} from "../../../models/action";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, FormGroupDirective} from "@angular/forms";
+import {resetFormGroup} from "../../../common/jgs-common-functions";
 
 @Component({
   selector: 'app-menu-settings',
@@ -19,6 +20,9 @@ export class MenuSettingsComponent extends AfterNavigatedHandler {
   isNewRowBeingAdded: boolean = false;
 
   menuItemForm!: FormGroup;
+  private existing_row_values!: any;
+
+  @ViewChild(FormGroupDirective, {static: true}) menuFormGroup!: FormGroupDirective;
 
   constructor(
     private readonly menuService: MenuService,
@@ -49,7 +53,9 @@ export class MenuSettingsComponent extends AfterNavigatedHandler {
     return result;
   }
 
-  select(item: MenuItem) {
+  select(row: MenuItem) {
+    this.existing_row_values = {...row};
+    this.showForm(row as MenuItem, false);
     this.isDrawerOpened = true;
   }
 
@@ -59,5 +65,16 @@ export class MenuSettingsComponent extends AfterNavigatedHandler {
 
   private callAdd() {
 
+  }
+
+  private showForm(menuItem: MenuItem, isNewRow: boolean) {
+    this.callResetForm();
+    this.menuItemForm.patchValue(menuItem);
+    this.isDrawerOpened = true;
+    this.isNewRowBeingAdded = isNewRow;
+  }
+
+  private callResetForm() {
+    resetFormGroup(this.menuFormGroup, () => this.isDrawerOpened = false);
   }
 }

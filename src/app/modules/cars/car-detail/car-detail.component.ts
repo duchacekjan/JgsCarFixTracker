@@ -1,18 +1,17 @@
 import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {Action} from "../../../models/action";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {Car} from "../../../models/car";
 import {TableConfig} from "../edit-table/table-config";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Fix} from "../../../models/fix";
 import {MessagesService} from "../../../services/messages.service";
-import {HelperService} from "../../../services/helper.service";
 import {CarsService} from "../../../services/cars.service";
 import {AfterNavigatedHandler} from "../../../common/base/after-navigated-handler";
 import {DialogData} from "../../../common/dialog/dialog.model";
-import {formatDate} from "../../../common/jgs-common-functions";
+import {formatDate, resetForm} from "../../../common/jgs-common-functions";
 
 @Component({
   selector: 'app-car-detail',
@@ -39,7 +38,6 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
   constructor(
     route: ActivatedRoute,
     private readonly messageService: MessagesService,
-    private readonly helperService: HelperService,
     public readonly carsService: CarsService,
     navigation: NavigationService) {
     super(route, navigation);
@@ -54,7 +52,7 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
         if (car?.key) {
           this.carKey = car.key!;
           this.car = car;
-          this.resetForm();
+          this.callResetForm();
           //update the table with latest values
           this.tableConfig.table_data_changer.next({
             data: this.car.fixes,
@@ -135,7 +133,7 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
   }
 
   private showForm(fix: Fix, isNewRow: boolean) {
-    this.resetForm();
+    this.callResetForm();
     this.fixItemUpdateForm.patchValue(fix);
     if (!isNewRow) {
       this.fixItemUpdateForm.get('lastUpdate')!.patchValue(formatDate(fix.lastUpdate));
@@ -144,8 +142,8 @@ export class CarDetailComponent extends AfterNavigatedHandler implements OnDestr
     this.isNewRowBeingAdded = isNewRow;
   }
 
-  private resetForm() {
-    this.helperService.resetForm(this.fixItemUpdateForm, this.fixFormGroup, () => this.isDrawerOpened = false);
+  private callResetForm() {
+    resetForm(this.fixItemUpdateForm, this.fixFormGroup, () => this.isDrawerOpened = false);
   }
 
   private saveFix(fix: Fix | null) {
