@@ -25,6 +25,6 @@ export class PrintService {
       window.print();
       this.isPrinting = false;
       this.router.navigate([{outlets: {print: null}}]).then();
-    });
+    },500);
   }
 }

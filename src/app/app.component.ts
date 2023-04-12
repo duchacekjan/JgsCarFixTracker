@@ -14,6 +14,7 @@ export class AppComponent {
   }
 
   onPrint() {
-    this.printService.printDocument('invoice', ['1,2,3'])
+    //this.printService.printDocument('invoice', ['1,2,3'])
+    this.printService.printDocument('invoice', ['1'])
   }
 }

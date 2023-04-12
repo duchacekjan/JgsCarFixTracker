@@ -22,6 +22,7 @@ export class InvoiceComponent implements OnInit {
   ngOnInit() {
     this.invoiceDetails = this.invoiceIds
       .map(id => this.getInvoiceDetails(id));
+    //this.printService.isPrinting = true;
     this.dataService.execute(Promise.all(this.invoiceDetails)
       .then(() => this.printService.onDataReady())).then();
   }

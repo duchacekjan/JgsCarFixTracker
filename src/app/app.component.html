@@ -1,5 +1,5 @@
-<button *ngIf="isDebug" (click)="onPrint()">PRINT</button>
-<div [class.isPrinting]="printService.isPrinting">
+<button *ngIf="isDebug && !printService.isPrinting" (click)="onPrint()">PRINT</button>
+<div [class.isPrinting]="printService.isPrinting" class="router-container">
   <router-outlet></router-outlet>
   <router-outlet name="print"></router-outlet>
 </div>
