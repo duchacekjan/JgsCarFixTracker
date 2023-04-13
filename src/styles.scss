@@ -24,3 +24,12 @@ html, body {
 .active-icon {
   cursor: pointer;
 }
+
+@media print {
+  .isPrinting app-layout {
+    display: none
+  }
+  .isPrinting app-print-layout {
+    display: block;
+  }
+}

@@ -1,0 +1,30 @@
+.invoice {
+  page-break-after: always;
+  width: 210mm;
+  height: 297mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.invoice:last-child {
+  page-break-after: avoid;
+}
+
+.invoice-frame {
+  border: black solid 0.5mm;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+
+  .invoice-supplier-frame {
+    border: black solid 0.5mm;
+    width: 50%;
+    height: 100mm;
+    display: flex;
+    flex-direction: column;
+    padding: 5mm;
+    label {
+      font-weight: bold;
+    }
+  }
+}

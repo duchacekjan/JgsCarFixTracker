@@ -1,0 +1,19 @@
+<div class="invoice" *ngFor="let invoice of invoiceIds; let i = index">
+  <h1>Invoice Num. {{ invoice }}</h1>
+  Amount: {{ (invoiceDetails[i] | async)?.amount }}
+  <div class="invoice-frame">
+    <div class="invoice-supplier-frame">
+      <label>Supplier</label>
+      <span>JGS TEST</span>
+      <span>ADDRESS 1</span>
+      <span>ZIP CODE</span>
+      <span>ICO: 123456789</span>
+      <span>DIC: CZ123456789</span>
+      <span>PHONE: 123456789</span>
+      <span>EMAIL: 123456789</span>
+    </div>
+    <div class="invoice-supplier-frame">
+
+    </div>
+  </div>
+</div>
