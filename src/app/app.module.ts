@@ -13,7 +13,12 @@ import {CommonModule, registerLocaleData} from "@angular/common";
 import localeCz from '@angular/common/locales/cs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
-import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {
+  MissingTranslationHandler,
+  MissingTranslationHandlerParams,
+  TranslateLoader,
+  TranslateModule
+} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MaterialModule} from "./material.module";
 import {AppServicesModule} from "./services/services.module";
@@ -25,7 +30,7 @@ registerLocaleData(localeCz);
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, '/assets/i18n/', '.json?cb=' + environment.hash);
 }
 
 /**
@@ -33,8 +38,6 @@ export function HttpLoaderFactory(http: HttpClient) {
  */
 export class CustomMissingTranslationHandler implements MissingTranslationHandler {
   public handle(params: MissingTranslationHandlerParams): string {
-    const parts = params.key.split('.');
-    //return `['${parts[parts.length - 1]}']`;
     return `[${params.key}]`;
   }
 }

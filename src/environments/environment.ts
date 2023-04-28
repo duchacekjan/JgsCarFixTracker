@@ -6,6 +6,7 @@ declare const require: any;
 export const environment = {
   production: false,
   appVersion: require('../../package.json').version,
+  hash: "${new Date().toISOString().replace(/\.|:|-/g,'')}",
   firebase: {
     apiKey: "AIzaSyD23wCjWNRqRf2ZwEpF3upBbu0T9CpXe9s",
     authDomain: "jgs-car-fix-tracker.web.app",
