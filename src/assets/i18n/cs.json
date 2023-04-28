@@ -139,6 +139,7 @@
       "mileageShort": "KM",
       "description": "Popis",
       "lastUpdate": "Poslední změna",
+      "lastUpdateShort": "Datum",
       "descriptionHint": "Provedné úkony",
       "lastUpdateHint": "Datum poslední změny",
       "addRow": "Přidat nový záznam",
