@@ -1,10 +1,11 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {Subscription} from "rxjs";
+import {distinctUntilChanged, Subscription} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {TableConfig} from "./table-config";
 import {MatSort} from "@angular/material/sort";
 import {UserLocalConfigService} from "../../../services/user-local-config.service";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-edit-table',
@@ -18,7 +19,7 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() onRowEdit = new EventEmitter<any>();
   @Output() onRowRemove = new EventEmitter<any>();
 
-  displayed_columns!: string[];
+  displayed_columns: string[] = [];
   table_data_source: any;
   pageOptions = [5, 10, 20, 50];
   pageSize = 10;
@@ -28,13 +29,22 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Subscriptions
   private data_change_sub!: Subscription;
+  private breakpointSub = new Subscription();
   private pageSizeKey = 'car.detail.fix.pageSize';
+  private breakpoints = this.breakpointObserver
+    .observe([Breakpoints.XSmall])
+    .pipe(distinctUntilChanged());
 
-  constructor(private readonly userConfig: UserLocalConfigService) {
+  constructor(
+    private readonly userConfig: UserLocalConfigService,
+    private readonly breakpointObserver: BreakpointObserver) {
   }
 
   ngOnInit(): void {
-    this.setDisplayedColumns(this.table_config.columns);
+    this.breakpointSub = this.breakpoints.subscribe(() =>
+      this.breakpointChanged()
+    );
+    this.breakpointChanged();
 
     // if there is any default/static data
     this.table_data_source = new MatTableDataSource<any>([]);
@@ -123,5 +133,14 @@ export class EditTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   handlePageEvent($event: PageEvent) {
     this.userConfig.save(this.pageSizeKey, JSON.stringify($event.pageSize));
+  }
+
+  private breakpointChanged() {
+    let columns = this.table_config.columns;
+    if (this.breakpointObserver.isMatched(Breakpoints.XSmall)) {
+      columns = columns.filter(f => !f.hideOnXSmall)
+    }
+
+    this.setDisplayedColumns(columns.map(m => m.columnName));
   }
 }

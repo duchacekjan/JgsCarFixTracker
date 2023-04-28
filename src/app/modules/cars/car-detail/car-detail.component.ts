@@ -3,7 +3,7 @@ import {Action} from "../../../models/action";
 import {ActionsData, NavigationService} from "../../../services/navigation.service";
 import {ActivatedRoute} from "@angular/router";
 import {Car} from "../../../models/car";
-import {TableConfig} from "../edit-table/table-config";
+import {ColumnConfig, TableConfig} from "../edit-table/table-config";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Fix} from "../../../models/fix";
@@ -20,7 +20,10 @@ import {formatDate, resetForm} from "../../../common/jgs-common-functions";
 })
 export class CarDetailComponent extends AfterNavigatedHandler implements OnDestroy {
   car: Car = new Car();
-  readonly tableConfig: TableConfig = new TableConfig(['mileage', 'description'])
+  readonly tableConfig: TableConfig = new TableConfig([
+    new ColumnConfig('date', true),
+    new ColumnConfig('mileage'),
+    new ColumnConfig('description')])
 
   isDrawerOpened: boolean = false;
   isNewRowBeingAdded: boolean = false;

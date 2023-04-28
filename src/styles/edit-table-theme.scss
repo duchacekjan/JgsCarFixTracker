@@ -133,5 +133,21 @@
         font-weight: bold;
       }
     }
+    .date-col {
+      width: 6em;
+      padding-left: 0;
+
+      &.mat-cell {
+        text-align: right;
+      }
+
+      &.mat-header-cell {
+        text-align: center;
+      }
+
+      &.unread {
+        font-weight: bold;
+      }
+    }
   }
 }
